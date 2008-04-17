@@ -17,40 +17,55 @@ ciphertext[i] = key stream[i] XOR plaintext[i]</code></p>
 key stream[i] = encrypt(key stream[i-1])<br>
 plaintext[i] = key stream[i] XOR ciphertext[i]</code></p>
 */
-public final class OfbModeStreamCipher extends StreamCipher implements Zeroizable{
-
- private BlockCipher blockCipher;
- private byte[] key;
-
-
- public OfbModeStreamCipher(BlockCipher cipher,byte[] key){
-  if(key.length!=cipher.getKeyLength())throw new IllegalArgumentException();
-  blockCipher=cipher;
-  this.key=key.clone();}
-
-
- public StreamCipherer newCipherer(byte[] initVector){
-  if(blockCipher==null)throw new IllegalStateException("Already zeroized");
-  if(initVector.length!=blockCipher.getBlockLength())throw new IllegalArgumentException();
-  return new OfbModeStreamCipherer(this,initVector,blockCipher,key);}
-
-
- public String getName(){
-  if(blockCipher==null)throw new IllegalStateException("Already zeroized");
-  return String.format("%s in CBC mode",blockCipher.getName());}
-
- public int getKeyLength(){
-  if(blockCipher==null)throw new IllegalStateException("Already zeroized");
-  return blockCipher.getBlockLength();}
-
-
- public void zeroize(){
-  if(blockCipher==null)throw new IllegalStateException("Already zeroized");
-  for(int i=0;i<key.length;i++)key[i]=0;
-  key=null;
-  if(blockCipher instanceof Zeroizable)((Zeroizable)blockCipher).zeroize();
-  blockCipher=null;}
-
-
- public boolean equals(Object obj){
-  return obj instanceof OfbModeStreamCipher&&blockCipher.equals(((OfbModeStreamCipher)obj).blockCipher);}}
+public final class OfbModeStreamCipher extends StreamCipher implements Zeroizable {
+	
+	private BlockCipher blockCipher;
+	private byte[] key;
+	
+	
+	public OfbModeStreamCipher(BlockCipher cipher, byte[] key) {
+		if (key.length != cipher.getKeyLength())
+			throw new IllegalArgumentException();
+		blockCipher = cipher;
+		this.key = key.clone();
+	}
+	
+	
+	public StreamCipherer newCipherer(byte[] initVector) {
+		if (blockCipher == null)
+			throw new IllegalStateException("Already zeroized");
+		if (initVector.length != blockCipher.getBlockLength())
+			throw new IllegalArgumentException();
+		return new OfbModeStreamCipherer(this, initVector, blockCipher, key);
+	}
+	
+	
+	public String getName() {
+		if (blockCipher == null)
+			throw new IllegalStateException("Already zeroized");
+		return String.format("%s in CBC mode", blockCipher.getName());
+	}
+	
+	public int getKeyLength() {
+		if (blockCipher == null)
+			throw new IllegalStateException("Already zeroized");
+		return blockCipher.getBlockLength();
+	}
+	
+	
+	public void zeroize() {
+		if (blockCipher == null)
+			throw new IllegalStateException("Already zeroized");
+		for (int i = 0; i < key.length; i++)
+			key[i] = 0;
+		key = null;
+		if (blockCipher instanceof Zeroizable)
+			((Zeroizable)blockCipher).zeroize();
+		blockCipher = null;
+	}
+	
+	
+	public boolean equals(Object obj) {
+		return obj instanceof OfbModeStreamCipher && blockCipher.equals(((OfbModeStreamCipher)obj).blockCipher);
+	}
+}
