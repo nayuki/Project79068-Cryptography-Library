@@ -4,29 +4,44 @@ import java.math.BigInteger;
 import p79068.util.HashCoder;
 
 
-/** Represents a signed 128-bit integer. It is useful for providing headroom for calculations involving arguments that can span the entire int64 range. */
+/**
+ * Represents a signed 128-bit integer. It is useful for providing headroom for calculations involving arguments that can span the entire int64 range.
+ */
 public final class Int128 implements Comparable<Int128> {
 	
-	/** The most significant 64 bits of this integer. */
+	/**
+	 * The most significant 64 bits of this integer.
+	 */
 	public final long high;
 	
-	/** The least significant 64 bits of this integer. */
+	/**
+	 * The least significant 64 bits of this integer.
+	 */
 	public final long low;
 	
 	
-	/** Constructs an int128 representing the specified number, performing sign extension. */
+	
+	/**
+	 * Constructs an int128 representing the specified number, performing sign extension.
+	 */
 	public Int128(long low) {
 		this(-(low >>> 63), low);
 	}
 	
-	/** Constructs an int128 representing the specified number. */
+	
+	/**
+	 * Constructs an int128 representing the specified number.
+	 */
 	public Int128(long high, long low) {
 		this.high = high;
 		this.low = low;
 	}
 	
 	
-	/** Returns <code>this + num</code>. */
+	
+	/**
+	 * Returns <code>this + num</code>.
+	 */
 	public Int128 add(Int128 num) {
 		long newlow = low + num.low;
 		long newhigh = high + num.high;
@@ -35,7 +50,10 @@ public final class Int128 implements Comparable<Int128> {
 		return new Int128(newhigh, newlow);
 	}
 	
-	/** Returns <code>this - num</code>. */
+	
+	/**
+	 * Returns <code>this - num</code>.
+	 */
 	public Int128 subtract(Int128 num) {
 		long newlow = low - num.low;
 		long newhigh = high - num.high;
@@ -44,7 +62,10 @@ public final class Int128 implements Comparable<Int128> {
 		return new Int128(newhigh, newlow);
 	}
 	
-	/** Returns <code>this * num</code>. */
+	
+	/**
+	 * Returns <code>this * num</code>.
+	 */
 	public Int128 multiply(Int128 num) {
 		int[] x = {(int)low, (int)(low >>> 32), (int)high, (int)(high >>> 32)}; // All in little-endian
 		int[] y = {(int)num.low, (int)(num.low >>> 32), (int)num.high, (int)(num.high >>> 32)};
@@ -62,27 +83,42 @@ public final class Int128 implements Comparable<Int128> {
 		return new Int128((long)z[3] << 32 | (z[2] & 0xFFFFFFFFL), (long)z[1] << 32 | (z[0] & 0xFFFFFFFFL));
 	}
 	
-	/** Returns <code>~this</code>. */
+	
+	/**
+	 * Returns <code>~this</code>.
+	 */
 	public Int128 not() {
 		return new Int128(~high, ~low);
 	}
 	
-	/** Returns <code>this & num</code>. */
+	
+	/**
+	 * Returns <code>this & num</code>.
+	 */
 	public Int128 and(Int128 num) {
 		return new Int128(high & num.high, low & num.low);
 	}
 	
-	/** Returns <code>this | num</code>. */
+	
+	/**
+	 * Returns <code>this | num</code>.
+	 */
 	public Int128 or(Int128 num) {
 		return new Int128(high | num.high, low | num.low);
 	}
 	
-	/** Returns <code>this ^ num</code>. */
+	
+	/**
+	 * Returns <code>this ^ num</code>.
+	 */
 	public Int128 xor(Int128 num) {
 		return new Int128(high ^ num.high, low ^ num.low);
 	}
 	
-	/** Returns <code>this << shift</code>. <code>shift</code> is interpreted as its value modulo 128. */
+	
+	/**
+	 * Returns <code>this << shift</code>. <code>shift</code> is interpreted as its value modulo 128.
+	 */
 	public Int128 shiftLeft(int shift) {
 		shift &= 0x7F;
 		if (shift == 0)
@@ -93,7 +129,10 @@ public final class Int128 implements Comparable<Int128> {
 			return new Int128(low << (shift - 64), 0);
 	}
 	
-	/** Returns <code>this >> shift</code>. <code>shift</code> is interpreted as its value modulo 128. */
+	
+	/**
+	 * Returns <code>this >> shift</code>. <code>shift</code> is interpreted as its value modulo 128.
+	 */
 	public Int128 shiftRight(int shift) {
 		shift &= 0x7F;
 		if (shift == 0)
@@ -108,7 +147,10 @@ public final class Int128 implements Comparable<Int128> {
 		}
 	}
 	
-	/** Returns <code>this >>> shift</code>. <code>shift</code> is interpreted as its value modulo 128. */
+	
+	/**
+	 * Returns <code>this >>> shift</code>. <code>shift</code> is interpreted as its value modulo 128.
+	 */
 	public Int128 shiftRightUnsigned(int shift) {
 		shift &= 0x7F;
 		if (shift == 0)
@@ -127,17 +169,21 @@ public final class Int128 implements Comparable<Int128> {
 		return high == num.high && low == num.low;
 	}
 	
+	
 	public int compareTo(Int128 num) {
 		if (high != num.high)
 			return LongMath.compare(high, num.high);
 		return LongMath.compareUnsigned(low, num.low);
 	}
 	
+	
 	public int hashCode() {
 		return HashCoder.newInstance().add(high).add(low).getHashCode();
 	}
 	
+	
 	public String toString() {
 		return new BigInteger(new byte[]{(byte)(high >>> 56), (byte)(high >>> 48), (byte)(high >>> 40), (byte)(high >>> 32), (byte)(high >>> 24), (byte)(high >>> 16), (byte)(high >>> 8), (byte)(high >>> 0), (byte)(low >>> 56), (byte)(low >>> 48), (byte)(low >>> 40), (byte)(low >>> 32), (byte)(low >>> 24), (byte)(low >>> 16), (byte)(low >>> 8), (byte)(low >>> 0)}).toString();
 	}
+	
 }

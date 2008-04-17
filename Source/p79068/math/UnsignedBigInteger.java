@@ -76,21 +76,25 @@ public final class UnsignedBigInteger implements Comparable {
 	
 	
 	public static final UnsignedBigInteger ZERO = new UnsignedBigInteger(0);
+	
 	public static final UnsignedBigInteger ONE = new UnsignedBigInteger(1);
 	
-
-	protected short[] digit; // In little-endian. length >= 1. The last element is not zero unless it violates the length property.
 	
-
+	protected short[] digit;  // In little-endian. length >= 1. The last element is not zero unless it violates the length property.
+	
+	
+	
 	public UnsignedBigInteger(int value) {
 		digit = trim(new short[]{(short)value, (short)(value >>> 16)});
 	}
+	
 	
 	public UnsignedBigInteger(long value) {
 		digit = trim(new short[]{(short)value, (short)(value >>> 16), (short)(value >>> 32), (short)(value >>> 48)});
 	}
 	
-	public UnsignedBigInteger(byte[] value) { // The array is in big-endian
+	
+	public UnsignedBigInteger(byte[] value) {  // The array is in big-endian
 		digit = new short[(value.length + 1) / 2];
 		int i = value.length - 1;
 		int j = 0;
@@ -101,9 +105,10 @@ public final class UnsignedBigInteger implements Comparable {
 		digit = trim(digit);
 	}
 	
+	
 	public UnsignedBigInteger(Random rand, int bitlen) {
 		digit = new short[(bitlen + 15) / 16];
-		for (int i = 0; i + 1 < digit.length; i += 2) { // Fill in blocks of 2
+		for (int i = 0; i + 1 < digit.length; i += 2) {  // Fill in blocks of 2
 			int tp = rand.randomInt();
 			digit[i] = (short)(tp >>> 0);
 			digit[i | 1] = (short)(tp >>> 16);
@@ -113,15 +118,16 @@ public final class UnsignedBigInteger implements Comparable {
 	}
 	
 	
-	private UnsignedBigInteger(short[] digit) { // The array is in little-endian
+	private UnsignedBigInteger(short[] digit) {  // The array is in little-endian
 		this.digit = trim(digit);
 	}
 	
 	
+	
 	public UnsignedBigInteger add(UnsignedBigInteger val) {
-		short[] digitx; // Argument 0 (always equal or longer than argument 1)
-		short[] digity; // Argument 1
-		short[] digitz; // Result
+		short[] digitx;  // Argument 0 (always equal or longer than argument 1)
+		short[] digity;  // Argument 1
+		short[] digitz;  // Result
 		if (digit.length >= val.digit.length) {
 			digitx = digit;
 			digity = val.digit;
@@ -150,9 +156,10 @@ public final class UnsignedBigInteger implements Comparable {
 		return new UnsignedBigInteger(digitz);
 	}
 	
+	
 	public UnsignedBigInteger subtract(UnsignedBigInteger val) {
-		short[] digitx = digit; // Argument 0 (always equal or longer than argument 1)
-		short[] digity = val.digit; // Argument 1
+		short[] digitx = digit;  // Argument 0 (always equal or longer than argument 1)
+		short[] digity = val.digit;  // Argument 1
 		if (digitx.length < digity.length)
 			return null;
 		short[] digitz = new short[digitx.length]; // Result
@@ -173,9 +180,10 @@ public final class UnsignedBigInteger implements Comparable {
 		return new UnsignedBigInteger(digitz);
 	}
 	
+	
 	public UnsignedBigInteger multiply(UnsignedBigInteger val) {
-		short[] digitx; // Argument 0 (always equal or longer than argument 1)
-		short[] digity; // Argument 1
+		short[] digitx;  // Argument 0 (always equal or longer than argument 1)
+		short[] digity;  // Argument 1
 		if (digit.length >= val.digit.length) {
 			digitx = digit;
 			digity = val.digit;
@@ -192,8 +200,8 @@ public final class UnsignedBigInteger implements Comparable {
 				digitz[i + j] = (short)carry;
 				carry >>>= 16;
 			}
-			digitz[i + digitx.length] = (short)carry;
-		} // At this step, 0 <= carry < 2^16
+			digitz[i + digitx.length] = (short)carry;  // At this step, 0 <= carry < 2^16
+		}
 		return new UnsignedBigInteger(digitz);
 	}
 	
@@ -214,9 +222,10 @@ public final class UnsignedBigInteger implements Comparable {
 		return new UnsignedBigInteger(digitz);
 	}
 	
+	
 	public UnsignedBigInteger or(UnsignedBigInteger val) {
-		short[] digitx; // Argument 0 (always equal or longer than argument 1)
-		short[] digity; // Argument 1
+		short[] digitx;  // Argument 0 (always equal or longer than argument 1)
+		short[] digity;  // Argument 1
 		if (digit.length >= val.digit.length) {
 			digitx = digit;
 			digity = val.digit;
@@ -233,9 +242,10 @@ public final class UnsignedBigInteger implements Comparable {
 		return new UnsignedBigInteger(digitz);
 	}
 	
+	
 	public UnsignedBigInteger xor(UnsignedBigInteger val) {
-		short[] digitx; // Argument 0 (always equal or longer than argument 1)
-		short[] digity; // Argument 1
+		short[] digitx;  // Argument 0 (always equal or longer than argument 1)
+		short[] digity;  // Argument 1
 		if (digit.length >= val.digit.length) {
 			digitx = digit;
 			digity = val.digit;
@@ -251,6 +261,7 @@ public final class UnsignedBigInteger implements Comparable {
 			digitz[i] = digitx[i];
 		return new UnsignedBigInteger(digitz);
 	}
+	
 	
 	public UnsignedBigInteger shiftLeft(int shift) {
 		if (shift < 0)
@@ -273,6 +284,7 @@ public final class UnsignedBigInteger implements Comparable {
 		}
 		return new UnsignedBigInteger(digitz);
 	}
+	
 	
 	public UnsignedBigInteger shiftRight(int shift) {
 		if (shift < 0)
@@ -312,20 +324,20 @@ public final class UnsignedBigInteger implements Comparable {
 			y = y.shiftRight(1);
 		}
 		while (true) {
-			if (x.digit.length == 1 && x.digit[0] == 0)
-				return y.shiftLeft(pow2); // If x is 0
-			else if (y.digit.length == 1 && y.digit[0] == 0)
-				return x.shiftLeft(pow2); // If y is 0
-			else if ((x.digit[0] & 1) == 0)
-				x = x.shiftRight(1); // x is even
-			else if ((y.digit[0] & 1) == 0)
-				y = y.shiftRight(1); // y is even
-			else if (x.compareTo(y) >= 0)
-				x = x.subtract(y).shiftRight(1); // x and y are odd, x >= y
-			else
+			if (x.digit.length == 1 && x.digit[0] == 0)  // If x is 0
+				return y.shiftLeft(pow2);
+			else if (y.digit.length == 1 && y.digit[0] == 0)  // If y is 0
+				return x.shiftLeft(pow2);
+			else if ((x.digit[0] & 1) == 0)  // x is even
+				x = x.shiftRight(1);
+			else if ((y.digit[0] & 1) == 0)  // y is even
+				y = y.shiftRight(1);
+			else if (x.compareTo(y) >= 0)  // x and y are odd, x >= y
+				x = x.subtract(y).shiftRight(1);
+			else  // x and y are odd, y > x
 				y = y.subtract(x).shiftRight(1);
 		}
-	} // x and y are odd, y > x
+	}
 	
 
 	public boolean equals(Object val) {
@@ -342,6 +354,7 @@ public final class UnsignedBigInteger implements Comparable {
 		}
 		return true;
 	}
+	
 	
 	public int compareTo(Object val) {
 		short[] digity = ((UnsignedBigInteger)val).digit;
@@ -376,4 +389,5 @@ public final class UnsignedBigInteger implements Comparable {
 		System.arraycopy(ain, 0, aout, 0, aout.length);
 		return aout;
 	}
+	
 }

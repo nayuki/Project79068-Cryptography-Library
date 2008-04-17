@@ -2,23 +2,23 @@ package p79068.math;
 
 
 /**
-Permutes a sequence to the lexicographically next permutation.
-<p>Instantiability: <em>Not applicable</em></p>
-<p>For a list of length <var>n</var>, the time complexity of computing the next iteration is O(<var>n</var>), so the complexity of iterating over all permutations is O(<var>n</var> &middot; <var>n</var>!).</p>
-<p>Usage example:</p>
-<p><code>int[] state = {1, 6, 1, 8, 0};<br>
-do {<br>
-&nbsp;&nbsp;<i>doSomethingWith</i>(state);<br>
-}<br>
-while(Permutation.next(state));</code></p>
-*/
+ * Permutes a sequence to the lexicographically next permutation.
+ * <p>Instantiability: <em>Not applicable</em></p>
+ * <p>For a list of length <var>n</var>, the time complexity of computing the next iteration is O(<var>n</var>), so the complexity of iterating over all permutations is O(<var>n</var> &middot; <var>n</var>!).</p>
+ * <p>Usage example:</p>
+ * <p><code>int[] state = {1, 6, 1, 8, 0};<br>
+ * do {<br>
+ * &nbsp;&nbsp;<i>doSomethingWith</i>(state);<br>
+ * }<br>
+ * while(Permutation.next(state));</code></p>
+ */
 public class Permutation {
 	
 	/*
-	Algorithm details:
-	 To generate the next permutation, find the longest non-strictly decreasing suffix. Reverse this suffix. Let x be the item directly in front of the suffix. Find the item that is greater than x and closest to the beginning of the suffix. Swap it with x.
-	 In this implementation, i is the index such that a[i] breaks the decreasing sequence following it (i.e. {a[i+1], ..., a[length-1]}). e.g. in {1,2,3,6,5,4}, i = 2.
-	*/
+	 * Algorithm details:
+	 * To generate the next permutation, find the longest non-strictly decreasing suffix. Reverse this suffix. Let x be the item directly in front of the suffix. Find the item that is greater than x and closest to the beginning of the suffix. Swap it with x.
+	 * In this implementation, i is the index such that a[i] breaks the decreasing sequence following it (i.e. {a[i+1], ..., a[length-1]}). e.g. in {1,2,3,6,5,4}, i = 2.
+	 */
 	public static boolean next(char[] a) {
 		int i, n = a.length;
 		for (i = n - 2;; i--) {
@@ -39,6 +39,7 @@ public class Permutation {
 		a[j] = tp;
 		return true;
 	}
+	
 	
 	public static boolean next(int[] a) {
 		int i, n = a.length;
@@ -61,6 +62,7 @@ public class Permutation {
 		return true;
 	}
 	
+	
 	public static boolean next(long[] a) {
 		int i, n = a.length;
 		for (i = n - 2;; i--) {
@@ -81,6 +83,7 @@ public class Permutation {
 		a[j] = tp;
 		return true;
 	}
+	
 	
 	public static boolean next(float[] a) {
 		int i, n = a.length;
@@ -103,6 +106,7 @@ public class Permutation {
 		return true;
 	}
 	
+	
 	public static boolean next(double[] a) {
 		int i, n = a.length;
 		for (i = n - 2;; i--) {
@@ -123,6 +127,7 @@ public class Permutation {
 		a[j] = tp;
 		return true;
 	}
+	
 	
 	public static boolean next(Comparable[] a) {
 		int i, n = a.length;
@@ -146,5 +151,7 @@ public class Permutation {
 	}
 	
 	
+	
 	private Permutation() {}
+	
 }
