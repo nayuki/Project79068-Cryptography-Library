@@ -10,13 +10,16 @@ public final class BoundsChecker {
 	/**
 	 * Throws an IndexOutOfBoundsException if the specified index is outside the specified bounds; otherwise does nothing.
 	 * <p>An index is out of bounds if:</p>
-	 * <ul><li><code>accessindex &lt; 0</code></li>
-	 *  <li><code>accessindex &ge; arraylength</code></li></ul>
+	 * <ul>
+	 *  <li><code>accessindex &lt; 0</code></li>
+	 *  <li><code>accessindex &ge; arraylength</code></li>
+	 * </ul>
 	 */
 	public static void check(int arrayLength, int accessIndex) {
 		if (accessIndex < 0 || accessIndex >= arrayLength)
 			throw new IndexOutOfBoundsException(String.format("Bounds = [%d,%d), access index = %d", 0, arrayLength, accessIndex));
 	}
+	
 	
 	/**
 	 * Throws an IndexOutOfBoundsException if the specified range is outside the specified bounds; otherwise does nothing.
