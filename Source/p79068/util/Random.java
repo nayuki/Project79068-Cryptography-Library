@@ -65,7 +65,7 @@ public abstract class Random {
 			throw new IllegalArgumentException();
 		if (IntegerMath.isPowerOf2(n))
 			return randomInt() & (n - 1);
-		else { // Unbiased
+		else {  // Unbiased
 			int random;
 			int result;
 			do {
@@ -118,28 +118,33 @@ public abstract class Random {
 	public void randomBytes(byte[] b, int off, int len) {
 		BoundsChecker.check(b.length, off, len);
 		int end = off + len;
-		for (int temp = randomInt(); off % 4 != 0; off++, temp >>>= 8)
-			b[off] = (byte)temp; // Fill until off is a multiple of 4, if necessary (less than 4 bytes)
-		for (int end4 = end / 4 * 4; off < end4; off += 4) { // Fill 4 bytes at a time
-			int temp = randomInt();
-			b[off | 0] = (byte)(temp >>> 24);
-			b[off | 1] = (byte)(temp >>> 16);
-			b[off | 2] = (byte)(temp >>> 8);
-			b[off | 3] = (byte)(temp >>> 0);
+		
+		// Fill until off is a multiple of 4, if necessary (fewer than 4 iterations)
+		for (int rand = randomInt(); off % 4 != 0; off++, rand >>>= 8)
+			b[off] = (byte)rand;
+		
+		// Fill efficiently, 4 bytes at a time
+		for (int end4 = end / 4 * 4; off < end4; off += 4) {
+			int rand = randomInt();
+			b[off | 0] = (byte)(rand >>> 24);
+			b[off | 1] = (byte)(rand >>> 16);
+			b[off | 2] = (byte)(rand >>>  8);
+			b[off | 3] = (byte)(rand >>>  0);
 		}
-		// Fill the last few bytes (fewer than 4)
-		for (int temp = randomInt(); off < end; off++, temp >>>= 8)
-			b[off] = (byte)temp;
+		
+		// Fill the last few bytes (fewer than 4 iterations)
+		for (int rand = randomInt(); off < end; off++, rand >>>= 8)
+			b[off] = (byte)rand;
 	}
 	
 	
 	/**
-	 * Returns a random <code>double</code> with a Gaussian ("normal") distribution of mean 0.0 and standard deviation 1.0.
+	 * Returns a random <code>double</code> with a Gaussian (<q>normal</q>) distribution of mean 0.0 and standard deviation 1.0.
 	 * <p>To obtain a Gaussian-distributed value with mean <code>m</code> and standard deviation <code>s</code>, use this expression: <code>random.randomGaussian()*s + m</code></p>
 	 * <p>Note that the probability of producing a number outside of [&minus;10,10] is 10<sup>&minus;23</sup>; the probability of producing a number outside of [&minus;15,15] is 10<sup>&minus;50</sup> (i.e., practically impossible). (Assuming that the underlying random number generator is unbiased.)</p>
 	 * @return a <code>double</code> with a Gaussian distribution of mean 0.0 and standard deviation 1.0
 	 */
-	public double randomGaussian() { // Uses the Box-Muller transform
+	public double randomGaussian() {  // Uses the Box-Muller transform
 		if (!hasNextGaussian) {
 			double x;
 			double y;
@@ -171,13 +176,13 @@ public abstract class Random {
 	
 	
 	/**
-	 * Multiplying a 24-bit integer with this constant yields a <code>float</code> between 0.0 (inclusive) and 1.0 (exclusive). This value is chosen so that all the mantissa bits in the <code>float</code> may be non-zero when the magnitude is between 0.5 (inclusive) to 1.0 (exclusive).
+	 * Multiplying a 24-bit integer with this constant yields a <code>float</code> in [0, 1). This value is chosen so that all the mantissa bits in the <code>float</code> may be non-zero when the magnitude is in [0.5, 1).
 	 */
 	protected static final float floatScaler = 1.0F / (1 << 24);
 	
 	
 	/**
-	 * Multiplying a 53-bit integer with this constant yields a <code>double</code> between 0.0 (inclusive) and 1.0 (exclusive). This value is chosen so that all the mantissa bits in the <code>double</code> may be non-zero when the magnitude is between 0.5 (inclusive) to 1.0 (exclusive).
+	 * Multiplying a 53-bit integer with this constant yields a <code>double</code> in [0, 1). This value is chosen so that all the mantissa bits in the <code>double</code> may be non-zero when the magnitude is in [0.5, 1).
 	 */
 	protected static final double doubleScaler = 1.0D / (1L << 53);
 	

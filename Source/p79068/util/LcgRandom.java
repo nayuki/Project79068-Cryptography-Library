@@ -16,15 +16,15 @@ public final class LcgRandom extends Random {
 	
 	private long a;
 	private long b;
-	private long m;      // m = log2(modulus); modulus = 2^m (^ is exponentiation)
-	private long shift;  // Equal to log2(m) - 32
+	private int m;      // m = log2(modulus); modulus = 2^m (^ is exponentiation)
+	private int shift;  // Equal to log2(m) - 32
 	
 	private long x;
 	
 	
 	
 	/**
-	 * Constructs an LCG PRNG with an arbitrary seed and parameters.
+	 * Constructs an LCG PRNG with an arbitrary seed and arbitrary default parameters.
 	 */
 	public LcgRandom() {
 		this(System.currentTimeMillis() ^ LongBitMath.reverse(System.nanoTime()));
@@ -32,7 +32,7 @@ public final class LcgRandom extends Random {
 	
 	
 	/**
-	 * Constructs an LCG PRNG with the specified seed and arbitrary parameters.
+	 * Constructs an LCG PRNG with the specified seed and arbitrary default parameters.
 	 */
 	public LcgRandom(long seed) {
 		this(0x5DEECE66DL, 0xBL, 48, seed);
@@ -43,8 +43,17 @@ public final class LcgRandom extends Random {
 	 * Constructs an LCG PRNG with the specified parameters and an arbitrary seed.
 	 * <p>Some well-known parameter sets:</p>
 	 * <table>
-	 *  <thead><tr><th>Multiplier (<var>a</var>)</th><th>Increment (<var>b</var>)</th><th>Log2 of Modulus (<var>m</var>)</th></tr></thead>
-	 *  <tbody style="text-align:right">
+	 *  <col align="right"/>
+	 *  <col align="right"/>
+	 *  <col align="right"/>
+	 *  <thead>
+	 *   <tr>
+	 *    <th>Multiplier (<var>a</var>)</th>
+	 *    <th>Increment (<var>b</var>)</th>
+	 *    <th>Log2 of Modulus (<var>m</var>)</th>
+	 *   </tr>
+	 *  </thead>
+	 *  <tbody>
 	 *   <tr><td>69069</td><td>1</td><td>32</td></tr>
 	 *   <tr><td>1664525</td><td>1013904223</td><td>32</td></tr>
 	 *   <tr><td>2147001325</td><td>715136305</td><td>32</td></tr>
@@ -60,7 +69,7 @@ public final class LcgRandom extends Random {
 	 * @param b the increment
 	 * @param m the log of the modulus to the base 2, which must be in the range [32,64]
 	 */
-	public LcgRandom(long a, long b, long m) {
+	public LcgRandom(long a, long b, int m) {
 		this(a, b, m, System.currentTimeMillis());
 	}
 	
@@ -68,7 +77,7 @@ public final class LcgRandom extends Random {
 	/**
 	 * Constructs an LCG PRNG with the specified parameters and seed.
 	 */
-	public LcgRandom(long a, long b, long m, long seed) {
+	public LcgRandom(long a, long b, int m, long seed) {
 		if (m < 32 || m > 64)
 			throw new IllegalArgumentException();
 		this.a = a;
