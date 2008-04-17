@@ -4,7 +4,7 @@ import java.math.*;
 import p79068.util.Random;
 
 
-public final class UnsignedBigInteger implements Comparable {
+public final class UnsignedBigInteger implements Comparable<UnsignedBigInteger> {
 	
 	public static void main(String[] arg) {
 		int k = 0;
@@ -136,7 +136,7 @@ public final class UnsignedBigInteger implements Comparable {
 			digity = digit;
 		}
 		if ((digitx[digitx.length - 1] & 0x8000) == 0 && (digitx.length > digity.length || (digity[digity.length - 1] & 0x8000) == 0))
-			digitz = new short[digitx.length]; // No extra carry possible
+			digitz = new short[digitx.length];  // No extra carry possible
 		else
 			digitz = new short[digitx.length + 1];
 		int carry = 0;
@@ -162,14 +162,14 @@ public final class UnsignedBigInteger implements Comparable {
 		short[] digity = val.digit;  // Argument 1
 		if (digitx.length < digity.length)
 			return null;
-		short[] digitz = new short[digitx.length]; // Result
-		int carry = 0; // This is always non-positive.
+		short[] digitz = new short[digitx.length];  // Result
+		int carry = 0;  // This is always non-positive.
 		int i = 0;
 		for (; i < digity.length; i++) {
 			carry = (digitx[i] & 0xFFFF) - (digity[i] & 0xFFFF) + carry;
 			digitz[i] = (short)carry;
-			carry >>= 16;
-		} // Note: This is a signed right shift, which is exceedingly rare.
+			carry >>= 16;  // Note: This is a signed right shift, which is exceedingly rare.
+		}
 		for (; i < digitx.length; i++) {
 			carry = (digitx[i] & 0xFFFF) + carry;
 			digitz[i] = (short)carry;
@@ -191,7 +191,7 @@ public final class UnsignedBigInteger implements Comparable {
 			digitx = val.digit;
 			digity = digit;
 		}
-		short[] digitz = new short[digitx.length + digity.length]; // Result
+		short[] digitz = new short[digitx.length + digity.length];  // Result
 		for (int i = 0; i < digity.length; i++) {
 			int y = digity[i] & 0xFFFF;
 			int carry = 0;
@@ -207,8 +207,8 @@ public final class UnsignedBigInteger implements Comparable {
 	
 	
 	public UnsignedBigInteger and(UnsignedBigInteger val) {
-		short[] digitx; // Argument 0 (always equal or longer than argument 1)
-		short[] digity; // Argument 1
+		short[] digitx;  // Argument 0 (always equal or longer than argument 1)
+		short[] digity;  // Argument 1
 		if (digit.length >= val.digit.length) {
 			digitx = digit;
 			digity = val.digit;
@@ -216,7 +216,7 @@ public final class UnsignedBigInteger implements Comparable {
 			digitx = val.digit;
 			digity = digit;
 		}
-		short[] digitz = new short[Math.min(digitx.length, digity.length)]; // Result
+		short[] digitz = new short[Math.min(digitx.length, digity.length)];  // Result
 		for (int i = 0; i < digity.length; i++)
 			digitz[i] = (short)(digitx[i] & digity[i]);
 		return new UnsignedBigInteger(digitz);
@@ -233,7 +233,7 @@ public final class UnsignedBigInteger implements Comparable {
 			digitx = val.digit;
 			digity = digit;
 		}
-		short[] digitz = new short[Math.max(digitx.length, digity.length)]; // Result
+		short[] digitz = new short[Math.max(digitx.length, digity.length)];  // Result
 		int i = 0;
 		for (; i < digity.length; i++)
 			digitz[i] = (short)(digitx[i] | digity[i]);
@@ -253,7 +253,7 @@ public final class UnsignedBigInteger implements Comparable {
 			digitx = val.digit;
 			digity = digit;
 		}
-		short[] digitz = new short[Math.max(digitx.length, digity.length)]; // Result
+		short[] digitz = new short[Math.max(digitx.length, digity.length)];  // Result
 		int i = 0;
 		for (; i < digity.length; i++)
 			digitz[i] = (short)(digitx[i] ^ digity[i]);
@@ -356,8 +356,8 @@ public final class UnsignedBigInteger implements Comparable {
 	}
 	
 	
-	public int compareTo(Object val) {
-		short[] digity = ((UnsignedBigInteger)val).digit;
+	public int compareTo(UnsignedBigInteger val) {
+		short[] digity = val.digit;
 		if (digit.length != digity.length)
 			return digit.length - digity.length;
 		for (int i = digit.length - 1;; i--) {
