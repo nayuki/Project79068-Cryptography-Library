@@ -1,11 +1,9 @@
-/*
- * Computes the discrete Fourier transform/inverse transform of a complex vector using the naive O(n^2) algorithm.
- */
-
-
 package p79068.math;
 
 
+/**
+ * Computes the discrete Fourier transform/inverse transform of a complex vector using the naive O(n^2) algorithm.
+ */
 final class NaiveDft extends Dft {
 	
 	private int length;

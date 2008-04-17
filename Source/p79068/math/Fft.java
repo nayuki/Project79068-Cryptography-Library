@@ -1,17 +1,15 @@
-/*
+package p79068.math;
+
+
+/**
  * Computes the discrete Fourier transform/inverse transform of a complex vector using the radix-2 decimation in time (O(n log n)) algorithm.
  * 
  * Multi-thread safe.
  */
-
-
-package p79068.math;
-
-
 final class Fft extends Dft {
 	
 	private int length;
-	private int[] permutation; // Bit-reversed addressing
+	private int[] permutation;  // Bit-reversed addressing
 	private double[] cos, sin;
 	
 	
@@ -47,7 +45,7 @@ final class Fft extends Dft {
 	
 	public void transform(double[] re, double[] im) {
 		for (int i = 0; i < length; i++) {
-			if (permutation[i] > i) { // This is possible because the permutation is self-inverting.
+			if (permutation[i] > i) {  // This is possible because the permutation is self-inverting.
 				double tp;
 				tp = re[i];
 				re[i] = re[permutation[i]];
@@ -64,7 +62,7 @@ final class Fft extends Dft {
 	
 	private void transformPrivate(double[] re, double[] im) {
 		if (length >= 2) {
-			for (int i = 0; i < length; i += 2) { // Perform multiply-less length-2 DFT.
+			for (int i = 0; i < length; i += 2) {  // Perform multiply-less length-2 DFT.
 				double tpre = re[i | 1];
 				double tpim = im[i | 1];
 				re[i | 1] = re[i] - tpre;
@@ -74,7 +72,7 @@ final class Fft extends Dft {
 			}
 		}
 		if (length >= 4) {
-			for (int i = 0; i < length; i += 4) { // Perform multiply-less length-4 DFT.
+			for (int i = 0; i < length; i += 4) {  // Perform multiply-less length-4 DFT.
 				double tpre;
 				double tpim;
 				tpre = re[i | 2];
@@ -91,7 +89,7 @@ final class Fft extends Dft {
 				im[i | 1] += tpim;
 			}
 		}
-		for (int i = 4, j = length / 8; i * 2 <= length; i *= 2, j /= 2) { // i*2 is the current DFT size.
+		for (int i = 4, j = length / 8; i * 2 <= length; i *= 2, j /= 2) {  // i*2 is the current DFT size.
 			for (int k = 0, l = 0, end = i;;) {
 				if (k < end) {
 					double tpre = re[k | i] * cos[l] + im[k | i] * sin[l];
@@ -121,7 +119,7 @@ final class Fft extends Dft {
 			if ((x >>> i) == 1)
 				return i;
 		}
-		return -1;  // This is not possible
+		throw new AssertionError();
 	}
 	
 }

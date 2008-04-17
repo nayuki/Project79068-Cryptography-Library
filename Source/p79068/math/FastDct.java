@@ -1,11 +1,9 @@
-/*
- * Computes the DCT by hijacking an FFT algorithm.
- */
-
-
 package p79068.math;
 
 
+/**
+ * Computes the DCT by hijacking an FFT algorithm.
+ */
 final class FastDct extends Dct {
 	
 	private int length;

@@ -1,11 +1,9 @@
-/*
- * Computes the DCT by using the naive direct algorithm.
- */
-
-
 package p79068.math;
 
 
+/**
+ * Computes the DCT by using the naive direct algorithm.
+ */
 final class NaiveDct extends Dct {
 	
 	private int length;

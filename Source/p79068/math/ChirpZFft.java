@@ -1,14 +1,12 @@
-/*
+package p79068.math;
+
+
+/**
  * Computes the discrete Fourier transform/inverse transform of a complex vector using Bluestein's/chirp-z algorithm.
  * The asymptotic time complexity is O(n log n). However, it uses more initialization time, execution time, and memory compared to the native radix-2 FFT. Also, it experiences slightly more numerical error, although it is nowhere near as bad as the naive transform.
  * 
  * Multi-thread safe.
  */
-
-
-package p79068.math;
-
-
 final class ChirpZFft extends Dft {
 	
 	private int length;

@@ -15,7 +15,6 @@ package p79068.math;
  */
 public abstract class Dft {
 	
-
 	/**
 	 * Returns a DFT algorithm for transforming vectors of the specified length.
 	 * <p>An algorithm with time complexity O(<var>n</var> log <var>n</var>) is guaranteed to be returned for all possible lengths.</p>
