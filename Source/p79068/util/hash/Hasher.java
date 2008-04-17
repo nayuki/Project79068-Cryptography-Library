@@ -18,11 +18,16 @@ byte[] hash = hasher.getHash().toBytes();</pre>
  */
 public abstract class Hasher implements Cloneable {
 	
-	/** The hash function associated with this hasher. This reference must not be modified except for zeroization. */
+	/**
+	 * The hash function associated with this hasher. This reference must not be modified except for zeroization.
+	 */
 	protected HashFunction hashFunction;
 	
 	
-	/** Creates a hasher set to the specified hash function. */
+	
+	/**
+	 * Creates a hasher set to the specified hash function.
+	 */
 	protected Hasher(HashFunction hashFunc) {
 		if (hashFunc == null)
 			throw new IllegalArgumentException();
@@ -30,18 +35,28 @@ public abstract class Hasher implements Cloneable {
 	}
 	
 	
-	/** Updates the current state with the specified byte. */
+	
+	/**
+	 * Updates the current state with the specified byte.
+	 */
 	public void update(byte b) {
 		update(new byte[]{b});
 	}
 	
-	/** Updates the current state with the specified byte array. */
+	
+	/**
+	 * Updates the current state with the specified byte array.
+	 */
 	public void update(byte[] b) {
 		update(b, 0, b.length);
 	}
 	
-	/** Updates the current state with the specified byte array. */
+	
+	/**
+	 * Updates the current state with the specified byte array.
+	 */
 	public abstract void update(byte[] b, int off, int len);
+	
 	
 	/**
 	 * Returns the current hash value. This method does not alter the hasher's internal state.
@@ -82,6 +97,7 @@ public abstract class Hasher implements Cloneable {
 	}
 	
 	
+	
 	/**
 	 * Returns a <code>HashValue</code> set to this algorithm and the specified hash value.
 	 * @param hashVal the hash value
@@ -90,4 +106,5 @@ public abstract class Hasher implements Cloneable {
 	protected final HashValue createHash(byte[] hashVal) {
 		return new HashValue(getHashFunction(), hashVal);
 	}
+	
 }

@@ -24,12 +24,18 @@ public final class HashValue implements Comparable<HashValue> {
 	}
 	
 	
-	/** Returns this hash value as an array of bytes. */
+	
+	/**
+	 * Returns this hash value as an array of bytes.
+	 */
 	public byte[] toBytes() {
 		return (byte[])hashValue.clone();
 	}
 	
-	/** Returns this hash value as a hexadecimal string (in uppercase). For example, <samp>"1337C0DE"</samp>. */
+	
+	/**
+	 * Returns this hash value as a hexadecimal string (in uppercase). For example, <samp>"1337C0DE"</samp>.
+	 */
 	public String toHexString() {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < hashValue.length; i++)
@@ -38,12 +44,17 @@ public final class HashValue implements Comparable<HashValue> {
 	}
 	
 	
-	/** Returns the hash function that produced this hash value. */
+	/**
+	 * Returns the hash function that produced this hash value.
+	 */
 	public HashFunction getHashFunction() {
 		return hashFunction;
 	}
 	
-	/** Returns the length of this hash value, in bytes. This is equivalent to <code>getHashFunction().getHashLength()</code>. */
+	
+	/**
+	 * Returns the length of this hash value, in bytes. This is equivalent to <code>getHashFunction().getHashLength()</code>.
+	 */
 	public int getLength() {
 		return hashValue.length;
 	}
@@ -56,6 +67,7 @@ public final class HashValue implements Comparable<HashValue> {
 		return hashFunction.equals(hash.hashFunction) && areEqual(hashValue, hash.hashValue);
 	}
 	
+	
 	public int compareTo(HashValue hv) {
 		if (!hashFunction.equals(hv.hashFunction))
 			throw new IllegalArgumentException("Hash functions are different");
@@ -67,6 +79,7 @@ public final class HashValue implements Comparable<HashValue> {
 		}
 		return 0;
 	}
+	
 	
 	/**
 	 * Returns the hash code of this object.
@@ -101,4 +114,5 @@ public final class HashValue implements Comparable<HashValue> {
 		}
 		return true;
 	}
+	
 }

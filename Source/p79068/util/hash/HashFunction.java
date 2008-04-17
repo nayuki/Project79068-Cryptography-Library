@@ -28,19 +28,28 @@ public abstract class HashFunction {
 	protected HashFunction() {}
 	
 	
-	/** Computes and returns the hash value of the specified byte array. */
+	
+	/**
+	 * Computes and returns the hash value of the specified byte array.
+	 */
 	public HashValue getHash(byte[] b) {
 		return getHash(b, 0, b.length);
 	}
 	
-	/** Computes and returns the hash value of the specified byte array. */
+	
+	/**
+	 * Computes and returns the hash value of the specified byte array.
+	 */
 	public HashValue getHash(byte[] b, int off, int len) {
 		Hasher hasher = newHasher();
 		hasher.update(b, off, len);
 		return hasher.getHash();
 	}
 	
-	/** Computes and returns the hash value of the specified file. */
+	
+	/**
+	 * Computes and returns the hash value of the specified file.
+	 */
 	public HashValue getHash(File file) throws IOException {
 		Hasher hasher = newHasher();
 		InputStream in = new FileInputStream(file);
@@ -72,6 +81,7 @@ public abstract class HashFunction {
 	 */
 	public abstract String getName();
 	
+	
 	/**
 	 * Returns the length of the hash values produced by this hash function, in bytes.
 	 * @return the length of the hash values produced by this hash function, in bytes
@@ -80,6 +90,7 @@ public abstract class HashFunction {
 		return getHash(new byte[0]).getLength();
 	}
 	
+	
 	/**
 	 * Returns a string representation of this hash function. Currently, it returns the name of the hash function. This is subjected to change.
 	 * @return a string representation of this hash function
@@ -87,4 +98,5 @@ public abstract class HashFunction {
 	public String toString() {
 		return getName();
 	}
+	
 }
