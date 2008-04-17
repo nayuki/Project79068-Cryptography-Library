@@ -9,35 +9,46 @@ package p79068.util.hash;
 import p79068.math.IntegerBitMath;
 
 
-final class Crc32Hasher extends Hasher{
-
- private int register;
-
-
- Crc32Hasher(Crc algor){
-  super(algor);
-  register=0xFFFFFFFF;}
-
-
- public void update(byte b){
-  register=(register>>>8)^xorTable[(register^b)&0xFF];}
-
- public void update(byte[] b,int off,int len){
-  for(int i=off,end=off+len;i<end;i++)register=(register>>>8)^xorTable[(register^b[i])&0xFF];}
-
-
- public HashValue getHash(){
-  return createHash(IntegerBitMath.toBytesBigEndian(new int[]{~register}));}
-
-
- private static int[] xorTable;
-
- static{
-  xorTable=new int[256];
-  int poly=0xEDB88320;
-  for(int i=0;i<256;i++){
-   int register=i;
-   for(int j=0;j<8;j++){
-    if((register&1)!=0)register=(register>>>1)^poly;
-    else register>>>=1;}
-   xorTable[i]=register;}}}
+final class Crc32Hasher extends Hasher {
+	
+	private int register;
+	
+	
+	Crc32Hasher(Crc algor) {
+		super(algor);
+		register = 0xFFFFFFFF;
+	}
+	
+	
+	public void update(byte b) {
+		register = (register >>> 8) ^ xorTable[(register ^ b) & 0xFF];
+	}
+	
+	public void update(byte[] b, int off, int len) {
+		for (int i = off, end = off + len; i < end; i++)
+			register = (register >>> 8) ^ xorTable[(register ^ b[i]) & 0xFF];
+	}
+	
+	
+	public HashValue getHash() {
+		return createHash(IntegerBitMath.toBytesBigEndian(new int[]{~register}));
+	}
+	
+	
+	private static int[] xorTable;
+	
+	static {
+		xorTable = new int[256];
+		int poly = 0xEDB88320;
+		for (int i = 0; i < 256; i++) {
+			int register = i;
+			for (int j = 0; j < 8; j++) {
+				if ((register & 1) != 0)
+					register = (register >>> 1) ^ poly;
+				else
+					register >>>= 1;
+			}
+			xorTable[i] = register;
+		}
+	}
+}

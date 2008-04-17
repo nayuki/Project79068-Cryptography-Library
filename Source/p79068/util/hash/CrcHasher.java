@@ -23,65 +23,92 @@ package p79068.util.hash;
 import p79068.math.LongBitMath;
 
 
-final class CrcHasher extends Hasher{
-
- private int degree;
- private boolean revin;
- private boolean revout;
- private long xorout;
-
- private long[] xortable;
-
- private long register;
-
-
- CrcHasher(Crc algor,int degree,long poly,boolean revin,boolean revout,long xorin,long xorout){
-  super(algor);
-  if(degree<1||degree>64)throw new IllegalArgumentException("Invalid degree");
-  if(degree<64&&(poly>>>degree)!=1)throw new IllegalArgumentException("Illegal polynomial");
-  if(degree<64&&(xorin>>>degree)!=0)throw new IllegalArgumentException("Invalid initial XOR constant");
-  if(degree<64&&(xorout>>>degree)!=0)throw new IllegalArgumentException("Invalid final XOR constant");
-  this.degree=degree;
-  this.revin=revin;
-  this.revout=revout;
-  this.xorout=xorout;
-  poly<<=64-degree;
-  xortable=new long[256];
-  if(!revin){ // Use the left-shift algorithm
-   for(int i=0;i<256;i++){
-    long reg=(long)i<<56;
-    for(int j=0;j<8;j++){
-     if((reg>>>63)!=0)reg=(reg<<1)^poly;
-     else reg<<=1;}
-    xortable[i]=reg;}
-   register=xorin<<(64-degree);}
-  else{ // Use the right-shift algorithm
-   poly=LongBitMath.reverse(poly);
-   for(int i=0;i<256;i++){
-    long reg=i;
-    for(int j=0;j<8;j++){
-     if((reg&1)!=0)reg=(reg>>>1)^poly;
-     else reg>>>=1;}
-    xortable[i]=reg;}
-   register=xorin;}}
-
-
- public void update(byte b){
-  if(!revin)register=(register<<8)^xortable[(int)(register>>>56)^(b&0xFF)];
-  else register=(register>>>8)^xortable[((int)register^b)&0xFF];}
-
- public void update(byte[] b,int off,int len){
-  if(!revin){
-   for(len+=off;off<len;off++)register=(register<<8)^xortable[(int)(register>>>56)^(b[off]&0xFF)];}
-  else{
-   for(len+=off;off<len;off++)register=(register>>>8)^xortable[((int)register^b[off])&0xFF];}}
-
- public HashValue getHash(){
-  long tp;
-  if(!revin)tp=register>>>(64-degree);
-  else tp=LongBitMath.reverse(register)>>>(64-degree);
-  tp^=xorout;
-  if(revout)tp=LongBitMath.reverse(tp)>>>(64-degree);
-  byte[] b=new byte[getHashFunction().getHashLength()];
-  for(int i=0;i<b.length;i++)b[b.length-1-i]=(byte)(tp>>>(i*8));
-  return createHash(b);}}
+final class CrcHasher extends Hasher {
+	
+	private int degree;
+	private boolean revin;
+	private boolean revout;
+	private long xorout;
+	
+	private long[] xortable;
+	
+	private long register;
+	
+	
+	CrcHasher(Crc algor, int degree, long poly, boolean revin, boolean revout, long xorin, long xorout) {
+		super(algor);
+		if (degree < 1 || degree > 64)
+			throw new IllegalArgumentException("Invalid degree");
+		if (degree < 64 && (poly >>> degree) != 1)
+			throw new IllegalArgumentException("Illegal polynomial");
+		if (degree < 64 && (xorin >>> degree) != 0)
+			throw new IllegalArgumentException("Invalid initial XOR constant");
+		if (degree < 64 && (xorout >>> degree) != 0)
+			throw new IllegalArgumentException("Invalid final XOR constant");
+		this.degree = degree;
+		this.revin = revin;
+		this.revout = revout;
+		this.xorout = xorout;
+		poly <<= 64 - degree;
+		xortable = new long[256];
+		if (!revin) { // Use the left-shift algorithm
+			for (int i = 0; i < 256; i++) {
+				long reg = (long)i << 56;
+				for (int j = 0; j < 8; j++) {
+					if ((reg >>> 63) != 0)
+						reg = (reg << 1) ^ poly;
+					else
+						reg <<= 1;
+				}
+				xortable[i] = reg;
+			}
+			register = xorin << (64 - degree);
+		} else { // Use the right-shift algorithm
+			poly = LongBitMath.reverse(poly);
+			for (int i = 0; i < 256; i++) {
+				long reg = i;
+				for (int j = 0; j < 8; j++) {
+					if ((reg & 1) != 0)
+						reg = (reg >>> 1) ^ poly;
+					else
+						reg >>>= 1;
+				}
+				xortable[i] = reg;
+			}
+			register = xorin;
+		}
+	}
+	
+	
+	public void update(byte b) {
+		if (!revin)
+			register = (register << 8) ^ xortable[(int)(register >>> 56) ^ (b & 0xFF)];
+		else
+			register = (register >>> 8) ^ xortable[((int)register ^ b) & 0xFF];
+	}
+	
+	public void update(byte[] b, int off, int len) {
+		if (!revin) {
+			for (len += off; off < len; off++)
+				register = (register << 8) ^ xortable[(int)(register >>> 56) ^ (b[off] & 0xFF)];
+		} else {
+			for (len += off; off < len; off++)
+				register = (register >>> 8) ^ xortable[((int)register ^ b[off]) & 0xFF];
+		}
+	}
+	
+	public HashValue getHash() {
+		long tp;
+		if (!revin)
+			tp = register >>> (64 - degree);
+		else
+			tp = LongBitMath.reverse(register) >>> (64 - degree);
+		tp ^= xorout;
+		if (revout)
+			tp = LongBitMath.reverse(tp) >>> (64 - degree);
+		byte[] b = new byte[getHashFunction().getHashLength()];
+		for (int i = 0; i < b.length; i++)
+			b[b.length - 1 - i] = (byte)(tp >>> (i * 8));
+		return createHash(b);
+	}
+}
