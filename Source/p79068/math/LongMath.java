@@ -16,8 +16,8 @@ public final class LongMath {
 	
 	
 	public static long divideAndFloor(long x, long y) {
-		if (!((x >= 0) ^ (y >= 0)))
-			return x / y; // If both have the same sign
+		if (!((x >= 0) ^ (y >= 0)))  // If both have the same sign
+			return x / y;
 		else {
 			long z = x / y;
 			if (z * y == x)
@@ -66,6 +66,9 @@ public final class LongMath {
 	
 	
 	
+	/**
+	 * Not instantiable.
+	 */
 	private LongMath() {}
 	
 }

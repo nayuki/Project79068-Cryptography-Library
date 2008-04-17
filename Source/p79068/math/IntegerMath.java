@@ -171,7 +171,7 @@ public final class IntegerMath {
 	// Number theory functions
 	
 	/**
-	 * Returns the greatest common divisior (GCD) of the specified integers. If <var>z</var> is the GCD of <var>x</var> and <var>y</var>, then <var>z</var> is the largest number such that <var>x</var>/<var>z</var> and <var>y</var>/<var>z</var> are integers.
+	 * Returns the greatest common divisor (GCD) of the specified integers. If <var>z</var> is the GCD of <var>x</var> and <var>y</var>, then <var>z</var> is the largest number such that <var>x</var>/<var>z</var> and <var>y</var>/<var>z</var> are integers.
 	 */
 	public static int gcd(int x, int y) {
 		while (y != 0) {
@@ -402,7 +402,7 @@ public final class IntegerMath {
 	 * @param x the integer to ceiling to a power of 2
 	 * @return a power of 2 greater than or equal to <code>x</code>
 	 * @throws IllegalArgumentException if <code>x &le; 0</code>
-	 * @throws ArithmeticOverflowException if <code>x gt; 1073741824</code>
+	 * @throws ArithmeticOverflowException if <code>x &gt; 1073741824</code>
 	 */
 	public static int ceilingToPowerOf2(int x) {
 		if (x <= 0)
@@ -445,6 +445,9 @@ public final class IntegerMath {
 	
 	
 	
+	/**
+	 * Not instantiable.
+	 */
 	private IntegerMath() {}
 	
 }

@@ -97,8 +97,19 @@ public class DoubleBitMath {
 	}
 	
 	
+	/**
+	 * Tests whether the specified number is finite. NaNs and infinities are not finite; all other numbers are.
+	 * @param x the double-precision number
+	 * @return whether the specified number is finite
+	 */
 	public static boolean isFinite(double x) {
 		return !Double.isNaN(x) && !Double.isInfinite(x);
 	}
+	
+	
+	/**
+	 * Not instantiable.
+	 */
+	private DoubleBitMath() {}
 	
 }

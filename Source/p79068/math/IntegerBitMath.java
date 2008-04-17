@@ -129,6 +129,9 @@ public final class IntegerBitMath {
 	
 	
 	
+	/**
+	 * Not instantiable.
+	 */
 	private IntegerBitMath() {}
 	
 }

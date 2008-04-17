@@ -131,6 +131,9 @@ public final class LongBitMath {
 	
 	
 	
+	/**
+	 * Not instantiable.
+	 */
 	private LongBitMath() {}
 	
 }
