@@ -79,9 +79,9 @@ public abstract class Hasher implements Cloneable {
 	 * <p>The general contract is that if the original and the clone are updated by the same sequence of bytes, then they must return the same hash value.</p>
 	 * @return a clone of this object
 	 */
-	public Object clone() {
+	public Hasher clone() {
 		try {
-			return super.clone();
+			return (Hasher)super.clone();
 		} catch (CloneNotSupportedException e) {
 			throw new AssertionError(e);
 		}

@@ -1,7 +1,5 @@
 package p79068.util.hash;
 
-import p79068.util.HashCoder;
-
 
 /**
  * Represents a hash value produced by a hash function.
@@ -12,8 +10,8 @@ import p79068.util.HashCoder;
  */
 public final class HashValue implements Comparable<HashValue> {
 	
-	private HashFunction hashFunction;
-	private byte[] hashValue;
+	private final HashFunction hashFunction;
+	private final byte[] hashValue;
 	
 	
 	HashValue(HashFunction hashFunc, byte[] hashVal) {
@@ -82,15 +80,14 @@ public final class HashValue implements Comparable<HashValue> {
 	
 	
 	/**
-	 * Returns the hash code of this object.
-	 * @return the hash code of this object
+	 * Returns the hash code for this hash value.
+	 * @return the hash code for this hash value
 	 */
 	public int hashCode() {
-		HashCoder h = HashCoder.newInstance();
-		h.add(hashFunction);
-		for (byte b : hashValue)
-			h.add(b);
-		return h.getHashCode();
+		int result = 0;
+		for (int i = 0; i < hashValue.length && i < 4; i++)
+			result = result << 8 | (hashValue[i] & 0xFF);
+		return result;
 	}
 	
 	
@@ -101,6 +98,7 @@ public final class HashValue implements Comparable<HashValue> {
 	public String toString() {
 		return String.format("%s: %s", hashFunction.getName(), toHexString());
 	}
+	
 	
 	
 	private static final char[] hexDigits = "0123456789ABCDEF".toCharArray();

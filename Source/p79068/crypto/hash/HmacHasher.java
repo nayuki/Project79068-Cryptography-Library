@@ -30,7 +30,7 @@ final class HmacHasher extends Hasher implements Zeroizable{
   return temp.getHash();}
 
 
- public Object clone(){
+ public HmacHasher clone(){
   if(hashFunction==null)throw new IllegalStateException("Already zeroized");
   HmacHasher result=(HmacHasher)super.clone();
   result.inner=(Hasher)inner.clone();
