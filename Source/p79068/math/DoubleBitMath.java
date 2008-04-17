@@ -15,6 +15,7 @@ public class DoubleBitMath {
 		return (int)(Double.doubleToRawLongBits(x) >>> 63);
 	}
 	
+	
 	/**
 	 * Returns the 11 exponent bits of the specified number.
 	 * @param x the double-precision number
@@ -23,6 +24,7 @@ public class DoubleBitMath {
 	public static int getRawExponent(double x) {
 		return (int)(Double.doubleToRawLongBits(x) >>> 52) & 0x7FF;
 	}
+	
 	
 	/**
 	 * Returns the 52 mantissa bits of the specified number.
@@ -50,6 +52,7 @@ public class DoubleBitMath {
 			throw new IllegalArgumentException("Not a finite floating-point number");
 	}
 	
+	
 	/**
 	 * Returns the exponent of the specified number. For finite numbers, this relation holds: <code>x</code> = <code>getSign(x)</code> × (<code>getMantissa(x)</code> / 2<sup>52</sup>) × 2<sup><code>getExponent(x)</code></sup>.
 	 * @param x the double-precision number
@@ -59,11 +62,12 @@ public class DoubleBitMath {
 		int exp = getRawExponent(x);
 		if (exp == 2047)
 			throw new IllegalArgumentException("Not a finite floating-point number");
-		else if (exp == 0)
-			return exp - 1022; // Subnormal
+		else if (exp == 0)  // Subnormal
+			return exp - 1022;
 		else
 			return exp - 1023;
 	}
+	
 	
 	/**
 	 * Returns the mantissa of the specified number. For finite numbers, this relation holds: <code>x</code> = <code>getSign(x)</code> × (<code>getMantissa(x)</code> / 2<sup>52</sup>) × 2<sup><code>getExponent(x)</code></sup>.
@@ -80,6 +84,7 @@ public class DoubleBitMath {
 			return man;
 	}
 	
+	
 	/**
 	 * Tests whether the specified number is subnormal. Zero is neither normal nor subnormal.
 	 * @param x the double-precision number
@@ -90,6 +95,7 @@ public class DoubleBitMath {
 			return false;
 		return getRawExponent(x) == 0;
 	}
+	
 	
 	public static boolean isFinite(double x) {
 		return !Double.isNaN(x) && !Double.isInfinite(x);
