@@ -6,7 +6,7 @@ import java.io.*;
 public abstract class SampleDepthConverter{
 
 
- public SampleDepthConverter(){}
+ protected SampleDepthConverter(){}
 
 
  public abstract void toInt8(byte[] b,int channel,byte[][] sample);

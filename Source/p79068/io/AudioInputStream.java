@@ -10,7 +10,7 @@ public abstract class AudioInputStream {
 	protected int channel; // Number of channels
 	
 
-	public AudioInputStream() {
+	protected AudioInputStream() {
 		length = -1;
 	}
 	

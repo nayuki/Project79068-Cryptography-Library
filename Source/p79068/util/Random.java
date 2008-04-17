@@ -34,7 +34,7 @@ public abstract class Random {
 	
 	
 	
-	public Random() {
+	protected Random() {
 		nextGaussian = Double.NaN;
 		hasNextGaussian = false;
 	}

@@ -15,6 +15,6 @@ package p79068.crypto.cipher;
  */
 public abstract class BlockCipher extends Cipher {
 	
-	public BlockCipher() {}
+	protected BlockCipher() {}
 	
 }

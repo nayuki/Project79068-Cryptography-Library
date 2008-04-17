@@ -21,7 +21,7 @@ public abstract class Dct {
 	
 	
 	
-	public Dct() {}
+	protected Dct() {}
 	
 	
 	

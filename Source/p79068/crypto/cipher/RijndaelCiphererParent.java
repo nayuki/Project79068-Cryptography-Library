@@ -3,7 +3,7 @@ package p79068.crypto.cipher;
 
 abstract class RijndaelCiphererParent extends Cipherer {
 	
-	public RijndaelCiphererParent(Rijndael cipher, byte[] key) {
+	protected RijndaelCiphererParent(Rijndael cipher, byte[] key) {
 		super(cipher, key);
 	}
 	
