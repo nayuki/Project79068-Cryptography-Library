@@ -20,6 +20,10 @@ public class Tiger2 extends BlockHashFunction {
 	
 	
 	
+	/**
+	 * Returns a new hasher of this hash function.
+	 * @return a new hasher of this hash function
+	 */
 	public Hasher newHasher() {
 		return new TigerHasher(this);
 	}

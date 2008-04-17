@@ -19,6 +19,10 @@ public class Sha256 extends BlockHashFunction {
 	
 	
 	
+	/**
+	 * Returns a new hasher of this hash function.
+	 * @return a new hasher of this hash function
+	 */
 	public Hasher newHasher() {
 		return new Sha256Hasher(this);
 	}
