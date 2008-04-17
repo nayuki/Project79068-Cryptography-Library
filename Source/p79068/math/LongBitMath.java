@@ -13,7 +13,7 @@ public final class LongBitMath {
 	 * Returns the value of the bit at the specified index of the specified bit sequence.
 	 * @param x the bit sequence to test
 	 * @param bitIndex the index of the bit in <code>x</code> to test
-	 * @return <samp>0</samp> or <samp>1</samp>
+	 * @return <code>0</code> or <code>1</code>
 	 */
 	public static int extractBit(long x, int bitIndex) {
 		BoundsChecker.check(64, bitIndex);
@@ -52,7 +52,7 @@ public final class LongBitMath {
 	
 	/**
 	 * Returns the number of bits set to <code>1</code> in the specified integer. Also known as the Hamming weight or population count function.
-	 * @return the number of bits set to <code>1</code>, between <samp>0</samp> (inclusive) and <samp>64</samp> (inclusive)
+	 * @return the number of bits set to <code>1</code>, between <code>0</code> (inclusive) and <code>64</code> (inclusive)
 	 */
 	public static int countOnes(long x) {
 		x = ((x & 0xAAAAAAAAAAAAAAAAL) >>> 1) + (x & 0x5555555555555555L);
