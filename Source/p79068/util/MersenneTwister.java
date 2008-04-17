@@ -1,24 +1,22 @@
 /*
-Translated from the 2002-01-26 version (by Makoto Matsumoto and Takuji Nishimura) in C.
-
-The Mersenne Twister is random for all bits of its output. (By contrast, a LCG's lower-order bits have shorter periods than its higher-order bits.)
-
-The output is identical to the original C implementation.
-
-Unsynchronized.
-*/
+ * Translated from the 2002-01-26 version (by Makoto Matsumoto and Takuji Nishimura) in C.
+ * 
+ * The Mersenne Twister is random for all bits of its output. (By contrast, a LCG's lower-order bits have shorter periods than its higher-order bits.)
+ * 
+ * The output is identical to the original C implementation.
+ */
 
 
 package p79068.util;
 
 
 /**
-The Mersenne Twister pseudorandom number generator.
-<p>Mutability: <em>Mutable</em><br>
-Thread safety: <em>Unsafe</em></p>
-@see SynchronizedMersenneTwister
-@see Random
-*/
+ * The Mersenne Twister pseudorandom number generator.
+ * <p>Mutability: <em>Mutable</em><br>
+ * Thread safety: <em>Unsafe</em></p>
+ * @see SynchronizedMersenneTwister
+ * @see Random
+ */
 public final class MersenneTwister extends Random {
 	
 	private int[] state;
@@ -113,4 +111,5 @@ public final class MersenneTwister extends Random {
 		}
 		return out;
 	}
+	
 }

@@ -2,12 +2,12 @@ package p79068.util;
 
 
 /**
-The Mersenne Twister pseudorandom number generator, thread-safe version.
-<p>Mutability: <em>Mutable</em><br>
-Thread safety: <em>Safe</em></p>
-@see MersenneTwister
-@see Random
-*/
+ * The Mersenne Twister pseudorandom number generator, thread-safe version.
+ * <p>Mutability: <em>Mutable</em><br>
+ * Thread safety: <em>Safe</em></p>
+ * @see MersenneTwister
+ * @see Random
+ */
 public final class SynchronizedMersenneTwister extends Random {
 	
 	private int[] state;
@@ -107,4 +107,5 @@ public final class SynchronizedMersenneTwister extends Random {
 		}
 		return out;
 	}
+	
 }
