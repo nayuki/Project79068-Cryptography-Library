@@ -12,23 +12,27 @@ The original eDonkey2000 hash function.
 @see HashFunction
 @see NewEdonkey2000
 */
-public class Edonkey2000 extends HashFunction{
-
- /** The singleton instance of the eDonkey2000 hash function. */
- public final static Edonkey2000 FUNCTION=new Edonkey2000();
-
-
- public Hasher newHasher(){
-  return new Edonkey2000Hasher(this);}
-
-
- /** Returns the name of this hash function: <samp>eDonkey2000</samp>. */
- public String getName(){
-  return "eDonkey2000";}
-
- /** Returns the length of hash values produced by this hash function: <samp>16</samp> bytes (128 bits). */
- public int getHashLength(){
-  return Md4.FUNCTION.getHashLength();}
-
-
- private Edonkey2000(){}}
+public class Edonkey2000 extends HashFunction {
+	
+	/** The singleton instance of the eDonkey2000 hash function. */
+	public final static Edonkey2000 FUNCTION = new Edonkey2000();
+	
+	
+	public Hasher newHasher() {
+		return new Edonkey2000Hasher(this);
+	}
+	
+	
+	/** Returns the name of this hash function: <samp>eDonkey2000</samp>. */
+	public String getName() {
+		return "eDonkey2000";
+	}
+	
+	/** Returns the length of hash values produced by this hash function: <samp>16</samp> bytes (128 bits). */
+	public int getHashLength() {
+		return Md4.FUNCTION.getHashLength();
+	}
+	
+	
+	private Edonkey2000() {}
+}

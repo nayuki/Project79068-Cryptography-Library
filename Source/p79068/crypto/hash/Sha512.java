@@ -10,27 +10,32 @@ The SHA-512 hash function.
  Instantiability: <em>Singleton</em></p>
 @see HashFunction
 */
-public class Sha512 extends BlockHashFunction{
-
- /** The singleton instance of the SHA-512 hash function. */
- public final static Sha512 FUNCTION=new Sha512();
-
-
- public Hasher newHasher(){
-  return new Sha512Hasher(this);}
-
-
- /** Returns the name of this hash function: <samp>SHA-512</samp>. */
- public String getName(){
-  return "SHA-512";}
-
- /** Returns the length of hash values produced by this hash function: <samp>64</samp> bytes (512 bits). */
- public int getHashLength(){
-  return 64;}
-
- /** Returns the block length of this hash function: <samp>128</samp> bytes (1024 bits). */
- public int getBlockLength(){
-  return 128;}
-
-
- private Sha512(){}}
+public class Sha512 extends BlockHashFunction {
+	
+	/** The singleton instance of the SHA-512 hash function. */
+	public final static Sha512 FUNCTION = new Sha512();
+	
+	
+	public Hasher newHasher() {
+		return new Sha512Hasher(this);
+	}
+	
+	
+	/** Returns the name of this hash function: <samp>SHA-512</samp>. */
+	public String getName() {
+		return "SHA-512";
+	}
+	
+	/** Returns the length of hash values produced by this hash function: <samp>64</samp> bytes (512 bits). */
+	public int getHashLength() {
+		return 64;
+	}
+	
+	/** Returns the block length of this hash function: <samp>128</samp> bytes (1024 bits). */
+	public int getBlockLength() {
+		return 128;
+	}
+	
+	
+	private Sha512() {}
+}

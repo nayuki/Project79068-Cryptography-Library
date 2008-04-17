@@ -16,27 +16,32 @@ The Whirlpool hash function (version 2).
 @see Whirlpool0
 @see Whirlpool1
 */
-public class Whirlpool extends BlockHashFunction{
-
- /** The singleton instance of the Whirlpool hash function. */
- public final static Whirlpool FUNCTION=new Whirlpool();
-
-
- public Hasher newHasher(){
-  return new FastWhirlpoolHasher(this);}
-
-
- /** Returns the name of this hash function: <samp>Whirlpool</samp>. */
- public String getName(){
-  return "Whirlpool";}
-
- /** Returns the length of hash values produced by this hash function: <samp>64</samp> bytes (512 bits). */
- public int getHashLength(){
-  return 64;}
-
- /** Returns the block length of this hash function: <samp>64</samp> bytes (512 bits). */
- public int getBlockLength(){
-  return 64;}
-
-
- private Whirlpool(){}}
+public class Whirlpool extends BlockHashFunction {
+	
+	/** The singleton instance of the Whirlpool hash function. */
+	public final static Whirlpool FUNCTION = new Whirlpool();
+	
+	
+	public Hasher newHasher() {
+		return new FastWhirlpoolHasher(this);
+	}
+	
+	
+	/** Returns the name of this hash function: <samp>Whirlpool</samp>. */
+	public String getName() {
+		return "Whirlpool";
+	}
+	
+	/** Returns the length of hash values produced by this hash function: <samp>64</samp> bytes (512 bits). */
+	public int getHashLength() {
+		return 64;
+	}
+	
+	/** Returns the block length of this hash function: <samp>64</samp> bytes (512 bits). */
+	public int getBlockLength() {
+		return 64;
+	}
+	
+	
+	private Whirlpool() {}
+}
