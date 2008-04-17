@@ -62,7 +62,7 @@ final class WhirlpoolHasher extends BlockHasher {
 		byte[] tempmsg = new byte[64];
 		byte[] tempstate = new byte[64];
 		byte[] temp = new byte[64];
-		for (len += off; off < len; off += 64) {
+		for (int end = off + len; off < end; off += 64) {
 			System.arraycopy(message, off, tempmsg, 0, 64);
 			System.arraycopy(state, 0, tempstate, 0, 64);
 			w(tempmsg, tempstate, temp);

@@ -83,7 +83,7 @@ final class Sha256Hasher extends BlockHasher {
 		int f = state[5];
 		int g = state[6];
 		int h = state[7];
-		for (len += off; off < len;) { // len becomes end
+		for (int end = off + len; off < end;) {
 			for (int i = 0; i < 16; i++, off += 4)
 				schedule[i] = message[off] << 24 | (message[off + 1] & 0xFF) << 16 | (message[off + 2] & 0xFF) << 8 | (message[off + 3] & 0xFF);
 			for (int i = 16; i < 64; i++)

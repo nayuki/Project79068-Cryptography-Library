@@ -65,7 +65,7 @@ final class Md5Hasher extends BlockHasher {
 		int b = state[1];
 		int c = state[2];
 		int d = state[3];
-		for (len += off; off < len;) { // len becomes end
+		for (int end = off + len; off < end;) {
 			for (int i = 0; i < 16; i++, off += 4)
 				schedule[i] = (message[off] & 0xFF) | (message[off + 1] & 0xFF) << 8 | (message[off + 2] & 0xFF) << 16 | message[off + 3] << 24;
 			int i = 0;
