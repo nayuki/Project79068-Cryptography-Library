@@ -48,8 +48,13 @@ final class Md4Hasher extends BlockHasher {
 		int c = state[2];
 		int d = state[3];
 		for (int end = off + len; off < end;) {
-			for (int i = 0; i < 16; i++, off += 4)
-				schedule[i] = (message[off] & 0xFF) | (message[off + 1] & 0xFF) << 8 | (message[off + 2] & 0xFF) << 16 | message[off + 3] << 24;
+			for (int i = 0; i < 16; i++, off += 4) {
+				schedule[i] =
+					  (message[off + 0] & 0xFF) <<  0
+					| (message[off + 1] & 0xFF) <<  8
+					| (message[off + 2] & 0xFF) << 16
+					| (message[off + 3] & 0xFF) << 24;
+			}
 			int i = 0;
 			for (; i < 16; i++) {
 				int tp = a + (d ^ (b & (c ^ d))) + schedule[i];

@@ -54,8 +54,13 @@ final class Sha1Hasher extends BlockHasher {
 		int d = state[3];
 		int e = state[4];
 		for (int end = off + len; off < end;) {
-			for (int i = 0; i < 16; i++, off += 4)
-				schedule[i] = message[off] << 24 | (message[off + 1] & 0xFF) << 16 | (message[off + 2] & 0xFF) << 8 | (message[off + 3] & 0xFF);
+			for (int i = 0; i < 16; i++, off += 4) {
+				schedule[i] =
+					  (message[off + 0] & 0xFF) << 24
+					| (message[off + 1] & 0xFF) << 16
+					| (message[off + 2] & 0xFF) <<  8
+					| (message[off + 3] & 0xFF) <<  0;
+			}
 			for (int i = 16; i < 80; i++) {
 				int tp = schedule[i - 3] ^ schedule[i - 8] ^ schedule[i - 14] ^ schedule[i - 16];
 				if (sha1mode)
