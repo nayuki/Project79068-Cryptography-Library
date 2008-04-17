@@ -12,8 +12,11 @@ import p79068.util.hash.Hasher;
  */
 public class Sha1 extends BlockHashFunction {
 	
-	/** The singleton instance of the SHA-1 hash function. */
+	/**
+	 * The singleton instance of the SHA-1 hash function.
+	 */
 	public final static Sha1 FUNCTION = new Sha1();
+	
 	
 	
 	public Hasher newHasher() {
@@ -21,21 +24,31 @@ public class Sha1 extends BlockHashFunction {
 	}
 	
 	
-	/** Returns the name of this hash function: <samp>SHA-1</samp>. */
+	/**
+	 * Returns the name of this hash function: <samp>SHA-1</samp>.
+	 */
 	public String getName() {
 		return "SHA-1";
 	}
 	
-	/** Returns the length of hash values produced by this hash function: <samp>20</samp> bytes (160 bits). */
+	
+	/**
+	 * Returns the length of hash values produced by this hash function: <samp>20</samp> bytes (160 bits).
+	 */
 	public int getHashLength() {
 		return 20;
 	}
 	
-	/** Returns the block length of this hash function: <samp>64</samp> bytes (512 bits). */
+	
+	/**
+	 * Returns the block length of this hash function: <samp>64</samp> bytes (512 bits).
+	 */
 	public int getBlockLength() {
 		return 64;
 	}
 	
 	
+	
 	private Sha1() {}
+	
 }

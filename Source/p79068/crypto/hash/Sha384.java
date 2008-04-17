@@ -5,16 +5,19 @@ import p79068.util.hash.HashFunction;
 
 
 /**
-The SHA-384 hash function.
-<p>Mutability: <em>Immutable</em><br>
- Instantiability: <em>Singleton</em></p>
-@see HashFunction
-@see Sha512
-*/
+ * The SHA-384 hash function.
+ * <p>Mutability: <em>Immutable</em><br>
+ *  Instantiability: <em>Singleton</em></p>
+ * @see HashFunction
+ * @see Sha512
+ */
 public class Sha384 extends BlockHashFunction {
 	
-	/** The singleton instance of the SHA-384 hash function. */
+	/**
+	 * The singleton instance of the SHA-384 hash function.
+	 */
 	public final static Sha384 FUNCTION = new Sha384();
+	
 	
 	
 	public Hasher newHasher() {
@@ -22,21 +25,31 @@ public class Sha384 extends BlockHashFunction {
 	}
 	
 	
-	/** Returns the name of this hash function: <samp>SHA-384</samp>. */
+	/**
+	 * Returns the name of this hash function: <samp>SHA-384</samp>.
+	 */
 	public String getName() {
 		return "SHA-384";
 	}
 	
-	/** Returns the length of hash values produced by this hash function: <samp>48</samp> bytes (384 bits). */
+	
+	/**
+	 * Returns the length of hash values produced by this hash function: <samp>48</samp> bytes (384 bits).
+	 */
 	public int getHashLength() {
 		return 48;
 	}
 	
-	/** Returns the block length of this hash function: <samp>128</samp> bytes (1024 bits). */
+	
+	/**
+	 * Returns the block length of this hash function: <samp>128</samp> bytes (1024 bits).
+	 */
 	public int getBlockLength() {
 		return 128;
 	}
 	
 	
+	
 	private Sha384() {}
+	
 }
