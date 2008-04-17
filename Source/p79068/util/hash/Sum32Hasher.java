@@ -6,6 +6,9 @@ import p79068.math.IntegerBitMath;
 
 final class Sum32Hasher extends Hasher {
 	
+	/**
+	 * The running sum of all the bytes seen, modulo 2<sup>32</sup>.
+	 */
 	private int sum;
 	
 	

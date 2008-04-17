@@ -5,7 +5,10 @@ import p79068.lang.BoundsChecker;
 
 final class XorHasher extends Hasher {
 	
-	private int xor;  // Note: The upper 24 bits are always ignored.
+	/**
+	 * The running XOR of all the bytes seen. Note that the top 24 bits are irrelevant.
+	 */
+	private int xor;
 	
 	
 	
