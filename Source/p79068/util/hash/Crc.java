@@ -24,7 +24,7 @@ public class Crc extends HashFunction {
 	 */
 	public static final Crc CRC32_FUNCTION = new Crc("CRC-32", 32, 0x104C11DB7L, true, true, 0xFFFFFFFFL, 0xFFFFFFFFL);
 	
-
+	
 	private String name;
 	private int degree;
 	private long polynomial;
@@ -32,6 +32,7 @@ public class Crc extends HashFunction {
 	private boolean reverseout;
 	private long xorin;
 	private long xorout;
+	
 	
 	
 	/**
@@ -68,6 +69,7 @@ public class Crc extends HashFunction {
 	}
 	
 	
+	
 	public Hasher newHasher() {
 		if (equals(CRC32_FUNCTION))
 			return new Crc32Hasher(this);
@@ -75,12 +77,17 @@ public class Crc extends HashFunction {
 	}
 	
 	
-	/** Returns the name of this hash function, which is specified when it is constructed. */
+	/**
+	 * Returns the name of this hash function, which is specified when it is constructed.
+	 */
 	public String getName() {
 		return name;
 	}
 	
-	/** Returns the length of hash values produced by this hash function: <code>ceiling(degree/8)</code> bytes. */
+	
+	/**
+	 * Returns the length of hash values produced by this hash function: <code>ceiling(degree/8)</code> bytes.
+	 */
 	public int getHashLength() {
 		return (degree + 7) / 8;
 	}
@@ -100,6 +107,7 @@ public class Crc extends HashFunction {
 		return name.equals(hashfunc.name) && degree == hashfunc.degree && polynomial == hashfunc.polynomial && reversein == hashfunc.reversein && reverseout == hashfunc.reverseout && xorin == hashfunc.xorin && xorout == hashfunc.xorout;
 	}
 	
+	
 	public int hashCode() {
 		HashCoder h = HashCoder.newInstance();
 		h.add(name);
@@ -111,4 +119,5 @@ public class Crc extends HashFunction {
 		h.add(xorout);
 		return h.getHashCode();
 	}
+	
 }

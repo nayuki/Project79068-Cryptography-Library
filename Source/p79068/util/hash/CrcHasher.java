@@ -35,6 +35,7 @@ final class CrcHasher extends Hasher {
 	private long register;
 	
 	
+	
 	CrcHasher(Crc algor, int degree, long poly, boolean revin, boolean revout, long xorin, long xorout) {
 		super(algor);
 		if (degree < 1 || degree > 64)
@@ -80,12 +81,14 @@ final class CrcHasher extends Hasher {
 	}
 	
 	
+	
 	public void update(byte b) {
 		if (!revin)
 			register = (register << 8) ^ xortable[(int)(register >>> 56) ^ (b & 0xFF)];
 		else
 			register = (register >>> 8) ^ xortable[((int)register ^ b) & 0xFF];
 	}
+	
 	
 	public void update(byte[] b, int off, int len) {
 		if (!revin) {
@@ -96,6 +99,7 @@ final class CrcHasher extends Hasher {
 				register = (register >>> 8) ^ xortable[((int)register ^ b[off]) & 0xFF];
 		}
 	}
+	
 	
 	public HashValue getHash() {
 		long tp;
@@ -111,4 +115,5 @@ final class CrcHasher extends Hasher {
 			b[b.length - 1 - i] = (byte)(tp >>> (i * 8));
 		return createHash(b);
 	}
+	
 }

@@ -14,15 +14,18 @@ final class Crc32Hasher extends Hasher {
 	private int register;
 	
 	
+	
 	Crc32Hasher(Crc algor) {
 		super(algor);
 		register = 0xFFFFFFFF;
 	}
 	
 	
+	
 	public void update(byte b) {
 		register = (register >>> 8) ^ xorTable[(register ^ b) & 0xFF];
 	}
+	
 	
 	public void update(byte[] b, int off, int len) {
 		for (int i = off, end = off + len; i < end; i++)
@@ -33,6 +36,7 @@ final class Crc32Hasher extends Hasher {
 	public HashValue getHash() {
 		return createHash(IntegerBitMath.toBytesBigEndian(new int[]{~register}));
 	}
+	
 	
 	
 	private static int[] xorTable;
@@ -51,4 +55,5 @@ final class Crc32Hasher extends Hasher {
 			xorTable[i] = register;
 		}
 	}
+	
 }
