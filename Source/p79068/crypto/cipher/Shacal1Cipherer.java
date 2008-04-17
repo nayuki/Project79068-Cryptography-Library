@@ -34,7 +34,7 @@ final class Shacal1Cipherer extends Cipherer {
 		if (len % 20 != 0)
 			throw new IllegalArgumentException("Invalid block length");
 		
-		for (len += off; off < len; off += 20) {
+		for (int end = off + len; off < end; off += 20) {
 			int a = B[off +  0] << 24 | (B[off +  1] & 0xFF) << 16 | (B[off +  2] & 0xFF) << 8 | (B[off +  3] & 0xFF);
 			int b = B[off +  4] << 24 | (B[off +  5] & 0xFF) << 16 | (B[off +  6] & 0xFF) << 8 | (B[off +  7] & 0xFF);
 			int c = B[off +  8] << 24 | (B[off +  9] & 0xFF) << 16 | (B[off + 10] & 0xFF) << 8 | (B[off + 11] & 0xFF);
@@ -115,7 +115,7 @@ final class Shacal1Cipherer extends Cipherer {
 		if (len % 20 != 0)
 			throw new IllegalArgumentException("Invalid block length");
 		
-		for (len += off; off < len; off += 20) {
+		for (int end = off + len; off < end; off += 20) {
 			int a = B[off +  0] << 24 | (B[off +  1] & 0xFF) << 16 | (B[off +  2] & 0xFF) << 8 | (B[off +  3] & 0xFF);
 			int b = B[off +  4] << 24 | (B[off +  5] & 0xFF) << 16 | (B[off +  6] & 0xFF) << 8 | (B[off +  7] & 0xFF);
 			int c = B[off +  8] << 24 | (B[off +  9] & 0xFF) << 16 | (B[off + 10] & 0xFF) << 8 | (B[off + 11] & 0xFF);

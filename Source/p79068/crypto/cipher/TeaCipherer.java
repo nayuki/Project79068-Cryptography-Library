@@ -34,7 +34,7 @@ final class TeaCipherer extends Cipherer {
 		int k1 = int32Key[1];
 		int k2 = int32Key[2];
 		int k3 = int32Key[3];
-		for (len += off; off < len; off += 8) {
+		for (int end = off + len; off < end; off += 8) {
 			int y = (b[off + 0] & 0xFF) << 24
 			      | (b[off + 1] & 0xFF) << 16
 			      | (b[off + 2] & 0xFF) <<  8
@@ -70,7 +70,7 @@ final class TeaCipherer extends Cipherer {
 		int k1 = int32Key[1];
 		int k2 = int32Key[2];
 		int k3 = int32Key[3];
-		for (len += off; off < len; off += 8) {
+		for (int end = off + len; off < end; off += 8) {
 			int y = (b[off + 0] & 0xFF) << 24
 			      | (b[off + 1] & 0xFF) << 16
 			      | (b[off + 2] & 0xFF) <<  8

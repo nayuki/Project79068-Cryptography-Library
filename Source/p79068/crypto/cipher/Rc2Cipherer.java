@@ -40,7 +40,7 @@ final class Rc2Cipherer extends Cipherer {
 		if ((len & 7) != 0)
 			throw new IllegalArgumentException("Invalid block length");
 		int[] r = new int[4];
-		for (len += off; off < len; off += 8) {
+		for (int end = off + len; off < end; off += 8) {
 			for (int i = 0; i < 4; i++)
 				r[i] = (b[off + i*2] & 0xFF) | (b[off + i*2 + 1] & 0xFF) << 8;
 			int j = 0;
@@ -64,7 +64,7 @@ final class Rc2Cipherer extends Cipherer {
 		if ((len & 7) != 0)
 			throw new IllegalArgumentException("Invalid block length");
 		int[] r = new int[4];
-		for (len += off; off < len; off += 8) {
+		for (int end = off + len; off < end; off += 8) {
 			for (int i = 0; i < 4; i++)
 				r[i] = (b[off + i*2] & 0xFF) | (b[off + i*2 + 1] & 0xFF) << 8;
 			int j = 15;

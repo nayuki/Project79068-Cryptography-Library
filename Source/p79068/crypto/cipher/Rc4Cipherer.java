@@ -31,13 +31,13 @@ final class Rc4Cipherer extends StreamCipherer {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
 		BoundsChecker.check(b.length, off, len);
-		for (len += off; off < len; off++) {
+		for (int end = off + len; off < end; off++) {
 			i = (i + 1) & 0xFF;
 			j = (j + s[i]) & 0xFF;
-			int tp = s[i];
+			int temp = s[i];
 			s[i] = s[j];
-			s[j] = tp;
-			b[off] ^= s[(s[i] + tp) & 0xFF];
+			s[j] = temp;
+			b[off] ^= s[(s[i] + temp) & 0xFF];
 		}
 	}
 	
@@ -48,9 +48,9 @@ final class Rc4Cipherer extends StreamCipherer {
 		for (int k = 0; k < byteCount; k++) {
 			i = (i + 1) & 0xFF;
 			j = (j + s[i]) & 0xFF;
-			int tp = s[i];
+			int temp = s[i];
 			s[i] = s[j];
-			s[j] = tp;
+			s[j] = temp;
 		}
 	}
 	

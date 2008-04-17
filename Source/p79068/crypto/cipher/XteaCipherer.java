@@ -30,7 +30,7 @@ final class XteaCipherer extends Cipherer {
 		if ((len & 7) != 0)
 			throw new IllegalArgumentException("Invalid block length");
 		
-		for (len += off; off < len; off += 8) {
+		for (int end = off + len; off < end; off += 8) {
 			int y = (b[off + 0] & 0xFF) << 24
 			      | (b[off + 1] & 0xFF) << 16
 			      | (b[off + 2] & 0xFF) <<  8
@@ -63,7 +63,7 @@ final class XteaCipherer extends Cipherer {
 		if ((len & 7) != 0)
 			throw new IllegalArgumentException("Invalid block length");
 		
-		for (len += off; off < len; off += 8) {
+		for (int end = off + len; off < end; off += 8) {
 			int y = (b[off + 0] & 0xFF) << 24
 			      | (b[off + 1] & 0xFF) << 16
 			      | (b[off + 2] & 0xFF) <<  8
