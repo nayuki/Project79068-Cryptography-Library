@@ -18,7 +18,7 @@ final class BcModeCipherer extends Cipherer{
   blockLength=blockCipher.getBlockLength();
   if(initVector.length!=blockLength)throw new AssertionError();
   cipherer=blockCipher.newCipherer(cipherKey);
-  prevCiphertextsXored=(byte[])initVector.clone();}
+  prevCiphertextsXored=initVector.clone();}
 
 
  public void encrypt(byte[] b,int off,int len){

@@ -73,7 +73,7 @@ public abstract class BlockHasher extends Hasher implements Zeroizable{
  */
  public HashValue getHash(){
   if(hashFunction==null)throw new IllegalStateException("Already zeroized");
-  return ((BlockHasher)clone()).getHashDestructively();}
+  return clone().getHashDestructively();}
 
 
  /**
@@ -84,7 +84,7 @@ public abstract class BlockHasher extends Hasher implements Zeroizable{
  public BlockHasher clone(){
   if(hashFunction==null)throw new IllegalStateException("Already zeroized");
   BlockHasher result=(BlockHasher)super.clone();
-  result.block=(byte[])block.clone();
+  result.block=block.clone();
   return result;}
 
  public void zeroize(){

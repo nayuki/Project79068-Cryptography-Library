@@ -17,7 +17,7 @@ final class FastWhirlpoolHasher extends BlockHasher{
  public FastWhirlpoolHasher clone(){
   if(hashFunction==null)throw new IllegalStateException("Already zeroized");
   FastWhirlpoolHasher result=(FastWhirlpoolHasher)super.clone();
-  result.state=(long[])state.clone();
+  result.state=state.clone();
   return result;}
 
  public void zeroize(){

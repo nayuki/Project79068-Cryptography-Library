@@ -25,7 +25,7 @@ final class Sha512Hasher extends BlockHasher{
  public Sha512Hasher clone(){
   if(hashFunction==null)throw new IllegalStateException("Already zeroized");
   Sha512Hasher result=(Sha512Hasher)super.clone();
-  result.state=(long[])state.clone();
+  result.state=state.clone();
   return result;}
 
  public void zeroize(){

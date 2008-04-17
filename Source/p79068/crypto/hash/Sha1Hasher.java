@@ -25,7 +25,7 @@ final class Sha1Hasher extends BlockHasher{
  public Sha1Hasher clone(){
   if(hashFunction==null)throw new IllegalStateException("Already zeroized");
   Sha1Hasher result=(Sha1Hasher)super.clone();
-  result.state=(int[])state.clone();
+  result.state=state.clone();
   return result;}
 
  public void zeroize(){

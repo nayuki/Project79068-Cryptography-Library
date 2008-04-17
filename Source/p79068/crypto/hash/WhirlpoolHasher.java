@@ -33,7 +33,7 @@ final class WhirlpoolHasher extends BlockHasher{
  public WhirlpoolHasher clone(){
   if(hashFunction==null)throw new IllegalStateException("Already zeroized");
   WhirlpoolHasher result=(WhirlpoolHasher)super.clone();
-  result.state=(byte[])state.clone();
+  result.state=state.clone();
   return result;}
 
  public void zeroize(){

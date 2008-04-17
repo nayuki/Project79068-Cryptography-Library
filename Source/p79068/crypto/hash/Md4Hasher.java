@@ -17,7 +17,7 @@ final class Md4Hasher extends BlockHasher{
  public Md4Hasher clone(){
   if(hashFunction==null)throw new IllegalStateException("Already zeroized");
   Md4Hasher result=(Md4Hasher)super.clone();
-  result.state=(int[])state.clone();
+  result.state=state.clone();
   return result;}
 
  public void zeroize(){

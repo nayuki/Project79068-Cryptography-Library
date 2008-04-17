@@ -25,7 +25,7 @@ final class Sha256Hasher extends BlockHasher{
  public Sha256Hasher clone(){
   if(hashFunction==null)throw new IllegalStateException("Already zeroized");
   Sha256Hasher result=(Sha256Hasher)super.clone();
-  result.state=(int[])state.clone();
+  result.state=state.clone();
   return result;}
 
  public void zeroize(){

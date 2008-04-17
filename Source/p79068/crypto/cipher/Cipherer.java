@@ -19,7 +19,7 @@ public abstract class Cipherer implements Zeroizable{
  protected Cipherer(Cipher cipher,byte[] key){
   if(key.length!=cipher.getKeyLength())throw new IllegalArgumentException();
   this.cipher=cipher;
-  this.key=(byte[])key.clone();}
+  this.key=key.clone();}
 
 
  /** Encrypts the specified byte array. */

@@ -20,7 +20,7 @@ final class OfbModeStreamCipherer extends StreamCipherer{
   blockLength=blockCipher.getBlockLength();
   if(initVector.length!=blockLength)throw new AssertionError();
   cipherer=blockCipher.newCipherer(cipherKey);
-  keyStream=(byte[])initVector.clone();
+  keyStream=initVector.clone();
   keyStreamOff=0;}
 
 

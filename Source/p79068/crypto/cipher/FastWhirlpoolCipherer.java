@@ -63,7 +63,7 @@ final class FastWhirlpoolCipherer extends Cipherer{
   toInt64sBigEndian(key,0,keySchedule[0]);
   long[] temp=new long[64];
   for(int i=1;i<keySchedule.length;i++){
-   keySchedule[i]=(long[])keySchedule[i-1].clone();
+   keySchedule[i]=keySchedule[i-1].clone();
    rho(keySchedule[i],rcon[i-1],temp);}}
 
 

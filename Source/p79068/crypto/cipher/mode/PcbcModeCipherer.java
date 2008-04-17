@@ -18,7 +18,7 @@ final class PcbcModeCipherer extends Cipherer{
   blockLength=blockCipher.getBlockLength();
   if(initVector.length!=blockLength)throw new AssertionError();
   cipherer=blockCipher.newCipherer(cipherKey);
-  prevPlainXorCipher=(byte[])initVector.clone();}
+  prevPlainXorCipher=initVector.clone();}
 
 
  public void encrypt(byte[] b,int off,int len){

@@ -20,7 +20,7 @@ final class IgeModeCipherer extends Cipherer{
   if(initVector.length!=blockLength)throw new AssertionError();
   cipherer=blockCipher.newCipherer(cipherKey);
   prevPlaintext=new byte[blockLength];
-  prevCiphertext=(byte[])initVector.clone();}
+  prevCiphertext=initVector.clone();}
 
 
  public void encrypt(byte[] b,int off,int len){

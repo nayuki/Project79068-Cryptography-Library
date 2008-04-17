@@ -55,10 +55,10 @@ class WhirlpoolCiphererParent extends Cipherer{
   if(cipher==null)throw new IllegalStateException("Already zeroized");
   if(key.length!=64)throw new AssertionError();
   keySchedule=new byte[rcon.length+1][];
-  keySchedule[0]=(byte[])key.clone();
+  keySchedule[0]=key.clone();
   byte[] temp=new byte[64];
   for(int i=1;i<keySchedule.length;i++){
-   keySchedule[i]=(byte[])keySchedule[i-1].clone();
+   keySchedule[i]=keySchedule[i-1].clone();
    rho(keySchedule[i],rcon[i-1],temp);}}
 
 

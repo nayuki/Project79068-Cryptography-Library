@@ -17,7 +17,7 @@ final class FastSha1Hasher extends BlockHasher{
  public FastSha1Hasher clone(){
   if(hashFunction==null)throw new IllegalStateException("Already zeroized");
   FastSha1Hasher result=(FastSha1Hasher)super.clone();
-  result.state=(int[])state.clone();
+  result.state=state.clone();
   return result;}
 
  public void zeroize(){

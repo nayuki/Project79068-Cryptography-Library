@@ -17,7 +17,7 @@ final class FastMd4Hasher extends BlockHasher{
  public FastMd4Hasher clone(){
   if(hashFunction==null)throw new IllegalStateException("Already zeroized");
   FastMd4Hasher result=(FastMd4Hasher)super.clone();
-  result.state=(int[])state.clone();
+  result.state=state.clone();
   return result;}
 
  public void zeroize(){

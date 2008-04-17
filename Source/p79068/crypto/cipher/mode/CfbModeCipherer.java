@@ -18,7 +18,7 @@ final class CfbModeCipherer extends Cipherer{
   blockLength=blockCipher.getBlockLength();
   if(initVector.length!=blockLength)throw new AssertionError();
   cipherer=blockCipher.newCipherer(cipherKey);
-  prevCiphertext=(byte[])initVector.clone();}
+  prevCiphertext=initVector.clone();}
 
 
  public void encrypt(byte[] b,int off,int len){

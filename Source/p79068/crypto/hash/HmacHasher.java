@@ -14,8 +14,8 @@ final class HmacHasher extends Hasher implements Zeroizable{
 
  HmacHasher(Hmac algor,Hasher inner,Hasher outer){
   super(algor);
-  this.inner=(Hasher)inner.clone();
-  this.outer=(Hasher)outer.clone();}
+  this.inner=inner.clone();
+  this.outer=outer.clone();}
 
 
  public void update(byte[] b,int off,int len){
@@ -25,7 +25,7 @@ final class HmacHasher extends Hasher implements Zeroizable{
 
  public HashValue getHash(){
   if(hashFunction==null)throw new IllegalStateException("Already zeroized");
-  Hasher temp=(Hasher)outer.clone();
+  Hasher temp=outer.clone();
   temp.update(inner.getHash().toBytes());
   return temp.getHash();}
 
@@ -33,8 +33,8 @@ final class HmacHasher extends Hasher implements Zeroizable{
  public HmacHasher clone(){
   if(hashFunction==null)throw new IllegalStateException("Already zeroized");
   HmacHasher result=(HmacHasher)super.clone();
-  result.inner=(Hasher)inner.clone();
-  result.outer=(Hasher)outer.clone();
+  result.inner=inner.clone();
+  result.outer=outer.clone();
   return result;}
 
  public void zeroize(){

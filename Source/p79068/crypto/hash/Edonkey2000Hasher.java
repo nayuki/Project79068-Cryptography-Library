@@ -53,7 +53,7 @@ final class Edonkey2000Hasher extends Hasher implements Zeroizable{
   if(hashFunction==null)throw new IllegalStateException("Already zeroized");
   if(hasher==null)return blockHasher.getHash();
   else{
-   Hasher temp=(Hasher)hasher.clone();
+   Hasher temp=hasher.clone();
    temp.update(blockHasher.getHash().toBytes());
    return temp.getHash();}}
 
@@ -61,8 +61,8 @@ final class Edonkey2000Hasher extends Hasher implements Zeroizable{
  public Edonkey2000Hasher clone(){
   if(hashFunction==null)throw new IllegalStateException("Already zeroized");
   Edonkey2000Hasher result=(Edonkey2000Hasher)super.clone();
-  result.hasher=(Hasher)hasher.clone();
-  result.blockHasher=(Hasher)blockHasher.clone();
+  result.hasher=hasher.clone();
+  result.blockHasher=blockHasher.clone();
   return result;}
 
  public void zeroize(){

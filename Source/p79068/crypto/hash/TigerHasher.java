@@ -25,7 +25,7 @@ final class TigerHasher extends BlockHasher{
  public TigerHasher clone(){
   if(hashFunction==null)throw new IllegalStateException("Already zeroized");
   TigerHasher result=(TigerHasher)super.clone();
-  result.state=(long[])state.clone();
+  result.state=state.clone();
   return result;}
 
  public void zeroize(){
@@ -218,21 +218,21 @@ final class TigerHasher extends BlockHasher{
    state[2]=c+=state[2];}}
 
  private static void keySchedule(long[] schedule){
-  schedule[0]-=schedule[7]^0xA5A5A5A5A5A5A5A5L; 
-  schedule[1]^=schedule[0]; 
-  schedule[2]+=schedule[1]; 
-  schedule[3]-=schedule[2]^((~schedule[1])<<19); 
-  schedule[4]^=schedule[3]; 
-  schedule[5]+=schedule[4]; 
-  schedule[6]-=schedule[5]^((~schedule[4])>>>23); 
-  schedule[7]^=schedule[6]; 
-  schedule[0]+=schedule[7]; 
-  schedule[1]-=schedule[0]^((~schedule[7])<<19); 
-  schedule[2]^=schedule[1]; 
-  schedule[3]+=schedule[2]; 
-  schedule[4]-=schedule[3]^((~schedule[2])>>>23); 
-  schedule[5]^=schedule[4]; 
-  schedule[6]+=schedule[5]; 
+  schedule[0]-=schedule[7]^0xA5A5A5A5A5A5A5A5L;
+  schedule[1]^=schedule[0];
+  schedule[2]+=schedule[1];
+  schedule[3]-=schedule[2]^((~schedule[1])<<19);
+  schedule[4]^=schedule[3];
+  schedule[5]+=schedule[4];
+  schedule[6]-=schedule[5]^((~schedule[4])>>>23);
+  schedule[7]^=schedule[6];
+  schedule[0]+=schedule[7];
+  schedule[1]-=schedule[0]^((~schedule[7])<<19);
+  schedule[2]^=schedule[1];
+  schedule[3]+=schedule[2];
+  schedule[4]-=schedule[3]^((~schedule[2])>>>23);
+  schedule[5]^=schedule[4];
+  schedule[6]+=schedule[5];
   schedule[7]-=schedule[6]^0x0123456789ABCDEFL;}
 
  protected HashValue getHashDestructively(){

@@ -17,7 +17,7 @@ final class Md5Hasher extends BlockHasher{
  public Md5Hasher clone(){
   if(hashFunction==null)throw new IllegalStateException("Already zeroized");
   Md5Hasher result=(Md5Hasher)super.clone();
-  result.state=(int[])state.clone();
+  result.state=state.clone();
   return result;}
 
  public void zeroize(){
