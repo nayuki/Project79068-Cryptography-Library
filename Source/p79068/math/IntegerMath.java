@@ -47,11 +47,11 @@ public final class IntegerMath {
 		int y = x;
 		x = m;
 		int a = 0, b = 1;
-		while (true) { // Extended Euclidean algorithm
+		while (true) {  // Extended Euclidean algorithm
 			int z = x % y;
 			if (z == 0) {
 				if (y == 1)
-					return mod(b, m); // GCD is 1; reciprocal exists
+					return mod(b, m);  // GCD is 1; reciprocal exists
 				else
 					throw new IllegalArgumentException("Reciprocal does not exist");
 			}
@@ -70,7 +70,7 @@ public final class IntegerMath {
 	 * @param y the exponent of the power
 	 * @param m the modulus
 	 * @return <code>x</code><sup><code>y</code></sup> mod <code>m</code>
-	 * @throws IllegalArgumentException if <code>y < 0</code> and <code>x</code> has no reciprocal
+	 * @throws IllegalArgumentException if <code>y &lt; 0</code> and <code>x</code> has no reciprocal
 	 */
 	public static int powMod(int x, int y, int m) {
 		if (y < 0)
@@ -319,7 +319,7 @@ public final class IntegerMath {
 		if (x == -2147483648 && y == -1)
 			throw new ArithmeticOverflowException(String.format("divideAndFloor(%d, %d)", x, y));
 		else if ((x >= 0) == (y >= 0))
-			return x / y; // If they have the same sign
+			return x / y;  // If they have the same sign
 		else {
 			int z = x / y;
 			if (z * y == x)

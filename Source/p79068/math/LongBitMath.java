@@ -28,7 +28,7 @@ public final class LongBitMath {
 	public static long extractBits(long x, int bitOffset, int bitLength) {
 		BoundsChecker.check(64, bitOffset, bitLength);
 		if (bitLength == 64)
-			return x; // bitOffset = 0, or else an exception was already thrown.
+			return x;  // bitOffset = 0, or else an exception was already thrown.
 		return (x >>> bitOffset) & ((1L << bitLength) - 1);
 	}
 	
