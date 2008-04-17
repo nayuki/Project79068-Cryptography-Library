@@ -43,9 +43,9 @@ public class DoubleBitMath {
 		if (x < 0)
 			return -1;
 		else if (x > 0)
-			return  1;
+			return 1;
 		else if (x == 0)
-			return  0;
+			return 0;
 		else
 			throw new IllegalArgumentException("Not a finite floating-point number");
 	}
