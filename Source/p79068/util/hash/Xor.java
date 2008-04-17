@@ -15,13 +15,17 @@ public class Xor extends HashFunction {
 	
 	
 	
+	/**
+	 * Returns a new hasher of this hash function.
+	 * @return a new hasher of this hash function
+	 */
 	public Hasher newHasher() {
 		return new XorHasher(this);
 	}
 	
 	
 	/**
-	 * Returns the name of this hash function: <samp>XOR</samp>.
+	 * Returns the name of this hash function: <code>XOR</code>.
 	 */
 	public String getName() {
 		return "XOR";
@@ -29,7 +33,7 @@ public class Xor extends HashFunction {
 	
 	
 	/**
-	 * Returns the length of hash values produced by this hash function: <samp>1</samp> byte.
+	 * Returns the length of hash values produced by this hash function: <code>1</code> byte.
 	 */
 	public int getHashLength() {
 		return 1;

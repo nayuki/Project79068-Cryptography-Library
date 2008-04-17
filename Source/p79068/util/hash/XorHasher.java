@@ -1,5 +1,7 @@
 package p79068.util.hash;
 
+import p79068.lang.BoundsChecker;
+
 
 final class XorHasher extends Hasher {
 	
@@ -20,6 +22,7 @@ final class XorHasher extends Hasher {
 	
 	
 	public void update(byte[] b, int off, int len) {
+		BoundsChecker.check(b.length, off, len);
 		for (int i = off, end = off + len; i < end; i++)
 			xor ^= b[i];
 	}

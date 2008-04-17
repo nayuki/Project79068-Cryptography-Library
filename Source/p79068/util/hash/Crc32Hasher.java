@@ -6,6 +6,7 @@
 
 package p79068.util.hash;
 
+import p79068.lang.BoundsChecker;
 import p79068.math.IntegerBitMath;
 
 
@@ -28,6 +29,7 @@ final class Crc32Hasher extends Hasher {
 	
 	
 	public void update(byte[] b, int off, int len) {
+		BoundsChecker.check(b.length, off, len);
 		for (int i = off, end = off + len; i < end; i++)
 			register = (register >>> 8) ^ xorTable[(register ^ b[i]) & 0xFF];
 	}

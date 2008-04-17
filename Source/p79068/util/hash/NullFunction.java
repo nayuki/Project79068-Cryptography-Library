@@ -16,13 +16,17 @@ public class NullFunction extends HashFunction {
 	
 	
 	
+	/**
+	 * Returns a new hasher of this hash function.
+	 * @return a new hasher of this hash function
+	 */
 	public Hasher newHasher() {
 		return new NullHasher(this);
 	}
 	
 	
 	/**
-	 * Returns the name of this hash function: <samp>Null</samp>.
+	 * Returns the name of this hash function: <code>Null</code>.
 	 */
 	public String getName() {
 		return "Null";
@@ -30,7 +34,7 @@ public class NullFunction extends HashFunction {
 	
 	
 	/**
-	 * Returns the length of hash values produced by this hash function: <samp>1</samp> byte.
+	 * Returns the length of hash values produced by this hash function: <code>1</code> byte.
 	 */
 	public int getHashLength() {
 		return 1;

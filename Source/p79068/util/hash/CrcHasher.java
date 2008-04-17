@@ -20,6 +20,7 @@
 
 package p79068.util.hash;
 
+import p79068.lang.BoundsChecker;
 import p79068.math.LongBitMath;
 
 
@@ -91,6 +92,7 @@ final class CrcHasher extends Hasher {
 	
 	
 	public void update(byte[] b, int off, int len) {
+		BoundsChecker.check(b.length, off, len);
 		if (!revin) {
 			for (len += off; off < len; off++)
 				register = (register << 8) ^ xortable[(int)(register >>> 56) ^ (b[off] & 0xFF)];
@@ -102,17 +104,17 @@ final class CrcHasher extends Hasher {
 	
 	
 	public HashValue getHash() {
-		long tp;
+		long temp;
 		if (!revin)
-			tp = register >>> (64 - degree);
+			temp = register >>> (64 - degree);
 		else
-			tp = LongBitMath.reverse(register) >>> (64 - degree);
-		tp ^= xorout;
+			temp = LongBitMath.reverse(register) >>> (64 - degree);
+		temp ^= xorout;
 		if (revout)
-			tp = LongBitMath.reverse(tp) >>> (64 - degree);
+			temp = LongBitMath.reverse(temp) >>> (64 - degree);
 		byte[] b = new byte[getHashFunction().getHashLength()];
 		for (int i = 0; i < b.length; i++)
-			b[b.length - 1 - i] = (byte)(tp >>> (i * 8));
+			b[b.length - 1 - i] = (byte)(temp >>> (i * 8));
 		return createHash(b);
 	}
 	

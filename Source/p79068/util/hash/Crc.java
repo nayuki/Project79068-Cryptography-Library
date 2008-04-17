@@ -70,6 +70,10 @@ public class Crc extends HashFunction {
 	
 	
 	
+	/**
+	 * Returns a new hasher of this hash function.
+	 * @return a new hasher of this hash function
+	 */
 	public Hasher newHasher() {
 		if (equals(CRC32_FUNCTION))
 			return new Crc32Hasher(this);
