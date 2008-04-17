@@ -8,11 +8,15 @@ final class NullHasher extends Hasher {
 	}
 	
 	
+	
 	public void update(byte b) {}
 	
+	
 	public void update(byte[] b, int off, int len) {}
+	
 	
 	public HashValue getHash() {
 		return createHash(new byte[1]);
 	}
+	
 }

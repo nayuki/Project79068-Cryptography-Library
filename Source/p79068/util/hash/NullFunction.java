@@ -9,8 +9,11 @@ package p79068.util.hash;
  */
 public class NullFunction extends HashFunction {
 	
-	/** The singleton instance of the null hash function. */
+	/**
+	 * The singleton instance of the null hash function.
+	 */
 	public final static NullFunction FUNCTION = new NullFunction();
+	
 	
 	
 	public Hasher newHasher() {
@@ -18,16 +21,23 @@ public class NullFunction extends HashFunction {
 	}
 	
 	
-	/** Returns the name of this hash function: <samp>Null</samp>. */
+	/**
+	 * Returns the name of this hash function: <samp>Null</samp>.
+	 */
 	public String getName() {
 		return "Null";
 	}
 	
-	/** Returns the length of hash values produced by this hash function: <samp>1</samp> byte. */
+	
+	/**
+	 * Returns the length of hash values produced by this hash function: <samp>1</samp> byte.
+	 */
 	public int getHashLength() {
 		return 1;
 	}
 	
 	
+	
 	private NullFunction() {}
+	
 }

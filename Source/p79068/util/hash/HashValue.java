@@ -20,7 +20,7 @@ public final class HashValue implements Comparable<HashValue> {
 		if (hashFunc == null || hashVal == null || hashVal.length != hashFunc.getHashLength())
 			throw new AssertionError();
 		hashFunction = hashFunc;
-		hashValue = (byte[])hashVal.clone();
+		hashValue = hashVal.clone();
 	}
 	
 	
@@ -29,7 +29,7 @@ public final class HashValue implements Comparable<HashValue> {
 	 * Returns this hash value as an array of bytes.
 	 */
 	public byte[] toBytes() {
-		return (byte[])hashValue.clone();
+		return hashValue.clone();
 	}
 	
 	
