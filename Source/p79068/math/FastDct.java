@@ -1,6 +1,6 @@
 /*
-Computes the DCT by hijacking an FFT algorithm.
-*/
+ * Computes the DCT by hijacking an FFT algorithm.
+ */
 
 
 package p79068.math;
@@ -11,6 +11,7 @@ final class FastDct extends Dct {
 	private int length;
 	private Dft fft;
 	private double[] cos, sin;
+	
 	
 	
 	FastDct(int len) {
@@ -27,6 +28,7 @@ final class FastDct extends Dct {
 	}
 	
 	
+	
 	public void transform(double[] in, double[] out) {
 		double[] tpre = new double[length * 2];
 		double[] tpim = new double[length * 2];
@@ -37,6 +39,7 @@ final class FastDct extends Dct {
 		for (int i = 1; i < length; i++)
 			out[i] = (tpre[i] * cos[i] + tpim[i] * sin[i]) * 2;
 	}
+	
 	
 	public void transformInverse(double[] in, double[] out) {
 		double[] tpre = new double[length * 2];
@@ -49,4 +52,5 @@ final class FastDct extends Dct {
 		for (int i = 0; i < length; i++)
 			out[i] = tpre[i];
 	}
+	
 }

@@ -1,8 +1,8 @@
 /*
-Computes the discrete Fourier transform/inverse transform of a complex vector using the radix-2 decimation in time (O(n log n)) algorithm.
-
-Multi-thread safe.
-*/
+ * Computes the discrete Fourier transform/inverse transform of a complex vector using the radix-2 decimation in time (O(n log n)) algorithm.
+ * 
+ * Multi-thread safe.
+ */
 
 
 package p79068.math;
@@ -13,6 +13,7 @@ final class Fft extends Dft {
 	private int length;
 	private int[] permutation; // Bit-reversed addressing
 	private double[] cos, sin;
+	
 	
 	
 	Fft(int len) {
@@ -34,6 +35,7 @@ final class Fft extends Dft {
 	}
 	
 	
+	
 	public void transform(double[] inre, double[] inim, double[] outre, double[] outim) {
 		for (int i = 0; i < length; i++) {
 			outre[i] = inre[permutation[i]];
@@ -41,6 +43,7 @@ final class Fft extends Dft {
 		}
 		transformPrivate(outre, outim);
 	}
+	
 	
 	public void transform(double[] re, double[] im) {
 		for (int i = 0; i < length; i++) {
@@ -56,6 +59,7 @@ final class Fft extends Dft {
 		}
 		transformPrivate(re, im);
 	}
+	
 	
 	
 	private void transformPrivate(double[] re, double[] im) {
@@ -117,6 +121,7 @@ final class Fft extends Dft {
 			if ((x >>> i) == 1)
 				return i;
 		}
-		return -1;
+		return -1;  // This is not possible
 	}
-} // This is not possible
+	
+}

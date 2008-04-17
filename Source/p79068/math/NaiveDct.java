@@ -1,6 +1,6 @@
 /*
-Computes the DCT by using the naive direct algorithm.
-*/
+ * Computes the DCT by using the naive direct algorithm.
+ */
 
 
 package p79068.math;
@@ -10,6 +10,7 @@ final class NaiveDct extends Dct {
 	
 	private int length;
 	private double[] cos;
+	
 	
 	
 	NaiveDct(int len) {
@@ -22,6 +23,7 @@ final class NaiveDct extends Dct {
 	}
 	
 	
+	
 	public void transform(double[] in, double[] out) {
 		for (int i = 0; i < length; i++) {
 			double sum = 0;
@@ -32,6 +34,7 @@ final class NaiveDct extends Dct {
 		out[0] /= 2;
 	}
 	
+	
 	public void transformInverse(double[] in, double[] out) {
 		for (int i = 0; i < length; i++) {
 			double sum = 0;
@@ -40,4 +43,5 @@ final class NaiveDct extends Dct {
 			out[i] = sum;
 		}
 	}
+	
 }

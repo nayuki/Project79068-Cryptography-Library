@@ -1,6 +1,6 @@
 /*
-Computes the discrete Fourier transform/inverse transform of a complex vector using the naive O(n^2) algorithm.
-*/
+ * Computes the discrete Fourier transform/inverse transform of a complex vector using the naive O(n^2) algorithm.
+ */
 
 
 package p79068.math;
@@ -10,6 +10,7 @@ final class NaiveDft extends Dft {
 	
 	private int length;
 	private double[] cos, sin;
+	
 	
 	
 	NaiveDft(int len) {
@@ -23,6 +24,7 @@ final class NaiveDft extends Dft {
 			sin[i] = Math.sin(i * 2 * Math.PI / len);
 		}
 	}
+	
 	
 	
 	// All arrays must be at least as long as length.
@@ -46,4 +48,5 @@ final class NaiveDft extends Dft {
 			outim[i] = sumim;
 		}
 	}
+	
 }
