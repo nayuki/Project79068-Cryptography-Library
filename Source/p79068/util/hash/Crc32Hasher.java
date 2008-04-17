@@ -43,6 +43,7 @@ final class Crc32Hasher extends Hasher {
 	
 	private static int[] xorTable;
 	
+	
 	static {
 		xorTable = new int[256];
 		int poly = 0xEDB88320;

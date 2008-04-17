@@ -53,7 +53,7 @@ final class CrcHasher extends Hasher {
 		this.xorout = xorout;
 		poly <<= 64 - degree;
 		xortable = new long[256];
-		if (!revin) { // Use the left-shift algorithm
+		if (!revin) {  // Use the left-shift algorithm
 			for (int i = 0; i < 256; i++) {
 				long reg = (long)i << 56;
 				for (int j = 0; j < 8; j++) {
@@ -65,7 +65,7 @@ final class CrcHasher extends Hasher {
 				xortable[i] = reg;
 			}
 			register = xorin << (64 - degree);
-		} else { // Use the right-shift algorithm
+		} else {  // Use the right-shift algorithm
 			poly = LongBitMath.reverse(poly);
 			for (int i = 0; i < 256; i++) {
 				long reg = i;
@@ -105,10 +105,8 @@ final class CrcHasher extends Hasher {
 	
 	public HashValue getHash() {
 		long temp;
-		if (!revin)
-			temp = register >>> (64 - degree);
-		else
-			temp = LongBitMath.reverse(register) >>> (64 - degree);
+		if (!revin) temp = register >>> (64 - degree);
+		else temp = LongBitMath.reverse(register) >>> (64 - degree);
 		temp ^= xorout;
 		if (revout)
 			temp = LongBitMath.reverse(temp) >>> (64 - degree);
