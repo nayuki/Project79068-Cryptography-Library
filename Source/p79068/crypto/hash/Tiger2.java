@@ -30,7 +30,7 @@ public class Tiger2 extends BlockHashFunction {
 	
 	
 	/**
-	 * Returns the name of this hash function: <samp>Tiger2</samp>.
+	 * Returns the name of this hash function: <code>Tiger2</code>.
 	 */
 	public String getName() {
 		return "Tiger2";
@@ -38,7 +38,7 @@ public class Tiger2 extends BlockHashFunction {
 	
 	
 	/**
-	 * Returns the length of hash values produced by this hash function: <samp>24</samp> bytes (192 bits).
+	 * Returns the length of hash values produced by this hash function: <code>24</code> bytes (192 bits).
 	 */
 	public int getHashLength() {
 		return 24;
@@ -46,7 +46,7 @@ public class Tiger2 extends BlockHashFunction {
 	
 	
 	/**
-	 * Returns the block length of this hash function: <samp>64</samp> bytes (512 bits).
+	 * Returns the block length of this hash function: <code>64</code> bytes (512 bits).
 	 */
 	public int getBlockLength() {
 		return 64;

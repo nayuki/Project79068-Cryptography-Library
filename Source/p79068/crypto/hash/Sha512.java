@@ -29,7 +29,7 @@ public class Sha512 extends BlockHashFunction {
 	
 	
 	/**
-	 * Returns the name of this hash function: <samp>SHA-512</samp>.
+	 * Returns the name of this hash function: <code>SHA-512</code>.
 	 */
 	public String getName() {
 		return "SHA-512";
@@ -37,7 +37,7 @@ public class Sha512 extends BlockHashFunction {
 	
 	
 	/**
-	 * Returns the length of hash values produced by this hash function: <samp>64</samp> bytes (512 bits).
+	 * Returns the length of hash values produced by this hash function: <code>64</code> bytes (512 bits).
 	 */
 	public int getHashLength() {
 		return 64;
@@ -45,7 +45,7 @@ public class Sha512 extends BlockHashFunction {
 	
 	
 	/**
-	 * Returns the block length of this hash function: <samp>128</samp> bytes (1024 bits).
+	 * Returns the block length of this hash function: <code>128</code> bytes (1024 bits).
 	 */
 	public int getBlockLength() {
 		return 128;

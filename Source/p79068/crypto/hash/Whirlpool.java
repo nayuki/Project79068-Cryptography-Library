@@ -37,7 +37,7 @@ public class Whirlpool extends BlockHashFunction {
 	
 	
 	/**
-	 * Returns the name of this hash function: <samp>Whirlpool</samp>.
+	 * Returns the name of this hash function: <code>Whirlpool</code>.
 	 */
 	public String getName() {
 		return "Whirlpool";
@@ -45,7 +45,7 @@ public class Whirlpool extends BlockHashFunction {
 	
 	
 	/**
-	 * Returns the length of hash values produced by this hash function: <samp>64</samp> bytes (512 bits).
+	 * Returns the length of hash values produced by this hash function: <code>64</code> bytes (512 bits).
 	 */
 	public int getHashLength() {
 		return 64;
@@ -53,7 +53,7 @@ public class Whirlpool extends BlockHashFunction {
 	
 	
 	/**
-	 * Returns the block length of this hash function: <samp>64</samp> bytes (512 bits).
+	 * Returns the block length of this hash function: <code>64</code> bytes (512 bits).
 	 */
 	public int getBlockLength() {
 		return 64;

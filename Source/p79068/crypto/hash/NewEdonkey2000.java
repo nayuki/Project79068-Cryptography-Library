@@ -26,7 +26,7 @@ public class NewEdonkey2000 extends HashFunction {
 	
 	
 	/**
-	 * Returns the name of this hash function: <samp>New eDonkey2000</samp>.
+	 * Returns the name of this hash function: <code>New eDonkey2000</code>.
 	 */
 	public String getName() {
 		return "New eDonkey2000";
@@ -34,7 +34,7 @@ public class NewEdonkey2000 extends HashFunction {
 	
 	
 	/**
-	 * Returns the length of hash values produced by this hash function: <samp>16</samp> bytes (128 bits).
+	 * Returns the length of hash values produced by this hash function: <code>16</code> bytes (128 bits).
 	 */
 	public int getHashLength() {
 		return Md4.FUNCTION.getHashLength();

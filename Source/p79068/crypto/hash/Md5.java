@@ -29,7 +29,7 @@ public class Md5 extends BlockHashFunction {
 	
 	
 	/**
-	 * Returns the name of this hash function: <samp>MD5</samp>.
+	 * Returns the name of this hash function: <code>MD5</code>.
 	 */
 	public String getName() {
 		return "MD5";
@@ -37,7 +37,7 @@ public class Md5 extends BlockHashFunction {
 	
 	
 	/**
-	 * Returns the length of hash values produced by this hash function: <samp>16</samp> bytes (128 bits).
+	 * Returns the length of hash values produced by this hash function: <code>16</code> bytes (128 bits).
 	 */
 	public int getHashLength() {
 		return 16;
@@ -45,7 +45,7 @@ public class Md5 extends BlockHashFunction {
 	
 	
 	/**
-	 * Returns the block length of this hash function: <samp>64</samp> bytes (512 bits).
+	 * Returns the block length of this hash function: <code>64</code> bytes (512 bits).
 	 */
 	public int getBlockLength() {
 		return 64;

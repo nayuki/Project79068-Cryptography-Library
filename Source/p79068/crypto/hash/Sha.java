@@ -30,7 +30,7 @@ public class Sha extends BlockHashFunction {
 	
 	
 	/**
-	 * Returns the name of this hash function: <samp>SHA</samp>.
+	 * Returns the name of this hash function: <code>SHA</code>.
 	 */
 	public String getName() {
 		return "SHA";
@@ -38,7 +38,7 @@ public class Sha extends BlockHashFunction {
 	
 	
 	/**
-	 * Returns the length of hash values produced by this hash function: <samp>20</samp> bytes (160 bits).
+	 * Returns the length of hash values produced by this hash function: <code>20</code> bytes (160 bits).
 	 */
 	public int getHashLength() {
 		return 20;
@@ -46,7 +46,7 @@ public class Sha extends BlockHashFunction {
 	
 	
 	/**
-	 * Returns the block length of this hash function: <samp>64</samp> bytes (512 bits).
+	 * Returns the block length of this hash function: <code>64</code> bytes (512 bits).
 	 */
 	public int getBlockLength() {
 		return 64;

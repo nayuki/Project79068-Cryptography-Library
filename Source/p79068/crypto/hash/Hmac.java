@@ -35,7 +35,7 @@ public final class Hmac extends HashFunction implements Zeroizable {
 			key[i] ^= 0x36;
 		inner.update(key);
 		for (int i = 0; i < key.length; i++)
-			key[i] ^= 0x6A; // Un-XOR by 0x36, then XOR by 0x5C
+			key[i] ^= 0x6A;  // Un-XOR by 0x36, then XOR by 0x5C
 		outer.update(key);
 	}
 	
