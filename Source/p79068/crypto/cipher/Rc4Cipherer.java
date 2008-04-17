@@ -9,6 +9,7 @@ final class Rc4Cipherer extends StreamCipherer {
 	private int i, j;
 	
 	
+	
 	Rc4Cipherer(Rc4 cipher, byte[] key) {
 		super(cipher, key);
 		s = new int[256];
@@ -25,6 +26,7 @@ final class Rc4Cipherer extends StreamCipherer {
 	}
 	
 	
+	
 	public void encrypt(byte[] b, int off, int len) {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
@@ -38,6 +40,7 @@ final class Rc4Cipherer extends StreamCipherer {
 			b[off] ^= s[(s[i] + tp) & 0xFF];
 		}
 	}
+	
 	
 	public void skip(int byteCount) {
 		if (cipher == null)
@@ -62,4 +65,5 @@ final class Rc4Cipherer extends StreamCipherer {
 		s = null;
 		super.zeroize();
 	}
+	
 }

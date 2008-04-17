@@ -2,16 +2,19 @@ package p79068.crypto.cipher;
 
 
 /**
-The XTEA (Extended TEA) block cipher, a revision of TEA.
-<p>Key length: 128 bits (16 bytes)</p>
-<p>Block length: 64 bits (8 bytes)</p>
-<p>Instantiability: <em>Singleton</em></p>
-@see Tea
-*/
+ * The XTEA (Extended TEA) block cipher, a revision of TEA.
+ * <p>Key length: 128 bits (16 bytes)</p>
+ * <p>Block length: 64 bits (8 bytes)</p>
+ * <p>Instantiability: <em>Singleton</em></p>
+ * @see Tea
+ */
 public final class Xtea extends BlockCipher {
 	
-	/** The singleton instance of this cipher algorithm. */
+	/**
+	 * The singleton instance of this cipher algorithm.
+	 */
 	public static final Xtea CIPHER = new Xtea();
+	
 	
 	
 	public Cipherer newCipherer(byte[] key) {
@@ -21,21 +24,31 @@ public final class Xtea extends BlockCipher {
 	}
 	
 	
-	/** Returns the name of this cipher algorithm: <samp>XTEA</samp>. */
+	/**
+	 * Returns the name of this cipher algorithm: <samp>XTEA</samp>.
+	 */
 	public String getName() {
 		return "XTEA";
 	}
 	
-	/** Returns the key length of this cipher algorithm: <samp>16</samp> bytes (128 bits). */
+	
+	/**
+	 * Returns the key length of this cipher algorithm: <samp>16</samp> bytes (128 bits).
+	 */
 	public int getKeyLength() {
 		return 16;
 	}
 	
-	/** Returns the block length of this cipher algorithm: <samp>8</samp> bytes (64 bits). */
+	
+	/**
+	 * Returns the block length of this cipher algorithm: <samp>8</samp> bytes (64 bits).
+	 */
 	public int getBlockLength() {
 		return 8;
 	}
 	
 	
+	
 	private Xtea() {}
+	
 }

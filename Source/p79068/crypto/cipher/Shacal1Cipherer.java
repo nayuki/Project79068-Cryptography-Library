@@ -8,6 +8,7 @@ final class Shacal1Cipherer extends Cipherer {
 	private int[] keySchedule;
 	
 	
+	
 	Shacal1Cipherer(Shacal1 cipher, byte[] key) {
 		super(cipher, key);
 		keySchedule = new int[80];
@@ -15,16 +16,17 @@ final class Shacal1Cipherer extends Cipherer {
 	}
 	
 	
+	
 	/*
-	Each round performs a transform of this form:
-	 a' = e + f(a,b,c,d)
-	 b' = a
-	 c' = b ROTLEFT 30
-	 d' = c
-	 e' = d
-	The primed variables represent the output.
-	The actual implementation is an in-place version of this description.
-	*/
+	 * Each round performs a transform of this form:
+	 *  a' = e + f(a,b,c,d)
+	 *  b' = a
+	 *  c' = b ROTLEFT 30
+	 *  d' = c
+	 *  e' = d
+	 * The primed variables represent the output.
+	 * The actual implementation is an in-place version of this description.
+	 */
 	public void encrypt(byte[] B, int off, int len) {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
@@ -32,9 +34,9 @@ final class Shacal1Cipherer extends Cipherer {
 		if (len % 20 != 0)
 			throw new IllegalArgumentException("Invalid block length");
 		for (len += off; off < len; off += 20) {
-			int a = B[off + 0] << 24 | (B[off + 1] & 0xFF) << 16 | (B[off + 2] & 0xFF) << 8 | (B[off + 3] & 0xFF);
-			int b = B[off + 4] << 24 | (B[off + 5] & 0xFF) << 16 | (B[off + 6] & 0xFF) << 8 | (B[off + 7] & 0xFF);
-			int c = B[off + 8] << 24 | (B[off + 9] & 0xFF) << 16 | (B[off + 10] & 0xFF) << 8 | (B[off + 11] & 0xFF);
+			int a = B[off +  0] << 24 | (B[off +  1] & 0xFF) << 16 | (B[off +  2] & 0xFF) << 8 | (B[off +  3] & 0xFF);
+			int b = B[off +  4] << 24 | (B[off +  5] & 0xFF) << 16 | (B[off +  6] & 0xFF) << 8 | (B[off +  7] & 0xFF);
+			int c = B[off +  8] << 24 | (B[off +  9] & 0xFF) << 16 | (B[off + 10] & 0xFF) << 8 | (B[off + 11] & 0xFF);
 			int d = B[off + 12] << 24 | (B[off + 13] & 0xFF) << 16 | (B[off + 14] & 0xFF) << 8 | (B[off + 15] & 0xFF);
 			int e = B[off + 16] << 24 | (B[off + 17] & 0xFF) << 16 | (B[off + 18] & 0xFF) << 8 | (B[off + 19] & 0xFF);
 			int i = 0;
@@ -70,40 +72,41 @@ final class Shacal1Cipherer extends Cipherer {
 				b = a;
 				a = tp;
 			}
-			B[off + 0] = (byte)(a >>> 24);
-			B[off + 1] = (byte)(a >>> 16);
-			B[off + 2] = (byte)(a >>> 8);
-			B[off + 3] = (byte)(a >>> 0);
-			B[off + 4] = (byte)(b >>> 24);
-			B[off + 5] = (byte)(b >>> 16);
-			B[off + 6] = (byte)(b >>> 8);
-			B[off + 7] = (byte)(b >>> 0);
-			B[off + 8] = (byte)(c >>> 24);
-			B[off + 9] = (byte)(c >>> 16);
-			B[off + 10] = (byte)(c >>> 8);
-			B[off + 11] = (byte)(c >>> 0);
+			B[off +  0] = (byte)(a >>> 24);
+			B[off +  1] = (byte)(a >>> 16);
+			B[off +  2] = (byte)(a >>>  8);
+			B[off +  3] = (byte)(a >>>  0);
+			B[off +  4] = (byte)(b >>> 24);
+			B[off +  5] = (byte)(b >>> 16);
+			B[off +  6] = (byte)(b >>>  8);
+			B[off +  7] = (byte)(b >>>  0);
+			B[off +  8] = (byte)(c >>> 24);
+			B[off +  9] = (byte)(c >>> 16);
+			B[off + 10] = (byte)(c >>>  8);
+			B[off + 11] = (byte)(c >>>  0);
 			B[off + 12] = (byte)(d >>> 24);
 			B[off + 13] = (byte)(d >>> 16);
-			B[off + 14] = (byte)(d >>> 8);
-			B[off + 15] = (byte)(d >>> 0);
+			B[off + 14] = (byte)(d >>>  8);
+			B[off + 15] = (byte)(d >>>  0);
 			B[off + 16] = (byte)(e >>> 24);
 			B[off + 17] = (byte)(e >>> 16);
-			B[off + 18] = (byte)(e >>> 8);
-			B[off + 19] = (byte)(e >>> 0);
+			B[off + 18] = (byte)(e >>>  8);
+			B[off + 19] = (byte)(e >>>  0);
 		}
 	}
 	
+	
 	/*
-	Each round performs a transform of this form:
-	 a = b'
-	 b = c' ROTLEFT 2
-	 c = d'
-	 d = e'
-	 e = a' - f(a,b,c,d)
-	The primed variables represent the input.
-	Therefore, equivalently: e = a' - f(b', c' ROTLEFT 2, d', e')
-	The actual implementation is an in-place version of this description.
-	*/
+	 * Each round performs a transform of this form:
+	 *  a = b'
+	 *  b = c' ROTLEFT 2
+	 *  c = d'
+	 *  d = e'
+	 *  e = a' - f(a,b,c,d)
+	 * The primed variables represent the input.
+	 * Therefore, equivalently: e = a' - f(b', c' ROTLEFT 2, d', e')
+	 * The actual implementation is an in-place version of this description.
+	 */
 	public void decrypt(byte[] B, int off, int len) {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
@@ -111,9 +114,9 @@ final class Shacal1Cipherer extends Cipherer {
 		if (len % 20 != 0)
 			throw new IllegalArgumentException("Invalid block length");
 		for (len += off; off < len; off += 20) {
-			int a = B[off + 0] << 24 | (B[off + 1] & 0xFF) << 16 | (B[off + 2] & 0xFF) << 8 | (B[off + 3] & 0xFF);
-			int b = B[off + 4] << 24 | (B[off + 5] & 0xFF) << 16 | (B[off + 6] & 0xFF) << 8 | (B[off + 7] & 0xFF);
-			int c = B[off + 8] << 24 | (B[off + 9] & 0xFF) << 16 | (B[off + 10] & 0xFF) << 8 | (B[off + 11] & 0xFF);
+			int a = B[off +  0] << 24 | (B[off +  1] & 0xFF) << 16 | (B[off +  2] & 0xFF) << 8 | (B[off +  3] & 0xFF);
+			int b = B[off +  4] << 24 | (B[off +  5] & 0xFF) << 16 | (B[off +  6] & 0xFF) << 8 | (B[off +  7] & 0xFF);
+			int c = B[off +  8] << 24 | (B[off +  9] & 0xFF) << 16 | (B[off + 10] & 0xFF) << 8 | (B[off + 11] & 0xFF);
 			int d = B[off + 12] << 24 | (B[off + 13] & 0xFF) << 16 | (B[off + 14] & 0xFF) << 8 | (B[off + 15] & 0xFF);
 			int e = B[off + 16] << 24 | (B[off + 17] & 0xFF) << 16 | (B[off + 18] & 0xFF) << 8 | (B[off + 19] & 0xFF);
 			int i = 79;
@@ -149,26 +152,26 @@ final class Shacal1Cipherer extends Cipherer {
 				d = e;
 				e = tp - ((a << 5 | a >>> 27) + (d ^ (b & (c ^ d))) + keySchedule[i] + 0x5A827999);
 			}
-			B[off + 0] = (byte)(a >>> 24);
-			B[off + 1] = (byte)(a >>> 16);
-			B[off + 2] = (byte)(a >>> 8);
-			B[off + 3] = (byte)(a >>> 0);
-			B[off + 4] = (byte)(b >>> 24);
-			B[off + 5] = (byte)(b >>> 16);
-			B[off + 6] = (byte)(b >>> 8);
-			B[off + 7] = (byte)(b >>> 0);
-			B[off + 8] = (byte)(c >>> 24);
-			B[off + 9] = (byte)(c >>> 16);
-			B[off + 10] = (byte)(c >>> 8);
-			B[off + 11] = (byte)(c >>> 0);
+			B[off +  0] = (byte)(a >>> 24);
+			B[off +  1] = (byte)(a >>> 16);
+			B[off +  2] = (byte)(a >>>  8);
+			B[off +  3] = (byte)(a >>>  0);
+			B[off +  4] = (byte)(b >>> 24);
+			B[off +  5] = (byte)(b >>> 16);
+			B[off +  6] = (byte)(b >>>  8);
+			B[off +  7] = (byte)(b >>>  0);
+			B[off +  8] = (byte)(c >>> 24);
+			B[off +  9] = (byte)(c >>> 16);
+			B[off + 10] = (byte)(c >>>  8);
+			B[off + 11] = (byte)(c >>>  0);
 			B[off + 12] = (byte)(d >>> 24);
 			B[off + 13] = (byte)(d >>> 16);
-			B[off + 14] = (byte)(d >>> 8);
-			B[off + 15] = (byte)(d >>> 0);
+			B[off + 14] = (byte)(d >>>  8);
+			B[off + 15] = (byte)(d >>>  0);
 			B[off + 16] = (byte)(e >>> 24);
 			B[off + 17] = (byte)(e >>> 16);
-			B[off + 18] = (byte)(e >>> 8);
-			B[off + 19] = (byte)(e >>> 0);
+			B[off + 18] = (byte)(e >>>  8);
+			B[off + 19] = (byte)(e >>>  0);
 		}
 	}
 	
@@ -181,6 +184,7 @@ final class Shacal1Cipherer extends Cipherer {
 		keySchedule = null;
 		super.zeroize();
 	}
+	
 	
 	
 	private void setKey(byte[] key) { // If the key is shorter than 64 bytes, then zeros are appended
@@ -197,4 +201,5 @@ final class Shacal1Cipherer extends Cipherer {
 			keySchedule[i] = temp << 1 | temp >>> 31;
 		}
 	}
+	
 }

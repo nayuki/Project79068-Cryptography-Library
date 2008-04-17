@@ -13,12 +13,14 @@ final class XteaCipherer extends Cipherer {
 	private int[] int32Key;
 	
 	
+	
 	XteaCipherer(Xtea cipher, byte[] key) {
 		super(cipher, key);
 		int32Key = new int[4];
 		for (int i = 0; i < int32Key.length; i++)
 			int32Key[i] = key[i * 4] << 24 | (key[i * 4 + 1] & 0xFF) << 16 | (key[i * 4 + 2] & 0xFF) << 8 | (key[i * 4 + 3] & 0xFF);
 	}
+	
 	
 	
 	public void encrypt(byte[] b, int off, int len) {
@@ -45,6 +47,7 @@ final class XteaCipherer extends Cipherer {
 			b[off + 7] = (byte)(z >>> 0);
 		}
 	}
+	
 	
 	public void decrypt(byte[] b, int off, int len) {
 		if (cipher == null)
@@ -80,4 +83,5 @@ final class XteaCipherer extends Cipherer {
 		int32Key = null;
 		super.zeroize();
 	}
+	
 }

@@ -2,13 +2,16 @@ package p79068.crypto.cipher;
 
 
 /**
-The IDEA (International Data Encryption Algorithm) block cipher. This cipher is patented.
-<p>Instantiability: <em>Singleton</em></p>
-*/
+ * The IDEA (International Data Encryption Algorithm) block cipher. This cipher is patented.
+ * <p>Instantiability: <em>Singleton</em></p>
+ */
 public final class Idea extends BlockCipher {
 	
-	/** The singleton instance of this cipher algorithm. */
+	/**
+	 * The singleton instance of this cipher algorithm.
+	 */
 	public static final Idea CIPHER = new Idea();
+	
 	
 	
 	public Cipherer newCipherer(byte[] key) {
@@ -18,21 +21,32 @@ public final class Idea extends BlockCipher {
 	}
 	
 	
-	/** Returns the name of this cipher algorithm: <samp>IDEA</samp>. */
+	
+	/**
+	 * Returns the name of this cipher algorithm: <samp>IDEA</samp>.
+	 */
 	public String getName() {
 		return "IDEA";
 	}
 	
-	/** Returns the key length of this cipher algorithm: <samp>16</samp> bytes (128 bits). */
+	
+	/**
+	 * Returns the key length of this cipher algorithm: <samp>16</samp> bytes (128 bits).
+	 */
 	public int getKeyLength() {
 		return 16;
 	}
 	
-	/** Returns the block length of this cipher algorithm: <samp>8</samp> bytes (64 bits). */
+	
+	/**
+	 * Returns the block length of this cipher algorithm: <samp>8</samp> bytes (64 bits).
+	 */
 	public int getBlockLength() {
 		return 8;
 	}
 	
 	
+	
 	private Idea() {}
+	
 }

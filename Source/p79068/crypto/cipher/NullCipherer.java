@@ -10,11 +10,13 @@ final class NullCipherer extends Cipherer {
 	}
 	
 	
+	
 	public void encrypt(byte[] b, int off, int len) {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
 		BoundsChecker.check(b.length, off, len);
 	}
+	
 	
 	public void decrypt(byte[] b, int off, int len) {
 		if (cipher == null)
@@ -28,4 +30,5 @@ final class NullCipherer extends Cipherer {
 			return;
 		super.zeroize();
 	}
+	
 }

@@ -5,14 +5,16 @@ import p79068.lang.*;
 
 final class IdeaCipherer extends Cipherer {
 	
-	private int[] encKeySch; // Encryption key schedule
-	private int[] decKeySch; // Decryption key schedule
+	private int[] encKeySch;  // Encryption key schedule
+	private int[] decKeySch;  // Decryption key schedule
+	
 	
 
 	IdeaCipherer(Idea cipher, byte[] key) {
 		super(cipher, key);
 		setKey(key);
 	}
+	
 	
 	
 	public void encrypt(byte[] b, int off, int len) {
@@ -23,6 +25,7 @@ final class IdeaCipherer extends Cipherer {
 			throw new IllegalArgumentException("Invalid block length");
 		crypt(b, off, len, encKeySch);
 	}
+	
 	
 	public void decrypt(byte[] b, int off, int len) {
 		if (cipher == null)
@@ -45,6 +48,7 @@ final class IdeaCipherer extends Cipherer {
 		decKeySch = null;
 		super.zeroize();
 	}
+	
 	
 	
 	private void setKey(byte[] key) {
@@ -71,6 +75,7 @@ final class IdeaCipherer extends Cipherer {
 		decKeySch[50] = negate(encKeySch[2]);
 		decKeySch[51] = reciprocal(encKeySch[3]);
 	}
+	
 	
 	private static void crypt(byte[] b, int off, int len, int[] keysch) {
 		for (len += off; off < len; off += 8) {
@@ -111,7 +116,9 @@ final class IdeaCipherer extends Cipherer {
 	}
 	
 	
-	private static int multiply(int x, int y) { // This has been verified by brute force. But it can be proven mathematically too.
+	
+	// This has been verified by brute force. But it can be proven mathematically too.
+	private static int multiply(int x, int y) {
 		if (x == 0)
 			return (0x10001 - y) & 0xFFFF;
 		if (y == 0)
@@ -123,11 +130,14 @@ final class IdeaCipherer extends Cipherer {
 		return z & 0xFFFF;
 	}
 	
+	
 	private static int negate(int x) {
 		return 0x10000 - x;
 	}
 	
-	private static int reciprocal(int y) { // Returns the multiplicative inverse of x modulo 65537 using the extended Euclidean algorithm. Verified by brute force.
+	
+	// Returns the multiplicative inverse of x modulo 65537 using the extended Euclidean algorithm. Verified by brute force.
+	private static int reciprocal(int y) {
 		if (y == 0)
 			return 0;
 		int x = 0x10001;
@@ -146,8 +156,11 @@ final class IdeaCipherer extends Cipherer {
 		return a + 0x10001;
 	}
 	
-	private static int getInt16(byte[] b, int bitOffset) { // Returns 16 consecutive bits from b starting at bitOffset (measured in bits), which is modulo the number of bits in b.
+	
+	// Returns 16 consecutive bits from b starting at bitOffset (measured in bits), which is modulo the number of bits in b.
+	private static int getInt16(byte[] b, int bitOffset) {
 		int result = ((b[(bitOffset / 8 + 0) % b.length] << (8 + bitOffset % 8)) | ((b[(bitOffset / 8 + 1) % b.length] & 0xFF) << (bitOffset % 8)) | ((b[(bitOffset / 8 + 2) % b.length] & 0xFF) >>> (8 - bitOffset % 8)));
 		return result & 0xFFFF;
 	}
+	
 }

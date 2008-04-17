@@ -7,7 +7,9 @@ package p79068.crypto.cipher;
  */
 public final class NullCipher extends BlockCipher {
 	
-	/** The singleton instance of this cipher algorithm. */
+	/**
+	 * The singleton instance of this cipher algorithm.
+	 */
 	public static final NullCipher CIPHER = new NullCipher();
 	
 	
@@ -18,21 +20,31 @@ public final class NullCipher extends BlockCipher {
 	}
 	
 	
-	/** Returns the name of this cipher algorithm: <samp>Null cipher</samp>. */
+	/**
+	 * Returns the name of this cipher algorithm: <samp>Null cipher</samp>.
+	 */
 	public String getName() {
 		return "Null cipher";
 	}
 	
-	/** Returns the key length of this cipher algorithm: <samp>0</samp> bytes. */
+	
+	/**
+	 * Returns the key length of this cipher algorithm: <samp>0</samp> bytes.
+	 */
 	public int getKeyLength() {
 		return 0;
 	}
 	
-	/** Returns the block length of this cipher algorithm: <samp>1</samp> bytes. */
+	
+	/**
+	 * Returns the block length of this cipher algorithm: <samp>1</samp> bytes.
+	 */
 	public int getBlockLength() {
 		return 1;
 	}
 	
 	
+	
 	private NullCipher() {}
+	
 }
