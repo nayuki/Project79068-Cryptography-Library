@@ -29,9 +29,16 @@ final class XteaCipherer extends Cipherer {
 		BoundsChecker.check(b.length, off, len);
 		if ((len & 7) != 0)
 			throw new IllegalArgumentException("Invalid block length");
+		
 		for (len += off; off < len; off += 8) {
-			int y = b[off + 0] << 24 | (b[off + 1] & 0xFF) << 16 | (b[off + 2] & 0xFF) << 8 | (b[off + 3] & 0xFF);
-			int z = b[off + 4] << 24 | (b[off + 5] & 0xFF) << 16 | (b[off + 6] & 0xFF) << 8 | (b[off + 7] & 0xFF);
+			int y = (b[off + 0] & 0xFF) << 24
+			      | (b[off + 1] & 0xFF) << 16
+			      | (b[off + 2] & 0xFF) <<  8
+			      | (b[off + 3] & 0xFF) <<  0;
+			int z = (b[off + 4] & 0xFF) << 24
+			      | (b[off + 5] & 0xFF) << 16
+			      | (b[off + 6] & 0xFF) <<  8
+			      | (b[off + 7] & 0xFF) <<  0;
 			for (int i = 0, sum = 0; i < 32; i++) {
 				y += (((z << 4) ^ (z >>> 5)) + z) ^ (sum + int32Key[sum & 3]);
 				sum += 0x9E3779B9;
@@ -39,12 +46,12 @@ final class XteaCipherer extends Cipherer {
 			}
 			b[off + 0] = (byte)(y >>> 24);
 			b[off + 1] = (byte)(y >>> 16);
-			b[off + 2] = (byte)(y >>> 8);
-			b[off + 3] = (byte)(y >>> 0);
+			b[off + 2] = (byte)(y >>>  8);
+			b[off + 3] = (byte)(y >>>  0);
 			b[off + 4] = (byte)(z >>> 24);
 			b[off + 5] = (byte)(z >>> 16);
-			b[off + 6] = (byte)(z >>> 8);
-			b[off + 7] = (byte)(z >>> 0);
+			b[off + 6] = (byte)(z >>>  8);
+			b[off + 7] = (byte)(z >>>  0);
 		}
 	}
 	
@@ -55,9 +62,16 @@ final class XteaCipherer extends Cipherer {
 		BoundsChecker.check(b.length, off, len);
 		if ((len & 7) != 0)
 			throw new IllegalArgumentException("Invalid block length");
+		
 		for (len += off; off < len; off += 8) {
-			int y = b[off + 0] << 24 | (b[off + 1] & 0xFF) << 16 | (b[off + 2] & 0xFF) << 8 | (b[off + 3] & 0xFF);
-			int z = b[off + 4] << 24 | (b[off + 5] & 0xFF) << 16 | (b[off + 6] & 0xFF) << 8 | (b[off + 7] & 0xFF);
+			int y = (b[off + 0] & 0xFF) << 24
+			      | (b[off + 1] & 0xFF) << 16
+			      | (b[off + 2] & 0xFF) <<  8
+			      | (b[off + 3] & 0xFF) <<  0;
+			int z = (b[off + 4] & 0xFF) << 24
+			      | (b[off + 5] & 0xFF) << 16
+			      | (b[off + 6] & 0xFF) <<  8
+			      | (b[off + 7] & 0xFF) <<  0;
 			for (int i = 0, sum = 0xC6EF3720; i < 32; i++) {
 				z -= (((y << 4) ^ (y >>> 5)) + y) ^ (sum + int32Key[(sum >>> 11) & 3]);
 				sum -= 0x9E3779B9;
@@ -65,12 +79,12 @@ final class XteaCipherer extends Cipherer {
 			}
 			b[off + 0] = (byte)(y >>> 24);
 			b[off + 1] = (byte)(y >>> 16);
-			b[off + 2] = (byte)(y >>> 8);
-			b[off + 3] = (byte)(y >>> 0);
+			b[off + 2] = (byte)(y >>>  8);
+			b[off + 3] = (byte)(y >>>  0);
 			b[off + 4] = (byte)(z >>> 24);
 			b[off + 5] = (byte)(z >>> 16);
-			b[off + 6] = (byte)(z >>> 8);
-			b[off + 7] = (byte)(z >>> 0);
+			b[off + 6] = (byte)(z >>>  8);
+			b[off + 7] = (byte)(z >>>  0);
 		}
 	}
 	
@@ -78,8 +92,7 @@ final class XteaCipherer extends Cipherer {
 	public void zeroize() {
 		if (cipher == null)
 			return;
-		for (int i = 0; i < int32Key.length; i++)
-			int32Key[i] = 0;
+		for (int i = 0; i < int32Key.length; i++) int32Key[i] = 0;
 		int32Key = null;
 		super.zeroize();
 	}

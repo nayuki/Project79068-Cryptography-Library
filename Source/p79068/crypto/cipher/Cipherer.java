@@ -65,8 +65,7 @@ public abstract class Cipherer implements Zeroizable {
 	public void zeroize() {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
-		for (int i = 0; i < key.length; i++)
-			key[i] = 0;
+		for (int i = 0; i < key.length; i++) key[i] = 0;
 		key = null;
 		cipher = null;
 	}

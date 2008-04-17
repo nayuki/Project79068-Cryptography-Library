@@ -10,45 +10,26 @@ import p79068.lang.BoundsChecker;
 
 class RijndaelCipherer extends RijndaelCiphererParent {
 	
-	protected byte[][] keySchedule; // Key schedule, containing the round keys. The number of rounds is equal to keySchedule.length-1.
+	protected byte[][] keySchedule;  // Key schedule, containing the round keys. The number of rounds is equal to keySchedule.length-1.
 	protected int blockLength;
-	protected int c1, c2, c3; // Constants for ShiftRows
-			
-
+	protected int c1, c2, c3;  // Constants for ShiftRows
+	
+	
+	
 	RijndaelCipherer(Rijndael cipher, byte[] key) {
 		super(cipher, key);
 		blockLength = cipher.getBlockLength();
 		switch (blockLength) {
-			case 16:
-				c1 = 1;
-				c2 = 2;
-				c3 = 3;
-				break; // 128 bits
-			case 20:
-				c1 = 1;
-				c2 = 2;
-				c3 = 3;
-				break; // 160 bits
-			case 24:
-				c1 = 1;
-				c2 = 2;
-				c3 = 3;
-				break; // 192 bits
-			case 28:
-				c1 = 1;
-				c2 = 2;
-				c3 = 4;
-				break; // 224 bits
-			case 32:
-				c1 = 1;
-				c2 = 3;
-				c3 = 4;
-				break; // 256 bits
-			default:
-				throw new AssertionError();
+			case 16:  c1 = 1;  c2 = 2;  c3 = 3;  break;  // 128 bits
+			case 20:  c1 = 1;  c2 = 2;  c3 = 3;  break;  // 160 bits
+			case 24:  c1 = 1;  c2 = 2;  c3 = 3;  break;  // 192 bits
+			case 28:  c1 = 1;  c2 = 2;  c3 = 4;  break;  // 224 bits
+			case 32:  c1 = 1;  c2 = 3;  c3 = 4;  break;  // 256 bits
+			default:  throw new AssertionError();
 		}
 		setKey(key);
 	}
+	
 	
 	
 	public void encrypt(byte[] b, int off, int len) {
@@ -65,6 +46,7 @@ class RijndaelCipherer extends RijndaelCiphererParent {
 			System.arraycopy(temp, 0, b, off, blockLength);
 		}
 	}
+	
 	
 	public void decrypt(byte[] b, int off, int len) {
 		if (cipher == null)
@@ -96,6 +78,7 @@ class RijndaelCipherer extends RijndaelCiphererParent {
 	}
 	
 	
+	
 	protected void setKey(byte[] key) {
 		int nk = key.length / 4; // Number of 32-bit blocks in the key
 		int nb = blockLength / 4; // Number of 32-bit blocks in the state
@@ -120,6 +103,7 @@ class RijndaelCipherer extends RijndaelCiphererParent {
 		addRoundKey(temp, keySchedule[keySchedule.length - 1]);
 	}
 	
+	
 	protected void decrypt(byte[] block, byte[] temp) { // The result is placed in temp.
 		addRoundKey(block, keySchedule[keySchedule.length - 1]);
 		shiftRowsInverse(block, temp);
@@ -133,10 +117,12 @@ class RijndaelCipherer extends RijndaelCiphererParent {
 		addRoundKey(temp, keySchedule[0]);
 	}
 	
+	
 	protected void subBytes(byte[] block) {
 		for (int i = 0; i < blockLength; i++)
 			block[i] = sub[block[i] & 0xFF];
 	}
+	
 	
 	protected void shiftRows(byte[] blockin, byte[] sout) {
 		int nb = blockLength / 4; // Number of columns, i.e. the number of elements in a row
@@ -148,6 +134,7 @@ class RijndaelCipherer extends RijndaelCiphererParent {
 		}
 	}
 	
+	
 	protected void mixColumns(byte[] blockin, byte[] sout) {
 		for (int i = 0; i < blockLength; i += 4) {
 			for (int j = 0; j < 4; j++)
@@ -155,18 +142,22 @@ class RijndaelCipherer extends RijndaelCiphererParent {
 		}
 	}
 	
-	protected void addRoundKey(byte[] block, byte[] key) { // Self-inverting
+	
+	// Self-inverting
+	protected void addRoundKey(byte[] block, byte[] key) {
 		for (int i = 0; i < blockLength; i++)
 			block[i] ^= key[i];
 	}
+	
 	
 	protected void subBytesInverse(byte[] block) {
 		for (int i = 0; i < blockLength; i++)
 			block[i] = subinv[block[i] & 0xFF];
 	}
 	
+	
 	protected void shiftRowsInverse(byte[] blockin, byte[] sout) {
-		int nb = blockLength / 4; // Number of columns, i.e. the number of elements in a row
+		int nb = blockLength / 4;  // Number of columns, i.e. the number of elements in a row
 		for (int i = 0; i < nb; i++) {
 			sout[i * 4 + 0] = blockin[(i + nb) % nb * 4 + 0];
 			sout[i * 4 + 1] = blockin[(i - c1 + nb) % nb * 4 + 1];
@@ -174,6 +165,7 @@ class RijndaelCipherer extends RijndaelCiphererParent {
 			sout[i * 4 + 3] = blockin[(i - c3 + nb) % nb * 4 + 3];
 		}
 	}
+	
 	
 	protected void mixColumnsInverse(byte[] blockin, byte[] sout) {
 		for (int i = 0; i < blockLength; i += 4) {
@@ -183,8 +175,10 @@ class RijndaelCipherer extends RijndaelCiphererParent {
 	}
 	
 	
+	
 	protected static byte[] mul02, mul03;
 	protected static byte[] mul0E, mul0B, mul0D, mul09;
+	
 	
 	private static byte[] toBytesBigEndian(int[] ain, int off, int len) {
 		byte[] aout = new byte[len * 4];
@@ -202,6 +196,7 @@ class RijndaelCipherer extends RijndaelCiphererParent {
 		initMultiplyTable();
 	}
 	
+	
 	private static void initMultiplyTable() {
 		mul02 = new byte[256];
 		mul03 = new byte[256];
@@ -218,4 +213,5 @@ class RijndaelCipherer extends RijndaelCiphererParent {
 			mul09[i] = (byte)multiply(i, 0x09);
 		}
 	}
+	
 }

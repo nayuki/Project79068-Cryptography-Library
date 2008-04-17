@@ -8,6 +8,7 @@ abstract class RijndaelCiphererParent extends Cipherer {
 	}
 	
 	
+	
 	protected static int[] expandKey(byte[] key, int nb) { // In the FIPS 197 specification, this function is named KeyExpansion.
 		int nk = key.length / 4;
 		int round = Math.max(nk, nb) + 6;
@@ -27,11 +28,13 @@ abstract class RijndaelCiphererParent extends Cipherer {
 	}
 	
 	
+	
 	protected static byte[] sub;
 	protected static byte[] subinv;
 	
 	protected static int[] exp;
 	protected static int[] log;
+	
 	
 	protected static int multiply(int x, int y) {
 		if (x == 0 || y == 0)
@@ -40,18 +43,22 @@ abstract class RijndaelCiphererParent extends Cipherer {
 	}
 	
 	
+	
 	private static int subInt32Bytes(int x) { // Apply S-box to each byte in the 32-bit integer.
 		return sub[x >>> 24] << 24 | (sub[x >>> 16 & 0xFF] & 0xFF) << 16 | (sub[x >>> 8 & 0xFF] & 0xFF) << 8 | (sub[x & 0xFF] & 0xFF);
 	}
+	
 	
 	private static int toInt32(byte[] b, int off) {
 		return b[off] << 24 | (b[off + 1] & 0xFF) << 16 | (b[off + 2] & 0xFF) << 8 | (b[off + 3] & 0xFF);
 	}
 	
+	
 	static {
 		initExpLogTable();
 		initSBox();
 	}
+	
 	
 	private static void initExpLogTable() {
 		exp = new int[255];
@@ -67,6 +74,7 @@ abstract class RijndaelCiphererParent extends Cipherer {
 		}
 	}
 	
+	
 	private static void initSBox() {
 		sub = new byte[256];
 		subinv = new byte[256];
@@ -80,4 +88,5 @@ abstract class RijndaelCiphererParent extends Cipherer {
 			subinv[sub[i] & 0xFF] = (byte)i;
 		}
 	}
+	
 }

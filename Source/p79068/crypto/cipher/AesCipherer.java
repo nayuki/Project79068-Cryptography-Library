@@ -26,13 +26,14 @@ final class AesCipherer extends RijndaelCipherer {
 	}
 	
 	
+	
 	public void encrypt(byte[] b, int off, int len) {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
 		BoundsChecker.check(b.length, off, len);
 		if ((len & 0xF) != 0)
 			throw new IllegalArgumentException("Invalid block length");
-		byte[] block = new byte[16]; // Column-major indexed
+		byte[] block = new byte[16];  // Column-major indexed
 		byte[] temp = new byte[16];
 		for (len += off; off < len; off += 16) {
 			System.arraycopy(b, off, block, 0, 16);
@@ -41,13 +42,14 @@ final class AesCipherer extends RijndaelCipherer {
 		}
 	}
 	
+	
 	public void decrypt(byte[] b, int off, int len) {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
 		BoundsChecker.check(b.length, off, len);
 		if ((len & 0xF) != 0)
 			throw new IllegalArgumentException("Invalid block length");
-		byte[] block = new byte[16]; // Column-major indexed
+		byte[] block = new byte[16];  // Column-major indexed
 		byte[] temp = new byte[16];
 		for (len += off; off < len; off += 16) {
 			System.arraycopy(b, off, block, 0, 16);
@@ -57,10 +59,12 @@ final class AesCipherer extends RijndaelCipherer {
 	}
 	
 	
+	
 	protected void subBytes(byte[] block) {
 		for (int i = 0; i < 16; i++)
 			block[i] = sub[block[i] & 0xFF];
 	}
+	
 	
 	protected void shiftRows(byte[] blockin, byte[] blockout) {
 		for (int i = 0; i < 4; i++) {
@@ -69,6 +73,7 @@ final class AesCipherer extends RijndaelCipherer {
 		}
 	}
 	
+	
 	protected void mixColumns(byte[] blockin, byte[] blockout) {
 		for (int i = 0; i < 16; i += 4) {
 			for (int j = 0; j < 4; j++)
@@ -76,15 +81,19 @@ final class AesCipherer extends RijndaelCipherer {
 		}
 	}
 	
-	protected void addRoundKey(byte[] block, byte[] key) { // Self-inverting
+	
+	// Self-inverting
+	protected void addRoundKey(byte[] block, byte[] key) {
 		for (int i = 0; i < 16; i++)
 			block[i] ^= key[i];
 	}
+	
 	
 	protected void subByteblockinverse(byte[] block) {
 		for (int i = 0; i < 16; i++)
 			block[i] = subinv[block[i] & 0xFF];
 	}
+	
 	
 	protected void shiftRowblockinverse(byte[] blockin, byte[] blockout) {
 		for (int i = 0; i < 4; i++) {
@@ -93,10 +102,12 @@ final class AesCipherer extends RijndaelCipherer {
 		}
 	}
 	
+	
 	protected void mixColumnblockinverse(byte[] blockin, byte[] blockout) {
 		for (int i = 0; i < 16; i += 4) {
 			for (int j = 0; j < 4; j++)
 				blockout[i + j] = (byte)(mul0E[blockin[i + j] & 0xFF] ^ mul0B[blockin[i + (j + 1) % 4] & 0xFF] ^ mul0D[blockin[i + (j + 2) % 4] & 0xFF] ^ mul09[blockin[i + (j + 3) % 4] & 0xFF]);
 		}
 	}
+	
 }

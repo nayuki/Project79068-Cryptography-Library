@@ -5,7 +5,7 @@ import p79068.lang.*;
 
 final class Rc4Cipherer extends StreamCipherer {
 	
-	private int[] s; // A permutation of {0, 1, 2, ..., 254, 255}
+	private int[] s;  // A permutation of {0, 1, 2, ..., 254, 255}
 	private int i, j;
 	
 	
@@ -60,8 +60,7 @@ final class Rc4Cipherer extends StreamCipherer {
 			return;
 		i = 0;
 		j = 0;
-		for (int i = 0; i < 256; i++)
-			s[i] = 0;
+		for (int i = 0; i < 256; i++) s[i] = 0;
 		s = null;
 		super.zeroize();
 	}
