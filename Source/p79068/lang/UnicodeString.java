@@ -4,9 +4,9 @@ import p79068.util.HashCoder;
 
 
 /**
-A string where each element can take on the full ~24 bits of Unicode's range.
-<p>Mutability: <em>Immutable</em></p>
-*/
+ * A string where each element can take on the full ~24 bits of Unicode's range.
+ * <p>Mutability: <em>Immutable</em></p>
+ */
 public final class UnicodeString implements Comparable<UnicodeString> {
 	
 	private int[] chars;
@@ -44,10 +44,10 @@ public final class UnicodeString implements Comparable<UnicodeString> {
 	}
 	
 	/**
-	Constructs blah...
-	@throws NullPointerException if <code>char</code> is null
-	@throws IllegalArgumentException if <code>char</code> contains values less than 0 or greater than 0x10FFFF.
-	*/
+	 * Constructs blah...
+	 * @throws NullPointerException if <code>char</code> is null
+	 * @throws IllegalArgumentException if <code>char</code> contains values less than 0 or greater than 0x10FFFF.
+	 */
 	public UnicodeString(int[] chars) {
 		this(chars, 0, chars.length);
 	}
@@ -157,4 +157,5 @@ public final class UnicodeString implements Comparable<UnicodeString> {
 		}
 		return length - str.length;
 	}
+	
 }
