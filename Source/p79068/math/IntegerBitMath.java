@@ -29,7 +29,8 @@ public final class IntegerBitMath {
 		BoundsChecker.check(32, bitOffset, bitLength);
 		if (bitLength == 32)
 			return x;  // bitOffset = 0, or else an exception was already thrown.
-		return (x >>> bitOffset) & ((1 << bitLength) - 1);
+		else
+			return (x >>> bitOffset) & ((1 << bitLength) - 1);
 	}
 	
 	
