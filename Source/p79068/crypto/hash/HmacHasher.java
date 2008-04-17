@@ -12,11 +12,13 @@ final class HmacHasher extends Hasher implements Zeroizable {
 	private Hasher outer;
 	
 	
+	
 	HmacHasher(Hmac algor, Hasher inner, Hasher outer) {
 		super(algor);
 		this.inner = inner.clone();
 		this.outer = outer.clone();
 	}
+	
 	
 	
 	public void update(byte[] b, int off, int len) {
@@ -25,6 +27,7 @@ final class HmacHasher extends Hasher implements Zeroizable {
 		BoundsChecker.check(b.length, off, len);
 		inner.update(b, off, len);
 	}
+	
 	
 	public HashValue getHash() {
 		if (hashFunction == null)
@@ -44,6 +47,7 @@ final class HmacHasher extends Hasher implements Zeroizable {
 		return result;
 	}
 	
+	
 	public void zeroize() {
 		if (hashFunction == null)
 			throw new IllegalStateException("Already zeroized");
@@ -55,4 +59,5 @@ final class HmacHasher extends Hasher implements Zeroizable {
 		outer = null;
 		hashFunction = null;
 	}
+	
 }

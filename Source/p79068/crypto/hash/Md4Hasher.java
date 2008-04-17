@@ -9,10 +9,12 @@ final class Md4Hasher extends BlockHasher {
 	private int[] state;
 	
 	
+	
 	Md4Hasher(Md4 algor) {
 		super(algor, 64);
 		state = new int[]{0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476};
 	}
+	
 	
 	
 	public Md4Hasher clone() {
@@ -22,6 +24,7 @@ final class Md4Hasher extends BlockHasher {
 		result.state = state.clone();
 		return result;
 	}
+	
 	
 	public void zeroize() {
 		if (hashFunction == null)
@@ -33,8 +36,10 @@ final class Md4Hasher extends BlockHasher {
 	}
 	
 	
+	
 	private static final int[] s = {3, 7, 11, 19, 3, 5, 9, 13, 3, 9, 11, 15};
 	private static final int[] k = {0, 4, 8, 12, 1, 5, 9, 13, 2, 6, 10, 14, 3, 7, 11, 15, 0, 8, 4, 12, 2, 10, 6, 14, 1, 9, 5, 13, 3, 11, 7, 15};
+	
 	
 	protected void compress(byte[] message, int off, int len) {
 		int[] schedule = new int[16];
@@ -77,6 +82,7 @@ final class Md4Hasher extends BlockHasher {
 		}
 	}
 	
+	
 	protected HashValue getHashDestructively() {
 		block[blockLength] = (byte)0x80;
 		for (int i = blockLength + 1; i < block.length; i++)
@@ -91,4 +97,5 @@ final class Md4Hasher extends BlockHasher {
 		compress();
 		return createHash(IntegerBitMath.toBytesLittleEndian(state));
 	}
+	
 }

@@ -8,6 +8,7 @@ final class WhirlpoolHasher extends BlockHasher {
 	private byte[] state;
 	
 	
+	
 	WhirlpoolHasher(Whirlpool algor) {
 		super(algor, 64);
 		sub = WHIRLPOOL_SUB;
@@ -16,6 +17,7 @@ final class WhirlpoolHasher extends BlockHasher {
 		state = new byte[64];
 	}
 	
+	
 	WhirlpoolHasher(Whirlpool0 algor) {
 		super(algor, 64);
 		sub = WHIRLPOOL0_SUB;
@@ -23,6 +25,7 @@ final class WhirlpoolHasher extends BlockHasher {
 		rcon = WHIRLPOOL0_RCON;
 		state = new byte[64];
 	}
+	
 	
 	WhirlpoolHasher(Whirlpool1 algor) {
 		super(algor, 64);
@@ -33,6 +36,7 @@ final class WhirlpoolHasher extends BlockHasher {
 	}
 	
 	
+	
 	public WhirlpoolHasher clone() {
 		if (hashFunction == null)
 			throw new IllegalStateException("Already zeroized");
@@ -40,6 +44,7 @@ final class WhirlpoolHasher extends BlockHasher {
 		result.state = state.clone();
 		return result;
 	}
+	
 	
 	public void zeroize() {
 		if (hashFunction == null)
@@ -49,6 +54,7 @@ final class WhirlpoolHasher extends BlockHasher {
 		state = null;
 		super.zeroize();
 	}
+	
 	
 	
 	// Uses Miyaguchi-Preneel construction: next state = encrypt(msg: message block, key: state) XOR state XOR message block
@@ -65,6 +71,7 @@ final class WhirlpoolHasher extends BlockHasher {
 		}
 	}
 	
+	
 	protected HashValue getHashDestructively() {
 		block[blockLength] = (byte)0x80;
 		for (int i = blockLength + 1; i < block.length; i++)
@@ -75,17 +82,20 @@ final class WhirlpoolHasher extends BlockHasher {
 				block[i] = 0x00;
 		}
 		for (int i = 0; i < 8; i++)
-			block[block.length - 1 - i] = (byte)((length * 8) >>> (i * 8)); // Whirlpool supports lengths just less than 2^256 bits (2^253 bytes), but this implementation only counts to just less than 2^64 bytes.
+			block[block.length - 1 - i] = (byte)((length * 8) >>> (i * 8));  // Whirlpool supports lengths just less than 2^256 bits (2^253 bytes), but this implementation only counts to just less than 2^64 bytes.
 		compress();
 		return createHash(state);
 	}
+	
 	
 	
 	private byte[] sub;
 	private byte[][] mul;
 	private byte[][] rcon;
 	
-	private void w(byte[] message, byte[] key, byte[] temp) { // The internal block cipher. Overwrites message and key.
+	
+	// The internal block cipher. Overwrites message and key.
+	private void w(byte[] message, byte[] key, byte[] temp) {
 		sigma(message, key);
 		for (int i = 0; i < 10; i++) {
 			rho(key, rcon[i], temp);
@@ -93,26 +103,34 @@ final class WhirlpoolHasher extends BlockHasher {
 		}
 	}
 	
-	private void rho(byte[] block, byte[] key, byte[] temp) { // The round function. Overwrites block and temp.
+	
+	// The round function. Overwrites block and temp.
+	private void rho(byte[] block, byte[] key, byte[] temp) {
 		gamma(block);
 		pi(block, temp);
 		theta(temp, block);
 		sigma(block, key);
 	}
 	
-	private void gamma(byte[] block) { // The non-linear layer
+	
+	// The non-linear layer
+	private void gamma(byte[] block) {
 		for (int i = 0; i < 64; i++)
 			block[i] = sub[block[i] & 0xFF];
 	}
 	
-	private void pi(byte[] blockin, byte[] blockout) { // The cyclical permutation
+	
+	// The cyclical permutation
+	private void pi(byte[] blockin, byte[] blockout) {
 		for (int j = 0; j < 8; j++) {
 			for (int i = 0; i < 8; i++)
 				blockout[((i + j) & 7) << 3 | j] = blockin[i << 3 | j];
 		}
 	}
 	
-	private void theta(byte[] blockin, byte[] blockout) { // The linear diffusion layer
+	
+	// The linear diffusion layer
+	private void theta(byte[] blockin, byte[] blockout) {
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
 				int sum = 0;
@@ -123,10 +141,13 @@ final class WhirlpoolHasher extends BlockHasher {
 		}
 	}
 	
-	private void sigma(byte[] block, byte[] key) { // The key addition
+	
+	// The key addition
+	private void sigma(byte[] block, byte[] key) {
 		for (int i = 0; i < 64; i++)
 			block[i] ^= key[i];
 	}
+	
 	
 	
 	private static final byte[] WHIRLPOOL0_SUB;
@@ -228,9 +249,11 @@ final class WhirlpoolHasher extends BlockHasher {
 		log = null;
 	}
 	
+	
 	private static int multiply(int x, int y) {
 		if (x == 0 || y == 0)
 			return 0;
 		return exp[(log[x] + log[y]) % 255];
 	}
+	
 }

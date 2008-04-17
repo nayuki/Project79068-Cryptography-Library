@@ -10,9 +10,10 @@ final class Edonkey2000Hasher extends Hasher implements Zeroizable {
 	
 	private boolean oldmode;
 	
-	private Hasher hasher; // Outer hash. Is null if total length < BLOCK_LENGTH for old mode; is null if total length <= BLOCK_LENGTH for new mode.
-	private Hasher blockHasher; // Inner hash
-	private int blockLength; // Length of current block. Is within the range [0,BLOCK_LENGTH) for old mode; (0,BLOCK_LENGTH] for new mode (but can be 0 for the initial block).
+	private Hasher hasher;       // Outer hash. Is null if total length < BLOCK_LENGTH for old mode; is null if total length <= BLOCK_LENGTH for new mode.
+	private Hasher blockHasher;  // Inner hash
+	private int blockLength;     // Length of current block. Is within the range [0,BLOCK_LENGTH) for old mode; (0,BLOCK_LENGTH] for new mode (but can be 0 for the initial block).
+	
 	
 
 	Edonkey2000Hasher(Edonkey2000 algor) {
@@ -23,6 +24,7 @@ final class Edonkey2000Hasher extends Hasher implements Zeroizable {
 		blockLength = 0;
 	}
 	
+	
 	Edonkey2000Hasher(NewEdonkey2000 algor) {
 		super(algor);
 		oldmode = false;
@@ -30,6 +32,7 @@ final class Edonkey2000Hasher extends Hasher implements Zeroizable {
 		blockHasher = Md4.FUNCTION.newHasher();
 		blockLength = 0;
 	}
+	
 	
 	
 	public void update(byte b) {
@@ -40,6 +43,7 @@ final class Edonkey2000Hasher extends Hasher implements Zeroizable {
 		blockLength++;
 		oldNextBlock();
 	}
+	
 	
 	public void update(byte[] b, int off, int len) {
 		if (hashFunction == null)
@@ -55,6 +59,7 @@ final class Edonkey2000Hasher extends Hasher implements Zeroizable {
 			oldNextBlock();
 		}
 	}
+	
 	
 	public HashValue getHash() {
 		if (hashFunction == null)
@@ -78,6 +83,7 @@ final class Edonkey2000Hasher extends Hasher implements Zeroizable {
 		return result;
 	}
 	
+	
 	public void zeroize() {
 		if (hashFunction == null)
 			throw new IllegalStateException("Already zeroized");
@@ -93,17 +99,21 @@ final class Edonkey2000Hasher extends Hasher implements Zeroizable {
 	}
 	
 	
+	
 	private static final int BLOCK_LENGTH = 9728000;
+	
 	
 	private void oldNextBlock() {
 		if (oldmode)
 			nextBlock();
 	}
 	
+	
 	private void newNextBlock() {
 		if (!oldmode)
 			nextBlock();
 	}
+	
 	
 	private void nextBlock() {
 		if (blockLength == BLOCK_LENGTH) {
@@ -114,4 +124,5 @@ final class Edonkey2000Hasher extends Hasher implements Zeroizable {
 			blockLength = 0;
 		}
 	}
+	
 }

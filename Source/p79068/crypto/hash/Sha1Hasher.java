@@ -11,6 +11,7 @@ final class Sha1Hasher extends BlockHasher {
 	private int[] state;
 	
 	
+	
 	Sha1Hasher(Sha1 algor) {
 		super(algor, 64);
 		sha1mode = true;
@@ -20,8 +21,9 @@ final class Sha1Hasher extends BlockHasher {
 	Sha1Hasher(Sha algor) {
 		super(algor, 64);
 		sha1mode = false;
-		state = new int[]{0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476, 0xC3D2E1F0};
-	} // Same as above
+		state = new int[]{0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476, 0xC3D2E1F0};  // Same as above
+	}
+	
 	
 
 	public Sha1Hasher clone() {
@@ -32,6 +34,7 @@ final class Sha1Hasher extends BlockHasher {
 		return result;
 	}
 	
+	
 	public void zeroize() {
 		if (hashFunction == null)
 			throw new IllegalStateException("Already zeroized");
@@ -40,6 +43,7 @@ final class Sha1Hasher extends BlockHasher {
 		state = null;
 		super.zeroize();
 	}
+	
 	
 	
 	protected void compress(byte[] message, int off, int len) {
@@ -99,6 +103,7 @@ final class Sha1Hasher extends BlockHasher {
 		}
 	}
 	
+	
 	protected HashValue getHashDestructively() {
 		block[blockLength] = (byte)0x80;
 		for (int i = blockLength + 1; i < block.length; i++)
@@ -113,4 +118,5 @@ final class Sha1Hasher extends BlockHasher {
 		compress();
 		return createHash(IntegerBitMath.toBytesBigEndian(state));
 	}
+	
 }
