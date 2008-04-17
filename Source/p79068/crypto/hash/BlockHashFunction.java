@@ -18,4 +18,5 @@ public abstract class BlockHashFunction extends HashFunction {
 	 * @return the block length of this hash function
 	 */
 	public abstract int getBlockLength();
+	
 }

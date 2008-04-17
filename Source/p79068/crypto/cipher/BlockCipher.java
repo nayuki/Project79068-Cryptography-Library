@@ -10,10 +10,11 @@ package p79068.crypto.cipher;
 
 
 /**
-An abstract block cipher in ECB (electronic codebook) mode.
-<p>Mutability: <em>Immutable</em>, except for being Zeroizable</p>
-*/
+ * An abstract block cipher in ECB (electronic codebook) mode.
+ * <p>Mutability: <em>Immutable</em>, except for being Zeroizable</p>
+ */
 public abstract class BlockCipher extends Cipher {
 	
 	public BlockCipher() {}
+	
 }
