@@ -12,9 +12,11 @@ public class IdeaTest {
 	}
 	
 	
+	
 	static void test(String key, String plaintext, String ciphertext) {
 		test(Debug.hexToBytes(key), Debug.hexToBytes(plaintext), Debug.hexToBytes(ciphertext));
 	}
+	
 	
 	static void test(byte[] key, byte[] plaintext, byte[] ciphertext) {
 		byte[] originalplaintext = plaintext.clone();
@@ -24,4 +26,5 @@ public class IdeaTest {
 		cipherer.decrypt(plaintext);
 		assertTrue(Debug.areEqual(plaintext, originalplaintext));
 	}
+	
 }

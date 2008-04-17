@@ -17,6 +17,7 @@ public class MdTest {
 	static final String msg6 = "12345678901234567890123456789012345678901234567890123456789012345678901234567890";
 	
 	
+	
 	@Test
 	public void md2() {
 		test(Md2.FUNCTION, msg0, "8350E5A3E24C153DF2275C9F80692773");
@@ -28,6 +29,7 @@ public class MdTest {
 		test(Md2.FUNCTION, msg6, "D5976F79D83D3A0DC9806C3C66F3EFD8");
 	}
 	
+	
 	@Test
 	public void md4() {
 		test(Md4.FUNCTION, msg0, "31D6CFE0D16AE931B73C59D7E0C089C0");
@@ -38,6 +40,7 @@ public class MdTest {
 		test(Md4.FUNCTION, msg5, "043F8582F241DB351CE627E153E7F0E4");
 		test(Md4.FUNCTION, msg6, "E33B4DDC9C38F2199C3E7B164FCC0536");
 	}
+	
 	
 	@Test
 	public void md5() {
@@ -51,10 +54,12 @@ public class MdTest {
 	}
 	
 	
+	
 	static void test(HashFunction hashfunc, String message, String hash) {
 		byte[] msg = Debug.asciiToBytes(message);
 		byte[] hash0 = hashfunc.getHash(msg).toBytes();
 		byte[] hash1 = Debug.hexToBytes(hash);
 		assertTrue(Debug.areEqual(hash0, hash1));
 	}
+	
 }

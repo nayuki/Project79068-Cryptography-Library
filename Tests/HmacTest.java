@@ -27,6 +27,7 @@ public class HmacTest {
 	static final byte[] msg6 = Debug.asciiToBytes("Test Using Larger Than Block-Size Key and Larger Than One Block-Size Data");
 	
 	
+	
 	@Test
 	public void hmacMd5() {
 		test(Md5.FUNCTION, key0, msg0, "9294727a3638bb1c13f48ef8158bfc9d");
@@ -37,6 +38,7 @@ public class HmacTest {
 		test(Md5.FUNCTION, key8, msg5, "6b1ab7fe4bd7bf8f0b62e6ce61b9d0cd");
 		test(Md5.FUNCTION, key8, msg6, "6f630fad67cda0ee1fb1f562db3aa53e");
 	}
+	
 	
 	@Test
 	public void hmacSha1() {
@@ -50,9 +52,11 @@ public class HmacTest {
 	}
 	
 	
+	
 	static void test(BlockHashFunction hashfunc, byte[] key, byte[] message, String hash) {
 		byte[] hash0 = new Hmac(hashfunc, key).getHash(message).toBytes();
 		byte[] hash1 = Debug.hexToBytes(hash);
 		assertTrue(Debug.areEqual(hash0, hash1));
 	}
+	
 }

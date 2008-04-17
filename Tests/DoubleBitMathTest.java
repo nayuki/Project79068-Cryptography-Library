@@ -10,6 +10,7 @@ public class DoubleBitMathTest {
 	private static final double NEGATIVE_ZERO = 1 / (-1.0 / 0.0);
 	
 	
+	
 	@Test
 	public void getSign() {
 		assertEquals(DoubleBitMath.getSign(POSITIVE_ZERO), 0);
@@ -17,6 +18,7 @@ public class DoubleBitMathTest {
 		assertEquals(DoubleBitMath.getSign(+1), +1);
 		assertEquals(DoubleBitMath.getSign(-1), -1);
 	}
+	
 	
 	@Test
 	public void getExponent() {
@@ -32,6 +34,7 @@ public class DoubleBitMathTest {
 		assertEquals(DoubleBitMath.getExponent(Math.E), 1);
 	}
 	
+	
 	@Test
 	public void getMantissa() {
 		assertEquals(DoubleBitMath.getMantissa(0), 0);
@@ -43,6 +46,7 @@ public class DoubleBitMathTest {
 		assertEquals(DoubleBitMath.getMantissa(Double.MIN_VALUE), 1);
 		assertEquals(DoubleBitMath.getMantissa(Double.MAX_VALUE), 0x1FFFFFFFFFFFFFL);
 	}
+	
 	
 	@Test
 	public void sgnManExpRelation() {
@@ -62,6 +66,7 @@ public class DoubleBitMathTest {
 			assertTrue(testRelation(Random.DEFAULT.randomDouble()));
 	}
 	
+	
 	@Test
 	public void isSubnormal() {
 		assertEquals(DoubleBitMath.isSubnormal(0), false);
@@ -75,6 +80,7 @@ public class DoubleBitMathTest {
 	}
 	
 	
+	
 	private static boolean testRelation(double x) {
 		int sgn = DoubleBitMath.getSign(x);
 		long man = DoubleBitMath.getMantissa(x);
@@ -82,7 +88,9 @@ public class DoubleBitMathTest {
 		return x == toDouble(sgn, man, exp);
 	}
 	
+	
 	private static double toDouble(int signum, long mantissa, int exponent) {
 		return (double)signum * mantissa * Math.pow(2, exponent - 52);
 	}
+	
 }

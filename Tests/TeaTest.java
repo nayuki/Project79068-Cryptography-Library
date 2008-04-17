@@ -22,9 +22,11 @@ public class TeaTest {
 	}
 	
 	
+	
 	static void test(Cipher cipher, String key, String plaintext, String ciphertext) {
 		test(cipher, Debug.hexToBytes(key), Debug.hexToBytes(plaintext), Debug.hexToBytes(ciphertext));
 	}
+	
 	
 	static void test(Cipher cipher, byte[] key, byte[] plaintext, byte[] ciphertext) {
 		byte[] originalplaintext = plaintext.clone();
@@ -34,4 +36,5 @@ public class TeaTest {
 		cipherer.decrypt(plaintext);
 		assertTrue(Debug.areEqual(plaintext, originalplaintext));
 	}
+	
 }

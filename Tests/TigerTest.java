@@ -17,12 +17,14 @@ public class TigerTest {
 	static String msg7 = "12345678901234567890123456789012345678901234567890123456789012345678901234567890";
 	static String msg8;
 	
+	
 	static {
 		StringBuffer sb = new StringBuffer();
 		for (int i = 0; i < 1000000; i++)
 			sb.append('a');
 		msg8 = sb.toString();
 	}
+	
 	
 	
 	@Test
@@ -38,6 +40,7 @@ public class TigerTest {
 		test(Tiger.FUNCTION, msg8, "6DB0E2729CBEAD93D715C6A7D36302E9B3CEE0D2BC314B41");
 	}
 	
+	
 	@Test
 	public void tiger2() {
 		test(Tiger2.FUNCTION, msg0, "4441BE75F6018773C206C22745374B924AA8313FEF919F41");
@@ -52,10 +55,12 @@ public class TigerTest {
 	}
 	
 	
+	
 	static void test(HashFunction hashfunc, String message, String hash) {
 		byte[] msg = Debug.asciiToBytes(message);
 		byte[] hash0 = hashfunc.getHash(msg).toBytes();
 		byte[] hash1 = Debug.hexToBytes(hash);
 		assertTrue(Debug.areEqual(hash0, hash1));
 	}
+	
 }

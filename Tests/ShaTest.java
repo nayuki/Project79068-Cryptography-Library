@@ -16,12 +16,14 @@ public class ShaTest {
 	static String msg3 = "abcdefghbcdefghicdefghijdefghijkefghijklfghijklmghijklmnhijklmnoijklmnopjklmnopqklmnopqrlmnopqrsmnopqrstnopqrstu";
 	static String msg4;
 	
+	
 	static {
 		StringBuffer sb = new StringBuffer();
 		for (int i = 0; i < 1000000; i++)
 			sb.append('a');
 		msg4 = sb.toString();
 	}
+	
 	
 	
 	@Test
@@ -32,12 +34,14 @@ public class ShaTest {
 		test(Sha1.FUNCTION, msg4, "34AA973CD4C4DAA4F61EEB2BDBAD27316534016F");
 	}
 	
+	
 	@Test
 	public void sha224() {
 		test(Sha224.FUNCTION, msg1, "23097D223405D8228642A477BDA255B32AADBCE4BDA0B3F7E36C9DA7");
 		test(Sha224.FUNCTION, msg2, "75388B16512776CC5DBA5DA1FD890150B0C6455CB4F58B1952522525");
 		test(Sha224.FUNCTION, msg4, "20794655980C91D8BBB4C1EA97618A4BF03F42581948B2EE4EE7AD67");
 	}
+	
 	
 	@Test
 	public void sha256() {
@@ -47,12 +51,14 @@ public class ShaTest {
 		test(Sha256.FUNCTION, msg4, "CDC76E5C9914FB9281A1C7E284D73E67F1809A48A497200E046D39CCC7112CD0");
 	}
 	
+	
 	@Test
 	public void sha384() {
 		test(Sha384.FUNCTION, msg1, "CB00753F45A35E8BB5A03D699AC65007272C32AB0EDED1631A8B605A43FF5BED8086072BA1E7CC2358BAECA134C825A7");
 		test(Sha384.FUNCTION, msg3, "09330C33F71147E83D192FC782CD1B4753111B173B3B05D22FA08086E3B0F712FCC7C71A557E2DB966C3E9FA91746039");
 		test(Sha384.FUNCTION, msg4, "9D0E1809716474CB086E834E310A4A1CED149E9C00F248527972CEC5704C2A5B07B8B3DC38ECC4EBAE97DDD87F3D8985");
 	}
+	
 	
 	@Test
 	public void sha512() {
@@ -63,10 +69,12 @@ public class ShaTest {
 	}
 	
 	
+	
 	static void test(HashFunction hashfunc, String message, String hash) {
 		byte[] msg = Debug.asciiToBytes(message);
 		byte[] hash0 = hashfunc.getHash(msg).toBytes();
 		byte[] hash1 = Debug.hexToBytes(hash);
 		assertTrue(Debug.areEqual(hash0, hash1));
 	}
+	
 }
