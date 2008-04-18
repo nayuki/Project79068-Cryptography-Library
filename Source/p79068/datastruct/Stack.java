@@ -62,4 +62,5 @@ public abstract class Stack<E> implements Cloneable {
 		sb.append("]");
 		return sb.toString();
 	}
+	
 }

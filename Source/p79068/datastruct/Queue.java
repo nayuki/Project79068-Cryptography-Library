@@ -1,7 +1,9 @@
 package p79068.datastruct;
 
 
-/** An abstract queue, a first-in-first-out (FIFO) data structure. */
+/**
+ * An abstract queue, a first-in-first-out (FIFO) data structure.
+ */
 public abstract class Queue<E> implements Cloneable {
 	
 	/**
@@ -10,18 +12,26 @@ public abstract class Queue<E> implements Cloneable {
 	protected Queue() {}
 	
 	
-	/** Adds the specified object to the tail of this queue. */
+	/**
+	 * Adds the specified object to the tail of this queue.
+	 */
 	public abstract void enqueue(E obj);
 	
-	/** Removes and returns the head of this queue. */
+	/**
+	 * Removes and returns the head of this queue.
+	 */
 	public abstract E dequeue();
 	
-	/** Returns the head of this queue. */
+	/**
+	 * Returns the head of this queue.
+	 */
 	public E peek() {
 		return clone().dequeue();
 	}
 	
-	/** Tests whether this queue is empty. */
+	/**
+	 * Tests whether this queue is empty.
+	 */
 	public abstract boolean isEmpty();
 	
 	
@@ -53,4 +63,5 @@ public abstract class Queue<E> implements Cloneable {
 		sb.append("]");
 		return sb.toString();
 	}
+	
 }
