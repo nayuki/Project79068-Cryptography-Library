@@ -123,17 +123,17 @@ public final class ArrayQueue<E> implements Queue<E> {
 	private void resize(int newCapacity) {
 		if (newCapacity < 2)
 			throw new AssertionError();
-		Object[] newdata = new Object[objects.length * 2];
-		int j = 0;
-		for (int i = head; i != tail; j++) {
-			newdata[j] = objects[i];
-			i++;
-			if (i == objects.length)
-				i = 0;
+		Object[] newobject = new Object[objects.length * 2];
+		if (head <= tail)
+			System.arraycopy(objects, head, newobject, 0, tail - head);
+		else {  // Wrap-around
+			System.arraycopy(objects, head, newobject, 0, objects.length - head);
+			System.arraycopy(objects, 0, newobject, objects.length - head, tail);
 		}
-		objects = newdata;
+		objects = newobject;
+		int len = length();
 		head = 0;
-		tail = j;
+		tail = len;
 	}
 	
 }
