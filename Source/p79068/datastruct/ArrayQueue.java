@@ -8,7 +8,7 @@ An array-based queue. Enqueues and dequeues are in amortized <var>O</var>(1) tim
 <p>Mutability: <em>Mutable</em><br>
  Thread safety: <em>Unsafe</em></p>
 */
-public final class ArrayQueue<E> extends Queue<E> {
+public final class ArrayQueue<E> implements Queue<E> {
 	
 	private E[] data;
 	private int head;
@@ -85,7 +85,12 @@ public final class ArrayQueue<E> extends Queue<E> {
 	
 	@SuppressWarnings("unchecked")
 	public ArrayQueue<E> clone() {
-		ArrayQueue<E> result = (ArrayQueue<E>)super.clone();
+		ArrayQueue<E> result;
+		try {
+			result = (ArrayQueue<E>)super.clone();
+		} catch (CloneNotSupportedException e) {
+			throw new AssertionError(e);
+		}
 		result.data = data.clone();
 		return result;
 	}

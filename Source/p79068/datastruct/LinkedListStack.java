@@ -8,7 +8,7 @@ import p79068.lang.NullChecker;
  * <p>Mutability: <em>Mutable</em><br>
  *  Thread safety: <em>Unsafe</em></p>
  */
-public final class LinkedListStack<E> extends Stack<E> {
+public final class LinkedListStack<E> implements Stack<E> {
 	
 	private LinkedListNode<E> top;
 	
@@ -52,7 +52,12 @@ public final class LinkedListStack<E> extends Stack<E> {
 	
 	@SuppressWarnings("unchecked")
 	public LinkedListStack<E> clone() {
-		LinkedListStack<E> result = (LinkedListStack<E>)super.clone();
+		LinkedListStack<E> result;
+		try {
+			result = (LinkedListStack<E>)super.clone();
+		} catch (CloneNotSupportedException e) {
+			throw new AssertionError(e);
+		}
 		if (result.top != null) {
 			result.top = result.top.clone();
 			for (LinkedListNode<E> node = result.top; node.next != null; node = node.next)

@@ -8,7 +8,7 @@ import p79068.lang.NullChecker;
  * <p>Mutability: <em>Mutable</em><br>
  *  Thread safety: <em>Unsafe</em></p>
  */
-public final class LinkedListQueue<E> extends Queue<E> {
+public final class LinkedListQueue<E> implements Queue<E> {
 	
 	private LinkedListNode<E> head;
 	private LinkedListNode<E> tail;
@@ -62,7 +62,12 @@ public final class LinkedListQueue<E> extends Queue<E> {
 	
 	@SuppressWarnings("unchecked")
 	public LinkedListQueue<E> clone() {
-		LinkedListQueue<E> result = (LinkedListQueue<E>)super.clone();
+		LinkedListQueue<E> result;
+		try {
+			result = (LinkedListQueue<E>)super.clone();
+		} catch (CloneNotSupportedException e) {
+			throw new AssertionError(e);
+		}
 		if (result.head != null) {
 			result.head = result.head.clone();
 			LinkedListNode<E> node = result.head;

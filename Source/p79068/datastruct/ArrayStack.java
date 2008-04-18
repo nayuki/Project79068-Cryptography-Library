@@ -8,7 +8,7 @@ An array-based stack. Pushes and pops are in amortized O(1) time.
 <p>Mutability: <em>Mutable</em><br>
  Thread safety: <em>Unsafe</em></p>
 */
-public final class ArrayStack<E> extends Stack<E> {
+public final class ArrayStack<E> implements Stack<E> {
 	
 	private E[] data;
 	private int top;
@@ -65,7 +65,12 @@ public final class ArrayStack<E> extends Stack<E> {
 	
 	@SuppressWarnings("unchecked")
 	public ArrayStack<E> clone() {
-		ArrayStack<E> result = (ArrayStack<E>)super.clone();
+		ArrayStack<E> result;
+		try {
+			result = (ArrayStack<E>)super.clone();
+		} catch (CloneNotSupportedException e) {
+			throw new AssertionError(e);
+		}
 		result.data = data.clone();
 		return result;
 	}
