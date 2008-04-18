@@ -113,7 +113,7 @@ public final class LinkedListQueue<E> implements Queue<E> {
 	
 	
 	/**
-	 * Creates and returns a copy of this queue.
+	 * Creates and returns a copy of this queue. The queue's data structures are cloned, but the objects stored are not cloned.
 	 * @return a copy of this queue
 	 */
 	@SuppressWarnings("unchecked")

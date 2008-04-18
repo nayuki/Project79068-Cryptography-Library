@@ -45,7 +45,7 @@ public interface Queue<E> extends Cloneable {
 	
 	
 	/**
-	 * Creates and returns a copy of this queue.
+	 * Creates and returns a copy of this queue. The queue's data structures are cloned, but the objects stored are not cloned.
 	 * @return a copy of this queue
 	 */
 	public Queue<E> clone();

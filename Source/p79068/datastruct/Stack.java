@@ -45,7 +45,7 @@ public interface Stack<E> extends Cloneable {
 	
 	
 	/**
-	 * Creates and returns a copy of this stack.
+	 * Creates and returns a copy of this stack. The stacks's data structures are cloned, but the objects stored are not cloned.
 	 * @return a copy of this stack
 	 */
 	public Stack<E> clone();

@@ -109,7 +109,7 @@ public final class ArrayStack<E> implements Stack<E> {
 	
 	
 	/**
-	 * Creates and returns a copy of this stack.
+	 * Creates and returns a copy of this stack. The stack's data structures are cloned, but the objects stored are not cloned.
 	 * @return a copy of this stack
 	 */
 	@SuppressWarnings("unchecked")
