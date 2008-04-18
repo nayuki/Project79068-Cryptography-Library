@@ -28,6 +28,13 @@ public interface Queue<E> extends Cloneable {
 	
 	
 	/**
+	 * Returns the length of this queue.
+	 * @return the number of objects in this queue
+	 */
+	public int length();
+	
+	
+	/**
 	 * Tests whether this queue is empty.
 	 * @return <code>true</true> if this queue has no objects; <code>false</code> otherwise
 	 */

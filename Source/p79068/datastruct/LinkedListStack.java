@@ -11,6 +11,7 @@ import p79068.lang.NullChecker;
 public final class LinkedListStack<E> implements Stack<E> {
 	
 	private LinkedListNode<E> top;
+	private int height;
 	
 	
 	
@@ -19,13 +20,17 @@ public final class LinkedListStack<E> implements Stack<E> {
 	 */
 	public LinkedListStack() {
 		top = null;
+		height = 0;
 	}
 	
 	
 	
 	public void push(E obj) {
 		NullChecker.check(obj);
+		if (height == Integer.MAX_VALUE)
+			throw new IllegalStateException("Maximum height reached");
 		top = new LinkedListNode<E>(obj, top);
+		height++;
 	}
 	
 	
@@ -34,6 +39,7 @@ public final class LinkedListStack<E> implements Stack<E> {
 			throw new IllegalStateException("Stack underflow");
 		E result = top.object;
 		top = top.next;
+		height--;
 		return result;
 	}
 	
@@ -42,6 +48,11 @@ public final class LinkedListStack<E> implements Stack<E> {
 		if (isEmpty())
 			throw new IllegalStateException("Stack underflow");
 		return top.object;
+	}
+	
+	
+	public int height() {
+		return height;
 	}
 	
 	

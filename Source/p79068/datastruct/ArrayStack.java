@@ -66,6 +66,11 @@ public final class ArrayStack<E> implements Stack<E> {
 	}
 	
 	
+	public int height() {
+		return top;
+	}
+	
+	
 	public boolean isEmpty() {
 		return top == 0;
 	}

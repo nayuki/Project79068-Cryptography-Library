@@ -28,6 +28,13 @@ public interface Stack<E> extends Cloneable {
 	
 	
 	/**
+	 * Returns the height of this stack.
+	 * @return the number of objects in this stack
+	 */
+	public int height();
+	
+	
+	/**
 	 * Tests whether this stack is empty.
 	 * @return <code>true</true> if this stack has no objects; <code>false</code> otherwise
 	 */

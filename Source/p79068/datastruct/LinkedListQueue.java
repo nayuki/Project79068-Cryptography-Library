@@ -12,6 +12,7 @@ public final class LinkedListQueue<E> implements Queue<E> {
 	
 	private LinkedListNode<E> head;
 	private LinkedListNode<E> tail;
+	private int length;
 	
 	
 	
@@ -21,12 +22,15 @@ public final class LinkedListQueue<E> implements Queue<E> {
 	public LinkedListQueue() {
 		head = null;
 		tail = null;
+		length = 0;
 	}
 	
 	
 	
 	public void enqueue(E obj) {
 		NullChecker.check(obj);
+		if (length == Integer.MAX_VALUE)
+			throw new IllegalStateException("Maximum length reached");
 		if (head == null) {
 			head = new LinkedListNode<E>(obj);
 			tail = head;
@@ -34,6 +38,7 @@ public final class LinkedListQueue<E> implements Queue<E> {
 			tail.next = new LinkedListNode<E>(obj);
 			tail = tail.next;
 		}
+		length++;
 	}
 	
 	
@@ -44,6 +49,7 @@ public final class LinkedListQueue<E> implements Queue<E> {
 		head = head.next;
 		if (head == null)
 			tail = null;
+		length--;
 		return result;
 	}
 	
@@ -52,6 +58,11 @@ public final class LinkedListQueue<E> implements Queue<E> {
 		if (isEmpty())
 			throw new IllegalStateException("Empty queue");
 		return head.object;
+	}
+	
+	
+	public int length() {
+		return length;
 	}
 	
 	
