@@ -14,6 +14,7 @@ public final class LinkedListQueue<E> extends Queue<E> {
 	private LinkedListNode<E> tail;
 	
 	
+	
 	/**
 	 * Creates a linked list queue.
 	 */
@@ -21,6 +22,7 @@ public final class LinkedListQueue<E> extends Queue<E> {
 		head = null;
 		tail = null;
 	}
+	
 	
 	
 	public void enqueue(E obj) {
@@ -34,6 +36,7 @@ public final class LinkedListQueue<E> extends Queue<E> {
 		}
 	}
 	
+	
 	public E dequeue() {
 		if (isEmpty())
 			throw new IllegalStateException("Empty queue");
@@ -44,11 +47,13 @@ public final class LinkedListQueue<E> extends Queue<E> {
 		return result;
 	}
 	
+	
 	public E peek() {
 		if (isEmpty())
 			throw new IllegalStateException("Empty queue");
 		return head.value;
 	}
+	
 	
 	public boolean isEmpty() {
 		return head == null;
@@ -68,6 +73,7 @@ public final class LinkedListQueue<E> extends Queue<E> {
 		return result;
 	}
 	
+	
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("Queue [");
@@ -79,4 +85,5 @@ public final class LinkedListQueue<E> extends Queue<E> {
 		sb.append("]");
 		return sb.toString();
 	}
+	
 }

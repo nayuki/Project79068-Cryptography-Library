@@ -7,14 +7,17 @@ public class LinkedListNode<E> implements Cloneable {
 	public LinkedListNode<E> next;
 	
 	
+	
 	public LinkedListNode(E val) {
 		this(val, null);
 	}
+	
 	
 	public LinkedListNode(E val, LinkedListNode<E> next) {
 		this.value = val;
 		this.next = next;
 	}
+	
 	
 	
 	@SuppressWarnings("unchecked")
@@ -26,7 +29,9 @@ public class LinkedListNode<E> implements Cloneable {
 		}
 	}
 	
+	
 	public String toString() {
 		return String.format("LinkedListNode: %s", value);
 	}
+	
 }

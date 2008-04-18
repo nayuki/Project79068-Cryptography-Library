@@ -4,13 +4,14 @@ import p79068.lang.NullChecker;
 
 
 /**
-A linked list-based stack. All operations are in O(1) time.
-<p>Mutability: <em>Mutable</em><br>
- Thread safety: <em>Unsafe</em></p>
-*/
+ * A linked list-based stack. All operations are in O(1) time.
+ * <p>Mutability: <em>Mutable</em><br>
+ *  Thread safety: <em>Unsafe</em></p>
+ */
 public final class LinkedListStack<E> extends Stack<E> {
 	
 	private LinkedListNode<E> top;
+	
 	
 	
 	/**
@@ -21,10 +22,12 @@ public final class LinkedListStack<E> extends Stack<E> {
 	}
 	
 	
+	
 	public void push(E obj) {
 		NullChecker.check(obj);
 		top = new LinkedListNode<E>(obj, top);
 	}
+	
 	
 	public E pop() {
 		if (isEmpty())
@@ -34,11 +37,13 @@ public final class LinkedListStack<E> extends Stack<E> {
 		return result;
 	}
 	
+	
 	public E peek() {
 		if (isEmpty())
 			throw new IllegalStateException("Stack underflow");
 		return top.value;
 	}
+	
 	
 	public boolean isEmpty() {
 		return top == null;
@@ -56,6 +61,7 @@ public final class LinkedListStack<E> extends Stack<E> {
 		return result;
 	}
 	
+	
 	public String toString() {
 		List<E> contents = new ArrayList<E>();
 		for (LinkedListNode<E> node = top; node != null; node = node.next)
@@ -70,4 +76,5 @@ public final class LinkedListStack<E> extends Stack<E> {
 		sb.append("]");
 		return sb.toString();
 	}
+	
 }
