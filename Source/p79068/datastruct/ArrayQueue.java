@@ -10,7 +10,7 @@ An array-based queue. Enqueues and dequeues are in amortized <var>O</var>(1) tim
 */
 public final class ArrayQueue<E> implements Queue<E> {
 	
-	private E[] objects;
+	private Object[] objects;
 	private int head;
 	private int tail;
 	
@@ -27,11 +27,10 @@ public final class ArrayQueue<E> implements Queue<E> {
 	/**
 	 * Creates an array-based queue with the specified initial capacity. The capacity must be at least 2.
 	 */
-	@SuppressWarnings("unchecked")
 	public ArrayQueue(int initCapacity) {
 		if (initCapacity < 2)
 			throw new IllegalArgumentException("Initial capacity less than 2");
-		objects = (E[])new Object[initCapacity];
+		objects = new Object[initCapacity];
 		head = 0;
 		tail = 0;
 	}
@@ -49,10 +48,11 @@ public final class ArrayQueue<E> implements Queue<E> {
 	}
 	
 	
+	@SuppressWarnings("unchecked")
 	public E dequeue() {
 		if (isEmpty())
 			throw new IllegalStateException("Empty queue");
-		E result = objects[head];
+		E result = (E)objects[head];
 		objects[head] = null;
 		head++;
 		if (head == objects.length)
@@ -63,12 +63,12 @@ public final class ArrayQueue<E> implements Queue<E> {
 	}
 	
 	
+	@SuppressWarnings("unchecked")
 	public E peek() {
 		if (isEmpty())
 			throw new IllegalStateException("Empty queue");
-		return objects[head];
+		return (E)objects[head];
 	}
-	
 	
 	
 	/**
@@ -123,7 +123,7 @@ public final class ArrayQueue<E> implements Queue<E> {
 	private void resize(int newCapacity) {
 		if (newCapacity < 2)
 			throw new AssertionError();
-		E[] newdata = (E[])new Object[objects.length * 2];
+		Object[] newdata = new Object[objects.length * 2];
 		int j = 0;
 		for (int i = head; i != tail; j++) {
 			newdata[j] = objects[i];

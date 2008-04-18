@@ -10,7 +10,7 @@ An array-based stack. Pushes and pops are in amortized O(1) time.
 */
 public final class ArrayStack<E> implements Stack<E> {
 	
-	private E[] objects;
+	private Object[] objects;
 	private int top;
 	
 	
@@ -30,7 +30,7 @@ public final class ArrayStack<E> implements Stack<E> {
 	public ArrayStack(int initCapacity) {
 		if (initCapacity < 1)
 			throw new IllegalArgumentException("Initial capacity less than 1");
-		objects = (E[])new Object[initCapacity];
+		objects = new Object[initCapacity];
 		top = 0;
 	}
 	
@@ -45,10 +45,11 @@ public final class ArrayStack<E> implements Stack<E> {
 	}
 	
 	
+	@SuppressWarnings("unchecked")
 	public E pop() {
 		if (isEmpty())
 			throw new IllegalStateException("Stack underflow");
-		E result = objects[top - 1];
+		E result = (E)objects[top - 1];
 		objects[top - 1] = null;
 		top--;
 		if (top <= objects.length / 4 && objects.length / 2 >= 1)
@@ -57,10 +58,11 @@ public final class ArrayStack<E> implements Stack<E> {
 	}
 	
 	
+	@SuppressWarnings("unchecked")
 	public E peek() {
 		if (isEmpty())
 			throw new IllegalStateException("Stack underflow");
-		return objects[top - 1];
+		return (E)objects[top - 1];
 	}
 	
 	
@@ -100,7 +102,7 @@ public final class ArrayStack<E> implements Stack<E> {
 	private void resize(int newCapacity) {
 		if (newCapacity < top || newCapacity < 1)
 			throw new AssertionError();
-		E[] newdata = (E[])new Object[newCapacity];
+		Object[] newdata = new Object[newCapacity];
 		System.arraycopy(objects, 0, newdata, 0, top);
 		objects = newdata;
 	}
