@@ -58,7 +58,7 @@ public interface List<E> extends Iterable<E> {
 	 * @param list the list of objects to insert
 	 * @param index the index where the objects in <code>list</code> will be inserted at; <code>0 &lt;= index &lt;= length()</code>
 	 */
-	public void insertList(int index, List<? extends E> obj);
+	public void insertList(int index, List<? extends E> list);
 	
 	
 	/**
@@ -73,7 +73,7 @@ public interface List<E> extends Iterable<E> {
 	 * @param offset the starting index of the range, inclusive; <code>0 &lt;= offset &lt; length()</code>
 	 * @param length the number of objects in the range; <code>0 &lt;= length &lt; length() - offset</code>
 	 */
-	public int removeRange(int offset, int length);
+	public void removeRange(int offset, int length);
 	
 	
 	/**
