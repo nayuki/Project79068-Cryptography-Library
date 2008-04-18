@@ -143,7 +143,6 @@ public final class ArrayStack<E> implements Stack<E> {
 	
 	
 	// In this implementation, the backing array is doubled when it's full and halved when it's quarter-full.
-	@SuppressWarnings("unchecked")
 	private void resize(int newCapacity) {
 		if (newCapacity < top || newCapacity < 1)
 			throw new AssertionError();

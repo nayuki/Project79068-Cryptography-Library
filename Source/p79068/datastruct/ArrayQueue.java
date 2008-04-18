@@ -160,7 +160,6 @@ public final class ArrayQueue<E> implements Queue<E> {
 	}
 	
 	
-	@SuppressWarnings("unchecked")
 	private void resize(int newCapacity) {
 		if (newCapacity < 2)
 			throw new AssertionError();
