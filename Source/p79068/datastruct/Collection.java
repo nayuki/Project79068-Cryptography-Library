@@ -1,6 +1,7 @@
 package p79068.datastruct;
 
 import java.util.Iterator;
+import p79068.lang.NullChecker;
 
 
 /**
@@ -22,6 +23,14 @@ public interface Collection<E> extends Iterable<E> {
 	 * @return <code>true</code> if this collection contains <code>obj</code>; <code>false</code> otherwise
 	 */
 	public boolean contains(Object obj);
+	
+	
+	/**
+	 * Returns the number of objects in this collection that are equal to the specified object.
+	 * @param obj the object whose presence to count
+	 * @return the number of objects that are equal to <code>obj</code>
+	 */
+	public int count(Object obj);
 	
 	
 	/**
@@ -66,14 +75,6 @@ public interface Collection<E> extends Iterable<E> {
 	 * Removes all objects from this collection.
 	 */
 	public void clear();
-	
-	
-	/**
-	 * Returns the number of objects in this collection that are equal to the specified object.
-	 * @param obj the object whose presence to count
-	 * @return the number of objects that are equal to <code>obj</code>
-	 */
-	public int count(Object obj);
 	
 	
 	/**
