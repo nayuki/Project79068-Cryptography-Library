@@ -15,12 +15,14 @@ public final class ArrayQueue<E> implements Queue<E> {
 	private int tail;
 	
 	
+	
 	/**
 	 * Creates an array-based queue.
 	 */
 	public ArrayQueue() {
 		this(16);
 	}
+	
 	
 	/**
 	 * Creates an array-based queue with the specified initial capacity. The capacity must be at least 2.
@@ -35,6 +37,7 @@ public final class ArrayQueue<E> implements Queue<E> {
 	}
 	
 	
+	
 	public void enqueue(E obj) {
 		NullChecker.check(obj);
 		if (length() + 1 == data.length)
@@ -44,6 +47,7 @@ public final class ArrayQueue<E> implements Queue<E> {
 		if (tail == data.length)
 			tail = 0;
 	}
+	
 	
 	public E dequeue() {
 		if (isEmpty())
@@ -58,11 +62,13 @@ public final class ArrayQueue<E> implements Queue<E> {
 		return result;
 	}
 	
+	
 	public E peek() {
 		if (isEmpty())
 			throw new IllegalStateException("Empty queue");
 		return data[head];
 	}
+	
 	
 	
 	/**
@@ -71,6 +77,7 @@ public final class ArrayQueue<E> implements Queue<E> {
 	public boolean isEmpty() {
 		return head == tail;
 	}
+	
 	
 	/**
 	 * Returns the length of this queue.
@@ -94,6 +101,7 @@ public final class ArrayQueue<E> implements Queue<E> {
 		result.data = data.clone();
 		return result;
 	}
+	
 	
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
@@ -127,4 +135,5 @@ public final class ArrayQueue<E> implements Queue<E> {
 		head = 0;
 		tail = j;
 	}
+	
 }

@@ -14,12 +14,14 @@ public final class ArrayStack<E> implements Stack<E> {
 	private int top;
 	
 	
+	
 	/**
 	 * Creates an array-based stack.
 	 */
 	public ArrayStack() {
 		this(16);
 	}
+	
 	
 	/**
 	 * Creates an array-based stack with the specified initial capacity.
@@ -33,6 +35,7 @@ public final class ArrayStack<E> implements Stack<E> {
 	}
 	
 	
+	
 	public void push(E obj) {
 		NullChecker.check(obj);
 		if (top == data.length)
@@ -40,6 +43,7 @@ public final class ArrayStack<E> implements Stack<E> {
 		data[top] = obj;
 		top++;
 	}
+	
 	
 	public E pop() {
 		if (isEmpty())
@@ -52,11 +56,13 @@ public final class ArrayStack<E> implements Stack<E> {
 		return result;
 	}
 	
+	
 	public E peek() {
 		if (isEmpty())
 			throw new IllegalStateException("Stack underflow");
 		return data[top - 1];
 	}
+	
 	
 	public boolean isEmpty() {
 		return top == 0;
@@ -74,6 +80,7 @@ public final class ArrayStack<E> implements Stack<E> {
 		result.data = data.clone();
 		return result;
 	}
+	
 	
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
@@ -97,4 +104,5 @@ public final class ArrayStack<E> implements Stack<E> {
 		System.arraycopy(data, 0, newdata, 0, top);
 		data = newdata;
 	}
+	
 }
