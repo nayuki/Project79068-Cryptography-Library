@@ -10,7 +10,16 @@ import p79068.lang.NullChecker;
  */
 public final class LinkedListStack<E> implements Stack<E> {
 	
+	/**
+	 * The linked list node that holds the top object of this stack.
+	 * This node points to the node that holds the next topmost object of this stack, and so on.
+	 * This field is <code>null</code> if and only if this stack is empty.
+	 */
 	private LinkedListNode<E> top;
+	
+	/**
+	 * The height of this stack.
+	 */
 	private int height;
 	
 	
@@ -25,6 +34,11 @@ public final class LinkedListStack<E> implements Stack<E> {
 	
 	
 	
+	/**
+	 * Adds the specified object to the top of this stack.
+	 * @param obj the object to add
+	 * @throws IllegalStateException if this stack's height is <code>Integer.MAX_VALUE</code>
+	 */
 	public void push(E obj) {
 		NullChecker.check(obj);
 		if (height == Integer.MAX_VALUE)
@@ -34,6 +48,11 @@ public final class LinkedListStack<E> implements Stack<E> {
 	}
 	
 	
+	/**
+	 * Removes and returns the object at the top of this stack.
+	 * @return the object at the top of this stack
+	 * @throws IllegalStateException if this stack is empty
+	 */
 	public E pop() {
 		if (isEmpty())
 			throw new IllegalStateException("Stack underflow");
@@ -44,6 +63,11 @@ public final class LinkedListStack<E> implements Stack<E> {
 	}
 	
 	
+	/**
+	 * Returns the object at the top of this stack without removing it.
+	 * @return the object at the top of this stack
+	 * @throws IllegalStateException if this stack is empty
+	 */
 	public E peek() {
 		if (isEmpty())
 			throw new IllegalStateException("Stack underflow");
@@ -51,16 +75,28 @@ public final class LinkedListStack<E> implements Stack<E> {
 	}
 	
 	
+	/**
+	 * Returns the height of this stack.
+	 * @return the number of objects in this stack
+	 */
 	public int height() {
 		return height;
 	}
 	
 	
+	/**
+	 * Tests whether this stack is empty.
+	 * @return <code>true</true> if this stack has no objects; <code>false</code> otherwise
+	 */
 	public boolean isEmpty() {
 		return top == null;
 	}
 	
 	
+	/**
+	 * Creates and returns a copy of this stack.
+	 * @return a copy of this stack
+	 */
 	@SuppressWarnings("unchecked")
 	public LinkedListStack<E> clone() {
 		LinkedListStack<E> result;
@@ -78,6 +114,10 @@ public final class LinkedListStack<E> implements Stack<E> {
 	}
 	
 	
+	/**
+	 * Returns a string representation of this stack. The format is <code>Queue [<var>bottom</var>, ..., <var>top</var>]</code>. This is subjected to change.
+	 * @return a string representation of this stack
+	 */
 	public String toString() {
 		List<E> contents = new ArrayList<E>();
 		for (LinkedListNode<E> node = top; node != null; node = node.next)

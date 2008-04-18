@@ -9,6 +9,7 @@ public interface Stack<E> extends Cloneable {
 	/**
 	 * Adds the specified object to the top of this stack.
 	 * @param obj the object to add
+	 * @throws IllegalStateException if this stack's height is <code>Integer.MAX_VALUE</code>
 	 */
 	public void push(E obj);
 	
@@ -30,7 +31,7 @@ public interface Stack<E> extends Cloneable {
 	
 	
 	/**
-	 * Returns the height of this stack.
+	 * Returns the height of this stack. It is illegal for a stack's height to exceed <code>Integer.MAX_VALUE</code>.
 	 * @return the number of objects in this stack
 	 */
 	public int height();

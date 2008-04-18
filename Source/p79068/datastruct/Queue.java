@@ -9,6 +9,7 @@ public interface Queue<E> extends Cloneable {
 	/**
 	 * Adds the specified object to the tail of this queue.
 	 * @param obj the object to enqueue
+	 * @throws IllegalStateException if this queue's length is <code>Integer.MAX_VALUE</code>
 	 */
 	public void enqueue(E obj);
 	
@@ -30,7 +31,7 @@ public interface Queue<E> extends Cloneable {
 	
 	
 	/**
-	 * Returns the length of this queue.
+	 * Returns the length of this queue. It is illegal for a queue's length to exceed <code>Integer.MAX_VALUE</code>.
 	 * @return the number of objects in this queue
 	 */
 	public int length();

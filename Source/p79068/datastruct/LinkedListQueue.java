@@ -10,8 +10,26 @@ import p79068.lang.NullChecker;
  */
 public final class LinkedListQueue<E> implements Queue<E> {
 	
+	/**
+	 * The linked list node that holds the head object of this queue.
+	 * This node points to the node that holds the next object of this queue, and so on.
+	 * This field is <code>null</code> if and only if this queue is empty.
+	 * This field is equal to <code>tail</code> (and not <code>null</code>) if and only if this queue has 1 object.
+	 */
 	private LinkedListNode<E> head;
+	
+	/**
+	 * The linked list node that holds the tail object of this queue.
+	 * This node points to nothing.
+	 * This field is <code>null</code> if and only if this queue is empty.
+	 * This field is equal to <code>head</code> (and not <code>null</code>) if and only if this queue has 1 object.
+	 */
 	private LinkedListNode<E> tail;
+	
+	
+	/**
+	 * The length of this queue.
+	 */
 	private int length;
 	
 	
@@ -27,6 +45,11 @@ public final class LinkedListQueue<E> implements Queue<E> {
 	
 	
 	
+	/**
+	 * Adds the specified object to the tail of this queue.
+	 * @param obj the object to enqueue
+	 * @throws IllegalStateException if this queue's length is <code>Integer.MAX_VALUE</code>
+	 */
 	public void enqueue(E obj) {
 		NullChecker.check(obj);
 		if (length == Integer.MAX_VALUE)
@@ -42,6 +65,11 @@ public final class LinkedListQueue<E> implements Queue<E> {
 	}
 	
 	
+	/**
+	 * Removes and returns the object at the head of this queue.
+	 * @return the object at the head of this queue
+	 * @throws IllegalStateException if this queue is empty
+	 */
 	public E dequeue() {
 		if (isEmpty())
 			throw new IllegalStateException("Empty queue");
@@ -54,6 +82,11 @@ public final class LinkedListQueue<E> implements Queue<E> {
 	}
 	
 	
+	/**
+	 * Returns the object at head of this queue without removing it.
+	 * @return the object at the head of this queue
+	 * @throws IllegalStateException if this queue is empty
+	 */
 	public E peek() {
 		if (isEmpty())
 			throw new IllegalStateException("Empty queue");
@@ -61,16 +94,28 @@ public final class LinkedListQueue<E> implements Queue<E> {
 	}
 	
 	
+	/**
+	 * Returns the length of this queue.
+	 * @return the number of objects in this queue
+	 */
 	public int length() {
 		return length;
 	}
 	
 	
+	/**
+	 * Tests whether this queue is empty.
+	 * @return <code>true</true> if this queue has no objects; <code>false</code> otherwise
+	 */
 	public boolean isEmpty() {
 		return head == null;
 	}
 	
 	
+	/**
+	 * Creates and returns a copy of this queue.
+	 * @return a copy of this queue
+	 */
 	@SuppressWarnings("unchecked")
 	public LinkedListQueue<E> clone() {
 		LinkedListQueue<E> result;
@@ -90,6 +135,10 @@ public final class LinkedListQueue<E> implements Queue<E> {
 	}
 	
 	
+	/**
+	 * Returns a string representation of this queue. The format is <code>Queue [<var>head</var>, ..., <var>tail</var>]</code>. This is subjected to change.
+	 * @return a string representation of this queue
+	 */
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("Queue [");
