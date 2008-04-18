@@ -126,13 +126,22 @@ public final class ArrayCollection<E> implements Collection<E> {
 	
 	
 	public boolean isSubsetOf(Collection<?> coll) {
-		// TODO Auto-generated method stub
-		return false;
+		NullChecker.check(coll);
+		for (int i = 0; i < size; i++) {
+			if (count(objects[i]) > coll.count(objects[i]))
+				return false;
+		}
+		return true;
 	}
 	
+	
 	public boolean isSupersetOf(Collection<?> coll) {
-		// TODO Auto-generated method stub
-		return false;
+		NullChecker.check(coll);
+		for (Object obj : coll) {
+			if (count(obj) < coll.count(obj))
+				return false;
+		}
+		return true;
 	}
 	
 	
