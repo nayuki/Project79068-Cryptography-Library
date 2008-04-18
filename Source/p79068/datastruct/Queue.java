@@ -1,7 +1,5 @@
 package p79068.datastruct;
 
-import java.util.NoSuchElementException;
-
 
 /**
  * A queue, a first-in-first-out (FIFO) data structure.
