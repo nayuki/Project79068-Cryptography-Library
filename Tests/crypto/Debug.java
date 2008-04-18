@@ -1,3 +1,6 @@
+package crypto;
+
+
 class Debug{
 
  static byte[] hexToBytes(String s){

@@ -1,3 +1,5 @@
+package crypto;
+
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import p79068.crypto.hash.Tiger;
