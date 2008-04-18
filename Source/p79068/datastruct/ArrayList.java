@@ -132,8 +132,7 @@ public final class ArrayList<E> implements List<E> {
 	
 	
 	public Collection<E> asCollection() {
-		// TODO Auto-generated method stub
-		return null;
+		return new ListCollectionAdapter<E>(this);
 	}
 	
 	
