@@ -16,6 +16,7 @@ public interface Stack<E> extends Cloneable {
 	/**
 	 * Removes and returns the object at the top of this stack.
 	 * @return the object at the top of this stack
+	 * @throws IllegalStateException if this stack is empty
 	 */
 	public E pop();
 	
@@ -23,6 +24,7 @@ public interface Stack<E> extends Cloneable {
 	/**
 	 * Returns the object at the top of this stack without removing it.
 	 * @return the object at the top of this stack
+	 * @throws IllegalStateException if this stack is empty
 	 */
 	public E peek();
 	

@@ -1,5 +1,7 @@
 package p79068.datastruct;
 
+import java.util.NoSuchElementException;
+
 
 /**
  * A queue, a first-in-first-out (FIFO) data structure.
@@ -16,6 +18,7 @@ public interface Queue<E> extends Cloneable {
 	/**
 	 * Removes and returns the object at the head of this queue.
 	 * @return the object at the head of this queue
+	 * @throws IllegalStateException if this queue is empty
 	 */
 	public E dequeue();
 	
@@ -23,6 +26,7 @@ public interface Queue<E> extends Cloneable {
 	/**
 	 * Returns the object at head of this queue without removing it.
 	 * @return the object at the head of this queue
+	 * @throws IllegalStateException if this queue is empty
 	 */
 	public E peek();
 	

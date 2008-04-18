@@ -4,20 +4,35 @@ import p79068.lang.NullChecker;
 
 
 /**
-An array-based queue. Enqueues and dequeues are in amortized <var>O</var>(1) time.
-<p>Mutability: <em>Mutable</em><br>
- Thread safety: <em>Unsafe</em></p>
-*/
+ * An circular array-based queue. Enqueues and dequeues are in amortized <var>O</var>(1) time.
+ * <p>Mutability: <em>Mutable</em><br>
+ *  Thread safety: <em>Unsafe</em></p>
+ */
 public final class ArrayQueue<E> implements Queue<E> {
 	
+	/**
+	 * The array that holds the objects of this queue.
+	 * This array is used in a circular fashion; that is:
+	 *  - If <code>head &lt;= tail</code>, then the objects in this queue are stored in the range [<code>head</code>, <code>tail</code>).
+	 *  - Otherwise, the objects in this queue are stored in the range [<code>head</code>, <code>objects.length</code>) concatenated with the range [<code>0</code>, <code>tail</code>).
+	 * Note that <code>head == tail</code> represents the queue being empty. There is no way to represent the queue being full, so the maximum usage of the queue is <code>objects.length - 1</code>.
+	 */
 	private Object[] objects;
+	
+	/**
+	 * The index where the next object will be dequeued.
+	 */
 	private int head;
+	
+	/**
+	 * The index where the next object will be enqueued.
+	 */
 	private int tail;
 	
 	
 	
 	/**
-	 * Creates an array-based queue.
+	 * Creates an circular array-based queue.
 	 */
 	public ArrayQueue() {
 		this(16);
@@ -25,7 +40,9 @@ public final class ArrayQueue<E> implements Queue<E> {
 	
 	
 	/**
-	 * Creates an array-based queue with the specified initial capacity. The capacity must be at least 2.
+	 * Creates an circular array-based queue with the specified initial capacity.
+	 * @param initCapacity the initial capacity, which must be at least 2
+	 * @throws IllegalArgumentException if <code>initCapacity &lt; 2</code>
 	 */
 	public ArrayQueue(int initCapacity) {
 		if (initCapacity < 2)
@@ -37,6 +54,10 @@ public final class ArrayQueue<E> implements Queue<E> {
 	
 	
 	
+	/**
+	 * Adds the specified object to the tail of this queue.
+	 * @param obj the object to enqueue
+	 */
 	public void enqueue(E obj) {
 		NullChecker.check(obj);
 		if (length() + 1 == objects.length)
@@ -48,6 +69,11 @@ public final class ArrayQueue<E> implements Queue<E> {
 	}
 	
 	
+	/**
+	 * Removes and returns the object at the head of this queue.
+	 * @return the object at the head of this queue
+	 * @throws IllegalStateException if this queue is empty
+	 */
 	@SuppressWarnings("unchecked")
 	public E dequeue() {
 		if (isEmpty())
@@ -63,6 +89,11 @@ public final class ArrayQueue<E> implements Queue<E> {
 	}
 	
 	
+	/**
+	 * Returns the object at head of this queue without removing it.
+	 * @return the object at the head of this queue
+	 * @throws IllegalStateException if this queue is empty
+	 */
 	@SuppressWarnings("unchecked")
 	public E peek() {
 		if (isEmpty())
@@ -72,7 +103,20 @@ public final class ArrayQueue<E> implements Queue<E> {
 	
 	
 	/**
+	 * Returns the length of this queue.
+	 * @return the number of objects in this queue
+	 */
+	public int length() {
+		if (head <= tail)  // No wrap-around
+			return tail - head;
+		else  // Has wrap-around
+			return tail + objects.length - head;
+	}
+	
+	
+	/**
 	 * Tests whether this queue is empty.
+	 * @return <code>true</true> if this queue has no objects; <code>false</code> otherwise
 	 */
 	public boolean isEmpty() {
 		return head == tail;
@@ -80,16 +124,9 @@ public final class ArrayQueue<E> implements Queue<E> {
 	
 	
 	/**
-	 * Returns the length of this queue.
+	 * Creates and returns a copy of this queue.
+	 * @return a copy of this queue
 	 */
-	public int length() {
-		if (head <= tail)
-			return tail - head;
-		else
-			return tail + objects.length - head;
-	}
-	
-	
 	@SuppressWarnings("unchecked")
 	public ArrayQueue<E> clone() {
 		ArrayQueue<E> result;
@@ -103,6 +140,10 @@ public final class ArrayQueue<E> implements Queue<E> {
 	}
 	
 	
+	/**
+	 * Returns a string representation of this queue. The format is <code>Queue [<var>head</var>, ..., <var>tail</var>]</code>. This is subjected to change.
+	 * @return a string representation of this queue
+	 */
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("Queue [");
@@ -111,7 +152,7 @@ public final class ArrayQueue<E> implements Queue<E> {
 				sb.append(", ");
 			sb.append(objects[i]);
 			i++;
-			if (i == objects.length)
+			if (i == objects.length)  // Wrap-around
 				i = 0;
 		}
 		sb.append("]");
@@ -124,9 +165,9 @@ public final class ArrayQueue<E> implements Queue<E> {
 		if (newCapacity < 2)
 			throw new AssertionError();
 		Object[] newobject = new Object[objects.length * 2];
-		if (head <= tail)
+		if (head <= tail)  // No wrap-around
 			System.arraycopy(objects, head, newobject, 0, tail - head);
-		else {  // Wrap-around
+		else {  // Has wrap-around
 			System.arraycopy(objects, head, newobject, 0, objects.length - head);
 			System.arraycopy(objects, 0, newobject, objects.length - head, tail);
 		}
