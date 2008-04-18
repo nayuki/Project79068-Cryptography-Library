@@ -35,7 +35,7 @@ public final class LinkedList<E> extends List<E> {
 	public boolean contains(Object o) {
 		NullChecker.check(o);
 		for (LinkedListNode<E> node = getNode(0); node != null; node = node.next) {
-			if (o.equals(node.value))
+			if (o.equals(node.object))
 				return true;
 		}
 		return false;
@@ -45,7 +45,7 @@ public final class LinkedList<E> extends List<E> {
 		NullChecker.check(o);
 		int count = 0;
 		for (LinkedListNode<E> node = getNode(0); node != null; node = node.next) {
-			if (o.equals(node.value))
+			if (o.equals(node.object))
 				count++;
 		}
 		return count;
@@ -97,19 +97,19 @@ public final class LinkedList<E> extends List<E> {
 	
 	public E getAt(int index) {
 		BoundsChecker.check(length, index);
-		return getNode(index).value;
+		return getNode(index).object;
 	}
 	
 	public void setAt(int index, E obj) {
 		BoundsChecker.check(length, index);
 		NullChecker.check(obj);
-		getNode(index).value = obj;
+		getNode(index).object = obj;
 	}
 	
 	public E removeAt(int index) {
 		BoundsChecker.check(length, index);
 		LinkedListNode<E> node = getNode(index - 1);
-		E result = node.next.value;
+		E result = node.next.object;
 		node.next = node.next.next;
 		length--;
 		return result;
@@ -120,7 +120,7 @@ public final class LinkedList<E> extends List<E> {
 		int removed = 0;
 		LinkedListNode<E> node = getNode(-1);
 		while (node.next != null) {
-			if (o.equals(node.next.value)) {
+			if (o.equals(node.next.object)) {
 				node.next = node.next.next;
 				length--;
 				removed++;
@@ -149,7 +149,7 @@ public final class LinkedList<E> extends List<E> {
 	
 	public void clearTo(E obj) {
 		for (LinkedListNode<E> node = getNode(0); node != null; node = node.next)
-			node.value = obj;
+			node.object = obj;
 	}
 	
 	
@@ -164,7 +164,7 @@ public final class LinkedList<E> extends List<E> {
 		int index = Math.max(start, 0);
 		LinkedListNode<E> node = getNode(index);
 		for (; node != null; node = node.next, index++) {
-			if (o.equals(node.value))
+			if (o.equals(node.object))
 				return index;
 		}
 		return -1;
@@ -180,7 +180,7 @@ public final class LinkedList<E> extends List<E> {
 		LinkedListNode<E> node = getNode(0);
 		int index = 0;
 		for (; node != null && index <= start; node = node.next, index++) {
-			if (o.equals(node.value))
+			if (o.equals(node.object))
 				result = index;
 		}
 		return result;
@@ -200,7 +200,7 @@ public final class LinkedList<E> extends List<E> {
 			return false;
 		LinkedListNode<E> node = getNode(0);
 		for (E listobj : list) {
-			if (!node.value.equals(listobj))
+			if (!node.object.equals(listobj))
 				return false;
 			node = node.next;
 		}
@@ -211,7 +211,7 @@ public final class LinkedList<E> extends List<E> {
 		HashCoder h = HashCoder.newInstance();
 		h.add(length);
 		for (LinkedListNode<E> node = getNode(0); node != null; node = node.next)
-			h.add(node.value.hashCode());
+			h.add(node.object.hashCode());
 		return h.getHashCode();
 	}
 	
@@ -224,7 +224,7 @@ public final class LinkedList<E> extends List<E> {
 				sb.append(", ");
 			else
 				initial = false;
-			sb.append(node.value);
+			sb.append(node.object);
 		}
 		sb.append("]");
 		return sb.toString();
@@ -260,7 +260,7 @@ public final class LinkedList<E> extends List<E> {
 		public E next() {
 			if (!hasNext())
 				throw new NoSuchElementException();
-			E result = currentNode.value;
+			E result = currentNode.object;
 			currentNode = currentNode.next;
 			return result;
 		}

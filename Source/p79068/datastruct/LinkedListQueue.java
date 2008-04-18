@@ -40,7 +40,7 @@ public final class LinkedListQueue<E> implements Queue<E> {
 	public E dequeue() {
 		if (isEmpty())
 			throw new IllegalStateException("Empty queue");
-		E result = head.value;
+		E result = head.object;
 		head = head.next;
 		if (head == null)
 			tail = null;
@@ -51,7 +51,7 @@ public final class LinkedListQueue<E> implements Queue<E> {
 	public E peek() {
 		if (isEmpty())
 			throw new IllegalStateException("Empty queue");
-		return head.value;
+		return head.object;
 	}
 	
 	
@@ -85,7 +85,7 @@ public final class LinkedListQueue<E> implements Queue<E> {
 		for (LinkedListNode<E> node = head; node != null; node = node.next) {
 			if (node != head)
 				sb.append(", ");
-			sb.append(node.value);
+			sb.append(node.object);
 		}
 		sb.append("]");
 		return sb.toString();

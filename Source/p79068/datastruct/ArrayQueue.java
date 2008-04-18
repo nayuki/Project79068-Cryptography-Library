@@ -10,7 +10,7 @@ An array-based queue. Enqueues and dequeues are in amortized <var>O</var>(1) tim
 */
 public final class ArrayQueue<E> implements Queue<E> {
 	
-	private E[] data;
+	private E[] objects;
 	private int head;
 	private int tail;
 	
@@ -31,7 +31,7 @@ public final class ArrayQueue<E> implements Queue<E> {
 	public ArrayQueue(int initCapacity) {
 		if (initCapacity < 2)
 			throw new IllegalArgumentException("Initial capacity less than 2");
-		data = (E[])new Object[initCapacity];
+		objects = (E[])new Object[initCapacity];
 		head = 0;
 		tail = 0;
 	}
@@ -40,11 +40,11 @@ public final class ArrayQueue<E> implements Queue<E> {
 	
 	public void enqueue(E obj) {
 		NullChecker.check(obj);
-		if (length() + 1 == data.length)
-			resize(data.length * 2);
-		data[tail] = obj;
+		if (length() + 1 == objects.length)
+			resize(objects.length * 2);
+		objects[tail] = obj;
 		tail++;
-		if (tail == data.length)
+		if (tail == objects.length)
 			tail = 0;
 	}
 	
@@ -52,13 +52,13 @@ public final class ArrayQueue<E> implements Queue<E> {
 	public E dequeue() {
 		if (isEmpty())
 			throw new IllegalStateException("Empty queue");
-		E result = data[head];
-		data[head] = null;
+		E result = objects[head];
+		objects[head] = null;
 		head++;
-		if (head == data.length)
+		if (head == objects.length)
 			head = 0;
-		if (length() <= data.length / 4 && data.length / 2 >= 2)
-			resize(data.length / 2);
+		if (length() <= objects.length / 4 && objects.length / 2 >= 2)
+			resize(objects.length / 2);
 		return result;
 	}
 	
@@ -66,7 +66,7 @@ public final class ArrayQueue<E> implements Queue<E> {
 	public E peek() {
 		if (isEmpty())
 			throw new IllegalStateException("Empty queue");
-		return data[head];
+		return objects[head];
 	}
 	
 	
@@ -86,7 +86,7 @@ public final class ArrayQueue<E> implements Queue<E> {
 		if (head <= tail)
 			return tail - head;
 		else
-			return tail + data.length - head;
+			return tail + objects.length - head;
 	}
 	
 	
@@ -98,7 +98,7 @@ public final class ArrayQueue<E> implements Queue<E> {
 		} catch (CloneNotSupportedException e) {
 			throw new AssertionError(e);
 		}
-		result.data = data.clone();
+		result.objects = objects.clone();
 		return result;
 	}
 	
@@ -109,9 +109,9 @@ public final class ArrayQueue<E> implements Queue<E> {
 		for (int i = head; i != tail;) {
 			if (i != head)
 				sb.append(", ");
-			sb.append(data[i]);
+			sb.append(objects[i]);
 			i++;
-			if (i == data.length)
+			if (i == objects.length)
 				i = 0;
 		}
 		sb.append("]");
@@ -123,15 +123,15 @@ public final class ArrayQueue<E> implements Queue<E> {
 	private void resize(int newCapacity) {
 		if (newCapacity < 2)
 			throw new AssertionError();
-		E[] newdata = (E[])new Object[data.length * 2];
+		E[] newdata = (E[])new Object[objects.length * 2];
 		int j = 0;
 		for (int i = head; i != tail; j++) {
-			newdata[j] = data[i];
+			newdata[j] = objects[i];
 			i++;
-			if (i == data.length)
+			if (i == objects.length)
 				i = 0;
 		}
-		data = newdata;
+		objects = newdata;
 		head = 0;
 		tail = j;
 	}

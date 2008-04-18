@@ -10,7 +10,7 @@ An array-based stack. Pushes and pops are in amortized O(1) time.
 */
 public final class ArrayStack<E> implements Stack<E> {
 	
-	private E[] data;
+	private E[] objects;
 	private int top;
 	
 	
@@ -30,7 +30,7 @@ public final class ArrayStack<E> implements Stack<E> {
 	public ArrayStack(int initCapacity) {
 		if (initCapacity < 1)
 			throw new IllegalArgumentException("Initial capacity less than 1");
-		data = (E[])new Object[initCapacity];
+		objects = (E[])new Object[initCapacity];
 		top = 0;
 	}
 	
@@ -38,9 +38,9 @@ public final class ArrayStack<E> implements Stack<E> {
 	
 	public void push(E obj) {
 		NullChecker.check(obj);
-		if (top == data.length)
-			resize(data.length * 2);
-		data[top] = obj;
+		if (top == objects.length)
+			resize(objects.length * 2);
+		objects[top] = obj;
 		top++;
 	}
 	
@@ -48,11 +48,11 @@ public final class ArrayStack<E> implements Stack<E> {
 	public E pop() {
 		if (isEmpty())
 			throw new IllegalStateException("Stack underflow");
-		E result = data[top - 1];
-		data[top - 1] = null;
+		E result = objects[top - 1];
+		objects[top - 1] = null;
 		top--;
-		if (top <= data.length / 4 && data.length / 2 >= 1)
-			resize(data.length / 2);
+		if (top <= objects.length / 4 && objects.length / 2 >= 1)
+			resize(objects.length / 2);
 		return result;
 	}
 	
@@ -60,7 +60,7 @@ public final class ArrayStack<E> implements Stack<E> {
 	public E peek() {
 		if (isEmpty())
 			throw new IllegalStateException("Stack underflow");
-		return data[top - 1];
+		return objects[top - 1];
 	}
 	
 	
@@ -77,7 +77,7 @@ public final class ArrayStack<E> implements Stack<E> {
 		} catch (CloneNotSupportedException e) {
 			throw new AssertionError(e);
 		}
-		result.data = data.clone();
+		result.objects = objects.clone();
 		return result;
 	}
 	
@@ -88,7 +88,7 @@ public final class ArrayStack<E> implements Stack<E> {
 		for (int i = 0; i < top; i++) {
 			if (i != 0)
 				sb.append(", ");
-			sb.append(data[i]);
+			sb.append(objects[i]);
 		}
 		sb.append("]");
 		return sb.toString();
@@ -101,8 +101,8 @@ public final class ArrayStack<E> implements Stack<E> {
 		if (newCapacity < top || newCapacity < 1)
 			throw new AssertionError();
 		E[] newdata = (E[])new Object[newCapacity];
-		System.arraycopy(data, 0, newdata, 0, top);
-		data = newdata;
+		System.arraycopy(objects, 0, newdata, 0, top);
+		objects = newdata;
 	}
 	
 }

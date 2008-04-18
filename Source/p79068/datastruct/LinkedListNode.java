@@ -3,7 +3,7 @@ package p79068.datastruct;
 
 public class LinkedListNode<E> implements Cloneable {
 	
-	public E value;
+	public E object;
 	public LinkedListNode<E> next;
 	
 	
@@ -13,8 +13,8 @@ public class LinkedListNode<E> implements Cloneable {
 	}
 	
 	
-	public LinkedListNode(E val, LinkedListNode<E> next) {
-		this.value = val;
+	public LinkedListNode(E obj, LinkedListNode<E> next) {
+		this.object = obj;
 		this.next = next;
 	}
 	
@@ -31,7 +31,7 @@ public class LinkedListNode<E> implements Cloneable {
 	
 	
 	public String toString() {
-		return String.format("LinkedListNode: %s", value);
+		return String.format("LinkedListNode: %s", object);
 	}
 	
 }

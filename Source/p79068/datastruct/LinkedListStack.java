@@ -32,7 +32,7 @@ public final class LinkedListStack<E> implements Stack<E> {
 	public E pop() {
 		if (isEmpty())
 			throw new IllegalStateException("Stack underflow");
-		E result = top.value;
+		E result = top.object;
 		top = top.next;
 		return result;
 	}
@@ -41,7 +41,7 @@ public final class LinkedListStack<E> implements Stack<E> {
 	public E peek() {
 		if (isEmpty())
 			throw new IllegalStateException("Stack underflow");
-		return top.value;
+		return top.object;
 	}
 	
 	
@@ -70,7 +70,7 @@ public final class LinkedListStack<E> implements Stack<E> {
 	public String toString() {
 		List<E> contents = new ArrayList<E>();
 		for (LinkedListNode<E> node = top; node != null; node = node.next)
-			contents.append(node.value);
+			contents.append(node.object);
 		StringBuilder sb = new StringBuilder();
 		sb.append("Stack [");
 		for (int i = contents.length() - 1; i >= 0; i--) {
