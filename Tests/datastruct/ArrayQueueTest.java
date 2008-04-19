@@ -33,28 +33,27 @@ public class ArrayQueueTest {
 	
 	@Test
 	public void testEnqueueDequeue() {
-		// FIXME
-		ArrayQueue<String> queue = new ArrayQueue<String>();
+		ArrayQueue<String> queue = new ArrayQueue<String>(10);
 		queue.enqueue("2");
 		queue.enqueue("3");
-		assertEquals("3", queue.dequeue());
 		assertEquals("2", queue.dequeue());
+		assertEquals("3", queue.dequeue());
 		queue.enqueue("5");
 		queue.enqueue("7");
 		queue.enqueue("11");
-		assertEquals("11", queue.dequeue());
+		assertEquals("5", queue.dequeue());
 		queue.enqueue("13");
 		queue.enqueue("17");
-		assertEquals("17", queue.dequeue());
-		assertEquals("13", queue.dequeue());
+		assertEquals("7", queue.dequeue());
+		assertEquals("11", queue.dequeue());
 		queue.enqueue("19");
 		queue.enqueue("23");
 		queue.enqueue("29");
-		assertEquals("29", queue.dequeue());
-		assertEquals("23", queue.dequeue());
+		assertEquals("13", queue.dequeue());
+		assertEquals("17", queue.dequeue());
 		assertEquals("19", queue.dequeue());
-		assertEquals("7", queue.dequeue());
-		assertEquals("5", queue.dequeue());
+		assertEquals("23", queue.dequeue());
+		assertEquals("29", queue.dequeue());
 	}
 	
 	
@@ -70,7 +69,7 @@ public class ArrayQueueTest {
 	
 	@Test
 	public void testPeek() {
-		ArrayQueue<String> queue = new ArrayQueue<String>();
+		ArrayQueue<String> queue = new ArrayQueue<String>(4);
 		queue.enqueue("zeroth");
 		assertEquals("zeroth", queue.peek());
 		queue.enqueue("first");
@@ -90,7 +89,7 @@ public class ArrayQueueTest {
 	
 	@Test
 	public void testLength() {
-		ArrayQueue<String> queue = new ArrayQueue<String>();
+		ArrayQueue<String> queue = new ArrayQueue<String>(5);
 		assertEquals(0, queue.length());
 		queue.enqueue("alpha");
 		queue.enqueue("beta");
@@ -104,8 +103,24 @@ public class ArrayQueueTest {
 	
 	
 	@Test
+	public void testLengthWithWraparound() {
+		ArrayQueue<String> queue = new ArrayQueue<String>(5);
+		queue.enqueue("alpha");
+		queue.enqueue("beta");
+		queue.enqueue("gamma");
+		queue.enqueue("delta");
+		queue.dequeue();
+		queue.enqueue("epsilon");
+		queue.dequeue();
+		queue.enqueue("zeta");
+		queue.dequeue();
+		assertEquals(3, queue.length());
+	}
+	
+	
+	@Test
 	public void testIsEmpty() {
-		ArrayQueue<String> queue = new ArrayQueue<String>();
+		ArrayQueue<String> queue = new ArrayQueue<String>(4);
 		assertTrue(queue.isEmpty());
 		queue.enqueue("zero");
 		queue.enqueue("one");
@@ -118,7 +133,7 @@ public class ArrayQueueTest {
 	
 	@Test
 	public void testClone() {
-		ArrayQueue<String> queue0 = new ArrayQueue<String>();
+		ArrayQueue<String> queue0 = new ArrayQueue<String>(7);
 		queue0.enqueue("qwerty");
 		queue0.enqueue("uiop");
 		ArrayQueue<String> queue1 = queue0.clone();
@@ -138,7 +153,6 @@ public class ArrayQueueTest {
 	
 	@Test
 	public void testArrayGrowth() {
-		// FIXME
 		ArrayQueue<String> queue = new ArrayQueue<String>(2);
 		queue.enqueue("Alpha");
 		queue.enqueue("Bravo");
@@ -148,18 +162,18 @@ public class ArrayQueueTest {
 		queue.enqueue("Foxtrot");
 		queue.enqueue("Golf");
 		queue.enqueue("Hotel");
-		assertEquals("Hotel", queue.dequeue());
-		assertEquals("Golf", queue.dequeue());
-		assertEquals("Foxtrot", queue.dequeue());
-		assertEquals("Echo", queue.dequeue());
-		assertEquals("Delta", queue.dequeue());
-		assertEquals("Charlie", queue.dequeue());
+		assertEquals("Alpha", queue.dequeue());
 		assertEquals("Bravo", queue.dequeue());
+		assertEquals("Charlie", queue.dequeue());
+		assertEquals("Delta", queue.dequeue());
+		assertEquals("Echo", queue.dequeue());
+		assertEquals("Foxtrot", queue.dequeue());
+		assertEquals("Golf", queue.dequeue());
 		queue.enqueue("India");
 		queue.enqueue("Juliet");
-		assertEquals("Juliet", queue.dequeue());
+		assertEquals("Hotel", queue.dequeue());
 		assertEquals("India", queue.dequeue());
-		assertEquals("Alpha", queue.dequeue());
+		assertEquals("Juliet", queue.dequeue());
 	}
 	
 }
