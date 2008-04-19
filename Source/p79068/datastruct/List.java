@@ -4,13 +4,14 @@ import java.util.Iterator;
 
 
 /**
- * An list, which is a finite sequence of objects.
+ * An list, which is a finite sequence of objects. Storing <code>null</code>s may or may not be allowed.
  * @param <E> the type of object stored in this list
  */
 public interface List<E> extends Iterable<E> {
 	
 	/**
-	 * Returns the length of this list.
+	 * Returns the length of this list. It is illegal for a list's length to exceed <code>Integer.MAX_VALUE</code>.
+	 * @return the number of objects in this list (including <code>null</code>s)
 	 */
 	public int length();
 	
@@ -64,6 +65,7 @@ public interface List<E> extends Iterable<E> {
 	/**
 	 * Removes and returns the object at the specified index in this list.
 	 * @param index the index of the object to remove; <code>0 &lt;= index &lt; length()</code>
+	 * @return the object at <code>index</code> in this list
 	 */
 	public E removeAt(int index);
 	

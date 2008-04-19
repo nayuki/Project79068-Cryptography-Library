@@ -4,13 +4,13 @@ import java.util.Iterator;
 
 
 /**
- * An unordered collection of objects, with duplicates allowed.
+ * An unordered collection of objects, with duplicates allowed. <code>null</code>s must not be stored in a collection.
  * @param <E> the type of object stored in this collection
  */
 public interface Collection<E> extends Iterable<E> {
 	
 	/**
-	 * Returns the size of this collection.
+	 * Returns the size of this collection. It is illegal for a collection's length to exceed <code>Integer.MAX_VALUE</code>.
 	 * @return the number of objects in this collection
 	 */
 	public int size();
@@ -20,6 +20,7 @@ public interface Collection<E> extends Iterable<E> {
 	 * Tests whether this collection contains the specified object.
 	 * @param obj the object whose presence to test
 	 * @return <code>true</code> if this collection contains <code>obj</code>; <code>false</code> otherwise
+	 * @throws NullPointerException if <code>obj</code> is <code>null</code>
 	 */
 	public boolean contains(Object obj);
 	
@@ -28,6 +29,7 @@ public interface Collection<E> extends Iterable<E> {
 	 * Returns the number of objects in this collection that are equal to the specified object.
 	 * @param obj the object whose presence to count
 	 * @return the number of objects that are equal to <code>obj</code>
+	 * @throws NullPointerException if <code>obj</code> is <code>null</code>
 	 */
 	public int count(Object obj);
 	
@@ -35,6 +37,7 @@ public interface Collection<E> extends Iterable<E> {
 	/**
 	 * Adds the specified object to this collection.
 	 * @param obj the object to add
+	 * @throws NullPointerException if <code>obj</code> is <code>null</code>
 	 */
 	public void add(E obj);
 	
@@ -42,6 +45,7 @@ public interface Collection<E> extends Iterable<E> {
 	/**
 	 * Adds all objects in the specified collection to this collection.
 	 * @param coll the collection whose objects to add
+	 * @throws NullPointerException if <code>coll</code> is <code>null</code>
 	 */
 	public void addAll(Collection<? extends E> coll);
 	
@@ -50,6 +54,7 @@ public interface Collection<E> extends Iterable<E> {
 	 * Removes and returns an object in this collection that is equal to the specified object. If no object in the collection equals the specified object, then the collection is unchanged and <code>null</code> is returned.
 	 * @param obj the object to remove
 	 * @return an arbitrary object in this collection that equal to <code>obj</code>, or <code>null</code> if there is none
+	 * @throws NullPointerException if <code>obj</code> is <code>null</code>
 	 */
 	public E remove(Object obj);
 	
@@ -58,6 +63,7 @@ public interface Collection<E> extends Iterable<E> {
 	 * Removes all objects in this collection that are equal to the specified object, and returns the number of objects removed.
 	 * @param obj the object to remove
 	 * @return the number of objects removed
+	 * @throws NullPointerException if <code>obj</code> is <code>null</code>
 	 */
 	public int removeAllOf(Object obj);
 	
@@ -66,6 +72,7 @@ public interface Collection<E> extends Iterable<E> {
 	 * Removes objects in this collection that are equal to objects in the specified collection, and returns the number of objects removed. Objects that are in the specified collection but not in this collection have no effect.
 	 * @param coll the collection of objects to remove
 	 * @return the number of objects removed
+	 * @throws NullPointerException if <code>coll</code> is <code>null</code>
 	 */
 	public int removeAll(Collection<?> coll);
 	
@@ -80,6 +87,7 @@ public interface Collection<E> extends Iterable<E> {
 	 * Tests whether the specified collection contains all the objects in this collection. The number of instances of each object is important. For example, [1, 2, 2] is a subset of [1, 1, 2, 2], but [1, 2, 2] is not a subset of [1, 1, 2].
 	 * @param coll the other collection
 	 * @return whether this collection is a subset of <code>coll</code>
+	 * @throws NullPointerException if <code>coll</code> is <code>null</code>
 	 */
 	public boolean isSubsetOf(Collection<?> coll);
 	
@@ -88,6 +96,7 @@ public interface Collection<E> extends Iterable<E> {
 	 * Tests whether this collection contains all the objects in the specified collection. The number of instances of each object is important. For example, [3, 3, 4, 4] is a superset of [3, 4, 4], but [3, 4, 4] is not a subset of [3, 3, 4].
 	 * @param coll the other collection
 	 * @return whether this collection is a subset of <code>coll</code>
+	 * @throws NullPointerException if <code>coll</code> is <code>null</code>
 	 */
 	public boolean isSupersetOf(Collection<?> coll);
 	
@@ -102,7 +111,7 @@ public interface Collection<E> extends Iterable<E> {
 	/**
 	 * Compares the specified object with this collection for equality. Returns <code>true</code> if the specified object is a collection, and each element of each collection has the same number of instances in each collection. This is equivalent to <code>isSubsetOf(other) && isSupersetOf(other)</code>. Otherwise, this method returns <code>false</code>.
 	 * @param other the object to compare to
-	 * @return whether the <code>other</code> is a list with the same contents as this
+	 * @return whether the <code>other</code> is a collection with the same contents as this
 	 */
 	public boolean equals(Object other);
 	
