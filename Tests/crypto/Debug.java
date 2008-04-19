@@ -12,6 +12,7 @@ class Debug {
 		return b;
 	}
 	
+	
 	static String bytesToHex(byte[] b) {
 		StringBuffer sb = new StringBuffer();
 		for (int i = 0; i < b.length; i++) {
@@ -33,6 +34,7 @@ class Debug {
 		return b;
 	}
 	
+	
 	static String bytesToAscii(byte[] b) {
 		StringBuffer sb = new StringBuffer();
 		for (int i = 0; i < b.length; i++) {
@@ -45,5 +47,7 @@ class Debug {
 	}
 	
 	
+	
 	private Debug() {}
+	
 }
