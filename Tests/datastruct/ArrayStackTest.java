@@ -32,7 +32,7 @@ public class ArrayStackTest {
 	
 	@Test
 	public void testPushPop() {
-		ArrayStack<String> stack = new ArrayStack<String>();
+		ArrayStack<String> stack = new ArrayStack<String>(7);
 		stack.push("2");
 		stack.push("3");
 		assertEquals("3", stack.pop());
@@ -58,7 +58,7 @@ public class ArrayStackTest {
 	
 	@Test
 	public void testInvalidPop() {
-		ArrayStack<String> stack = new ArrayStack<String>();
+		ArrayStack<String> stack = new ArrayStack<String>(2);
 		try {
 			stack.pop();
 			fail();
@@ -68,7 +68,7 @@ public class ArrayStackTest {
 	
 	@Test
 	public void testPeek() {
-		ArrayStack<String> stack = new ArrayStack<String>();
+		ArrayStack<String> stack = new ArrayStack<String>(5);
 		stack.push("zeroth");
 		assertEquals("zeroth", stack.peek());
 		stack.push("first");
@@ -80,7 +80,7 @@ public class ArrayStackTest {
 	
 	@Test
 	public void testInvalidPeek() {
-		ArrayStack<String> stack = new ArrayStack<String>();
+		ArrayStack<String> stack = new ArrayStack<String>(2);
 		try {
 			stack.peek();
 			fail();
@@ -90,7 +90,7 @@ public class ArrayStackTest {
 	
 	@Test
 	public void testHeight() {
-		ArrayStack<String> stack = new ArrayStack<String>();
+		ArrayStack<String> stack = new ArrayStack<String>(5);
 		assertEquals(0, stack.height());
 		stack.push("alpha");
 		stack.push("beta");
@@ -105,7 +105,7 @@ public class ArrayStackTest {
 	
 	@Test
 	public void testIsEmpty() {
-		ArrayStack<String> stack = new ArrayStack<String>();
+		ArrayStack<String> stack = new ArrayStack<String>(3);
 		assertTrue(stack.isEmpty());
 		stack.push("zero");
 		stack.push("one");
@@ -118,7 +118,7 @@ public class ArrayStackTest {
 	
 	@Test
 	public void testClone() {
-		ArrayStack<String> stack0 = new ArrayStack<String>();
+		ArrayStack<String> stack0 = new ArrayStack<String>(6);
 		stack0.push("qwerty");
 		stack0.push("uiop");
 		ArrayStack<String> stack1 = stack0.clone();
