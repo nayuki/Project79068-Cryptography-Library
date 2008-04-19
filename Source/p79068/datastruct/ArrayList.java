@@ -208,9 +208,9 @@ public final class ArrayList<E> implements List<E> {
 		StringBuilder sb = new StringBuilder();
 		sb.append("List [");
 		for (int i = 0; i < length; i++) {
-			sb.append(objects[i]);
 			if (i != 0)
 				sb.append(", ");
+			sb.append(objects[i]);
 		}
 		sb.append("]");
 		return sb.toString();

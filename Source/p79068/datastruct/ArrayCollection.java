@@ -169,9 +169,9 @@ public final class ArrayCollection<E> implements Collection<E> {
 		StringBuilder sb = new StringBuilder();
 		sb.append("Collection [");
 		for (int i = 0; i < size; i++) {
-			sb.append(objects[i]);
 			if (i != 0)
 				sb.append(", ");
+			sb.append(objects[i]);
 		}
 		sb.append("]");
 		return sb.toString();
