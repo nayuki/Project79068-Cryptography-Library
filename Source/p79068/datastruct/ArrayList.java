@@ -1,8 +1,10 @@
 package p79068.datastruct;
 
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import p79068.lang.*;
+import p79068.lang.BoundsChecker;
+import p79068.lang.NullChecker;
 import p79068.util.Random;
 
 
@@ -67,37 +69,50 @@ public final class ArrayList<E> implements List<E> {
 	
 	
 	public void append(E obj) {
-		if (length == objects.length)
-			setCapacity(objects.length * 2);
+		ensureCapacity(length + 1);
 		objects[length] = obj;
 		length++;
 	}
 	
+	
 	public void appendList(List<? extends E> list) {
 		NullChecker.check(list);
-		for (E obj : list)
-			append(obj);
+		ensureCapacity(length + list.length());
+		for (E obj : list) {
+			objects[length] = obj;
+			length++;
+		}
 	}
+	
 	
 	public void insert(int index, E obj) {
 		if (index < 0 || index > length)
 			throw new IndexOutOfBoundsException(String.format("Bounds = [0,%d), insertion index = %d", length, index));
-		if (length == objects.length)
-			setCapacity(objects.length * 2);
-		int i;
-		for (i = length; i > index; i--)
-			objects[i] = objects[i - 1];
-		objects[i] = obj;
+		ensureCapacity(length + 1);
+		System.arraycopy(objects, index, objects, index + 1, length - index);
+		objects[index] = obj;
 		length++;
 	}
 	
 	
 	public void insertList(int index, List<? extends E> list) {
 		NullChecker.check(list);
+		if (index < 0 || index > length)
+			throw new IndexOutOfBoundsException(String.format("Bounds = [0,%d), insertion index = %d", length, index));
+		int listlen = list.length();
+		ensureCapacity(length + listlen);
+		System.arraycopy(objects, index, objects, index + listlen, length - index);
+		length += listlen;
 		for (E obj : list) {
-			insert(index, obj);
+			if (listlen == 0)
+				throw new ConcurrentModificationException();
+			objects[index] = obj;
 			index++;
+			length++;
+			listlen--;
 		}
+		if (listlen != 0)
+			throw new ConcurrentModificationException();
 	}
 	
 	
@@ -166,16 +181,17 @@ public final class ArrayList<E> implements List<E> {
 	
 	/**
 	 * Sets the capacity of the array storing this list to the specified value. It must be greater than or equal to the length of the list.
-	 * @param newCap the new capacity to set to
+	 * @param newCapacity the new capacity to set to
 	 * @throws IllegalArgumentException if the new capacity is less than 1 or less than the length of the list
 	 */
-	@SuppressWarnings("unchecked")
-	public void setCapacity(int newCap) {
-		if (newCap < length || newCap < 1)
+	public void setCapacity(int newCapacity) {
+		if (newCapacity < length || newCapacity < 1)
 			throw new IllegalArgumentException("New capacity too small");
-		E[] newdata = (E[])new Object[newCap];
-		System.arraycopy(objects, 0, newdata, 0, length);
-		objects = newdata;
+		else if (newCapacity != objects.length) {  // Only do something if the capacity changed
+			Object[] newdata = new Object[newCapacity];
+			System.arraycopy(objects, 0, newdata, 0, length);
+			objects = newdata;
+		}
 	}
 	
 	
@@ -229,6 +245,14 @@ public final class ArrayList<E> implements List<E> {
 	private void compactify() {
 		if (length <= objects.length / 4 && objects.length / 2 >= 1)
 			setCapacity(objects.length / 2);
+	}
+	
+	
+	private void ensureCapacity(int capacity) {
+		int newcapacity = objects.length;
+		while (newcapacity < capacity)
+			newcapacity *= 2;
+		setCapacity(newcapacity);
 	}
 	
 	
