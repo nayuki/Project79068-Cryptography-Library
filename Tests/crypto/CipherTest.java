@@ -1,6 +1,6 @@
 package crypto;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertArrayEquals;
 import org.junit.Test;
 import p79068.crypto.cipher.*;
 import p79068.crypto.cipher.mode.*;
@@ -40,6 +40,6 @@ public class CipherTest {
 		cipherer.encrypt(plaintext);
 		cipherer = cipher.newCipherer(key);
 		cipherer.decrypt(plaintext);
-		assertTrue(Debug.areEqual(plaintext, plaintextref));
+		assertArrayEquals(plaintextref, plaintext);
 	}
 }

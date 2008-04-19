@@ -1,6 +1,6 @@
 package crypto;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertArrayEquals;
 import org.junit.Test;
 import p79068.crypto.hash.BlockHashFunction;
 import p79068.crypto.hash.Hmac;
@@ -58,7 +58,7 @@ public class HmacTest {
 	static void test(BlockHashFunction hashfunc, byte[] key, byte[] message, String hash) {
 		byte[] hash0 = new Hmac(hashfunc, key).getHash(message).toBytes();
 		byte[] hash1 = Debug.hexToBytes(hash);
-		assertTrue(Debug.areEqual(hash0, hash1));
+		assertArrayEquals(hash1, hash0);
 	}
 	
 }

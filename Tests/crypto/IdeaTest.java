@@ -1,6 +1,6 @@
 package crypto;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertArrayEquals;
 import org.junit.Test;
 import p79068.crypto.cipher.Cipherer;
 import p79068.crypto.cipher.Idea;
@@ -24,9 +24,9 @@ public class IdeaTest {
 		byte[] originalplaintext = plaintext.clone();
 		Cipherer cipherer = Idea.CIPHER.newCipherer(key);
 		cipherer.encrypt(plaintext);
-		assertTrue(Debug.areEqual(plaintext, ciphertext));
+		assertArrayEquals(ciphertext, plaintext);
 		cipherer.decrypt(plaintext);
-		assertTrue(Debug.areEqual(plaintext, originalplaintext));
+		assertArrayEquals(originalplaintext, plaintext);
 	}
 	
 }

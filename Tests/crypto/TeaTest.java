@@ -38,9 +38,9 @@ public class TeaTest {
 		byte[] originalplaintext = plaintext.clone();
 		Cipherer cipherer = cipher.newCipherer(key);
 		cipherer.encrypt(plaintext);
-		assertTrue(Debug.areEqual(plaintext, ciphertext));
+		assertArrayEquals(ciphertext, plaintext);
 		cipherer.decrypt(plaintext);
-		assertTrue(Debug.areEqual(plaintext, originalplaintext));
+		assertArrayEquals(originalplaintext, plaintext);
 	}
 	
 }

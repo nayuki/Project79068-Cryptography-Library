@@ -38,8 +38,8 @@ public class AesTest {
 		byte[] originalplaintext = plaintext.clone();
 		cipherer.encrypt(plaintext);
 		if (ciphertext != null)
-			assertTrue(Debug.areEqual(plaintext, ciphertext));
+			assertArrayEquals(ciphertext, plaintext);
 		cipherer.decrypt(plaintext);
-		assertTrue(Debug.areEqual(plaintext, originalplaintext));
+		assertArrayEquals(originalplaintext, plaintext);
 	}
 }

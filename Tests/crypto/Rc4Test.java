@@ -1,6 +1,6 @@
 package crypto;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertArrayEquals;
 import org.junit.Test;
 import p79068.crypto.cipher.Cipherer;
 import p79068.crypto.cipher.Rc4;
@@ -25,7 +25,7 @@ public class Rc4Test {
 	static void test(byte[] key, byte[] plaintext, byte[] ciphertext) {
 		Cipherer cipherer = new Rc4(key.length).newCipherer(key);
 		cipherer.encrypt(plaintext, 0, plaintext.length);
-		assertTrue(Debug.areEqual(plaintext, ciphertext));
+		assertArrayEquals(ciphertext, plaintext);
 	}
 	
 }
