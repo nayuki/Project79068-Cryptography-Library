@@ -25,6 +25,11 @@ public class ListView<E> implements List<E> {
 	}
 	
 	
+	public List<E> sublist(int offset, int length) {
+		return new ListView<E>(list.sublist(offset, length));
+	}
+	
+	
 	public Iterator<E> iterator() {
 		// TODO Auto-generated method stub
 		return null;

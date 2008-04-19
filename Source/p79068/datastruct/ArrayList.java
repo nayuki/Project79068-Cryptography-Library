@@ -114,8 +114,11 @@ public final class ArrayList<E> implements List<E> {
 	
 	
 	public void removeRange(int offset, int length) {
-		for (int i = 0; i < length; i++)
-			removeAt(offset);
+		BoundsChecker.check(this.length, offset, length);
+		System.arraycopy(objects, offset + length, objects, offset, this.length - length);
+		for (int i = this.length - length; i < this.length; i++)
+			objects[i] = null;
+		this.length -= length;
 	}
 	
 	
@@ -123,6 +126,12 @@ public final class ArrayList<E> implements List<E> {
 		for (int i = 0; i < length; i++)
 			objects[i] = null;
 		length = 0;
+	}
+	
+	
+	public List<E> sublist(int offset, int length) {
+		// TODO: Manually generated method stub
+		return null;
 	}
 	
 	
@@ -136,9 +145,9 @@ public final class ArrayList<E> implements List<E> {
 	}
 	
 	
-	public void shuffle(Random r) {
+	public void shuffle(Random rand) {
 		for (int i = 0; i < length; i++) {
-			int j = i + r.randomInt(length - i);
+			int j = i + rand.randomInt(length - i);
 			Object temp = objects[i];
 			objects[i] = objects[j];
 			objects[j] = temp;
