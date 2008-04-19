@@ -145,8 +145,8 @@ public final class ArrayList<E> implements List<E> {
 	
 	
 	public List<E> sublist(int offset, int length) {
-		// TODO: Manually generated method stub
-		return null;
+		BoundsChecker.check(this.length, offset, length);
+		return new Sublist(offset, length);
 	}
 	
 	
@@ -269,19 +269,26 @@ public final class ArrayList<E> implements List<E> {
 	private class Itr implements Iterator<E> {
 		
 		private int index;
-		private boolean removed;
+		private int end;
+		private boolean canRemove;
 		
 		
 		
-		Itr() {
-			index = -1;
-			removed = false;
+		public Itr() {
+			this(0, length);
+		}
+		
+		
+		public Itr(int offset, int length) {
+			index = offset;
+			end = offset + length;
+			canRemove = false;
 		}
 		
 		
 		
 		public boolean hasNext() {
-			return index + 1 != length;
+			return index != end;
 		}
 		
 		
@@ -289,22 +296,109 @@ public final class ArrayList<E> implements List<E> {
 		public E next() {
 			if (!hasNext())
 				throw new NoSuchElementException();
-			removed = false;
+			canRemove = true;
+			E result = (E)objects[index];
 			index++;
-			return (E)objects[index];
+			return result;
 		}
 		
 		
 		public void remove() {
-			if (index == -1)
-				throw new IllegalStateException("next() not called yet");
-			else if (removed)
-				throw new IllegalStateException("Element already removed");
-			else {
-				removeAt(index);
+			if (canRemove) {
+				removeAt(index - 1);
 				index--;
-				removed = true;
-			}
+				end--;
+				canRemove = false;
+			} else
+				throw new IllegalStateException("Element already removed or next() not called yet");
+		}
+		
+	}
+	
+	
+	
+	private class Sublist implements List<E> {
+		
+		private int offset;
+		
+		private int length;
+		
+		
+		
+		public Sublist(int offset, int length) {
+			this.offset = offset;
+			this.length = length;
+		}
+		
+		
+		
+		public int length() {
+			return length;
+		}
+		
+		
+		@SuppressWarnings("unchecked")
+		public E getAt(int index) {
+			BoundsChecker.check(length, index);
+			return (E)objects[offset + index];
+		}
+		
+		
+		public List<E> sublist(int offset, int length) {
+			BoundsChecker.check(this.length, offset, length);
+			return new Sublist(this.offset + offset, length);
+		}
+		
+		
+		public Iterator<E> iterator() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+		
+		
+		public Collection<E> asCollection() {
+			return new ListCollectionAdapter<E>(this);
+		}
+		
+		
+		
+		public void append(E obj) {
+			throw new UnsupportedOperationException();
+		}
+		
+		
+		public void appendList(List<? extends E> list) {
+			throw new UnsupportedOperationException();
+		}
+		
+		
+		public void clear() {
+			throw new UnsupportedOperationException();
+		}
+		
+		
+		public void insert(int index, E obj) {
+			throw new UnsupportedOperationException();
+		}
+		
+		
+		public void insertList(int index, List<? extends E> list) {
+			throw new UnsupportedOperationException();
+		}
+		
+		
+		public E removeAt(int index) {
+			throw new UnsupportedOperationException();
+		}
+		
+		
+		public void removeRange(int offset, int length) {
+			throw new UnsupportedOperationException();
+		}
+		
+		
+		public void setAt(int index, E obj) {
+			throw new UnsupportedOperationException();
 		}
 		
 	}
