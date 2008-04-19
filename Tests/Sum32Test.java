@@ -24,6 +24,9 @@ public class Sum32Test {
 		test(Sum32.FUNCTION, "", "00000000");
 		test(Sum32.FUNCTION, "abcdef", "00000255");
 		test(Sum32.FUNCTION, "fbdcea", "00000255");
+		test(Sum32.FUNCTION, "555", "0000009F");
+		test(Sum32.FUNCTION, "456", "0000009F");
+		test(Sum32.FUNCTION, "348", "0000009F");
 		test(Sum32.FUNCTION, millionAs, "03DFD240");
 	}
 	
