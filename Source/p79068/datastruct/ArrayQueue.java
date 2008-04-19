@@ -32,7 +32,7 @@ public final class ArrayQueue<E> implements Queue<E> {
 	
 	
 	/**
-	 * Creates an circular array-based queue.
+	 * Creates a circular array-based queue. An arbitrary default initial capacity is used.
 	 */
 	public ArrayQueue() {
 		this(16);
@@ -64,7 +64,7 @@ public final class ArrayQueue<E> implements Queue<E> {
 			resize(objects.length * 2);
 		objects[tail] = obj;
 		tail++;
-		if (tail == objects.length)
+		if (tail == objects.length)  // Wrap around
 			tail = 0;
 	}
 	
@@ -81,7 +81,7 @@ public final class ArrayQueue<E> implements Queue<E> {
 		E result = (E)objects[head];
 		objects[head] = null;
 		head++;
-		if (head == objects.length)
+		if (head == objects.length)  // Wrap around
 			head = 0;
 		if (length() <= objects.length / 4 && objects.length / 2 >= 2)
 			resize(objects.length / 2);
@@ -152,7 +152,7 @@ public final class ArrayQueue<E> implements Queue<E> {
 				sb.append(", ");
 			sb.append(objects[i]);
 			i++;
-			if (i == objects.length)  // Wrap-around
+			if (i == objects.length)  // Wrap around
 				i = 0;
 		}
 		sb.append("]");
