@@ -1,9 +1,9 @@
 package crypto;
 
 
-class Debug {
+public class Debug {
 	
-	static byte[] hexToBytes(String s) {
+	public static byte[] hexToBytes(String s) {
 		if (s.length() % 2 != 0)
 			throw new IllegalArgumentException();
 		byte[] b = new byte[s.length() / 2];
@@ -13,7 +13,7 @@ class Debug {
 	}
 	
 	
-	static String bytesToHex(byte[] b) {
+	public static String bytesToHex(byte[] b) {
 		StringBuffer sb = new StringBuffer();
 		for (int i = 0; i < b.length; i++) {
 			sb.append(Integer.toString(b[i] >>> 4 & 0xF, 16));
@@ -23,7 +23,7 @@ class Debug {
 	}
 	
 	
-	static byte[] asciiToBytes(String s) {
+	public static byte[] asciiToBytes(String s) {
 		byte[] b = new byte[s.length()];
 		for (int i = 0; i < b.length; i++) {
 			char c = s.charAt(i);
@@ -35,7 +35,7 @@ class Debug {
 	}
 	
 	
-	static String bytesToAscii(byte[] b) {
+	public static String bytesToAscii(byte[] b) {
 		StringBuffer sb = new StringBuffer();
 		for (int i = 0; i < b.length; i++) {
 			if ((b[i] & 0xFF) < 0x80)
