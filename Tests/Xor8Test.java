@@ -1,7 +1,7 @@
 import static org.junit.Assert.assertArrayEquals;
 import org.junit.Test;
 import crypto.Debug;
-import p79068.util.hash.Xor;
+import p79068.util.hash.Xor8;
 import p79068.util.hash.HashFunction;
 
 
@@ -9,12 +9,12 @@ public class Xor8Test {
 	
 	@Test
 	public void basic() {
-		test(Xor.FUNCTION, "", "00");
-		test(Xor.FUNCTION, "The", "59");
-		test(Xor.FUNCTION, "tEh", "59");
-		test(Xor.FUNCTION, "soy", "65");
-		test(Xor.FUNCTION, "sorry", "65");
-		test(Xor.FUNCTION, "sorrrry", "65");
+		test(Xor8.FUNCTION, "", "00");
+		test(Xor8.FUNCTION, "The", "59");
+		test(Xor8.FUNCTION, "tEh", "59");
+		test(Xor8.FUNCTION, "soy", "65");
+		test(Xor8.FUNCTION, "sorry", "65");
+		test(Xor8.FUNCTION, "sorrrry", "65");
 	}
 	
 	

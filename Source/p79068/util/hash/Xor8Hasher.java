@@ -3,7 +3,7 @@ package p79068.util.hash;
 import p79068.lang.BoundsChecker;
 
 
-final class XorHasher extends Hasher {
+final class Xor8Hasher extends Hasher {
 	
 	/**
 	 * The running XOR of all the bytes seen. Note that the top 24 bits are irrelevant.
@@ -12,7 +12,7 @@ final class XorHasher extends Hasher {
 	
 	
 	
-	XorHasher(Xor algor) {
+	Xor8Hasher(Xor8 algor) {
 		super(algor);
 		xor = 0;
 	}

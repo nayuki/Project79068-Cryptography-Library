@@ -6,12 +6,12 @@ package p79068.util.hash;
  * <p>Instantiability: <em>Singleton</em></p>
  * @see HashFunction
  */
-public class Xor extends HashFunction {
+public class Xor8 extends HashFunction {
 	
 	/**
 	 * The singleton instance of the XOR hash function.
 	 */
-	public final static Xor FUNCTION = new Xor();
+	public final static Xor8 FUNCTION = new Xor8();
 	
 	
 	
@@ -20,15 +20,15 @@ public class Xor extends HashFunction {
 	 * @return a new hasher of this hash function
 	 */
 	public Hasher newHasher() {
-		return new XorHasher(this);
+		return new Xor8Hasher(this);
 	}
 	
 	
 	/**
-	 * Returns the name of this hash function: <code>XOR</code>.
+	 * Returns the name of this hash function: <code>XOR-8</code>.
 	 */
 	public String getName() {
-		return "XOR";
+		return "XOR-8";
 	}
 	
 	
