@@ -83,6 +83,15 @@ public interface List<E> extends Iterable<E> {
 	
 	
 	/**
+	 * Returns a sublist of this list of the specified length, starting at the specified offset.
+	 * @param offset the offset
+	 * @param length the length
+	 * @return a sublist of this list
+	 */
+	public List<E> sublist(int offset, int length);
+	
+	
+	/**
 	 * Returns an iterator over the objects in this list, traversing in the proper order.
 	 * @return an iterator
 	 */
