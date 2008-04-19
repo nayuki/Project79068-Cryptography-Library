@@ -17,6 +17,7 @@ public class AesTest {
 		test("000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f", "00112233445566778899aabbccddeeff", "8ea2b7ca516745bfeafc49904b496089");
 	}
 	
+	
 	@Test
 	public void random() {
 		for (int i = 0; i < 1000; i++) {
@@ -29,9 +30,11 @@ public class AesTest {
 	}
 	
 	
+	
 	static void test(String key, String plaintext, String ciphertext) {
 		test(Debug.hexToBytes(key), Debug.hexToBytes(plaintext), Debug.hexToBytes(ciphertext));
 	}
+	
 	
 	static void test(byte[] key, byte[] plaintext, byte[] ciphertext) {
 		Cipherer cipherer = new Rijndael(key.length, 16).newCipherer(key);
@@ -42,4 +45,5 @@ public class AesTest {
 		cipherer.decrypt(plaintext);
 		assertArrayEquals(originalplaintext, plaintext);
 	}
+	
 }

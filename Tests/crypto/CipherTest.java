@@ -12,6 +12,7 @@ public class CipherTest {
 	static Cipher[] ciphers = {Rijndael.AES128_CIPHER, Rijndael.AES192_CIPHER, Rijndael.AES256_CIPHER, Idea.CIPHER, Tea.CIPHER, Xtea.CIPHER, Whirlpool0Cipher.CIPHER, Whirlpool1Cipher.CIPHER, WhirlpoolCipher.CIPHER, new BcModeCipher(Rijndael.AES192_CIPHER, new byte[24]), new CbcModeCipher(Rijndael.AES192_CIPHER, new byte[24]), new CfbModeCipher(Rijndael.AES192_CIPHER, new byte[24]), new IgeModeCipher(Rijndael.AES192_CIPHER, new byte[24]), new OfbModeStreamCipher(Rijndael.AES192_CIPHER, new byte[24]), new PcbcModeCipher(Rijndael.AES192_CIPHER, new byte[24])};
 	
 	
+	
 	@Test
 	public void allCiphers() {
 		for (int i = 0; i < ciphers.length; i++) {
@@ -19,6 +20,7 @@ public class CipherTest {
 				test(ciphers[i]);
 		}
 	}
+	
 	
 	@Test
 	public void rijndael() { // Test the wide parameter range of Rijndael
@@ -28,6 +30,7 @@ public class CipherTest {
 			}
 		}
 	}
+	
 	
 	
 	static void test(Cipher cipher) {
@@ -42,4 +45,5 @@ public class CipherTest {
 		cipherer.decrypt(plaintext);
 		assertArrayEquals(plaintextref, plaintext);
 	}
+	
 }

@@ -12,18 +12,20 @@ public class DateTest {
 	
 	static int[] monthLength = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}; // In a non-leap year
 	
+	
 	static int monthLength(int y, int m) {
 		if (Date.isLeapYear(y) && m == 2)
-			return 29; // We first assume that Date.isLeapYear() is correct
+			return 29;  // We first assume that Date.isLeapYear() is correct
 		else
 			return monthLength[m - 1];
 	}
 	
 	
+	
 	@Test
 	public void isLeapYear() {
 		int y = -4000;
-		int i = 0; // Internal year counter for calculating leap years
+		int i = 0;  // Internal year counter for calculating leap years
 		while (y <= 6000) {
 			assertEquals(Date.isLeapYear(y), (i % 4 == 0 && i % 100 != 0 || i % 400 == 0));
 			y++;
@@ -31,12 +33,13 @@ public class DateTest {
 		}
 	}
 	
+	
 	@Test
 	public void dayOfWeek() {
 		int y = -2000;
 		int m = 1;
 		int d = 1;
-		int i = 6; // Internal day of week counter. Note that 2000-01-01 is a Saturday (6). This day plus or minus any multiple of 400 years has the same day of week (e.g. 1600-01-01).
+		int i = 6;  // Internal day of week counter. Note that 2000-01-01 is a Saturday (6). This day plus or minus any multiple of 400 years has the same day of week (e.g. 1600-01-01).
 		while (y <= 6000) {
 			assertEquals(Date.dayOfWeek(y, m, d), i);
 			d++;
@@ -52,12 +55,13 @@ public class DateTest {
 		}
 	}
 	
+	
 	@Test
 	public void getDaysSinceEpochForwards() {
 		int y = 2000;
 		int m = 1;
 		int d = 1;
-		int i = 0; // Internal days since epoch counter. Remember that 2000-01-01 is the epoch, i.e. day 0.
+		int i = 0;  // Internal days since epoch counter. Remember that 2000-01-01 is the epoch, i.e. day 0.
 		while (y <= 6000) {
 			assertEquals(Date.daysSinceEpoch(y, m, d), i);
 			d++;
@@ -72,13 +76,14 @@ public class DateTest {
 			i++;
 		}
 	}
+	
 	
 	@Test
 	public void getDaysSinceEpochBackwards() {
 		int y = 2000;
 		int m = 1;
 		int d = 1;
-		int i = 0; // Internal days since epoch counter
+		int i = 0;  // Internal days since epoch counter
 		while (y >= -2000) {
 			assertEquals(Date.daysSinceEpoch(y, m, d), i);
 			d--;
@@ -94,11 +99,12 @@ public class DateTest {
 		}
 	}
 	
+	
 	// Days since epoch to calendar date, forwards
 	@Test
 	public void toCalendarDateForwards() {
 		int i = 0;
-		int y = 2000; // Internal calendar date counters
+		int y = 2000;  // Internal calendar date counters
 		int m = 1;
 		int d = 1;
 		while (y <= 6000) {
@@ -119,11 +125,12 @@ public class DateTest {
 		}
 	}
 	
+	
 	// Days since epoch to calendar date, backwards
 	@Test
 	public void toCalendarDateBackwards() {
 		int i = 0;
-		int y = 2000; // Internal calendar date counters
+		int y = 2000;  // Internal calendar date counters
 		int m = 1;
 		int d = 1;
 		while (y >= -2000) {
@@ -143,6 +150,7 @@ public class DateTest {
 			i--;
 		}
 	}
+	
 	
 	// new Date(y,m,d), because it requires a conversion to epoch days and then back to calendar date.
 	@Test
@@ -167,6 +175,7 @@ public class DateTest {
 		}
 	}
 	
+	
 	@Test
 	public void edgeCases() {
 		{
@@ -182,6 +191,7 @@ public class DateTest {
 			assertEquals(date.getDay(), 11);
 		}
 	}
+	
 	
 	@Test
 	public void lenientRepresentations() {
@@ -205,4 +215,5 @@ public class DateTest {
 			}
 		}
 	}
+	
 }
