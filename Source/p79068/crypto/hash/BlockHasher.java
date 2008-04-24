@@ -70,20 +70,20 @@ public abstract class BlockHasher extends Hasher implements Zeroizable {
 		BoundsChecker.check(b.length, off, len);
 		length += len;
 		if (blockLength > 0) {
-			int tp = Math.min(block.length - blockLength, len);
-			System.arraycopy(b, off, block, blockLength, tp);
-			off += tp;
-			len -= tp;
-			blockLength += tp;
+			int temp = Math.min(block.length - blockLength, len);
+			System.arraycopy(b, off, block, blockLength, temp);
+			off += temp;
+			len -= temp;
+			blockLength += temp;
 			if (blockLength < block.length)
 				return;
 			compress();
 			blockLength = 0;
 		}
-		int tp = len / block.length * block.length;
-		compress(b, off, tp);
-		System.arraycopy(b, off + tp, block, 0, len - tp);  // Less than block.length bytes remain
-		blockLength += len - tp;
+		int temp = len / block.length * block.length;
+		compress(b, off, temp);
+		System.arraycopy(b, off + temp, block, 0, len - temp);  // Less than block.length bytes remain
+		blockLength += len - temp;
 	}
 	
 	
