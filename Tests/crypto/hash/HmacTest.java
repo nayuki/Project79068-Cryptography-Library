@@ -56,9 +56,9 @@ public class HmacTest {
 	
 	
 	
-	private static void test(BlockHashFunction hashfunc, byte[] key, byte[] message, String hash) {
-		byte[] hash0 = new Hmac(hashfunc, key).getHash(message).toBytes();
-		byte[] hash1 = CryptoUtils.hexToBytes(hash);
+	private static void test(BlockHashFunction hashFunc, byte[] key, byte[] message, String expectedHash) {
+		byte[] hash0 = new Hmac(hashFunc, key).getHash(message).toBytes();
+		byte[] hash1 = CryptoUtils.hexToBytes(expectedHash);
 		assertArrayEquals(hash1, hash0);
 	}
 	
