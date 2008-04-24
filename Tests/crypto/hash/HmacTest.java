@@ -32,7 +32,7 @@ public class HmacTest {
 	
 	
 	@Test
-	public void hmacMd5() {
+	public void testHmacMd5() {
 		test(Md5.FUNCTION, key0, msg0, "9294727a3638bb1c13f48ef8158bfc9d");
 		test(Md5.FUNCTION, key2, msg1, "750c783e6ab0b503eaa86e310a5db738");
 		test(Md5.FUNCTION, key3, msg2, "56be34521d144c88dbb8c733f0e8b3f6");
@@ -44,7 +44,7 @@ public class HmacTest {
 	
 	
 	@Test
-	public void hmacSha1() {
+	public void testHmacSha1() {
 		test(Sha1.FUNCTION, key1, msg0, "b617318655057264e28bc0b6fb378c8ef146be00");
 		test(Sha1.FUNCTION, key2, msg1, "effcdf6ae5eb2fa2d27416d5f184df9c259a7c79");
 		test(Sha1.FUNCTION, key4, msg2, "125d7342b9ac11cd91a39af48aa17b4f63f175d3");

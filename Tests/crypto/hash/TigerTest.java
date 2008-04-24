@@ -29,7 +29,7 @@ public class TigerTest {
 	
 	
 	@Test
-	public void tiger() {
+	public void testTiger() {
 		CryptoUtils.testWithAsciiMessage(Tiger.FUNCTION, msg0, "3293AC630C13F0245F92BBB1766E16167A4E58492DDE73F3");
 		CryptoUtils.testWithAsciiMessage(Tiger.FUNCTION, msg1, "77BEFBEF2E7EF8AB2EC8F93BF587A7FC613E247F5F247809");
 		CryptoUtils.testWithAsciiMessage(Tiger.FUNCTION, msg2, "2AAB1484E8C158F2BFB8C5FF41B57A525129131C957B5F93");
@@ -43,7 +43,7 @@ public class TigerTest {
 	
 	
 	@Test
-	public void tiger2() {
+	public void testTiger2() {
 		CryptoUtils.testWithAsciiMessage(Tiger2.FUNCTION, msg0, "4441BE75F6018773C206C22745374B924AA8313FEF919F41");
 		CryptoUtils.testWithAsciiMessage(Tiger2.FUNCTION, msg1, "67E6AE8E9E968999F70A23E72AEAA9251CBC7C78A7916636");
 		CryptoUtils.testWithAsciiMessage(Tiger2.FUNCTION, msg2, "F68D7BC5AF4B43A06E048D7829560D4A9415658BB0B1F3BF");
