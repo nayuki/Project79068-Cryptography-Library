@@ -24,7 +24,7 @@ public class MdTest {
 	
 	
 	@Test
-	public void md2() {
+	public void testMd2() {
 		test(Md2.FUNCTION, msg0, "8350E5A3E24C153DF2275C9F80692773");
 		test(Md2.FUNCTION, msg1, "32EC01EC4A6DAC72C0AB96FB34C0B5D1");
 		test(Md2.FUNCTION, msg2, "DA853B0D3F88D99B30283A69E6DED6BB");
@@ -36,7 +36,7 @@ public class MdTest {
 	
 	
 	@Test
-	public void md4() {
+	public void testMd4() {
 		test(Md4.FUNCTION, msg0, "31D6CFE0D16AE931B73C59D7E0C089C0");
 		test(Md4.FUNCTION, msg1, "BDE52CB31DE33E46245E05FBDBD6FB24");
 		test(Md4.FUNCTION, msg2, "A448017AAF21D8525FC10AE87AA6729D");
@@ -48,7 +48,7 @@ public class MdTest {
 	
 	
 	@Test
-	public void md5() {
+	public void testMd5() {
 		test(Md5.FUNCTION, msg0, "D41D8CD98F00B204E9800998ECF8427E");
 		test(Md5.FUNCTION, msg1, "0CC175B9C0F1B6A831C399E269772661");
 		test(Md5.FUNCTION, msg2, "900150983CD24FB0D6963F7D28E17F72");

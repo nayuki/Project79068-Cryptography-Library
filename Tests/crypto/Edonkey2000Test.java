@@ -15,7 +15,7 @@ public class Edonkey2000Test {
 	
 	
 	@Test
-	public void oldEdonkey2000() {
+	public void testOldEdonkey2000() {
 		test(Edonkey2000.FUNCTION, 0 * BLOCK_LENGTH +  0, "31D6CFE0D16AE931B73C59D7E0C089C0");
 		test(Edonkey2000.FUNCTION, 0 * BLOCK_LENGTH + 89, "C48B812748FD84C7B4AE116C5CD24CE0");
 		test(Edonkey2000.FUNCTION, 1 * BLOCK_LENGTH -  1, "AC44B93FC9AFF773AB0005C911F8396F");
@@ -28,7 +28,7 @@ public class Edonkey2000Test {
 	
 	
 	@Test
-	public void newEdonkey2000() {
+	public void testNewEdonkey2000() {
 		test(NewEdonkey2000.FUNCTION, 0 * BLOCK_LENGTH +  0, "31D6CFE0D16AE931B73C59D7E0C089C0");  // Same
 		test(NewEdonkey2000.FUNCTION, 0 * BLOCK_LENGTH + 89, "C48B812748FD84C7B4AE116C5CD24CE0");  // Same
 		test(NewEdonkey2000.FUNCTION, 1 * BLOCK_LENGTH -  1, "AC44B93FC9AFF773AB0005C911F8396F");  // Same
