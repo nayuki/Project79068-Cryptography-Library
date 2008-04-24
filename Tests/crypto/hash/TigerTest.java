@@ -55,4 +55,11 @@ public class TigerTest {
 		CryptoUtils.testWithAsciiMessage(Tiger2.FUNCTION, msg8, "E068281F060F551628CC5715B9D0226796914D45F7717CF4");
 	}
 	
+	
+	@Test
+	public void testZeroize() {
+		CryptoUtils.testZeroization(Tiger.FUNCTION);
+		CryptoUtils.testZeroization(Tiger2.FUNCTION);
+	}
+	
 }

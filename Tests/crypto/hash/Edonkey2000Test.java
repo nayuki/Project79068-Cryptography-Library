@@ -41,6 +41,13 @@ public class Edonkey2000Test {
 	}
 	
 	
+	@Test
+	public void testZeroize() {
+		CryptoUtils.testZeroization(Edonkey2000.FUNCTION);
+		CryptoUtils.testZeroization(NewEdonkey2000.FUNCTION);
+	}
+	
+	
 	
 	private static void test(HashFunction hashfunc, int length, String expectedHash) {
 		byte[] actualHash = getHashOfZeros(hashfunc, length).toBytes();
