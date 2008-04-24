@@ -3,7 +3,6 @@ package crypto;
 import static org.junit.Assert.assertArrayEquals;
 import org.junit.Test;
 import p79068.crypto.hash.Edonkey2000;
-import p79068.crypto.hash.Md4;
 import p79068.crypto.hash.NewEdonkey2000;
 import p79068.util.hash.HashFunction;
 import p79068.util.hash.HashValue;
@@ -13,14 +12,6 @@ import p79068.util.hash.Hasher;
 public class Edonkey2000Test {
 	
 	private static final int BLOCK_LENGTH = 9728000;
-	
-	
-	static {
-		HashValue b0 = Md4.FUNCTION.getHash(new byte[BLOCK_LENGTH]);
-		HashValue b1 = Md4.FUNCTION.getHash(new byte[BLOCK_LENGTH]);
-		HashValue b2 = Md4.FUNCTION.getHash(new byte[25]);
-		System.out.println(Md4.FUNCTION.getHash(concatenate(b0,b1,b2)));
-	}
 	
 	
 	@Test
@@ -65,26 +56,6 @@ public class Edonkey2000Test {
 			length -= temp;
 		}
 		return hasher.getHash();
-	}
-	
-	
-	
-	
-	
-	static byte[] concatenate(HashValue... hashes) {
-		int length = 0;
-		for (int i = 0; i < hashes.length; i++)
-			length += hashes[i].getLength();
-		
-		byte[] result = new byte[length];
-		int offset = 0;
-		for (int i = 0; i < hashes.length; i++) {
-			byte[] hash = hashes[i].toBytes();
-			System.arraycopy(hash, 0, result, offset, hash.length);
-			offset += hash.length;
-		}
-		
-		return result;
 	}
 	
 }
