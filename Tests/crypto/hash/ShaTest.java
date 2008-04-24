@@ -1,4 +1,4 @@
-package crypto;
+package crypto.hash;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.fail;

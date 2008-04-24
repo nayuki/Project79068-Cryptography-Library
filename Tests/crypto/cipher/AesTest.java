@@ -1,4 +1,4 @@
-package crypto;
+package crypto.cipher;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
