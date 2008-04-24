@@ -130,7 +130,7 @@ final class Sha256Hasher extends BlockHasher {
 			block[block.length - 1 - i] = (byte)((length * 8) >>> (i * 8));
 		compress();
 		if (sha224Mode) {
-			int[] truncstate = new int[7]; // state, truncated from 8 to 7 elements
+			int[] truncstate = new int[7];  // state, truncated from 8 to 7 elements
 			System.arraycopy(state, 0, truncstate, 0, truncstate.length);
 			state = truncstate;
 		}

@@ -135,10 +135,10 @@ final class Sha512Hasher extends BlockHasher {
 				block[i] = 0x00;
 		}
 		for (int i = 0; i < 8; i++)
-			block[block.length - 1 - i] = (byte)((length * 8) >>> (i * 8)); // SHA-512 and SHA-384 support lengths just less than 2^128 bits (2^125 bytes), but this implementation only counts to just less than 2^64 bytes.
+			block[block.length - 1 - i] = (byte)((length * 8) >>> (i * 8));  // SHA-512 and SHA-384 support lengths just less than 2^128 bits (2^125 bytes), but this implementation only counts to just less than 2^64 bytes.
 		compress();
 		if (sha384Mode) {
-			long[] truncstate = new long[6]; // state, truncated from 8 to 6 elements
+			long[] truncstate = new long[6];  // state, truncated from 8 to 6 elements
 			System.arraycopy(state, 0, truncstate, 0, truncstate.length);
 			state = truncstate;
 		}
