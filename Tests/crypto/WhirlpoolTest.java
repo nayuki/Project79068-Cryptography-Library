@@ -1,11 +1,14 @@
 package crypto;
 
 import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.fail;
 import org.junit.Test;
+import p79068.crypto.Zeroizable;
 import p79068.crypto.hash.Whirlpool;
 import p79068.crypto.hash.Whirlpool0;
 import p79068.crypto.hash.Whirlpool1;
 import p79068.util.hash.HashFunction;
+import p79068.util.hash.Hasher;
 
 
 public class WhirlpoolTest {
@@ -40,11 +43,31 @@ public class WhirlpoolTest {
 	}
 	
 	
+	@Test
+	public void testZeroize() {
+		try {
+			testZeroization(Whirlpool0.FUNCTION);
+			testZeroization(Whirlpool1.FUNCTION);
+			testZeroization(Whirlpool.FUNCTION);
+		} catch (ClassCastException e) {
+			fail();
+		}
+	}
+	
+	
+	
 	static void test(HashFunction hashfunc, String message, String hash) {
 		byte[] msg = Debug.asciiToBytes(message);
 		byte[] hash0 = hashfunc.getHash(msg).toBytes();
 		byte[] hash1 = Debug.hexToBytes(hash);
 		assertArrayEquals(hash1, hash0);
+	}
+	
+	
+	private static void testZeroization(HashFunction hashFunc) {
+		Hasher hasher = hashFunc.newHasher();
+		hasher.update(new byte[200]);
+		((Zeroizable)hasher).zeroize();
 	}
 	
 }

@@ -1,13 +1,16 @@
 package crypto;
 
 import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.fail;
 import org.junit.Test;
+import p79068.crypto.Zeroizable;
 import p79068.crypto.hash.Sha1;
 import p79068.crypto.hash.Sha224;
 import p79068.crypto.hash.Sha256;
 import p79068.crypto.hash.Sha384;
 import p79068.crypto.hash.Sha512;
 import p79068.util.hash.HashFunction;
+import p79068.util.hash.Hasher;
 
 
 public class ShaTest {
@@ -71,12 +74,33 @@ public class ShaTest {
 	}
 	
 	
+	@Test
+	public void testZeroize() {
+		try {
+			testZeroization(Sha1.FUNCTION);
+			testZeroization(Sha224.FUNCTION);
+			testZeroization(Sha256.FUNCTION);
+			testZeroization(Sha384.FUNCTION);
+			testZeroization(Sha512.FUNCTION);
+		} catch (ClassCastException e) {
+			fail();
+		}
+	}
+	
+	
 	
 	static void test(HashFunction hashfunc, String message, String hash) {
 		byte[] msg = Debug.asciiToBytes(message);
 		byte[] hash0 = hashfunc.getHash(msg).toBytes();
 		byte[] hash1 = Debug.hexToBytes(hash);
 		assertArrayEquals(hash1, hash0);
+	}
+	
+	
+	private static void testZeroization(HashFunction hashFunc) {
+		Hasher hasher = hashFunc.newHasher();
+		hasher.update(new byte[200]);
+		((Zeroizable)hasher).zeroize();
 	}
 	
 }
