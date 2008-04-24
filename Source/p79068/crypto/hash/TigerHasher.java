@@ -7,7 +7,7 @@ import p79068.util.hash.HashValue;
 
 final class TigerHasher extends BlockHasher {
 	
-	private boolean tiger2mode;
+	private boolean tiger2Mode;
 	
 	private long[] state;
 	
@@ -15,14 +15,14 @@ final class TigerHasher extends BlockHasher {
 	
 	TigerHasher(Tiger algor) {
 		super(algor, 64);
-		tiger2mode = false;
+		tiger2Mode = false;
 		state = new long[]{0x0123456789ABCDEFL, 0xFEDCBA9876543210L, 0xF096A5B4C3B2E187L};
 	}
 	
 	
 	TigerHasher(Tiger2 algor) {
 		super(algor, 64);
-		tiger2mode = true;
+		tiger2Mode = true;
 		state = new long[]{0x0123456789ABCDEFL, 0xFEDCBA9876543210L, 0xF096A5B4C3B2E187L};  // Same as above
 	}
 	
@@ -386,7 +386,7 @@ final class TigerHasher extends BlockHasher {
 	
 	
 	protected HashValue getHashDestructively() {
-		if (!tiger2mode)
+		if (!tiger2Mode)
 			block[blockLength] = 0x01;
 		else
 			block[blockLength] = (byte)0x80;

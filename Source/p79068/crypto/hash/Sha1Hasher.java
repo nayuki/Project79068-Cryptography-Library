@@ -7,7 +7,7 @@ import p79068.util.hash.HashValue;
 
 final class Sha1Hasher extends BlockHasher {
 	
-	private boolean sha1mode;
+	private boolean sha1Mode;
 	
 	private int[] state;
 	
@@ -15,13 +15,13 @@ final class Sha1Hasher extends BlockHasher {
 	
 	Sha1Hasher(Sha1 algor) {
 		super(algor, 64);
-		sha1mode = true;
+		sha1Mode = true;
 		state = new int[]{0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476, 0xC3D2E1F0};
 	}
 	
 	Sha1Hasher(Sha algor) {
 		super(algor, 64);
-		sha1mode = false;
+		sha1Mode = false;
 		state = new int[]{0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476, 0xC3D2E1F0};  // Same as above
 	}
 	
@@ -63,7 +63,7 @@ final class Sha1Hasher extends BlockHasher {
 			}
 			for (int i = 16; i < 80; i++) {  // Expand the schedule
 				int tp = schedule[i - 3] ^ schedule[i - 8] ^ schedule[i - 14] ^ schedule[i - 16];
-				if (sha1mode)
+				if (sha1Mode)
 					tp = tp << 1 | tp >>> 31;
 				schedule[i] = tp;
 			}

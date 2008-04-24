@@ -8,7 +8,7 @@ import p79068.util.hash.HashValue;
 
 final class Edonkey2000Hasher extends Hasher implements Zeroizable {
 	
-	private boolean oldmode;
+	private boolean oldMode;
 	
 	private Hasher hasher;       // Outer hash. Is null if total length < BLOCK_LENGTH for old mode; is null if total length <= BLOCK_LENGTH for new mode.
 	private Hasher blockHasher;  // Inner hash
@@ -18,7 +18,7 @@ final class Edonkey2000Hasher extends Hasher implements Zeroizable {
 
 	Edonkey2000Hasher(Edonkey2000 algor) {
 		super(algor);
-		oldmode = true;
+		oldMode = true;
 		hasher = null;
 		blockHasher = Md4.FUNCTION.newHasher();
 		blockLength = 0;
@@ -27,7 +27,7 @@ final class Edonkey2000Hasher extends Hasher implements Zeroizable {
 	
 	Edonkey2000Hasher(NewEdonkey2000 algor) {
 		super(algor);
-		oldmode = false;
+		oldMode = false;
 		hasher = null;
 		blockHasher = Md4.FUNCTION.newHasher();
 		blockLength = 0;
@@ -87,7 +87,7 @@ final class Edonkey2000Hasher extends Hasher implements Zeroizable {
 	public void zeroize() {
 		if (hashFunction == null)
 			throw new IllegalStateException("Already zeroized");
-		oldmode = false;
+		oldMode = false;
 		blockLength = 0;
 		if (hasher != null && hasher instanceof Zeroizable)
 			((Zeroizable)hasher).zeroize();
@@ -104,13 +104,13 @@ final class Edonkey2000Hasher extends Hasher implements Zeroizable {
 	
 	
 	private void oldNextBlock() {
-		if (oldmode)
+		if (oldMode)
 			nextBlock();
 	}
 	
 	
 	private void newNextBlock() {
-		if (!oldmode)
+		if (!oldMode)
 			nextBlock();
 	}
 	
