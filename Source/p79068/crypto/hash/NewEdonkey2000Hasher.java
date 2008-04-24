@@ -74,7 +74,7 @@ final class NewEdonkey2000Hasher extends Hasher implements Zeroizable {
 		if (hashFunction == null)
 			throw new IllegalStateException("Already zeroized");
 		currentBlockLength = 0;
-		if (outerHasher != null && outerHasher instanceof Zeroizable)
+		if (outerHasher instanceof Zeroizable)
 			((Zeroizable)outerHasher).zeroize();
 		if (innerHasher instanceof Zeroizable)
 			((Zeroizable)innerHasher).zeroize();
