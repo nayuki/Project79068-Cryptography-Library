@@ -20,6 +20,10 @@ public class NewEdonkey2000 extends HashFunction {
 	
 	
 	
+	/**
+	 * Returns a new hasher of this hash function.
+	 * @return a new hasher of this hash function
+	 */
 	public Hasher newHasher() {
 		return new Edonkey2000Hasher(this);
 	}
