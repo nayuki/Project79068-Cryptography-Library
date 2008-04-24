@@ -7,9 +7,9 @@ import p79068.util.hash.HashValue;
 
 
 /**
-A hasher that only applies the compression function after each block.
-<p>The instance returned by a BlockHashFunction is not necessarily a BlockHasher.</p>
-*/
+ * A hasher that only applies the compression function after each block.
+ * <p>The instance returned by a BlockHashFunction is not necessarily a BlockHasher.</p>
+ */
 public abstract class BlockHasher extends Hasher implements Zeroizable {
 	
 	/**

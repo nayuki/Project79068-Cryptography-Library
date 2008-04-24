@@ -160,8 +160,8 @@ final class WhirlpoolHasher extends BlockHasher {
 	private static final byte[][] WHIRLPOOL1_RCON;
 	private static final byte[][] WHIRLPOOL_RCON;
 	
-	private static int[] exp; // exp[i] = pow(0x02,i) in GF(2^8)/0x11D.
-	private static int[] log; // These are only used in class initialization.
+	private static int[] exp;  // exp[i] = pow(0x02,i) in GF(2^8)/0x11D.
+	private static int[] log;  // These are only used in class initialization.
 	
 	static {
 		// Initialize WHIRLPOOL0_SUB
