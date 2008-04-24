@@ -13,7 +13,7 @@ import p79068.util.hash.HashValue;
 public abstract class BlockHasher extends Hasher implements Zeroizable {
 	
 	/**
-	 * The total length of the message, in bytes.
+	 * The total length of the message, in bytes. Warning: It overflows silently.
 	 */
 	protected long length;
 	
@@ -23,7 +23,7 @@ public abstract class BlockHasher extends Hasher implements Zeroizable {
 	protected byte[] block;
 	
 	/**
-	 * The number of bytes filled in the current block.
+	 * The number of bytes filled in the current block. It is in the range [<code>0, <code>block.length</code>) initially and after each <code>update()</code> operation.
 	 */
 	protected int blockLength;
 	
@@ -68,22 +68,28 @@ public abstract class BlockHasher extends Hasher implements Zeroizable {
 		if (hashFunction == null)
 			throw new IllegalStateException("Already zeroized");
 		BoundsChecker.check(b.length, off, len);
-		length += len;
-		if (blockLength > 0) {
+		
+		length += len;  // Update length now, before len changes
+		if (blockLength > 0) {  // Try to fill up the current block
 			int temp = Math.min(block.length - blockLength, len);
 			System.arraycopy(b, off, block, blockLength, temp);
 			off += temp;
 			len -= temp;
 			blockLength += temp;
-			if (blockLength < block.length)
-				return;
-			compress();
-			blockLength = 0;
+			if (blockLength == block.length) {
+				compress();
+				blockLength = 0;
+			}
 		}
-		int temp = len / block.length * block.length;
+		
+		// If the current block was not completely filled and cleared, then len is now 0; there are no more remaining bytes to process.
+		int temp = len / block.length * block.length;  // 0 <= temp <= len, and temp is a multiple of block.length
 		compress(b, off, temp);
-		System.arraycopy(b, off + temp, block, 0, len - temp);  // Less than block.length bytes remain
-		blockLength += len - temp;
+		off += temp;
+		len -= temp;
+		
+		System.arraycopy(b, off, block, 0, len);  // 0 <= len < block.length
+		blockLength += len;
 	}
 	
 	
