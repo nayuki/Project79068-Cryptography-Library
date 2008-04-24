@@ -1,4 +1,5 @@
 package util;
+
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import p79068.util.MersenneTwister;
