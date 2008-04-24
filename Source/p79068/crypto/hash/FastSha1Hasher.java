@@ -45,7 +45,8 @@ final class FastSha1Hasher extends BlockHasher {
 		int d = state[3];
 		int e = state[4];
 		
-		for (int end = off + len; off < end; off += 64) {
+		for (int end = off + len; off < end; off += 64) {  // For each block of 64 bytes
+			// Pack bytes into int32s in big endian
 			schedule[ 0] = message[off +  0] << 24 | (message[off +  1] & 0xFF) << 16 | (message[off +  2] & 0xFF) << 8 | (message[off +  3] & 0xFF);
 			schedule[ 1] = message[off +  4] << 24 | (message[off +  5] & 0xFF) << 16 | (message[off +  6] & 0xFF) << 8 | (message[off +  7] & 0xFF);
 			schedule[ 2] = message[off +  8] << 24 | (message[off +  9] & 0xFF) << 16 | (message[off + 10] & 0xFF) << 8 | (message[off + 11] & 0xFF);
@@ -63,6 +64,7 @@ final class FastSha1Hasher extends BlockHasher {
 			schedule[14] = message[off + 56] << 24 | (message[off + 57] & 0xFF) << 16 | (message[off + 58] & 0xFF) << 8 | (message[off + 59] & 0xFF);
 			schedule[15] = message[off + 60] << 24 | (message[off + 61] & 0xFF) << 16 | (message[off + 62] & 0xFF) << 8 | (message[off + 63] & 0xFF);
 			
+			// Expand the schedule
 			int tp;
 			tp = schedule[13] ^ schedule[ 8] ^ schedule[ 2] ^ schedule[ 0];  schedule[16] = tp << 1 | tp >>> 31;
 			tp = schedule[14] ^ schedule[ 9] ^ schedule[ 3] ^ schedule[ 1];  schedule[17] = tp << 1 | tp >>> 31;
@@ -129,6 +131,7 @@ final class FastSha1Hasher extends BlockHasher {
 			tp = schedule[75] ^ schedule[70] ^ schedule[64] ^ schedule[62];  schedule[78] = tp << 1 | tp >>> 31;
 			tp = schedule[76] ^ schedule[71] ^ schedule[65] ^ schedule[63];  schedule[79] = tp << 1 | tp >>> 31;
 			
+			// The 80 rounds
 			e += (a << 5 | a >>> 27) + (d ^ (b & (c ^ d))) + schedule[ 0] + 0x5A827999;  b = b << 30 | b >>> 2;
 			d += (e << 5 | e >>> 27) + (c ^ (a & (b ^ c))) + schedule[ 1] + 0x5A827999;  a = a << 30 | a >>> 2;
 			c += (d << 5 | d >>> 27) + (b ^ (e & (a ^ b))) + schedule[ 2] + 0x5A827999;  e = e << 30 | e >>> 2;

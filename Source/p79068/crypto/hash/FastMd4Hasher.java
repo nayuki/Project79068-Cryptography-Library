@@ -44,7 +44,8 @@ final class FastMd4Hasher extends BlockHasher {
 		int c = state[2];
 		int d = state[3];
 		
-		for (int end = off + len; off < end; off += 64) {
+		for (int end = off + len; off < end; off += 64) {  // For each block of 64 bytes
+			// Pack bytes into int32s in little endian
 			schedule[ 0] = (message[off +  0] & 0xFF) | (message[off +  1] & 0xFF) << 8 | (message[off +  2] & 0xFF) << 16 | message[off +  3] << 24;
 			schedule[ 1] = (message[off +  4] & 0xFF) | (message[off +  5] & 0xFF) << 8 | (message[off +  6] & 0xFF) << 16 | message[off +  7] << 24;
 			schedule[ 2] = (message[off +  8] & 0xFF) | (message[off +  9] & 0xFF) << 8 | (message[off + 10] & 0xFF) << 16 | message[off + 11] << 24;
@@ -78,6 +79,7 @@ final class FastMd4Hasher extends BlockHasher {
 			schedule[14] = (message[off + 56] & 0xFF) | (message[off + 57] & 0xFF) << 8 | (message[off + 58] & 0xFF) << 16 | message[off + 59] << 24;
 			schedule[15] = (message[off + 60] & 0xFF) | (message[off + 61] & 0xFF) << 8 | (message[off + 62] & 0xFF) << 16 | message[off + 63] << 24;
 			
+			// The 48 rounds
 			a = a + (d ^ (b & (c ^ d))) + schedule[ 0];  a = a <<  3 | a >>> 29;
 			d = d + (c ^ (a & (b ^ c))) + schedule[ 1];  d = d <<  7 | d >>> 25;
 			c = c + (b ^ (d & (a ^ b))) + schedule[ 2];  c = c << 11 | c >>> 21;

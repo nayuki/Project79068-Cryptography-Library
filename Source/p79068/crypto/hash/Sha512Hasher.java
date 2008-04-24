@@ -87,8 +87,8 @@ final class Sha512Hasher extends BlockHasher {
 		long f = state[5];
 		long g = state[6];
 		long h = state[7];
-		for (int end = off + len; off < end;) {
-			for (int i = 0; i < 16; i++, off += 8) {
+		for (int end = off + len; off < end;) {  // For each block of 128 bytes
+			for (int i = 0; i < 16; i++, off += 8) {  // Pack bytes into int64s in big endian
 				schedule[i] =
 					  (message[off + 0] & 0xFFL) << 56
 					| (message[off + 1] & 0xFFL) << 48
@@ -99,9 +99,9 @@ final class Sha512Hasher extends BlockHasher {
 					| (message[off + 6] & 0xFFL) <<  8
 					| (message[off + 7] & 0xFFL) <<  0;
 			}
-			for (int i = 16; i < 80; i++)
+			for (int i = 16; i < 80; i++)  // Expand the schedule
 				schedule[i] = schedule[i - 16] + ((schedule[i - 15] << 63 | schedule[i - 15] >>> 1) ^ (schedule[i - 15] << 56 | schedule[i - 15] >>> 8) ^ (schedule[i - 15] >>> 7)) + schedule[i - 7] + ((schedule[i - 2] << 45 | schedule[i - 2] >>> 19) ^ (schedule[i - 2] << 3 | schedule[i - 2] >>> 61) ^ (schedule[i - 2] >>> 6));
-			for (int i = 0; i < 80; i++) {
+			for (int i = 0; i < 80; i++) {  // The 80 rounds
 				long t1 = h + ((e << 50 | e >>> 14) ^ (e << 46 | e >>> 18) ^ (e << 23 | e >>> 41)) + (g ^ (e & (f ^ g))) + k[i] + schedule[i];
 				long t2 = ((a << 36 | a >>> 28) ^ (a << 30 | a >>> 34) ^ (a << 25 | a >>> 39)) + ((a & (b | c)) | (b & c));
 				h = g;

@@ -53,7 +53,7 @@ final class Sha1Hasher extends BlockHasher {
 		int c = state[2];
 		int d = state[3];
 		int e = state[4];
-		for (int end = off + len; off < end;) {
+		for (int end = off + len; off < end;) {  // For each block of 64 bytes
 			for (int i = 0; i < 16; i++, off += 4) {  // Pack bytes into int32s in big endian
 				schedule[i] =
 					  (message[off + 0] & 0xFF) << 24

@@ -65,14 +65,15 @@ final class Md5Hasher extends BlockHasher {
 		int b = state[1];
 		int c = state[2];
 		int d = state[3];
-		for (int end = off + len; off < end;) {
-			for (int i = 0; i < 16; i++, off += 4) {
+		for (int end = off + len; off < end;) {  // For each block of 64 bytes
+			for (int i = 0; i < 16; i++, off += 4) {  // Pack bytes into int32s in little endian
 				schedule[i] =
 					  (message[off + 0] & 0xFF) <<  0
 					| (message[off + 1] & 0xFF) <<  8
 					| (message[off + 2] & 0xFF) << 16
 					| (message[off + 3] & 0xFF) << 24;
 			}
+			// The 64 rounds
 			int i = 0;
 			for (; i < 16; i++) {
 				int tp = a + (d ^ (b & (c ^ d))) + t[i] + schedule[i];

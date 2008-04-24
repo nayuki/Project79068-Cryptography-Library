@@ -61,7 +61,7 @@ final class Md2Hasher extends BlockHasher {
 	
 	
 	protected void compress(byte[] message, int off, int len) {
-		for (int end = off + len; off < end; off += 16) {
+		for (int end = off + len; off < end; off += 16) {  // For each block of 16 bytes
 			for (int i = 0; i < 16; i++) {
 				state[i + 16] = message[off + i] & 0xFF;
 				state[i + 32] = state[i + 16] ^ state[i];

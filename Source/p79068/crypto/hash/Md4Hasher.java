@@ -47,7 +47,7 @@ final class Md4Hasher extends BlockHasher {
 		int b = state[1];
 		int c = state[2];
 		int d = state[3];
-		for (int end = off + len; off < end;) {
+		for (int end = off + len; off < end;) {  // For each block of 64 bytes
 			for (int i = 0; i < 16; i++, off += 4) {  // Pack bytes into int32s in little endian
 				schedule[i] =
 					  (message[off + 0] & 0xFF) <<  0
