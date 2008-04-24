@@ -25,7 +25,7 @@ public class NewEdonkey2000 extends HashFunction {
 	 * @return a new hasher of this hash function
 	 */
 	public Hasher newHasher() {
-		return new Edonkey2000Hasher(this);
+		return new NewEdonkey2000Hasher(this);
 	}
 	
 	

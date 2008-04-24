@@ -6,15 +6,15 @@ import p79068.util.hash.Hasher;
 import p79068.util.hash.HashValue;
 
 
-final class Edonkey2000Hasher extends Hasher implements Zeroizable {
+final class NewEdonkey2000Hasher extends Hasher implements Zeroizable {
 	
 	private Hasher hasher;       // Outer hash. Is null if total length < BLOCK_LENGTH for old mode; is null if total length <= BLOCK_LENGTH for new mode.
 	private Hasher blockHasher;  // Inner hash
 	private int blockLength;     // Length of current block. Is within the range [0,BLOCK_LENGTH) for old mode; (0,BLOCK_LENGTH] for new mode (but can be 0 for the initial block).
 	
 	
-
-	Edonkey2000Hasher(Edonkey2000 hashFunc) {
+	
+	NewEdonkey2000Hasher(NewEdonkey2000 hashFunc) {
 		super(hashFunc);
 		hasher = null;
 		blockHasher = Md4.FUNCTION.newHasher();
@@ -26,9 +26,9 @@ final class Edonkey2000Hasher extends Hasher implements Zeroizable {
 	public void update(byte b) {
 		if (hashFunction == null)
 			throw new IllegalStateException("Already zeroized");
+		newNextBlock();
 		blockHasher.update(b);
 		blockLength++;
-		oldNextBlock();
 	}
 	
 	
@@ -37,12 +37,12 @@ final class Edonkey2000Hasher extends Hasher implements Zeroizable {
 			throw new IllegalStateException("Already zeroized");
 		BoundsChecker.check(b.length, off, len);
 		while (len > 0) {
+			newNextBlock();
 			int templen = Math.min(BLOCK_LENGTH - blockLength, len);
 			blockHasher.update(b, off, templen);
 			off += templen;
 			len -= templen;
 			blockLength += templen;
-			oldNextBlock();
 		}
 	}
 	
@@ -60,10 +60,10 @@ final class Edonkey2000Hasher extends Hasher implements Zeroizable {
 	}
 	
 	
-	public Edonkey2000Hasher clone() {
+	public NewEdonkey2000Hasher clone() {
 		if (hashFunction == null)
 			throw new IllegalStateException("Already zeroized");
-		Edonkey2000Hasher result = (Edonkey2000Hasher)super.clone();
+		NewEdonkey2000Hasher result = (NewEdonkey2000Hasher)super.clone();
 		result.hasher = hasher.clone();
 		result.blockHasher = blockHasher.clone();
 		return result;
@@ -88,7 +88,7 @@ final class Edonkey2000Hasher extends Hasher implements Zeroizable {
 	private static final int BLOCK_LENGTH = 9728000;
 	
 	
-	private void oldNextBlock() {
+	private void newNextBlock() {
 		nextBlock();
 	}
 	
