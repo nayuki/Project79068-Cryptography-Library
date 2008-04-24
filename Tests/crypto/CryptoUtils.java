@@ -1,7 +1,7 @@
 package crypto;
 
 import static org.junit.Assert.assertArrayEquals;
-import org.junit.Assert;
+import static org.junit.Assert.fail;
 import p79068.crypto.Zeroizable;
 import p79068.util.hash.HashFunction;
 import p79068.util.hash.Hasher;
@@ -21,16 +21,16 @@ public class CryptoUtils {
 		Hasher hasher = hashFunc.newHasher();
 		hasher.update(new byte[200]);
 		if (!(hasher instanceof Zeroizable))
-			Assert.fail();
+			fail();
 		else {
 			try {
 				((Zeroizable)hasher).zeroize();
 			} catch(IllegalStateException e) {
-				Assert.fail();
+				fail();
 			}
 			try {
 				((Zeroizable)hasher).zeroize();
-				Assert.fail();
+				fail();
 			} catch(IllegalStateException e) {}  // Pass
 		}
 	}
