@@ -13,8 +13,8 @@ final class Sum32Hasher extends Hasher {
 	
 	
 	
-	Sum32Hasher(Sum32 algor) {
-		super(algor);
+	Sum32Hasher(Sum32 hashFunc) {
+		super(hashFunc);
 		sum = 0;
 	}
 	

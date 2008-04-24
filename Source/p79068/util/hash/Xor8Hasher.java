@@ -12,8 +12,8 @@ final class Xor8Hasher extends Hasher {
 	
 	
 	
-	Xor8Hasher(Xor8 algor) {
-		super(algor);
+	Xor8Hasher(Xor8 hashFunc) {
+		super(hashFunc);
 		xor = 0;
 	}
 	

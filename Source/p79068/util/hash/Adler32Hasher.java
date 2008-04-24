@@ -11,8 +11,8 @@ final class Adler32Hasher extends Hasher {
 	
 	
 	
-	Adler32Hasher(Adler32 algor) {
-		super(algor);
+	Adler32Hasher(Adler32 hashFunc) {
+		super(hashFunc);
 		s1 = 1;
 		s2 = 0;
 	}

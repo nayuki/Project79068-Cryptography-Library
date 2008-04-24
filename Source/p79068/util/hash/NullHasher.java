@@ -5,8 +5,8 @@ import p79068.lang.BoundsChecker;
 
 final class NullHasher extends Hasher {
 	
-	NullHasher(NullFunction algor) {
-		super(algor);
+	NullHasher(NullFunction hashFunc) {
+		super(hashFunc);
 	}
 	
 	

@@ -16,8 +16,8 @@ final class Crc32Hasher extends Hasher {
 	
 	
 	
-	Crc32Hasher(Crc algor) {
-		super(algor);
+	Crc32Hasher(Crc hashFunc) {
+		super(hashFunc);
 		register = 0xFFFFFFFF;
 	}
 	

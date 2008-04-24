@@ -32,8 +32,8 @@ public abstract class BlockHasher extends Hasher implements Zeroizable {
 	/**
 	 * Constructs a new instance with the specified hash algorithm and block length.
 	 */
-	protected BlockHasher(BlockHashFunction algor, int blockLength) {
-		super(algor);
+	protected BlockHasher(BlockHashFunction hashFunc, int blockLength) {
+		super(hashFunc);
 		length = 0;
 		block = new byte[blockLength];
 		this.blockLength = 0;

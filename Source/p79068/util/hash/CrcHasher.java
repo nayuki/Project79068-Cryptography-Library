@@ -37,8 +37,8 @@ final class CrcHasher extends Hasher {
 	
 	
 	
-	CrcHasher(Crc algor, int degree, long poly, boolean revin, boolean revout, long xorin, long xorout) {
-		super(algor);
+	CrcHasher(Crc hashFunc, int degree, long poly, boolean revin, boolean revout, long xorin, long xorout) {
+		super(hashFunc);
 		if (degree < 1 || degree > 64)
 			throw new IllegalArgumentException("Invalid degree");
 		if (degree < 64 && (poly >>> degree) != 1)
