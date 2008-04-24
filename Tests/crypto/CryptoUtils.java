@@ -9,10 +9,10 @@ import p79068.util.hash.Hasher;
 
 public class CryptoUtils {
 	
-	public static void testWithAsciiMessage(HashFunction hashfunc, String message, String expectedHash) {
+	public static void testWithAsciiMessage(HashFunction hashFunc, String message, String expectedHash) {
 		byte[] hash1 = CryptoUtils.hexToBytes(expectedHash);
 		byte[] msg = CryptoUtils.asciiToBytes(message);
-		byte[] hash0 = hashfunc.getHash(msg).toBytes();
+		byte[] hash0 = hashFunc.getHash(msg).toBytes();
 		assertArrayEquals(hash1, hash0);
 	}
 	

@@ -49,8 +49,8 @@ public class Edonkey2000Test {
 	
 	
 	
-	private static void test(HashFunction hashfunc, int length, String expectedHash) {
-		byte[] actualHash = getHashOfZeros(hashfunc, length).toBytes();
+	private static void test(HashFunction hashFunc, int length, String expectedHash) {
+		byte[] actualHash = getHashOfZeros(hashFunc, length).toBytes();
 		assertArrayEquals(CryptoUtils.hexToBytes(expectedHash), actualHash);
 	}
 	
