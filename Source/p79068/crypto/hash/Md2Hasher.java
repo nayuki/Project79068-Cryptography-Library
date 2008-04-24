@@ -1,5 +1,6 @@
 package p79068.crypto.hash;
 
+import p79068.crypto.Zeroizer;
 import p79068.util.hash.HashValue;
 
 
@@ -31,8 +32,8 @@ final class Md2Hasher extends BlockHasher {
 	public void zeroize() {
 		if (hashFunction == null)
 			throw new IllegalStateException("Already zeroized");
-		for (int i = 0; i < state.length; i++) state[i] = 0;
-		for (int i = 0; i < checksum.length; i++) checksum[i] = 0;
+		Zeroizer.clear(state);
+		Zeroizer.clear(checksum);
 		state = null;
 		checksum = null;
 		super.zeroize();
