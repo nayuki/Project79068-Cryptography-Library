@@ -47,33 +47,28 @@ final class Md4Hasher extends BlockHasher {
 		int c = state[2];
 		int d = state[3];
 		for (int end = off + len; off < end;) {
-			for (int i = 0; i < 16; i++, off += 4) {
+			for (int i = 0; i < 16; i++, off += 4) {  // Pack bytes into int32s in little endian
 				schedule[i] =
 					  (message[off + 0] & 0xFF) <<  0
 					| (message[off + 1] & 0xFF) <<  8
 					| (message[off + 2] & 0xFF) << 16
 					| (message[off + 3] & 0xFF) << 24;
 			}
-			int i = 0;
-			for (; i < 16; i++) {
-				int tp = a + (d ^ (b & (c ^ d))) + schedule[i];
-				tp = tp << s[i & 3] | tp >>> (32 - s[i & 3]);
-				a = d;
-				d = c;
-				c = b;
-				b = tp;
-			}
-			for (; i < 32; i++) {
-				int tp = a + ((b & c) | (d & (b | c))) + schedule[k[i & 0xF]] + 0x5A827999;
-				tp = tp << s[4 | i & 3] | tp >>> (32 - s[4 | i & 3]);
-				a = d;
-				d = c;
-				c = b;
-				b = tp;
-			}
-			for (; i < 48; i++) {
-				int tp = a + (b ^ c ^ d) + schedule[k[16 | i & 0xF]] + 0x6ED9EBA1;
-				tp = tp << s[8 | i & 3] | tp >>> (32 - s[8 | i & 3]);
+			for (int i = 0; i < 48; i++) {  // The 48 rounds
+				int tp;
+				int rot;
+				if (0 <= i && i < 16) {
+					tp = a + (d ^ (b & (c ^ d))) + schedule[i];
+					rot = s[i & 3];
+				} else if (16 <= i && i < 32) {
+					tp = a + ((b & c) | (d & (b | c))) + schedule[k[i & 0xF]] + 0x5A827999;
+					rot = s[4 | i & 3];
+				} else if (32 <= i && i < 48) {
+					tp = a + (b ^ c ^ d) + schedule[k[16 | i & 0xF]] + 0x6ED9EBA1;
+					rot = s[8 | i & 3];
+				} else
+					throw new AssertionError();
+				tp = tp << rot | tp >>> (32 - rot);  // Left rotation
 				a = d;
 				d = c;
 				c = b;
