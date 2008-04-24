@@ -8,17 +8,17 @@ import p79068.util.hash.HashValue;
 
 final class Edonkey2000Hasher extends Hasher implements Zeroizable {
 	
-	private Hasher hasher;       // Outer hash. Is null if total length < BLOCK_LENGTH for old mode; is null if total length <= BLOCK_LENGTH for new mode.
-	private Hasher blockHasher;  // Inner hash
-	private int blockLength;     // Length of current block. Is within the range [0,BLOCK_LENGTH) for old mode; (0,BLOCK_LENGTH] for new mode (but can be 0 for the initial block).
+	private Hasher outerHasher;  // Outer hash. Is null if total length < BLOCK_LENGTH for old mode; is null if total length <= BLOCK_LENGTH for new mode.
+	private Hasher innerHasher;  // Inner hash
+	private int currentBlockLength;     // Length of current block. Is within the range [0,BLOCK_LENGTH) for old mode; (0,BLOCK_LENGTH] for new mode (but can be 0 for the initial block).
 	
 	
 
 	Edonkey2000Hasher(Edonkey2000 hashFunc) {
 		super(hashFunc);
-		hasher = null;
-		blockHasher = Md4.FUNCTION.newHasher();
-		blockLength = 0;
+		outerHasher = null;
+		innerHasher = Md4.FUNCTION.newHasher();
+		currentBlockLength = 0;
 	}
 	
 	
@@ -26,9 +26,9 @@ final class Edonkey2000Hasher extends Hasher implements Zeroizable {
 	public void update(byte b) {
 		if (hashFunction == null)
 			throw new IllegalStateException("Already zeroized");
-		blockHasher.update(b);
-		blockLength++;
-		oldNextBlock();
+		innerHasher.update(b);
+		currentBlockLength++;
+		nextBlock();
 	}
 	
 	
@@ -37,12 +37,12 @@ final class Edonkey2000Hasher extends Hasher implements Zeroizable {
 			throw new IllegalStateException("Already zeroized");
 		BoundsChecker.check(b.length, off, len);
 		while (len > 0) {
-			int templen = Math.min(BLOCK_LENGTH - blockLength, len);
-			blockHasher.update(b, off, templen);
+			int templen = Math.min(BLOCK_LENGTH - currentBlockLength, len);
+			innerHasher.update(b, off, templen);
 			off += templen;
 			len -= templen;
-			blockLength += templen;
-			oldNextBlock();
+			currentBlockLength += templen;
+			nextBlock();
 		}
 	}
 	
@@ -50,11 +50,11 @@ final class Edonkey2000Hasher extends Hasher implements Zeroizable {
 	public HashValue getHash() {
 		if (hashFunction == null)
 			throw new IllegalStateException("Already zeroized");
-		if (hasher == null)
-			return blockHasher.getHash();
+		if (outerHasher == null)
+			return innerHasher.getHash();
 		else {
-			Hasher temp = hasher.clone();
-			temp.update(blockHasher.getHash().toBytes());
+			Hasher temp = outerHasher.clone();
+			temp.update(innerHasher.getHash().toBytes());
 			return temp.getHash();
 		}
 	}
@@ -64,8 +64,8 @@ final class Edonkey2000Hasher extends Hasher implements Zeroizable {
 		if (hashFunction == null)
 			throw new IllegalStateException("Already zeroized");
 		Edonkey2000Hasher result = (Edonkey2000Hasher)super.clone();
-		result.hasher = hasher.clone();
-		result.blockHasher = blockHasher.clone();
+		result.outerHasher = outerHasher.clone();
+		result.innerHasher = innerHasher.clone();
 		return result;
 	}
 	
@@ -73,13 +73,13 @@ final class Edonkey2000Hasher extends Hasher implements Zeroizable {
 	public void zeroize() {
 		if (hashFunction == null)
 			throw new IllegalStateException("Already zeroized");
-		blockLength = 0;
-		if (hasher != null && hasher instanceof Zeroizable)
-			((Zeroizable)hasher).zeroize();
-		if (blockHasher instanceof Zeroizable)
-			((Zeroizable)blockHasher).zeroize();
-		hasher = null;
-		blockHasher = null;
+		currentBlockLength = 0;
+		if (outerHasher != null && outerHasher instanceof Zeroizable)
+			((Zeroizable)outerHasher).zeroize();
+		if (innerHasher instanceof Zeroizable)
+			((Zeroizable)innerHasher).zeroize();
+		outerHasher = null;
+		innerHasher = null;
 		hashFunction = null;
 	}
 	
@@ -88,18 +88,13 @@ final class Edonkey2000Hasher extends Hasher implements Zeroizable {
 	private static final int BLOCK_LENGTH = 9728000;
 	
 	
-	private void oldNextBlock() {
-		nextBlock();
-	}
-	
-	
 	private void nextBlock() {
-		if (blockLength == BLOCK_LENGTH) {
-			if (hasher == null)
-				hasher = Md4.FUNCTION.newHasher();
-			hasher.update(blockHasher.getHash().toBytes());
-			blockHasher = Md4.FUNCTION.newHasher();
-			blockLength = 0;
+		if (currentBlockLength == BLOCK_LENGTH) {
+			if (outerHasher == null)
+				outerHasher = Md4.FUNCTION.newHasher();
+			outerHasher.update(innerHasher.getHash().toBytes());
+			innerHasher = Md4.FUNCTION.newHasher();
+			currentBlockLength = 0;
 		}
 	}
 	
