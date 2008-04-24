@@ -54,46 +54,31 @@ final class Sha1Hasher extends BlockHasher {
 		int d = state[3];
 		int e = state[4];
 		for (int end = off + len; off < end;) {
-			for (int i = 0; i < 16; i++, off += 4) {
+			for (int i = 0; i < 16; i++, off += 4) {  // Pack bytes into int32s in big endian
 				schedule[i] =
 					  (message[off + 0] & 0xFF) << 24
 					| (message[off + 1] & 0xFF) << 16
 					| (message[off + 2] & 0xFF) <<  8
 					| (message[off + 3] & 0xFF) <<  0;
 			}
-			for (int i = 16; i < 80; i++) {
+			for (int i = 16; i < 80; i++) {  // Expand the schedule
 				int tp = schedule[i - 3] ^ schedule[i - 8] ^ schedule[i - 14] ^ schedule[i - 16];
 				if (sha1mode)
 					tp = tp << 1 | tp >>> 31;
 				schedule[i] = tp;
 			}
-			int i = 0;
-			for (; i < 20; i++) {
-				int tp = e + (a << 5 | a >>> 27) + (d ^ (b & (c ^ d))) + schedule[i] + 0x5A827999;
-				e = d;
-				d = c;
-				c = b << 30 | b >>> 2;
-				b = a;
-				a = tp;
-			}
-			for (; i < 40; i++) {
-				int tp = e + (a << 5 | a >>> 27) + (b ^ c ^ d) + schedule[i] + 0x6ED9EBA1;
-				e = d;
-				d = c;
-				c = b << 30 | b >>> 2;
-				b = a;
-				a = tp;
-			}
-			for (; i < 60; i++) {
-				int tp = e + (a << 5 | a >>> 27) + ((b & (c | d)) | (c & d)) + schedule[i] + 0x8F1BBCDC;
-				e = d;
-				d = c;
-				c = b << 30 | b >>> 2;
-				b = a;
-				a = tp;
-			}
-			for (; i < 80; i++) {
-				int tp = e + (a << 5 | a >>> 27) + (b ^ c ^ d) + schedule[i] + 0xCA62C1D6;
+			for (int i = 0; i < 80; i++) {  // The 80 rounds
+				int tp;
+				if (0 <= i && i < 20)
+					tp = e + (a << 5 | a >>> 27) + (d ^ (b & (c ^ d))) + schedule[i] + 0x5A827999;
+				else if (20 <= i && i < 40)
+					tp = e + (a << 5 | a >>> 27) + (b ^ c ^ d) + schedule[i] + 0x6ED9EBA1;
+				else if (40 <= i && i < 60)
+					tp = e + (a << 5 | a >>> 27) + ((b & (c | d)) | (c & d)) + schedule[i] + 0x8F1BBCDC;
+				else if (60 <= i && i < 80)
+					tp = e + (a << 5 | a >>> 27) + (b ^ c ^ d) + schedule[i] + 0xCA62C1D6;
+				else
+					throw new AssertionError();
 				e = d;
 				d = c;
 				c = b << 30 | b >>> 2;
