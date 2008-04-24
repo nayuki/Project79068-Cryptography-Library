@@ -1,14 +1,10 @@
 package crypto.hash;
 
-import static org.junit.Assert.fail;
 import org.junit.Test;
 import crypto.CryptoUtils;
-import p79068.crypto.Zeroizable;
 import p79068.crypto.hash.Md2;
 import p79068.crypto.hash.Md4;
 import p79068.crypto.hash.Md5;
-import p79068.util.hash.HashFunction;
-import p79068.util.hash.Hasher;
 
 
 public class MdTest {
@@ -61,21 +57,9 @@ public class MdTest {
 	
 	@Test
 	public void testZeroize() {
-		try {
-			testZeroization(Md2.FUNCTION);
-			testZeroization(Md4.FUNCTION);
-			testZeroization(Md5.FUNCTION);
-		} catch (ClassCastException e) {
-			fail();
-		}
-	}
-	
-	
-	
-	private static void testZeroization(HashFunction hashFunc) {
-		Hasher hasher = hashFunc.newHasher();
-		hasher.update(new byte[200]);
-		((Zeroizable)hasher).zeroize();
+		CryptoUtils.testZeroization(Md2.FUNCTION);
+		CryptoUtils.testZeroization(Md4.FUNCTION);
+		CryptoUtils.testZeroization(Md5.FUNCTION);
 	}
 	
 }
