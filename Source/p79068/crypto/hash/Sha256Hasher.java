@@ -13,8 +13,8 @@ final class Sha256Hasher extends BlockHasher {
 	
 	
 	
-	Sha256Hasher(Sha256 algor) {
-		super(algor, 64);
+	Sha256Hasher(Sha256 hashFunc) {
+		super(hashFunc, 64);
 		sha224Mode = false;
 		state = new int[]{
 				0x6A09E667, 0xBB67AE85, 0x3C6EF372, 0xA54FF53A,
@@ -23,8 +23,8 @@ final class Sha256Hasher extends BlockHasher {
 	}
 	
 	
-	Sha256Hasher(Sha224 algor) {
-		super(algor, 64);
+	Sha256Hasher(Sha224 hashFunc) {
+		super(hashFunc, 64);
 		sha224Mode = true;
 		state = new int[]{  // Different from above
 				0xC1059ED8, 0x367CD507, 0x3070DD17, 0xF70E5939,

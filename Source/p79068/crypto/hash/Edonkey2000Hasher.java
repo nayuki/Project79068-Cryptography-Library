@@ -16,8 +16,8 @@ final class Edonkey2000Hasher extends Hasher implements Zeroizable {
 	
 	
 
-	Edonkey2000Hasher(Edonkey2000 algor) {
-		super(algor);
+	Edonkey2000Hasher(Edonkey2000 hashFunc) {
+		super(hashFunc);
 		oldMode = true;
 		hasher = null;
 		blockHasher = Md4.FUNCTION.newHasher();
@@ -25,8 +25,8 @@ final class Edonkey2000Hasher extends Hasher implements Zeroizable {
 	}
 	
 	
-	Edonkey2000Hasher(NewEdonkey2000 algor) {
-		super(algor);
+	Edonkey2000Hasher(NewEdonkey2000 hashFunc) {
+		super(hashFunc);
 		oldMode = false;
 		hasher = null;
 		blockHasher = Md4.FUNCTION.newHasher();

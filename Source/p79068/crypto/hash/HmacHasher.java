@@ -13,8 +13,8 @@ final class HmacHasher extends Hasher implements Zeroizable {
 	
 	
 	
-	HmacHasher(Hmac algor, Hasher inner, Hasher outer) {
-		super(algor);
+	HmacHasher(Hmac hashFunc, Hasher inner, Hasher outer) {
+		super(hashFunc);
 		this.inner = inner.clone();
 		this.outer = outer.clone();
 	}

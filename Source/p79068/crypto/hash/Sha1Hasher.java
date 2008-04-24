@@ -13,14 +13,14 @@ final class Sha1Hasher extends BlockHasher {
 	
 	
 	
-	Sha1Hasher(Sha1 algor) {
-		super(algor, 64);
+	Sha1Hasher(Sha1 hashFunc) {
+		super(hashFunc, 64);
 		sha1Mode = true;
 		state = new int[]{0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476, 0xC3D2E1F0};
 	}
 	
-	Sha1Hasher(Sha algor) {
-		super(algor, 64);
+	Sha1Hasher(Sha hashFunc) {
+		super(hashFunc, 64);
 		sha1Mode = false;
 		state = new int[]{0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476, 0xC3D2E1F0};  // Same as above
 	}

@@ -11,8 +11,8 @@ final class Md2Hasher extends BlockHasher {
 	
 	
 	
-	Md2Hasher(Md2 algor) {
-		super(algor, 16);
+	Md2Hasher(Md2 hashFunc) {
+		super(hashFunc, 16);
 		state = new int[48];
 		checksum = new int[16];
 	}

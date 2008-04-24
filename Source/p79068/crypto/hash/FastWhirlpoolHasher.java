@@ -9,8 +9,8 @@ final class FastWhirlpoolHasher extends BlockHasher{
  private long[] state;
 
 
- FastWhirlpoolHasher(Whirlpool algor){
-  super(algor,64);
+ FastWhirlpoolHasher(Whirlpool hashFunc){
+  super(hashFunc,64);
   state=new long[8];}
 
 

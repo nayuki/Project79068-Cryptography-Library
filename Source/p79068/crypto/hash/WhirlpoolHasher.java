@@ -10,8 +10,8 @@ final class WhirlpoolHasher extends BlockHasher {
 	
 	
 	
-	WhirlpoolHasher(Whirlpool algor) {
-		super(algor, 64);
+	WhirlpoolHasher(Whirlpool hashFunc) {
+		super(hashFunc, 64);
 		sub = WHIRLPOOL_SUB;
 		mul = WHIRLPOOL_MUL;
 		rcon = WHIRLPOOL_RCON;
@@ -19,8 +19,8 @@ final class WhirlpoolHasher extends BlockHasher {
 	}
 	
 	
-	WhirlpoolHasher(Whirlpool0 algor) {
-		super(algor, 64);
+	WhirlpoolHasher(Whirlpool0 hashFunc) {
+		super(hashFunc, 64);
 		sub = WHIRLPOOL0_SUB;
 		mul = WHIRLPOOL0_MUL;
 		rcon = WHIRLPOOL0_RCON;
@@ -28,8 +28,8 @@ final class WhirlpoolHasher extends BlockHasher {
 	}
 	
 	
-	WhirlpoolHasher(Whirlpool1 algor) {
-		super(algor, 64);
+	WhirlpoolHasher(Whirlpool1 hashFunc) {
+		super(hashFunc, 64);
 		sub = WHIRLPOOL1_SUB;
 		mul = WHIRLPOOL1_MUL;
 		rcon = WHIRLPOOL1_RCON;

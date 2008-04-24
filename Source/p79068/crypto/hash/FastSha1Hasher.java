@@ -11,8 +11,8 @@ final class FastSha1Hasher extends BlockHasher {
 	
 	
 	
-	FastSha1Hasher(Sha1 algor) {
-		super(algor, 64);
+	FastSha1Hasher(Sha1 hashFunc) {
+		super(hashFunc, 64);
 		state = new int[]{0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476, 0xC3D2E1F0};
 	}
 	

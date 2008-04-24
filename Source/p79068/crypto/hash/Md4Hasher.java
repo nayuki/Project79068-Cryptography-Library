@@ -11,8 +11,8 @@ final class Md4Hasher extends BlockHasher {
 	
 	
 	
-	Md4Hasher(Md4 algor) {
-		super(algor, 64);
+	Md4Hasher(Md4 hashFunc) {
+		super(hashFunc, 64);
 		state = new int[]{0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476};
 	}
 	
