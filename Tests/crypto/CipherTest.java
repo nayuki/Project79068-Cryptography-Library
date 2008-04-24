@@ -23,7 +23,7 @@ public class CipherTest {
 	
 	
 	@Test
-	public void rijndael() { // Test the wide parameter range of Rijndael
+	public void rijndael() {  // Test the wide parameter range of Rijndael
 		for (int blocklen = 16; blocklen <= 32; blocklen += 4) {
 			for (int keylen = 4; keylen <= 384; keylen += 4) {
 				test(new Rijndael(keylen, blocklen));

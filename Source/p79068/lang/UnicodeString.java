@@ -18,19 +18,19 @@ public final class UnicodeString implements Comparable<UnicodeString> {
 		int j = 0;
 		for (int i = 0; i < str.length(); j++) {
 			char c = str.charAt(i);
-			if (c < 0xD800 || c >= 0xE000) { // Not a surrogate
+			if (c < 0xD800 || c >= 0xE000) {  // Not a surrogate
 				chars[j] = c;
 				i++;
 			} else {
 				if (c >= 0xDC00 && c < 0xE000)
-					throw new IllegalArgumentException("Malformed string"); // Low surrogate
+					throw new IllegalArgumentException("Malformed string");  // Low surrogate
 				int tp = c;
 				i++;
 				if (i == str.length())
 					throw new IllegalArgumentException("Malformed string");
 				c = str.charAt(i);
 				if (c < 0xDC00 || c >= 0xE000)
-					throw new IllegalArgumentException("Malformed string"); // Not a low surrogate
+					throw new IllegalArgumentException("Malformed string");  // Not a low surrogate
 				chars[j] = ((tp - 0xD800) << 10 | (c - 0xDC00)) + 0x10000;
 				i++;
 			}

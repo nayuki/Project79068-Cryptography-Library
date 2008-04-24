@@ -11,7 +11,7 @@ final class OfbModeStreamCipherer extends StreamCipherer {
 	private Cipherer cipherer;
 	private int blockLength;
 	
-	private byte[] keyStream; // The current key stream block
+	private byte[] keyStream;  // The current key stream block
 	private int keyStreamOff;
 	
 	
@@ -54,8 +54,8 @@ final class OfbModeStreamCipherer extends StreamCipherer {
 		}
 		for (; byteCount >= blockLength; byteCount -= blockLength)
 			cipherer.encrypt(keyStream);
-		keyStreamOff += byteCount;
-	} // 0 <= byteCount < blockLength
+		keyStreamOff += byteCount;  // 0 <= byteCount < blockLength
+	}
 	
 
 	public void zeroize() {

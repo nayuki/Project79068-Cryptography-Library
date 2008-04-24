@@ -138,7 +138,7 @@ final class Rc2Cipherer extends Cipherer {
 	
 	
 	private void mixInverse(int[] r, int i, int j) {
-		r[i] = (r[i] << (16 - s[i]) | r[i] >>> s[i]) & 0xFFFF; // Right rotation by s[i]
+		r[i] = (r[i] << (16 - s[i]) | r[i] >>> s[i]) & 0xFFFF;  // Right rotation by s[i]
 		r[i] = (r[i] - keySchedule[j] - (r[(i + 3) & 3] & r[(i + 2) & 3]) - (~r[(i + 3) & 3] & r[(i + 1) & 3])) & 0xFFFF;
 	}
 	

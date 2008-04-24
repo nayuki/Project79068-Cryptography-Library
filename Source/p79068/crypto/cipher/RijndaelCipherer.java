@@ -38,7 +38,7 @@ class RijndaelCipherer extends RijndaelCiphererParent {
 		BoundsChecker.check(b.length, off, len);
 		if (len % blockLength != 0)
 			throw new IllegalArgumentException("Invalid block length");
-		byte[] block = new byte[blockLength]; // Column-major indexed
+		byte[] block = new byte[blockLength];  // Column-major indexed
 		byte[] temp = new byte[blockLength];
 		for (len += off; off < len; off += blockLength) {
 			System.arraycopy(b, off, block, 0, blockLength);
@@ -54,7 +54,7 @@ class RijndaelCipherer extends RijndaelCiphererParent {
 		BoundsChecker.check(b.length, off, len);
 		if (len % blockLength != 0)
 			throw new IllegalArgumentException("Invalid block length");
-		byte[] block = new byte[blockLength]; // Column-major indexed
+		byte[] block = new byte[blockLength];  // Column-major indexed
 		byte[] temp = new byte[blockLength];
 		for (len += off; off < len; off += blockLength) {
 			System.arraycopy(b, off, block, 0, blockLength);
@@ -80,17 +80,17 @@ class RijndaelCipherer extends RijndaelCiphererParent {
 	
 	
 	protected void setKey(byte[] key) {
-		int nk = key.length / 4; // Number of 32-bit blocks in the key
-		int nb = blockLength / 4; // Number of 32-bit blocks in the state
+		int nk = key.length / 4;  // Number of 32-bit blocks in the key
+		int nb = blockLength / 4;  // Number of 32-bit blocks in the state
 		int rounds = Math.max(nk, nb) + 6;
-		int[] w = expandKey(key, nb); // Key schedule
+		int[] w = expandKey(key, nb);  // Key schedule
 		keySchedule = new byte[rounds + 1][];
 		for (int i = 0; i < keySchedule.length; i++)
 			keySchedule[i] = toBytesBigEndian(w, i * nb, nb);
 	}
 	
 	
-	protected void encrypt(byte[] block, byte[] temp) { // The result is placed in temp.
+	protected void encrypt(byte[] block, byte[] temp) {  // The result is placed in temp.
 		addRoundKey(block, keySchedule[0]);
 		for (int i = 1; i < keySchedule.length - 1; i++) {
 			subBytes(block);
@@ -104,7 +104,7 @@ class RijndaelCipherer extends RijndaelCiphererParent {
 	}
 	
 	
-	protected void decrypt(byte[] block, byte[] temp) { // The result is placed in temp.
+	protected void decrypt(byte[] block, byte[] temp) {  // The result is placed in temp.
 		addRoundKey(block, keySchedule[keySchedule.length - 1]);
 		shiftRowsInverse(block, temp);
 		subBytesInverse(temp);
@@ -125,7 +125,7 @@ class RijndaelCipherer extends RijndaelCiphererParent {
 	
 	
 	protected void shiftRows(byte[] blockin, byte[] sout) {
-		int nb = blockLength / 4; // Number of columns, i.e. the number of elements in a row
+		int nb = blockLength / 4;  // Number of columns, i.e. the number of elements in a row
 		for (int i = 0; i < nb; i++) {
 			sout[i * 4 + 0] = blockin[(i) % nb * 4 + 0];
 			sout[i * 4 + 1] = blockin[(i + c1) % nb * 4 + 1];

@@ -46,7 +46,7 @@ public final class Int128 implements Comparable<Int128> {
 		long newlow = low + num.low;
 		long newhigh = high + num.high;
 		if (LongMath.compareUnsigned(newlow, low) < 0)
-			newhigh++; // Carry
+			newhigh++;  // Carry
 		return new Int128(newhigh, newlow);
 	}
 	
@@ -58,7 +58,7 @@ public final class Int128 implements Comparable<Int128> {
 		long newlow = low - num.low;
 		long newhigh = high - num.high;
 		if (LongMath.compareUnsigned(newlow, low) > 0)
-			newhigh--; // Borrow
+			newhigh--;  // Borrow
 		return new Int128(newhigh, newlow);
 	}
 	
@@ -67,19 +67,19 @@ public final class Int128 implements Comparable<Int128> {
 	 * Returns <code>this * num</code>.
 	 */
 	public Int128 multiply(Int128 num) {
-		int[] x = {(int)low, (int)(low >>> 32), (int)high, (int)(high >>> 32)}; // All in little-endian
+		int[] x = {(int)low, (int)(low >>> 32), (int)high, (int)(high >>> 32)};  // All in little-endian
 		int[] y = {(int)num.low, (int)(num.low >>> 32), (int)num.high, (int)(num.high >>> 32)};
 		int[] z = new int[4];
 		for (int i = 0; i < x.length; i++) {
 			long carry = 0;
 			for (int j = 0; j < y.length && i + j < z.length; j++) {
-				long temp = (x[i] & 0xFFFFFFFFL) * (y[j] & 0xFFFFFFFFL); // In [0,0xFFFFFFFE00000001]
-				temp += carry; // In [0,0xFFFFFFFF00000000]
-				temp += (z[i + j] & 0xFFFFFFFFL); // In [0,0xFFFFFFFFFFFFFFFF] (still not overflowing =) )
+				long temp = (x[i] & 0xFFFFFFFFL) * (y[j] & 0xFFFFFFFFL);  // In [0,0xFFFFFFFE00000001]
+				temp += carry;  // In [0,0xFFFFFFFF00000000]
+				temp += (z[i + j] & 0xFFFFFFFFL);  // In [0,0xFFFFFFFFFFFFFFFF] (still not overflowing =) )
 				z[i + j] = (int)temp;
-				carry = temp >>> 32;
+				carry = temp >>> 32;  // In [0,0xFFFFFFFF]
 			}
-		} // In [0,0xFFFFFFFF]
+		}
 		return new Int128((long)z[3] << 32 | (z[2] & 0xFFFFFFFFL), (long)z[1] << 32 | (z[0] & 0xFFFFFFFFL));
 	}
 	

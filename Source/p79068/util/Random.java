@@ -9,7 +9,7 @@ import p79068.math.IntegerMath;
  * <p>Mutability: <em>Mutable</em><br>
  * Thread safety: <em>Unsafe</em>, unless otherwise specified</p>
  * <p>One usage example:</p>
- * <p><code>int i = Random.DEFAULT.randomInt(10); // Returns a number from 0 to 9 (inclusive) </code></p>
+ * <p><code>int i = Random.DEFAULT.randomInt(10);  // Returns a number from 0 to 9 (inclusive) </code></p>
 */
 public abstract class Random {
 	

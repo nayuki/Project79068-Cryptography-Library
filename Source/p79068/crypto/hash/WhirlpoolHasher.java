@@ -175,9 +175,9 @@ final class WhirlpoolHasher extends BlockHasher {
 		
 		// Initialize WHIRLPOOL1_SUB, WHIRLPOOL_SUB
 		{
-			int[] e = {0x1, 0xB, 0x9, 0xC, 0xD, 0x6, 0xF, 0x3, 0xE, 0x8, 0x7, 0x4, 0xA, 0x2, 0x5, 0x0}; // The E mini-box
-			int[] r = {0x7, 0xC, 0xB, 0xD, 0xE, 0x4, 0x9, 0xF, 0x6, 0x3, 0x8, 0xA, 0x2, 0x5, 0x1, 0x0}; // The R mini-box
-			int[] einv = new int[16]; // The inverse of E
+			int[] e = {0x1, 0xB, 0x9, 0xC, 0xD, 0x6, 0xF, 0x3, 0xE, 0x8, 0x7, 0x4, 0xA, 0x2, 0x5, 0x0};  // The E mini-box
+			int[] r = {0x7, 0xC, 0xB, 0xD, 0xE, 0x4, 0x9, 0xF, 0x6, 0x3, 0x8, 0xA, 0x2, 0x5, 0x1, 0x0};  // The R mini-box
+			int[] einv = new int[16];  // The inverse of E
 			for (int i = 0; i < e.length; i++)
 				einv[e[i]] = i;
 			WHIRLPOOL1_SUB = new byte[256];
@@ -191,7 +191,7 @@ final class WhirlpoolHasher extends BlockHasher {
 		}
 		
 		// Initialize WHIRLPOOL0_RCON
-		WHIRLPOOL0_RCON = new byte[10][64]; // 10 is the number of rounds
+		WHIRLPOOL0_RCON = new byte[10][64];  // 10 is the number of rounds
 		for (int i = 0; i < WHIRLPOOL0_RCON.length; i++) {
 			int j = 0;
 			for (; j < 8; j++)
@@ -201,7 +201,7 @@ final class WhirlpoolHasher extends BlockHasher {
 		}
 		
 		// Initialize WHIRLPOOL1_RCON, WHIRLPOOL_RCON
-		WHIRLPOOL1_RCON = new byte[10][64]; // 10 is the number of rounds
+		WHIRLPOOL1_RCON = new byte[10][64];  // 10 is the number of rounds
 		WHIRLPOOL_RCON = WHIRLPOOL1_RCON;
 		for (int i = 0; i < WHIRLPOOL1_RCON.length; i++) {
 			int j = 0;
@@ -218,9 +218,9 @@ final class WhirlpoolHasher extends BlockHasher {
 		log[0] = Integer.MIN_VALUE;
 		log[1] = 0;
 		for (int i = 1; i < exp.length; i++) {
-			exp[i] = exp[i - 1] << 1; // Multiply by 0x02
+			exp[i] = exp[i - 1] << 1;  // Multiply by 0x02
 			if ((exp[i] & 0x100) != 0)
-				exp[i] ^= 0x11D; // Modulo by 0x11D in GF(2)
+				exp[i] ^= 0x11D;  // Modulo by 0x11D in GF(2)
 			log[exp[i]] = i;
 		}
 		

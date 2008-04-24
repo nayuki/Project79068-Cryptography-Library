@@ -82,7 +82,7 @@ public abstract class BlockHasher extends Hasher implements Zeroizable {
 		}
 		int tp = len / block.length * block.length;
 		compress(b, off, tp);
-		System.arraycopy(b, off + tp, block, 0, len - tp); // Less than block.length bytes remain
+		System.arraycopy(b, off + tp, block, 0, len - tp);  // Less than block.length bytes remain
 		blockLength += len - tp;
 	}
 	

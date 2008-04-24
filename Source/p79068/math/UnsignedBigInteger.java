@@ -113,7 +113,7 @@ public final class UnsignedBigInteger implements Comparable<UnsignedBigInteger> 
 			digit[i] = (short)(tp >>> 0);
 			digit[i | 1] = (short)(tp >>> 16);
 		}
-		digit[digit.length - 1] = (short)(rand.randomInt() >>> (32 - bitlen % 16)); // Fill the last element
+		digit[digit.length - 1] = (short)(rand.randomInt() >>> (32 - bitlen % 16));  // Fill the last element
 		digit = trim(digit);
 	}
 	
@@ -318,7 +318,7 @@ public final class UnsignedBigInteger implements Comparable<UnsignedBigInteger> 
 		UnsignedBigInteger x = this;
 		UnsignedBigInteger y = val;
 		int pow2 = 0;
-		while ((x.digit[0] & 1) == 0 && (y.digit[0] & 1) == 0 && (x.digit.length > 1 || x.digit[0] != 0) && (y.digit.length > 1 || y.digit[0] != 0)) { // x and y are even but non-zero
+		while ((x.digit[0] & 1) == 0 && (y.digit[0] & 1) == 0 && (x.digit.length > 1 || x.digit[0] != 0) && (y.digit.length > 1 || y.digit[0] != 0)) {  // x and y are even but non-zero
 			pow2++;
 			x = x.shiftRight(1);
 			y = y.shiftRight(1);

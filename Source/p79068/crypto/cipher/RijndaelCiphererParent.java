@@ -9,13 +9,13 @@ abstract class RijndaelCiphererParent extends Cipherer {
 	
 	
 	
-	protected static int[] expandKey(byte[] key, int nb) { // In the FIPS 197 specification, this function is named KeyExpansion.
+	protected static int[] expandKey(byte[] key, int nb) {  // In the FIPS 197 specification, this function is named KeyExpansion.
 		int nk = key.length / 4;
 		int round = Math.max(nk, nb) + 6;
-		int[] w = new int[(round + 1) * nb]; // Key schedule
+		int[] w = new int[(round + 1) * nb];  // Key schedule
 		for (int i = 0; i < nk; i++)
 			w[i] = toInt32(key, i * 4);
-		for (int i = nk, rcon = 1; i < w.length; i++) { // rcon = 2^(i/nk) mod 0x11B
+		for (int i = nk, rcon = 1; i < w.length; i++) {  // rcon = 2^(i/nk) mod 0x11B
 			int tp = w[i - 1];
 			if (i % nk == 0) {
 				tp = subInt32Bytes(tp << 8 | tp >>> 24) ^ (rcon << 24);
@@ -44,7 +44,7 @@ abstract class RijndaelCiphererParent extends Cipherer {
 	
 	
 	
-	private static int subInt32Bytes(int x) { // Apply S-box to each byte in the 32-bit integer.
+	private static int subInt32Bytes(int x) {  // Apply S-box to each byte in the 32-bit integer.
 		return sub[x >>> 24] << 24 | (sub[x >>> 16 & 0xFF] & 0xFF) << 16 | (sub[x >>> 8 & 0xFF] & 0xFF) << 8 | (sub[x & 0xFF] & 0xFF);
 	}
 	
@@ -67,9 +67,9 @@ abstract class RijndaelCiphererParent extends Cipherer {
 		log[0] = Integer.MIN_VALUE;
 		log[1] = 0;
 		for (int i = 1; i < exp.length; i++) {
-			exp[i] = (exp[i - 1] << 1) ^ (exp[i - 1]); // Multiply by 0x03
+			exp[i] = (exp[i - 1] << 1) ^ (exp[i - 1]);  // Multiply by 0x03
 			if (exp[i] >= 0x100)
-				exp[i] ^= 0x11B; // Modulo by 0x11B
+				exp[i] ^= 0x11B;  // Modulo by 0x11B
 			log[exp[i]] = i;
 		}
 	}
@@ -79,7 +79,7 @@ abstract class RijndaelCiphererParent extends Cipherer {
 		sub = new byte[256];
 		subinv = new byte[256];
 		for (int i = 0; i < 256; i++) {
-			int tp; // The reciprocal of i
+			int tp;  // The reciprocal of i
 			if (i == 0)
 				tp = 0;
 			else

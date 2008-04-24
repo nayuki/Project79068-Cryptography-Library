@@ -79,11 +79,11 @@ final class IdeaCipherer extends Cipherer {
 	
 	private static void crypt(byte[] b, int off, int len, int[] keysch) {
 		for (len += off; off < len; off += 8) {
-			int w = (b[off + 0] & 0xFF) << 8 | (b[off + 1] & 0xFF); // 4 unsigned 16-bit integers
+			int w = (b[off + 0] & 0xFF) << 8 | (b[off + 1] & 0xFF);  // 4 unsigned 16-bit integers
 			int x = (b[off + 2] & 0xFF) << 8 | (b[off + 3] & 0xFF);
 			int y = (b[off + 4] & 0xFF) << 8 | (b[off + 5] & 0xFF);
 			int z = (b[off + 6] & 0xFF) << 8 | (b[off + 7] & 0xFF);
-			for (int i = 0; i < 48; i += 6) { // 8 rounds. i represents the offset in the key schedule.
+			for (int i = 0; i < 48; i += 6) {  // 8 rounds. i represents the offset in the key schedule.
 				w = multiply(w, keysch[i + 0]);
 				x = (x + keysch[i + 1]) & 0xFFFF;
 				y = (y + keysch[i + 2]) & 0xFFFF;

@@ -188,7 +188,7 @@ final class Shacal1Cipherer extends Cipherer {
 	
 	
 	
-	private void setKey(byte[] key) { // If the key is shorter than 64 bytes, then zeros are appended
+	private void setKey(byte[] key) {  // If the key is shorter than 64 bytes, then zeros are appended
 		{
 			byte[] tempkey = new byte[64];
 			System.arraycopy(key, 0, tempkey, 0, key.length);
