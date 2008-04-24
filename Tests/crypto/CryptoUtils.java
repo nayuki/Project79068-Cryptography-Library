@@ -1,7 +1,7 @@
 package crypto;
 
 
-public class Debug {
+public class CryptoUtils {
 	
 	public static byte[] hexToBytes(String s) {
 		if (s.length() % 2 != 0)
@@ -48,6 +48,6 @@ public class Debug {
 	
 	
 	
-	private Debug() {}
+	private CryptoUtils() {}
 	
 }
