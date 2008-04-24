@@ -62,22 +62,6 @@ final class FastMd4Hasher extends BlockHasher {
 			schedule[13] = (message[off + 52] & 0xFF) | (message[off + 53] & 0xFF) << 8 | (message[off + 54] & 0xFF) << 16 | message[off + 55] << 24;
 			schedule[14] = (message[off + 56] & 0xFF) | (message[off + 57] & 0xFF) << 8 | (message[off + 58] & 0xFF) << 16 | message[off + 59] << 24;
 			schedule[15] = (message[off + 60] & 0xFF) | (message[off + 61] & 0xFF) << 8 | (message[off + 62] & 0xFF) << 16 | message[off + 63] << 24;
-			schedule[ 0] = (message[off +  0] & 0xFF) | (message[off +  1] & 0xFF) << 8 | (message[off +  2] & 0xFF) << 16 | message[off +  3] << 24;
-			schedule[ 1] = (message[off +  4] & 0xFF) | (message[off +  5] & 0xFF) << 8 | (message[off +  6] & 0xFF) << 16 | message[off +  7] << 24;
-			schedule[ 2] = (message[off +  8] & 0xFF) | (message[off +  9] & 0xFF) << 8 | (message[off + 10] & 0xFF) << 16 | message[off + 11] << 24;
-			schedule[ 3] = (message[off + 12] & 0xFF) | (message[off + 13] & 0xFF) << 8 | (message[off + 14] & 0xFF) << 16 | message[off + 15] << 24;
-			schedule[ 4] = (message[off + 16] & 0xFF) | (message[off + 17] & 0xFF) << 8 | (message[off + 18] & 0xFF) << 16 | message[off + 19] << 24;
-			schedule[ 5] = (message[off + 20] & 0xFF) | (message[off + 21] & 0xFF) << 8 | (message[off + 22] & 0xFF) << 16 | message[off + 23] << 24;
-			schedule[ 6] = (message[off + 24] & 0xFF) | (message[off + 25] & 0xFF) << 8 | (message[off + 26] & 0xFF) << 16 | message[off + 27] << 24;
-			schedule[ 7] = (message[off + 28] & 0xFF) | (message[off + 29] & 0xFF) << 8 | (message[off + 30] & 0xFF) << 16 | message[off + 31] << 24;
-			schedule[ 8] = (message[off + 32] & 0xFF) | (message[off + 33] & 0xFF) << 8 | (message[off + 34] & 0xFF) << 16 | message[off + 35] << 24;
-			schedule[ 9] = (message[off + 36] & 0xFF) | (message[off + 37] & 0xFF) << 8 | (message[off + 38] & 0xFF) << 16 | message[off + 39] << 24;
-			schedule[10] = (message[off + 40] & 0xFF) | (message[off + 41] & 0xFF) << 8 | (message[off + 42] & 0xFF) << 16 | message[off + 43] << 24;
-			schedule[11] = (message[off + 44] & 0xFF) | (message[off + 45] & 0xFF) << 8 | (message[off + 46] & 0xFF) << 16 | message[off + 47] << 24;
-			schedule[12] = (message[off + 48] & 0xFF) | (message[off + 49] & 0xFF) << 8 | (message[off + 50] & 0xFF) << 16 | message[off + 51] << 24;
-			schedule[13] = (message[off + 52] & 0xFF) | (message[off + 53] & 0xFF) << 8 | (message[off + 54] & 0xFF) << 16 | message[off + 55] << 24;
-			schedule[14] = (message[off + 56] & 0xFF) | (message[off + 57] & 0xFF) << 8 | (message[off + 58] & 0xFF) << 16 | message[off + 59] << 24;
-			schedule[15] = (message[off + 60] & 0xFF) | (message[off + 61] & 0xFF) << 8 | (message[off + 62] & 0xFF) << 16 | message[off + 63] << 24;
 			
 			// The 48 rounds
 			a = a + (d ^ (b & (c ^ d))) + schedule[ 0];  a = a <<  3 | a >>> 29;
