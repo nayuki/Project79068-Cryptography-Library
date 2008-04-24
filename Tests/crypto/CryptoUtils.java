@@ -1,7 +1,19 @@
 package crypto;
 
+import static org.junit.Assert.assertArrayEquals;
+import p79068.util.hash.HashFunction;
+
 
 public class CryptoUtils {
+	
+	public static void testWithAsciiMessage(HashFunction hashfunc, String message, String expectedHash) {
+		byte[] hash1 = CryptoUtils.hexToBytes(expectedHash);
+		byte[] msg = CryptoUtils.asciiToBytes(message);
+		byte[] hash0 = hashfunc.getHash(msg).toBytes();
+		assertArrayEquals(hash1, hash0);
+	}
+	
+	
 	
 	public static byte[] hexToBytes(String s) {
 		if (s.length() % 2 != 0)
