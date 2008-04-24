@@ -1,7 +1,8 @@
 package crypto.cipher;
 
+import static org.junit.Assert.assertArrayEquals;
 import org.junit.Test;
-import static org.junit.Assert.*;
+import crypto.CryptoUtils;
 import p79068.crypto.cipher.Cipher;
 import p79068.crypto.cipher.Cipherer;
 import p79068.crypto.cipher.Tea;
@@ -30,7 +31,7 @@ public class TeaTest {
 	
 	
 	private static void test(Cipher cipher, String key, String plaintext, String ciphertext) {
-		test(cipher, Debug.hexToBytes(key), Debug.hexToBytes(plaintext), Debug.hexToBytes(ciphertext));
+		test(cipher, CryptoUtils.hexToBytes(key), CryptoUtils.hexToBytes(plaintext), CryptoUtils.hexToBytes(ciphertext));
 	}
 	
 	

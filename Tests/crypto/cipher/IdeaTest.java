@@ -2,6 +2,7 @@ package crypto.cipher;
 
 import static org.junit.Assert.assertArrayEquals;
 import org.junit.Test;
+import crypto.CryptoUtils;
 import p79068.crypto.cipher.Cipherer;
 import p79068.crypto.cipher.Idea;
 
@@ -16,7 +17,7 @@ public class IdeaTest {
 	
 	
 	private static void test(String key, String plaintext, String ciphertext) {
-		test(Debug.hexToBytes(key), Debug.hexToBytes(plaintext), Debug.hexToBytes(ciphertext));
+		test(CryptoUtils.hexToBytes(key), CryptoUtils.hexToBytes(plaintext), CryptoUtils.hexToBytes(ciphertext));
 	}
 	
 	

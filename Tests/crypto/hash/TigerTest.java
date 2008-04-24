@@ -2,6 +2,7 @@ package crypto.hash;
 
 import static org.junit.Assert.assertArrayEquals;
 import org.junit.Test;
+import crypto.CryptoUtils;
 import p79068.crypto.hash.Tiger;
 import p79068.crypto.hash.Tiger2;
 import p79068.util.hash.HashFunction;
@@ -59,9 +60,9 @@ public class TigerTest {
 	
 	
 	private static void test(HashFunction hashfunc, String message, String hash) {
-		byte[] msg = Debug.asciiToBytes(message);
+		byte[] msg = CryptoUtils.asciiToBytes(message);
 		byte[] hash0 = hashfunc.getHash(msg).toBytes();
-		byte[] hash1 = Debug.hexToBytes(hash);
+		byte[] hash1 = CryptoUtils.hexToBytes(hash);
 		assertArrayEquals(hash1, hash0);
 	}
 	

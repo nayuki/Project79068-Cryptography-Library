@@ -3,6 +3,7 @@ package crypto.hash;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.fail;
 import org.junit.Test;
+import crypto.CryptoUtils;
 import p79068.crypto.Zeroizable;
 import p79068.crypto.hash.Sha1;
 import p79068.crypto.hash.Sha224;
@@ -90,9 +91,9 @@ public class ShaTest {
 	
 	
 	private static void test(HashFunction hashfunc, String message, String hash) {
-		byte[] msg = Debug.asciiToBytes(message);
+		byte[] msg = CryptoUtils.asciiToBytes(message);
 		byte[] hash0 = hashfunc.getHash(msg).toBytes();
-		byte[] hash1 = Debug.hexToBytes(hash);
+		byte[] hash1 = CryptoUtils.hexToBytes(hash);
 		assertArrayEquals(hash1, hash0);
 	}
 	

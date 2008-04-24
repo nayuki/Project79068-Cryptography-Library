@@ -2,6 +2,7 @@ package crypto.cipher;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
+import crypto.CryptoUtils;
 import p79068.crypto.cipher.Cipherer;
 import p79068.crypto.cipher.Rijndael;
 import p79068.util.Random;
@@ -32,7 +33,7 @@ public class AesTest {
 	
 	
 	static void test(String key, String plaintext, String ciphertext) {
-		test(Debug.hexToBytes(key), Debug.hexToBytes(plaintext), Debug.hexToBytes(ciphertext));
+		test(CryptoUtils.hexToBytes(key), CryptoUtils.hexToBytes(plaintext), CryptoUtils.hexToBytes(ciphertext));
 	}
 	
 	

@@ -2,6 +2,7 @@ package crypto.hash;
 
 import static org.junit.Assert.assertArrayEquals;
 import org.junit.Test;
+import crypto.CryptoUtils;
 import p79068.crypto.hash.Edonkey2000;
 import p79068.crypto.hash.NewEdonkey2000;
 import p79068.util.hash.HashFunction;
@@ -43,7 +44,7 @@ public class Edonkey2000Test {
 	
 	private static void test(HashFunction hashfunc, int length, String expectedHash) {
 		byte[] actualHash = getHashOfZeros(hashfunc, length).toBytes();
-		assertArrayEquals(Debug.hexToBytes(expectedHash), actualHash);
+		assertArrayEquals(CryptoUtils.hexToBytes(expectedHash), actualHash);
 	}
 	
 	
