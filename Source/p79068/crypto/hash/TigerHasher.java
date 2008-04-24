@@ -325,7 +325,7 @@ final class TigerHasher extends BlockHasher {
 		long a = state[0];
 		long b = state[1];
 		long c = state[2];
-		for (len += off; off < len;) { // len becomes end
+		for (int end = off + len; off < end;) {
 			for (int i = 0; i < 8; i++, off += 8) {
 				schedule[i] = (message[off + 0] & 0xFFL) << 0 | (message[off + 1] & 0xFFL) << 8 | (message[off + 2] & 0xFFL) << 16 | (message[off + 3] & 0xFFL) << 24 | (message[off + 4] & 0xFFL) << 32 | (message[off + 5] & 0xFFL) << 40 | (message[off + 6] & 0xFFL) << 48 | (message[off + 7] & 0xFFL) << 56;
 			}
