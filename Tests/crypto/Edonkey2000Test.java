@@ -41,13 +41,13 @@ public class Edonkey2000Test {
 	
 	
 	
-	static void test(HashFunction hashfunc, int length, String expectedHash) {
+	private static void test(HashFunction hashfunc, int length, String expectedHash) {
 		byte[] actualHash = getHashOfZeros(hashfunc, length).toBytes();
 		assertArrayEquals(Debug.hexToBytes(expectedHash), actualHash);
 	}
 	
 	
-	static HashValue getHashOfZeros(HashFunction hashfunc, int length) {
+	private static HashValue getHashOfZeros(HashFunction hashfunc, int length) {
 		Hasher hasher = hashfunc.newHasher();
 		byte[] b = new byte[1024];
 		while (length > 0) {

@@ -29,12 +29,12 @@ public class TeaTest {
 	
 	
 	
-	static void test(Cipher cipher, String key, String plaintext, String ciphertext) {
+	private static void test(Cipher cipher, String key, String plaintext, String ciphertext) {
 		test(cipher, Debug.hexToBytes(key), Debug.hexToBytes(plaintext), Debug.hexToBytes(ciphertext));
 	}
 	
 	
-	static void test(Cipher cipher, byte[] key, byte[] plaintext, byte[] ciphertext) {
+	private static void test(Cipher cipher, byte[] key, byte[] plaintext, byte[] ciphertext) {
 		byte[] originalplaintext = plaintext.clone();
 		Cipherer cipherer = cipher.newCipherer(key);
 		cipherer.encrypt(plaintext);

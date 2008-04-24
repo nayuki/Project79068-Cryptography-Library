@@ -15,11 +15,11 @@ import p79068.util.hash.Hasher;
 
 public class ShaTest {
 	
-	static String msg0 = "";
-	static String msg1 = "abc";
-	static String msg2 = "abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq";
-	static String msg3 = "abcdefghbcdefghicdefghijdefghijkefghijklfghijklmghijklmnhijklmnoijklmnopjklmnopqklmnopqrlmnopqrsmnopqrstnopqrstu";
-	static String msg4;
+	private static String msg0 = "";
+	private static String msg1 = "abc";
+	private static String msg2 = "abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq";
+	private static String msg3 = "abcdefghbcdefghicdefghijdefghijkefghijklfghijklmghijklmnhijklmnoijklmnopjklmnopqklmnopqrlmnopqrsmnopqrstnopqrstu";
+	private static String msg4;
 	
 	
 	static {
@@ -89,7 +89,7 @@ public class ShaTest {
 	
 	
 	
-	static void test(HashFunction hashfunc, String message, String hash) {
+	private static void test(HashFunction hashfunc, String message, String hash) {
 		byte[] msg = Debug.asciiToBytes(message);
 		byte[] hash0 = hashfunc.getHash(msg).toBytes();
 		byte[] hash1 = Debug.hexToBytes(hash);

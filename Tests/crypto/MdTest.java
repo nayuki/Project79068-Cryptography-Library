@@ -13,13 +13,13 @@ import p79068.util.hash.Hasher;
 
 public class MdTest {
 	
-	static final String msg0 = "";
-	static final String msg1 = "a";
-	static final String msg2 = "abc";
-	static final String msg3 = "message digest";
-	static final String msg4 = "abcdefghijklmnopqrstuvwxyz";
-	static final String msg5 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-	static final String msg6 = "12345678901234567890123456789012345678901234567890123456789012345678901234567890";
+	private static final String msg0 = "";
+	private static final String msg1 = "a";
+	private static final String msg2 = "abc";
+	private static final String msg3 = "message digest";
+	private static final String msg4 = "abcdefghijklmnopqrstuvwxyz";
+	private static final String msg5 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+	private static final String msg6 = "12345678901234567890123456789012345678901234567890123456789012345678901234567890";
 	
 	
 	
@@ -72,7 +72,7 @@ public class MdTest {
 	
 	
 	
-	static void test(HashFunction hashfunc, String message, String hash) {
+	private static void test(HashFunction hashfunc, String message, String hash) {
 		byte[] msg = Debug.asciiToBytes(message);
 		byte[] hash0 = hashfunc.getHash(msg).toBytes();
 		byte[] hash1 = Debug.hexToBytes(hash);

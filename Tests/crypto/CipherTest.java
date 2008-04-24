@@ -9,7 +9,7 @@ import p79068.util.Random;
 
 public class CipherTest {
 	
-	static Cipher[] ciphers = {Rijndael.AES128_CIPHER, Rijndael.AES192_CIPHER, Rijndael.AES256_CIPHER, Idea.CIPHER, Tea.CIPHER, Xtea.CIPHER, Whirlpool0Cipher.CIPHER, Whirlpool1Cipher.CIPHER, WhirlpoolCipher.CIPHER, new BcModeCipher(Rijndael.AES192_CIPHER, new byte[24]), new CbcModeCipher(Rijndael.AES192_CIPHER, new byte[24]), new CfbModeCipher(Rijndael.AES192_CIPHER, new byte[24]), new IgeModeCipher(Rijndael.AES192_CIPHER, new byte[24]), new OfbModeStreamCipher(Rijndael.AES192_CIPHER, new byte[24]), new PcbcModeCipher(Rijndael.AES192_CIPHER, new byte[24])};
+	private static Cipher[] ciphers = {Rijndael.AES128_CIPHER, Rijndael.AES192_CIPHER, Rijndael.AES256_CIPHER, Idea.CIPHER, Tea.CIPHER, Xtea.CIPHER, Whirlpool0Cipher.CIPHER, Whirlpool1Cipher.CIPHER, WhirlpoolCipher.CIPHER, new BcModeCipher(Rijndael.AES192_CIPHER, new byte[24]), new CbcModeCipher(Rijndael.AES192_CIPHER, new byte[24]), new CfbModeCipher(Rijndael.AES192_CIPHER, new byte[24]), new IgeModeCipher(Rijndael.AES192_CIPHER, new byte[24]), new OfbModeStreamCipher(Rijndael.AES192_CIPHER, new byte[24]), new PcbcModeCipher(Rijndael.AES192_CIPHER, new byte[24])};
 	
 	
 	
@@ -33,7 +33,7 @@ public class CipherTest {
 	
 	
 	
-	static void test(Cipher cipher) {
+	private static void test(Cipher cipher) {
 		byte[] key = new byte[cipher.getKeyLength()];
 		byte[] plaintext = new byte[4096 / cipher.getBlockLength() * cipher.getBlockLength()];
 		Random.DEFAULT.randomBytes(key);

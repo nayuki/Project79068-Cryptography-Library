@@ -10,23 +10,23 @@ import p79068.crypto.hash.Sha1;
 
 public class HmacTest {
 	
-	static final byte[] key0 = Debug.hexToBytes("0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b");
-	static final byte[] key1 = Debug.hexToBytes("0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b");
-	static final byte[] key2 = Debug.asciiToBytes("Jefe");
-	static final byte[] key3 = Debug.hexToBytes("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-	static final byte[] key4 = Debug.hexToBytes("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-	static final byte[] key5 = Debug.hexToBytes("0102030405060708090a0b0c0d0e0f10111213141516171819");
-	static final byte[] key6 = Debug.hexToBytes("0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c");
-	static final byte[] key7 = Debug.hexToBytes("0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c");
-	static final byte[] key8 = Debug.hexToBytes("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+	private static final byte[] key0 = Debug.hexToBytes("0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b");
+	private static final byte[] key1 = Debug.hexToBytes("0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b");
+	private static final byte[] key2 = Debug.asciiToBytes("Jefe");
+	private static final byte[] key3 = Debug.hexToBytes("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+	private static final byte[] key4 = Debug.hexToBytes("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+	private static final byte[] key5 = Debug.hexToBytes("0102030405060708090a0b0c0d0e0f10111213141516171819");
+	private static final byte[] key6 = Debug.hexToBytes("0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c");
+	private static final byte[] key7 = Debug.hexToBytes("0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c");
+	private static final byte[] key8 = Debug.hexToBytes("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 	
-	static final byte[] msg0 = Debug.asciiToBytes("Hi There");
-	static final byte[] msg1 = Debug.asciiToBytes("what do ya want for nothing?");
-	static final byte[] msg2 = Debug.hexToBytes("dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd");
-	static final byte[] msg3 = Debug.hexToBytes("cdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcd");
-	static final byte[] msg4 = Debug.asciiToBytes("Test With Truncation");
-	static final byte[] msg5 = Debug.asciiToBytes("Test Using Larger Than Block-Size Key - Hash Key First");
-	static final byte[] msg6 = Debug.asciiToBytes("Test Using Larger Than Block-Size Key and Larger Than One Block-Size Data");
+	private static final byte[] msg0 = Debug.asciiToBytes("Hi There");
+	private static final byte[] msg1 = Debug.asciiToBytes("what do ya want for nothing?");
+	private static final byte[] msg2 = Debug.hexToBytes("dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd");
+	private static final byte[] msg3 = Debug.hexToBytes("cdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcd");
+	private static final byte[] msg4 = Debug.asciiToBytes("Test With Truncation");
+	private static final byte[] msg5 = Debug.asciiToBytes("Test Using Larger Than Block-Size Key - Hash Key First");
+	private static final byte[] msg6 = Debug.asciiToBytes("Test Using Larger Than Block-Size Key and Larger Than One Block-Size Data");
 	
 	
 	
@@ -55,7 +55,7 @@ public class HmacTest {
 	
 	
 	
-	static void test(BlockHashFunction hashfunc, byte[] key, byte[] message, String hash) {
+	private static void test(BlockHashFunction hashfunc, byte[] key, byte[] message, String hash) {
 		byte[] hash0 = new Hmac(hashfunc, key).getHash(message).toBytes();
 		byte[] hash1 = Debug.hexToBytes(hash);
 		assertArrayEquals(hash1, hash0);

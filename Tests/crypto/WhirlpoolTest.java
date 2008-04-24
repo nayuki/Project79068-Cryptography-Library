@@ -13,9 +13,9 @@ import p79068.util.hash.Hasher;
 
 public class WhirlpoolTest {
 	
-	static final String msg0 = "";
-	static final String msg1 = "The quick brown fox jumps over the lazy dog";
-	static final String msg2 = "The quick brown fox jumps over the lazy eog";
+	private static final String msg0 = "";
+	private static final String msg1 = "The quick brown fox jumps over the lazy dog";
+	private static final String msg2 = "The quick brown fox jumps over the lazy eog";
 	
 	
 	
@@ -56,7 +56,7 @@ public class WhirlpoolTest {
 	
 	
 	
-	static void test(HashFunction hashfunc, String message, String hash) {
+	private static void test(HashFunction hashfunc, String message, String hash) {
 		byte[] msg = Debug.asciiToBytes(message);
 		byte[] hash0 = hashfunc.getHash(msg).toBytes();
 		byte[] hash1 = Debug.hexToBytes(hash);

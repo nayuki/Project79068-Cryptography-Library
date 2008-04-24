@@ -9,15 +9,15 @@ import p79068.util.hash.HashFunction;
 
 public class TigerTest {
 	
-	static String msg0 = "";
-	static String msg1 = "a";
-	static String msg2 = "abc";
-	static String msg3 = "message digest";
-	static String msg4 = "abcdefghijklmnopqrstuvwxyz";
-	static String msg5 = "abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq";
-	static String msg6 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-	static String msg7 = "12345678901234567890123456789012345678901234567890123456789012345678901234567890";
-	static String msg8;
+	private static String msg0 = "";
+	private static String msg1 = "a";
+	private static String msg2 = "abc";
+	private static String msg3 = "message digest";
+	private static String msg4 = "abcdefghijklmnopqrstuvwxyz";
+	private static String msg5 = "abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq";
+	private static String msg6 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+	private static String msg7 = "12345678901234567890123456789012345678901234567890123456789012345678901234567890";
+	private static String msg8;
 	
 	
 	static {
@@ -58,7 +58,7 @@ public class TigerTest {
 	
 	
 	
-	static void test(HashFunction hashfunc, String message, String hash) {
+	private static void test(HashFunction hashfunc, String message, String hash) {
 		byte[] msg = Debug.asciiToBytes(message);
 		byte[] hash0 = hashfunc.getHash(msg).toBytes();
 		byte[] hash1 = Debug.hexToBytes(hash);

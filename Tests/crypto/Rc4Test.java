@@ -22,12 +22,12 @@ public class Rc4Test {
 	
 	
 	
-	static void test(String key, String plaintext, String ciphertext) {
+	private static void test(String key, String plaintext, String ciphertext) {
 		test(Debug.hexToBytes(key), Debug.hexToBytes(plaintext), Debug.hexToBytes(ciphertext));
 	}
 	
 	
-	static void test(byte[] key, byte[] plaintext, byte[] ciphertext) {
+	private static void test(byte[] key, byte[] plaintext, byte[] ciphertext) {
 		Cipherer cipherer = new Rc4(key.length).newCipherer(key);
 		cipherer.encrypt(plaintext, 0, plaintext.length);
 		assertArrayEquals(ciphertext, plaintext);
