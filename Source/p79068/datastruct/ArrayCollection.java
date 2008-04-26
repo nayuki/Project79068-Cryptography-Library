@@ -8,13 +8,7 @@ import p79068.lang.NullChecker;
 /**
  * An array-based collection.
  */
-public final class ArrayCollection<E> implements Collection<E> {
-	
-	private Object[] objects;
-	
-	private int size;
-	
-	
+public final class ArrayCollection<E> extends AbstractDynamicArray<E> implements Collection<E> {
 	
 	public ArrayCollection() {
 		this(16);
@@ -22,8 +16,7 @@ public final class ArrayCollection<E> implements Collection<E> {
 	
 	
 	public ArrayCollection(int initCapacity) {
-		objects = new Object[initCapacity];
-		size = 0;
+		super(initCapacity, 2);
 	}
 	
 	
@@ -35,13 +28,13 @@ public final class ArrayCollection<E> implements Collection<E> {
 	
 	
 	public int size() {
-		return size;
+		return length;
 	}
 	
 	
 	public boolean contains(Object obj) {
 		NullChecker.check(obj);
-		for (int i = 0; i < size; i++) {
+		for (int i = 0; i < length; i++) {
 			if (obj.equals(objects[i]))
 				return true;
 		}
@@ -52,7 +45,7 @@ public final class ArrayCollection<E> implements Collection<E> {
 	public int count(Object obj) {
 		NullChecker.check(obj);
 		int count = 0;
-		for (int i = 0; i < size; i++) {
+		for (int i = 0; i < length; i++) {
 			if (obj.equals(objects[i]))
 				count++;
 		}
@@ -62,10 +55,9 @@ public final class ArrayCollection<E> implements Collection<E> {
 	
 	public void add(E obj) {
 		NullChecker.check(obj);
-		if (size == objects.length)
-			resize(objects.length * 2);
-		objects[size] = obj;
-		size++;
+		upsize(length + 1);
+		objects[length] = obj;
+		length++;
 	}
 	
 	
@@ -79,14 +71,13 @@ public final class ArrayCollection<E> implements Collection<E> {
 	@SuppressWarnings("unchecked")
 	public E remove(Object obj) {
 		NullChecker.check(obj);
-		for (int i = 0; i < size; i++) {
+		for (int i = 0; i < length; i++) {
 			if (obj.equals(objects[i])) {
 				E result = (E)objects[i];
-				System.arraycopy(objects, i + 1, objects, i, size - (i + 1));
-				objects[size - 1] = null;
-				size--;
-				if (size <= objects.length / 4 && objects.length / 2 >= 1)
-					resize(objects.length / 2);
+				System.arraycopy(objects, i + 1, objects, i, length - (i + 1));
+				objects[length - 1] = null;
+				length--;
+				downsize();
 				return result;
 			}
 		}
@@ -114,9 +105,9 @@ public final class ArrayCollection<E> implements Collection<E> {
 	
 	
 	public void clear() {
-		for (int i = 0; i < size; i++)
+		for (int i = 0; i < length; i++)
 			objects[i] = null;
-		size = 0;
+		length = 0;
 	}
 	
 	
@@ -127,7 +118,7 @@ public final class ArrayCollection<E> implements Collection<E> {
 	
 	public boolean isSubsetOf(Collection<?> coll) {
 		NullChecker.check(coll);
-		for (int i = 0; i < size; i++) {
+		for (int i = 0; i < length; i++) {
 			if (count(objects[i]) > coll.count(objects[i]))
 				return false;
 		}
@@ -159,7 +150,7 @@ public final class ArrayCollection<E> implements Collection<E> {
 	
 	public int hashCode() {
 		int hash = 0;
-		for (int i = 0; i < size; i++)
+		for (int i = 0; i < length; i++)
 			hash += objects[i].hashCode();
 		return hash;
 	}
@@ -168,23 +159,13 @@ public final class ArrayCollection<E> implements Collection<E> {
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("Collection [");
-		for (int i = 0; i < size; i++) {
+		for (int i = 0; i < length; i++) {
 			if (i != 0)
 				sb.append(", ");
 			sb.append(objects[i]);
 		}
 		sb.append("]");
 		return sb.toString();
-	}
-	
-	
-	
-	private void resize(int newCap) {
-		if (newCap < size)
-			throw new AssertionError();
-		Object[] newobjects = new Object[newCap];
-		System.arraycopy(objects, 0, newobjects, 0, size);
-		objects = newobjects;
 	}
 	
 	
@@ -200,7 +181,7 @@ public final class ArrayCollection<E> implements Collection<E> {
 		
 		
 		public boolean hasNext() {
-			return index != size;
+			return index != length;
 		}
 		
 		@SuppressWarnings("unchecked")
