@@ -42,10 +42,11 @@ public abstract class DynamicArray<E> {
 	
 	protected void downsize() {
 		int newcapacity = objects.length;
-		while (newcapacity > 1 && (double)length / newcapacity <= ratio) {
+		while (newcapacity > 1 && (double)newcapacity / length >= ratio * ratio) {
 			int temp = Math.min((int)Math.round(newcapacity / ratio), newcapacity - 1);  // Decrease the capacity by at least 1
 			newcapacity = Math.max(temp, 1);  // But don't let the capacity drop below 1
 		}
+		resize(newcapacity);
 	}
 	
 	
