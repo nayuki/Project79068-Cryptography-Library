@@ -13,12 +13,7 @@ import p79068.util.Random;
  * <p>Mutability: <em>Mutable</em><br>
  *  Thread safety: <em>Unsafe</em></p>
  */
-public final class ArrayList<E> implements List<E> {
-	
-	private Object[] objects;
-	
-	private int length;
-	
+public final class ArrayList<E> extends AbstractDynamicArray<E> implements List<E> {
 	
 	/**
 	 * Creates an array-based list. The initial capacity is arbitrary.
@@ -34,10 +29,7 @@ public final class ArrayList<E> implements List<E> {
 	 */
 	@SuppressWarnings("unchecked")
 	public ArrayList(int initCapacity) {
-		if (initCapacity < 1)
-			throw new IllegalArgumentException("Initial capacity less than 1");
-		objects = new Object[initCapacity];
-		length = 0;
+		super(initCapacity, 2);
 	}
 	
 	
@@ -69,7 +61,7 @@ public final class ArrayList<E> implements List<E> {
 	
 	
 	public void append(E obj) {
-		ensureCapacity(length + 1);
+		upsize(length + 1);
 		objects[length] = obj;
 		length++;
 	}
@@ -77,7 +69,7 @@ public final class ArrayList<E> implements List<E> {
 	
 	public void appendList(List<? extends E> list) {
 		NullChecker.check(list);
-		ensureCapacity(length + list.length());
+		upsize(length + list.length());
 		for (E obj : list) {
 			objects[length] = obj;
 			length++;
@@ -88,7 +80,7 @@ public final class ArrayList<E> implements List<E> {
 	public void insert(int index, E obj) {
 		if (index < 0 || index > length)
 			throw new IndexOutOfBoundsException(String.format("Bounds = [0,%d), insertion index = %d", length, index));
-		ensureCapacity(length + 1);
+		upsize(length + 1);
 		System.arraycopy(objects, index, objects, index + 1, length - index);
 		objects[index] = obj;
 		length++;
@@ -100,7 +92,7 @@ public final class ArrayList<E> implements List<E> {
 		if (index < 0 || index > length)
 			throw new IndexOutOfBoundsException(String.format("Bounds = [0,%d), insertion index = %d", length, index));
 		int listlen = list.length();
-		ensureCapacity(length + listlen);
+		upsize(length + listlen);
 		System.arraycopy(objects, index, objects, index + listlen, length - index);
 		length += listlen;
 		for (E obj : list) {
@@ -123,7 +115,7 @@ public final class ArrayList<E> implements List<E> {
 		System.arraycopy(objects, index + 1, objects, index, length - (index + 1));
 		objects[length - 1] = null;
 		length--;
-		compactify();
+		downsize();
 		return result;
 	}
 	
@@ -239,20 +231,6 @@ public final class ArrayList<E> implements List<E> {
 		}
 		sb.append("]");
 		return sb.toString();
-	}
-	
-	
-	private void compactify() {
-		if (length <= objects.length / 4 && objects.length / 2 >= 1)
-			setCapacity(objects.length / 2);
-	}
-	
-	
-	private void ensureCapacity(int capacity) {
-		int newcapacity = objects.length;
-		while (newcapacity < capacity)
-			newcapacity *= 2;
-		setCapacity(newcapacity);
 	}
 	
 	
