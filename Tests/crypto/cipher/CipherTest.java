@@ -8,7 +8,7 @@ import p79068.crypto.cipher.mode.*;
 
 public class CipherTest {
 	
-	private static Cipher[] ciphers = {
+	private static Cipher[] blockCiphers = {
 		Rijndael.AES128_CIPHER,
 		Rijndael.AES192_CIPHER,
 		Rijndael.AES256_CIPHER,
@@ -17,7 +17,10 @@ public class CipherTest {
 		Xtea.CIPHER,
 		Whirlpool0Cipher.CIPHER,
 		Whirlpool1Cipher.CIPHER,
-		WhirlpoolCipher.CIPHER,
+		WhirlpoolCipher.CIPHER
+	};
+	
+	private static Cipher[] cipherModes = {
 		new BcModeCipher(Rijndael.AES128_CIPHER, new byte[16]),
 		new CbcModeCipher(Rijndael.AES128_CIPHER, new byte[16]),
 		new CfbModeCipher(Rijndael.AES128_CIPHER, new byte[16]),
@@ -29,8 +32,17 @@ public class CipherTest {
 	
 	
 	@Test
-	public void testAllCiphersInvertibilityRandomly() {
-		for (Cipher cipher : ciphers) {
+	public void testBlockCiphersInvertibilityRandomly() {
+		for (Cipher cipher : blockCiphers) {
+			for (int j = 0; j < 100; j++)
+				CryptoUtils.testCipherInvertibility(cipher, cipher.getBlockLength());
+		}
+	}
+	
+	
+	@Test
+	public void testCiphersModesInvertibilityRandomly() {
+		for (Cipher cipher : cipherModes) {
 			for (int j = 0; j < 100; j++)
 				CryptoUtils.testCipherInvertibility(cipher, cipher.getBlockLength());
 		}
