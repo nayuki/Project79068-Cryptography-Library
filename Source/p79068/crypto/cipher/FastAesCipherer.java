@@ -1,5 +1,6 @@
 package p79068.crypto.cipher;
 
+import p79068.crypto.Zeroizer;
 import p79068.lang.*;
 
 
@@ -96,8 +97,8 @@ final class FastAesCipherer extends RijndaelCiphererParent{
 
  public void zeroize(){
   if(cipher==null)return;
-  for(int i=0;i<encryptionKeySch.length;i++)encryptionKeySch[i]=0;
-  for(int i=0;i<decryptionKeySch.length;i++)decryptionKeySch[i]=0;
+  Zeroizer.clear(encryptionKeySch);
+  Zeroizer.clear(decryptionKeySch);
   encryptionKeySch=null;
   decryptionKeySch=null;
   super.zeroize();}

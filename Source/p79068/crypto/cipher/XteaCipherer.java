@@ -5,6 +5,7 @@
 
 package p79068.crypto.cipher;
 
+import p79068.crypto.Zeroizer;
 import p79068.lang.BoundsChecker;
 
 
@@ -92,7 +93,7 @@ final class XteaCipherer extends Cipherer {
 	public void zeroize() {
 		if (cipher == null)
 			return;
-		for (int i = 0; i < int32Key.length; i++) int32Key[i] = 0;
+		Zeroizer.clear(int32Key);
 		int32Key = null;
 		super.zeroize();
 	}

@@ -1,5 +1,6 @@
 package p79068.crypto.cipher;
 
+import p79068.crypto.Zeroizer;
 import p79068.lang.BoundsChecker;
 
 
@@ -45,7 +46,7 @@ class WhirlpoolCiphererParent extends Cipherer{
  public void zeroize(){
   if(cipher==null)return;
   for(int i=0;i<keySchedule.length;i++){
-   for(int j=0;j<keySchedule[i].length;j++)keySchedule[i][j]=0;
+   Zeroizer.clear(keySchedule[i]);
    keySchedule[i]=null;}
   keySchedule=null;
   super.zeroize();}
