@@ -19,6 +19,7 @@ public class CrcTest {
 		CryptoUtils.testWithHexMessage(Crc.CRC32_FUNCTION, "FFFFFFFF", "FFFFFFFF");
 		CryptoUtils.testWithHexMessage(Crc.CRC32_FUNCTION, "FFFFFFFF00", "FFFFFFFF");
 		CryptoUtils.testWithHexMessage(Crc.CRC32_FUNCTION, "FFFFFFFF0000", "FFFFFFFF");
+		CryptoUtils.testWithHexMessage(Crc.CRC32_FUNCTION, "FFFFFFFF80", "12477CDF");
 	}
 	
 }
