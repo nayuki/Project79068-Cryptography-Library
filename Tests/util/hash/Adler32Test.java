@@ -8,7 +8,7 @@ import p79068.util.hash.Adler32;
 public class Adler32Test {
 	
 	@Test
-	public void basic() {
+	public void testAdler32() {
 		CryptoUtils.testWithAsciiMessage(Adler32.FUNCTION, "", "00000001");
 		CryptoUtils.testWithAsciiMessage(Adler32.FUNCTION, "Mark Adler", "13070394");
 		CryptoUtils.testWithAsciiMessage(Adler32.FUNCTION, "AAAA", "028E0105");

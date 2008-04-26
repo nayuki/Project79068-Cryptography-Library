@@ -8,7 +8,7 @@ import p79068.util.hash.Xor8;
 public class Xor8Test {
 	
 	@Test
-	public void basic() {
+	public void testXor8() {
 		CryptoUtils.testWithAsciiMessage(Xor8.FUNCTION, "", "00");
 		CryptoUtils.testWithAsciiMessage(Xor8.FUNCTION, "bb", "00");
 		CryptoUtils.testWithAsciiMessage(Xor8.FUNCTION, "asdf", "10");

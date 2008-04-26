@@ -20,7 +20,7 @@ public class Sum32Test {
 	
 	
 	@Test
-	public void basic() {
+	public void testSum32() {
 		CryptoUtils.testWithAsciiMessage(Sum32.FUNCTION, "", "00000000");
 		CryptoUtils.testWithAsciiMessage(Sum32.FUNCTION, "abcdef", "00000255");
 		CryptoUtils.testWithAsciiMessage(Sum32.FUNCTION, "fbdcea", "00000255");
