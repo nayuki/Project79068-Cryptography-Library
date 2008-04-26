@@ -13,6 +13,8 @@ public class CipherTest {
 		Rijndael.AES192_CIPHER,
 		Rijndael.AES256_CIPHER,
 		Idea.CIPHER,
+		new Shacal1(16),
+		new Shacal2(16),
 		Tea.CIPHER,
 		Xtea.CIPHER,
 		Whirlpool0Cipher.CIPHER,
