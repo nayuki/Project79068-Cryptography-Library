@@ -192,4 +192,80 @@ public class ArrayListTest {
 		assertEquals("987", list.getAt(14));
 	}
 	
+	
+	@Test
+	public void testRemoveAt() {
+		ArrayList<Character> list = new ArrayList<Character>();
+		{
+			String str = "the quick brown fox jumped over the lazy dog";
+			for (int i = 0; i < str.length(); i++)
+				list.append(str.charAt(i));
+			assertEquals(str.length(), list.length());
+		}
+		
+		assertEquals('e', list.removeAt( 2));
+		assertEquals('u', list.removeAt( 4));
+		assertEquals('q', list.removeAt( 3));
+		assertEquals(' ', list.removeAt( 2));
+		
+		assertEquals('f', list.removeAt(12));
+		assertEquals(' ', list.removeAt(11));
+		assertEquals('n', list.removeAt(10));
+		assertEquals('w', list.removeAt( 9));
+		
+		assertEquals(' ', list.removeAt(11));
+		assertEquals('j', list.removeAt(11));
+		assertEquals('u', list.removeAt(11));
+		assertEquals('x', list.removeAt(10));
+		
+		assertEquals('p', list.removeAt(11));
+		assertEquals('d', list.removeAt(12));
+		assertEquals('e', list.removeAt(11));
+		
+		assertEquals('v', list.removeAt(13));
+		assertEquals('e', list.removeAt(13));
+		
+		assertEquals('l', list.removeAt(19));
+		assertEquals('z', list.removeAt(20));
+		assertEquals('a', list.removeAt(19));
+		assertEquals(' ', list.removeAt(18));
+		
+		assertEquals('g', list.removeAt(22));
+		
+		{
+			String str = "thick broom or they do";
+			assertEquals(str.length(), list.length());
+			for (int i = 0; i < str.length(); i++)
+				assertEquals(str.charAt(i), list.getAt(i));
+		}
+		
+		assertEquals('t', list.removeAt( 0));
+		
+		assertEquals('c', list.removeAt(2));
+		assertEquals('k', list.removeAt(2));
+		assertEquals(' ', list.removeAt(2));
+		assertEquals('b', list.removeAt(2));
+		assertEquals('r', list.removeAt(2));
+		assertEquals('o', list.removeAt(2));
+		assertEquals('o', list.removeAt(2));
+		
+		assertEquals('o', list.removeAt(4));
+		
+		assertEquals('h', list.removeAt(7));
+		assertEquals(' ', list.removeAt(5));
+		assertEquals('t', list.removeAt(5));
+		
+		assertEquals('o', list.removeAt(9));
+		
+		assertEquals(' ', list.removeAt(7));
+		assertEquals('y', list.removeAt(6));
+		
+		{
+			String str = "him red";
+			assertEquals(str.length(), list.length());
+			for (int i = 0; i < str.length(); i++)
+				assertEquals(str.charAt(i), list.getAt(i));
+		}
+	}
+	
 }
