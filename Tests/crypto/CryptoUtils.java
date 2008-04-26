@@ -20,6 +20,14 @@ public class CryptoUtils {
 	}
 	
 	
+	public static void testWithHexMessage(HashFunction hashFunc, String message, String expectedHash) {
+		byte[] hash1 = CryptoUtils.hexToBytes(expectedHash);
+		byte[] msg = CryptoUtils.hexToBytes(message);
+		byte[] hash0 = hashFunc.getHash(msg).toBytes();
+		assertArrayEquals(hash1, hash0);
+	}
+	
+	
 	public static void testZeroization(HashFunction hashFunc) {
 		Hasher hasher = hashFunc.newHasher();
 		hasher.update(new byte[200]);
