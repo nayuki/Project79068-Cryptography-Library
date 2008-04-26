@@ -51,7 +51,7 @@ public interface List<E> extends Iterable<E> {
 	 * @param obj the object to insert
 	 * @param index the index where <code>obj</code> will be inserted at; <code>0 &lt;= index &lt;= length()</code>
 	 */
-	public void insert(int index, E obj);
+	public void insertAt(int index, E obj);
 	
 	
 	/**

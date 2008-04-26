@@ -77,7 +77,7 @@ public final class ArrayList<E> extends AbstractDynamicArray<E> implements List<
 	}
 	
 	
-	public void insert(int index, E obj) {
+	public void insertAt(int index, E obj) {
 		if (index < 0 || index > length)
 			throw new IndexOutOfBoundsException(String.format("Bounds = [0,%d), insertion index = %d", length, index));
 		upsize(length + 1);
@@ -355,7 +355,7 @@ public final class ArrayList<E> extends AbstractDynamicArray<E> implements List<
 		}
 		
 		
-		public void insert(int index, E obj) {
+		public void insertAt(int index, E obj) {
 			throw new UnsupportedOperationException();
 		}
 		

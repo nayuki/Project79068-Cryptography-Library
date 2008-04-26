@@ -56,7 +56,7 @@ public class ListView<E> implements List<E> {
 	}
 	
 	
-	public void insert(int index, Object obj) {
+	public void insertAt(int index, Object obj) {
 		throw new UnsupportedOperationException();
 	}
 	

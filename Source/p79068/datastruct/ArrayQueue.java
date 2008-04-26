@@ -245,7 +245,7 @@ public final class ArrayQueue<E> implements Queue<E> {
 		}
 		
 		
-		public void insert(int index, Object obj) {
+		public void insertAt(int index, Object obj) {
 			throw new UnsupportedOperationException();
 		}
 		
