@@ -19,7 +19,7 @@ public abstract class DynamicArray<E> {
 	protected DynamicArray(int initCapacity, double ratio) {
 		if (initCapacity < 1)
 			throw new IllegalArgumentException();
-		if (ratio < 1 || ratio > Integer.MAX_VALUE || Double.isNaN(ratio))
+		if (ratio <= 1 || ratio > Integer.MAX_VALUE || Double.isNaN(ratio))
 			throw new IllegalArgumentException();
 		objects = new Object[initCapacity];
 		this.ratio = ratio;
