@@ -94,7 +94,6 @@ public final class ArrayList<E> extends AbstractDynamicArray<E> implements List<
 		int listlen = list.length();
 		upsize(length + listlen);
 		System.arraycopy(objects, index, objects, index + listlen, length - index);
-		length += listlen;
 		for (E obj : list) {
 			if (listlen == 0)
 				throw new ConcurrentModificationException();
