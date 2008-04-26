@@ -59,6 +59,7 @@ public class CryptoUtils {
 		byte[] message1 = message0.clone();
 		Cipherer cipherer = cipher.newCipherer(key);
 		cipherer.encrypt(message1);
+		cipherer = cipher.newCipherer(key);  // Reinitialize the cipher
 		cipherer.decrypt(message1);
 		assertArrayEquals(message0, message1);
 	}
