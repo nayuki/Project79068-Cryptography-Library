@@ -18,10 +18,21 @@ public class AesTest {
 	
 	
 	@Test
-	public void testInvertibilityRandomly() {
+	public void testAesInvertibilityRandomly() {
 		for (int i = 0; i < 1000; i++) {
 			int keylength = (1 + Random.DEFAULT.randomInt(16)) * 4;  // Random key length from 32 bits to 512 bits, at multiples of 32 bits
-			CryptoUtils.testCipherInvertibility(new Rijndael(keylength, 16), 16);
+			int blocklength = 16;
+			CryptoUtils.testCipherInvertibility(new Rijndael(keylength, blocklength), blocklength);
+		}
+	}
+	
+	
+	@Test
+	public void testRijndaelInvertibilityRandomly() {
+		for (int i = 0; i < 1000; i++) {
+			int keylength = (1 + Random.DEFAULT.randomInt(16)) * 4;  // Random key length from 32 bits to 512 bits, at multiples of 32 bits
+			int blocklength = (5 + Random.DEFAULT.randomInt(4)) * 4;  // Random block length from 160 bits to 256 bits, at multiples of 32 bits. Other than 128 bits (AES), these are the only other block sizes allowed by Rijndael.
+			CryptoUtils.testCipherInvertibility(new Rijndael(keylength, blocklength), blocklength);
 		}
 	}
 	
