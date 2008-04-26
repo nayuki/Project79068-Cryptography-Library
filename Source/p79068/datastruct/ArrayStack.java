@@ -8,7 +8,7 @@ import p79068.lang.NullChecker;
  * <p>Mutability: <em>Mutable</em><br>
  *  Thread safety: <em>Unsafe</em></p>
  */
-public final class ArrayStack<E> extends DynamicArray<E> implements Stack<E> {
+public final class ArrayStack<E> extends AbstractDynamicArray<E> implements Stack<E> {
 	
 	/*
 	 * For the field "protected Object[] objects" defined in the superclass:

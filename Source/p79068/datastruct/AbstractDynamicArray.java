@@ -1,7 +1,7 @@
 package p79068.datastruct;
 
 
-public abstract class DynamicArray<E> {
+public abstract class AbstractDynamicArray<E> {
 	
 	protected Object[] objects;
 	
@@ -11,12 +11,12 @@ public abstract class DynamicArray<E> {
 	
 	
 	
-	protected DynamicArray(int initCapacity) {
+	protected AbstractDynamicArray(int initCapacity) {
 		this(initCapacity, 2);
 	}
 	
 	
-	protected DynamicArray(int initCapacity, double ratio) {
+	protected AbstractDynamicArray(int initCapacity, double ratio) {
 		if (initCapacity < 1)
 			throw new IllegalArgumentException();
 		if (ratio <= 1 || ratio > Integer.MAX_VALUE || Double.isNaN(ratio))
