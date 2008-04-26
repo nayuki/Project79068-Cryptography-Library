@@ -17,26 +17,31 @@ public final class ListCollectionAdapter<E> implements Collection<E> {
 	
 	
 	public int size() {
-		return list.length();
+		int size = 0;
+		for (E obj : list) {
+			if (obj != null)
+				size++;
+		}
+		return size;
 	}
 	
 	
-	public boolean contains(Object o) {
-		NullChecker.check(o);
+	public boolean contains(Object obj) {
+		NullChecker.check(obj);
 		for (int i = 0; i < list.length(); i++) {
-			if (o.equals(list.getAt(i)))
+			if (obj.equals(list.getAt(i)))
 				return true;
 		}
 		return false;
 	}
 	
 	
-	public int count(Object o) {
-		NullChecker.check(o);
+	public int count(Object obj) {
+		NullChecker.check(obj);
 		int count = 0;
-		NullChecker.check(o);
+		NullChecker.check(obj);
 		for (int i = 0; i < list.length(); i++) {
-			if (o.equals(list.getAt(i)))
+			if (obj.equals(list.getAt(i)))
 				count++;
 		}
 		return count;
