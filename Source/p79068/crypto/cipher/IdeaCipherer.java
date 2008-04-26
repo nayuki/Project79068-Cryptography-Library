@@ -1,5 +1,6 @@
 package p79068.crypto.cipher;
 
+import p79068.crypto.Zeroizer;
 import p79068.lang.*;
 
 
@@ -40,10 +41,8 @@ final class IdeaCipherer extends Cipherer {
 	public void zeroize() {
 		if (cipher == null)
 			return;
-		for (int i = 0; i < encKeySch.length; i++)
-			encKeySch[i] = 0;
-		for (int i = 0; i < decKeySch.length; i++)
-			decKeySch[i] = 0;
+		Zeroizer.clear(encKeySch);
+		Zeroizer.clear(decKeySch);
 		encKeySch = null;
 		decKeySch = null;
 		super.zeroize();

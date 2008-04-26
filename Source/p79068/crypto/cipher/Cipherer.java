@@ -1,6 +1,7 @@
 package p79068.crypto.cipher;
 
 import p79068.crypto.Zeroizable;
+import p79068.crypto.Zeroizer;
 
 
 /**
@@ -65,7 +66,7 @@ public abstract class Cipherer implements Zeroizable {
 	public void zeroize() {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
-		for (int i = 0; i < key.length; i++) key[i] = 0;
+		Zeroizer.clear(key);
 		key = null;
 		cipher = null;
 	}

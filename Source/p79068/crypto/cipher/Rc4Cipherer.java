@@ -1,5 +1,6 @@
 package p79068.crypto.cipher;
 
+import p79068.crypto.Zeroizer;
 import p79068.lang.*;
 
 
@@ -60,7 +61,7 @@ final class Rc4Cipherer extends StreamCipherer {
 			return;
 		i = 0;
 		j = 0;
-		for (int i = 0; i < 256; i++) s[i] = 0;
+		Zeroizer.clear(s);
 		s = null;
 		super.zeroize();
 	}

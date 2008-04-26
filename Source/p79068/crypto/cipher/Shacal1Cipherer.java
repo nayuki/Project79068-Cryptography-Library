@@ -1,5 +1,6 @@
 package p79068.crypto.cipher;
 
+import p79068.crypto.Zeroizer;
 import p79068.lang.*;
 
 
@@ -181,7 +182,7 @@ final class Shacal1Cipherer extends Cipherer {
 	public void zeroize() {
 		if (cipher == null)
 			return;
-		for (int i = 0; i < keySchedule.length; i++) keySchedule[i] = 0;
+		Zeroizer.clear(keySchedule);
 		keySchedule = null;
 		super.zeroize();
 	}
