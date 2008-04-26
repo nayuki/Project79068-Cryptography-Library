@@ -1,5 +1,7 @@
 package p79068.datastruct;
 
+import java.util.Iterator;
+import p79068.lang.BoundsChecker;
 import p79068.lang.NullChecker;
 
 
@@ -110,7 +112,7 @@ public final class ArrayQueue<E> implements Queue<E> {
 		if (head <= tail)  // No wrap-around
 			return tail - head;
 		else  // Has wrap-around
-			return tail + objects.length - head;
+			return tail - head + objects.length;
 	}
 	
 	
@@ -137,6 +139,11 @@ public final class ArrayQueue<E> implements Queue<E> {
 		}
 		result.objects = objects.clone();
 		return result;
+	}
+	
+	
+	public List<E> asList() {
+		return new Lst<E>(this);
 	}
 	
 	
@@ -174,6 +181,94 @@ public final class ArrayQueue<E> implements Queue<E> {
 		objects = newobject;
 		head = 0;
 		tail = len;
+	}
+	
+	
+	
+	private static class Lst<E> implements List<E> {
+		
+		private final ArrayQueue<E> queue;
+		
+		
+		public Lst(ArrayQueue<E> queue) {
+			NullChecker.check(queue);
+			this.queue = queue;
+		}
+		
+		
+		public int length() {
+			return queue.length();
+		}
+		
+		
+		@SuppressWarnings("unchecked")
+		public E getAt(int index) {
+			BoundsChecker.check(length(), index);
+			if (index < queue.objects.length - queue.head)  // No wrap-around
+				return (E)queue.objects[queue.head + index];
+			else  // Wrap-around
+				return (E)queue.objects[queue.head - queue.objects.length + index];
+		}
+		
+		
+		public Iterator<E> iterator() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+		
+		
+		public List<E> sublist(int offset, int length) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+		
+		
+		public Collection<E> asCollection() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+		
+		
+		
+		public void append(Object obj) {
+			throw new UnsupportedOperationException();
+		}
+		
+		
+		public void appendList(List<? extends E> list) {
+			throw new UnsupportedOperationException();
+		}
+		
+		
+		public void clear() {
+			throw new UnsupportedOperationException();
+		}
+		
+		
+		public void insert(int index, Object obj) {
+			throw new UnsupportedOperationException();
+		}
+		
+		
+		public void insertList(int index, List<? extends E> list) {
+			throw new UnsupportedOperationException();
+		}
+		
+		
+		public E removeAt(int index) {
+			throw new UnsupportedOperationException();
+		}
+		
+		
+		public void removeRange(int offset, int length) {
+			throw new UnsupportedOperationException();
+		}
+		
+		
+		public void setAt(int index, Object obj) {
+			throw new UnsupportedOperationException();
+		}
+		
 	}
 	
 }
