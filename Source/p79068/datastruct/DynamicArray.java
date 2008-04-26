@@ -1,5 +1,6 @@
 package p79068.datastruct;
 
+
 public abstract class DynamicArray<E> {
 	
 	protected Object[] objects;
