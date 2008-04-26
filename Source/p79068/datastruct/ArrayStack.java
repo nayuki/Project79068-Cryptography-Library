@@ -8,18 +8,18 @@ import p79068.lang.NullChecker;
  * <p>Mutability: <em>Mutable</em><br>
  *  Thread safety: <em>Unsafe</em></p>
  */
-public final class ArrayStack<E> implements Stack<E> {
+public final class ArrayStack<E> extends DynamicArray<E> implements Stack<E> {
 	
-	/**
-	 * The array that holds the objects of this stack.
-	 * The range [<code>0</code>, <code>top</code>) is used, with <code>0</code> being the bottom end of the stack and <code>top</code> being the top end of the stack.
+	/*
+	 * For the field "protected Object[] objects" defined in the superclass:
+	 *   The array that holds the objects of this stack.
+	 *   The range [<code>0</code>, <code>top</code>) is used, with <code>0</code> being the bottom end of the stack and <code>top</code> being the top end of the stack.
 	 */
-	private Object[] objects;
 	
-	/**
-	 * The index where the next object will be pushed.
+	/*
+	 * For the field "protected int length" defined in the superclass:
+	 *   The index where the next object will be pushed. (This is the top of the stack.)
 	 */
-	private int top;
 	
 	
 	
@@ -38,10 +38,7 @@ public final class ArrayStack<E> implements Stack<E> {
 	 */
 	@SuppressWarnings("unchecked")
 	public ArrayStack(int initCapacity) {
-		if (initCapacity < 1)
-			throw new IllegalArgumentException("Initial capacity less than 1");
-		objects = new Object[initCapacity];
-		top = 0;
+		super(initCapacity, 2);
 	}
 	
 	
@@ -52,10 +49,9 @@ public final class ArrayStack<E> implements Stack<E> {
 	 */
 	public void push(E obj) {
 		NullChecker.check(obj);
-		if (top == objects.length)
-			resize(objects.length * 2);
-		objects[top] = obj;
-		top++;
+		upsize(length + 1);
+		objects[length] = obj;
+		length++;
 	}
 	
 	
@@ -68,11 +64,10 @@ public final class ArrayStack<E> implements Stack<E> {
 	public E pop() {
 		if (isEmpty())
 			throw new IllegalStateException("Stack underflow");
-		E result = (E)objects[top - 1];
-		objects[top - 1] = null;
-		top--;
-		if (top <= objects.length / 4 && objects.length / 2 >= 1)
-			resize(objects.length / 2);
+		E result = (E)objects[length - 1];
+		objects[length - 1] = null;
+		length--;
+		downsize();
 		return result;
 	}
 	
@@ -86,7 +81,7 @@ public final class ArrayStack<E> implements Stack<E> {
 	public E peek() {
 		if (isEmpty())
 			throw new IllegalStateException("Stack underflow");
-		return (E)objects[top - 1];
+		return (E)objects[length - 1];
 	}
 	
 	
@@ -95,7 +90,7 @@ public final class ArrayStack<E> implements Stack<E> {
 	 * @return the number of objects in this stack
 	 */
 	public int height() {
-		return top;
+		return length;
 	}
 	
 	
@@ -104,7 +99,7 @@ public final class ArrayStack<E> implements Stack<E> {
 	 * @return <code>true</true> if this stack has no objects; <code>false</code> otherwise
 	 */
 	public boolean isEmpty() {
-		return top == 0;
+		return length == 0;
 	}
 	
 	
@@ -132,23 +127,13 @@ public final class ArrayStack<E> implements Stack<E> {
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("Stack [");
-		for (int i = 0; i < top; i++) {
+		for (int i = 0; i < length; i++) {
 			if (i != 0)
 				sb.append(", ");
 			sb.append(objects[i]);
 		}
 		sb.append("]");
 		return sb.toString();
-	}
-	
-	
-	// In this implementation, the backing array is doubled when it's full and halved when it's quarter-full.
-	private void resize(int newCapacity) {
-		if (newCapacity < top || newCapacity < 1)
-			throw new AssertionError();
-		Object[] newdata = new Object[newCapacity];
-		System.arraycopy(objects, 0, newdata, 0, top);
-		objects = newdata;
 	}
 	
 }
