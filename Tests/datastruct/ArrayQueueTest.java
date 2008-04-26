@@ -3,6 +3,7 @@ package datastruct;
 import static org.junit.Assert.*;
 import org.junit.Test;
 import p79068.datastruct.ArrayQueue;
+import p79068.util.Random;
 
 
 public class ArrayQueueTest {
@@ -174,6 +175,27 @@ public class ArrayQueueTest {
 		assertEquals("Hotel", queue.dequeue());
 		assertEquals("India", queue.dequeue());
 		assertEquals("Juliet", queue.dequeue());
+	}
+	
+	
+	
+	@Test
+	public void testEnqueueDequeueRandomly() {
+		ArrayQueue<Integer> queue = new ArrayQueue<Integer>();
+		int enqueued = 0;
+		int dequeued = 0;
+		for (int i = 0; i < 10000; i++) {
+			assertEquals(queue.length(), enqueued - dequeued);
+			if (Random.DEFAULT.randomBoolean()) {
+				queue.enqueue(enqueued);
+				enqueued++;
+			} else {
+				if (!queue.isEmpty()) {
+					assertEquals(dequeued, queue.dequeue());
+					dequeued++;
+				}
+			}
+		}
 	}
 	
 }
