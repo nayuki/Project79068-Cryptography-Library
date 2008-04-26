@@ -29,8 +29,7 @@ public class CollectionView<E> implements Collection<E> {
 	
 	
 	public Iterator<E> iterator() {
-		// TODO Auto-generated method stub
-		return null;
+		return new IteratorView<E>(collection.iterator());
 	}
 	
 	

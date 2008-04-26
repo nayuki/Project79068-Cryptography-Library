@@ -31,8 +31,7 @@ public class ListView<E> implements List<E> {
 	
 	
 	public Iterator<E> iterator() {
-		// TODO Auto-generated method stub
-		return null;
+		return new IteratorView<E>(list.iterator());
 	}
 	
 	
