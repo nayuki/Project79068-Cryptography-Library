@@ -125,6 +125,7 @@ public final class ArrayList<E> extends AbstractDynamicArray<E> implements List<
 		for (int i = this.length - length; i < this.length; i++)
 			objects[i] = null;
 		this.length -= length;
+		downsize();
 	}
 	
 	
