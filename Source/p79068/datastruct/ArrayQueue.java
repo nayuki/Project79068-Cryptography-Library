@@ -170,8 +170,8 @@ public final class ArrayQueue<E> implements Queue<E> {
 			System.arraycopy(objects, head, newobject, 0, objects.length - head);
 			System.arraycopy(objects, 0, newobject, objects.length - head, tail);
 		}
-		objects = newobject;
 		int len = length();
+		objects = newobject;
 		head = 0;
 		tail = len;
 	}
