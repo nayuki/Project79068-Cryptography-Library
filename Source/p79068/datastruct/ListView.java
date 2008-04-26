@@ -35,6 +35,11 @@ public class ListView<E> implements List<E> {
 	}
 	
 	
+	public Collection<E> asCollection() {
+		return new ListCollectionAdapter<E>(this);
+	}
+	
+	
 	
 	public void append(Object obj) {
 		throw new UnsupportedOperationException();
@@ -43,11 +48,6 @@ public class ListView<E> implements List<E> {
 	
 	public void appendList(List<? extends E> list) {
 		throw new UnsupportedOperationException();
-	}
-	
-	
-	public Collection<E> asCollection() {
-		return new ListCollectionAdapter<E>(this);
 	}
 	
 	
