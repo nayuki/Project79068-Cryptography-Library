@@ -163,7 +163,7 @@ public final class ArrayQueue<E> implements Queue<E> {
 	private void resize(int newCapacity) {
 		if (newCapacity < 2)
 			throw new AssertionError();
-		Object[] newobject = new Object[objects.length * 2];
+		Object[] newobject = new Object[newCapacity];
 		if (head <= tail)  // No wrap-around
 			System.arraycopy(objects, head, newobject, 0, tail - head);
 		else {  // Has wrap-around
