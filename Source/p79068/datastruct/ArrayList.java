@@ -35,11 +35,24 @@ public final class ArrayList<E> extends AbstractDynamicArray<E> implements List<
 	
 	/**
 	 * Creates an array-based list with the contents of the specified list.
+	 * @param list TODO
 	 */
 	public ArrayList(List<? extends E> list) {
 		this(list.length());
 		appendList(list);
 	}
+	
+	
+	/**
+	 * Creates an array-based list with the contents of the specified argument list or array.
+	 * @param objs TODO
+	 */
+	public ArrayList(E... objs) {
+		this(objs.length);
+		for (E obj : objs)
+			append(obj);
+	}
+	
 	
 	
 	public int length() {
