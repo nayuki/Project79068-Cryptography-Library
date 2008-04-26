@@ -1,10 +1,9 @@
 package crypto.cipher;
 
-import static org.junit.Assert.assertArrayEquals;
 import org.junit.Test;
+import crypto.CryptoUtils;
 import p79068.crypto.cipher.*;
 import p79068.crypto.cipher.mode.*;
-import p79068.util.Random;
 
 
 public class CipherTest {
@@ -30,36 +29,11 @@ public class CipherTest {
 	
 	
 	@Test
-	public void allCiphers() {
-		for (int i = 0; i < ciphers.length; i++) {
-			for (int j = 0; j < 256; j++)
-				test(ciphers[i]);
+	public void testAllCiphersInvertibilityRandomly() {
+		for (Cipher cipher : ciphers) {
+			for (int j = 0; j < 100; j++)
+				CryptoUtils.testCipherInvertibility(cipher, cipher.getBlockLength());
 		}
-	}
-	
-	
-	@Test
-	public void rijndael() {  // Test the wide parameter range of Rijndael
-		for (int blocklen = 16; blocklen <= 32; blocklen += 4) {
-			for (int keylen = 4; keylen <= 384; keylen += 4) {
-				test(new Rijndael(keylen, blocklen));
-			}
-		}
-	}
-	
-	
-	
-	private static void test(Cipher cipher) {
-		byte[] key = new byte[cipher.getKeyLength()];
-		byte[] plaintext = new byte[4096 / cipher.getBlockLength() * cipher.getBlockLength()];
-		Random.DEFAULT.randomBytes(key);
-		Random.DEFAULT.randomBytes(plaintext);
-		byte[] plaintextref = plaintext.clone();
-		Cipherer cipherer = cipher.newCipherer(key);
-		cipherer.encrypt(plaintext);
-		cipherer = cipher.newCipherer(key);
-		cipherer.decrypt(plaintext);
-		assertArrayEquals(plaintextref, plaintext);
 	}
 	
 }
