@@ -3,6 +3,9 @@ package crypto;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.fail;
 import p79068.crypto.Zeroizable;
+import p79068.crypto.cipher.Cipher;
+import p79068.crypto.cipher.Cipherer;
+import p79068.util.Random;
 import p79068.util.hash.HashFunction;
 import p79068.util.hash.Hasher;
 
@@ -33,6 +36,31 @@ public class CryptoUtils {
 				fail();
 			} catch(IllegalStateException e) {}  // Pass
 		}
+	}
+	
+	
+	public static void testCipher(Cipher cipher, String key, String plaintext, String expectedCiphertext) {
+		testCipher(cipher, hexToBytes(key), hexToBytes(plaintext), hexToBytes(expectedCiphertext));
+	}
+	
+	
+	public static void testCipher(Cipher cipher, byte[] key, byte[] plaintext, byte[] expectedCiphertext) {
+		Cipherer cipherer = cipher.newCipherer(key);
+		cipherer.encrypt(plaintext);
+		assertArrayEquals(expectedCiphertext, plaintext);
+	}
+	
+	
+	public static void testCipherInvertibility(Cipher cipher, int messageLength) {
+		byte[] key = new byte[cipher.getKeyLength()];
+		byte[] message0 = new byte[messageLength];
+		Random.DEFAULT.randomBytes(key);
+		Random.DEFAULT.randomBytes(message0);
+		byte[] message1 = message0.clone();
+		Cipherer cipherer = cipher.newCipherer(key);
+		cipherer.encrypt(message1);
+		cipherer.decrypt(message1);
+		assertArrayEquals(message0, message1);
 	}
 	
 	
