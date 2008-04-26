@@ -11,7 +11,7 @@ import p79068.util.Random;
 public class AesTest {
 	
 	@Test
-	public void basic() {
+	public void testBasic() {
 		test("2b7e151628aed2a6abf7158809cf4f3c", "3243f6a8885a308d313198a2e0370734", "3925841d02dc09fbdc118597196a0b32");
 		test("000102030405060708090a0b0c0d0e0f", "00112233445566778899aabbccddeeff", "69c4e0d86a7b0430d8cdb78070b4c55a");
 		test("000102030405060708090a0b0c0d0e0f1011121314151617", "00112233445566778899aabbccddeeff", "dda97ca4864cdfe06eaf70a0ec0d7191");
@@ -20,7 +20,7 @@ public class AesTest {
 	
 	
 	@Test
-	public void random() {
+	public void testInvertibilityRandomly() {
 		for (int i = 0; i < 1000; i++) {
 			byte[] key = new byte[(1 + Random.DEFAULT.randomInt(10)) * 4];
 			byte[] plaintext = new byte[16 * 256];
