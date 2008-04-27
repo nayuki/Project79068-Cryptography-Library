@@ -78,7 +78,10 @@ public class AvlTreeSetTest {
 		} catch (IllegalAccessException e) {
 			throw new AssertionError(e);
 		} catch (InvocationTargetException e) {
-			throw new AssertionError(e);
+			if (e.getCause() instanceof AssertionError)
+				throw (AssertionError)e.getCause();
+			else
+				throw new RuntimeException(e);
 		}
 	}
 	
