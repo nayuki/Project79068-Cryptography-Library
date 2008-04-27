@@ -34,9 +34,10 @@ class AvlTreeNode<E> {
 	}
 	
 	
-	public void checkStructure(Set<AvlTreeNode<E>> visitedNodes) {
+	
+	void checkStructure(Set<AvlTreeNode<E>> visitedNodes) {
 		if (visitedNodes.contains(this))
-			throw new AssertionError("AVL tree structure violated: duplicate objects");
+			throw new AssertionError("AVL tree structure violated: not a tree");
 		visitedNodes.add(this);
 		if (left != null)
 			left.checkStructure(visitedNodes);
@@ -50,7 +51,7 @@ class AvlTreeNode<E> {
 	
 	
 	
-	private static <E> int getHeight(AvlTreeNode<E> node) {
+	private static int getHeight(AvlTreeNode<?> node) {
 		if (node == null)
 			return 0;
 		else
