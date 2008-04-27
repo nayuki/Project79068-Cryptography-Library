@@ -22,7 +22,7 @@ public class AvlTreeSetTest {
 	@BeforeClass
 	public static void setUp() throws NoSuchMethodException {
 		checkStructure = AvlTreeSet.class.getDeclaredMethod("checkStructure");
-		checkStructure.setAccessible(true);
+		checkStructure.setAccessible(true);  // Get access to private method
 	}
 	
 	
