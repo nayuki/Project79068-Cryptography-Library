@@ -72,6 +72,8 @@ class AvlTreeNode<E> {
 	 *   C   E    A   C
 	 */
 	public AvlTreeNode<E> rotateLeft() {
+		if (right == null)
+			throw new IllegalStateException();
 		AvlTreeNode<E> root = this.right;
 		this.right = root.left;
 		root.left = this;
@@ -89,6 +91,8 @@ class AvlTreeNode<E> {
 	 * A   C        C   E
 	 */
 	public AvlTreeNode<E> rotateRight() {
+		if (left == null)
+			throw new IllegalStateException();
 		AvlTreeNode<E> root = this.left;
 		this.left = root.right;
 		root.right = this;
