@@ -6,15 +6,18 @@ import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import org.junit.Test;
-import p79068.datastruct.ArrayStack;
+import p79068.datastruct.Stack;
 
 
 
 public abstract class StackTest {
 	
+	protected abstract <E> Stack<E> newStack();
+	
+	
 	@Test
 	public void testPushPop() {
-		ArrayStack<String> stack = new ArrayStack<String>(7);
+		Stack<String> stack = newStack();
 		stack.push("2");
 		stack.push("3");
 		assertEquals("3", stack.pop());
@@ -39,7 +42,7 @@ public abstract class StackTest {
 	
 	@Test
 	public void testInvalidPop() {
-		ArrayStack<String> stack = new ArrayStack<String>(2);
+		Stack<String> stack = newStack();
 		try {
 			stack.pop();
 			fail();
@@ -48,7 +51,7 @@ public abstract class StackTest {
 	
 	@Test
 	public void testPeek() {
-		ArrayStack<String> stack = new ArrayStack<String>(5);
+		Stack<String> stack = newStack();
 		stack.push("zeroth");
 		assertEquals("zeroth", stack.peek());
 		stack.push("first");
@@ -59,7 +62,7 @@ public abstract class StackTest {
 	
 	@Test
 	public void testInvalidPeek() {
-		ArrayStack<String> stack = new ArrayStack<String>(2);
+		Stack<String> stack = newStack();
 		try {
 			stack.peek();
 			fail();
@@ -68,7 +71,7 @@ public abstract class StackTest {
 	
 	@Test
 	public void testHeight() {
-		ArrayStack<String> stack = new ArrayStack<String>(5);
+		Stack<String> stack = newStack();
 		assertEquals(0, stack.height());
 		stack.push("alpha");
 		stack.push("beta");
@@ -82,7 +85,7 @@ public abstract class StackTest {
 	
 	@Test
 	public void testIsEmpty() {
-		ArrayStack<String> stack = new ArrayStack<String>(3);
+		Stack<String> stack = newStack();
 		assertTrue(stack.isEmpty());
 		stack.push("zero");
 		stack.push("one");
@@ -94,10 +97,10 @@ public abstract class StackTest {
 	
 	@Test
 	public void testClone() {
-		ArrayStack<String> stack0 = new ArrayStack<String>(6);
+		Stack<String> stack0 = newStack();
 		stack0.push("qwerty");
 		stack0.push("uiop");
-		ArrayStack<String> stack1 = stack0.clone();
+		Stack<String> stack1 = stack0.clone();
 		assertNotSame(stack0, stack1);
 		stack0.push("asdf");
 		stack0.push("ghjkl");

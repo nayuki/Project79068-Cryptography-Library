@@ -7,6 +7,11 @@ import p79068.datastruct.ArrayStack;
 
 public class ArrayStackTest extends StackTest {
 	
+	protected <E> ArrayStack<E> newStack() {
+		return new ArrayStack<E>();
+	}
+	
+	
 	@Test
 	public void testInitialization() {
 		try {
