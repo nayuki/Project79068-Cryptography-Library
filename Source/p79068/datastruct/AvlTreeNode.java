@@ -3,7 +3,7 @@ package p79068.datastruct;
 import java.util.Set;
 
 
-class AvlTreeNode<E extends Comparable<E>> {
+class AvlTreeNode<E> {
 	
 	public E object;
 	
@@ -50,7 +50,7 @@ class AvlTreeNode<E extends Comparable<E>> {
 	
 	
 	
-	private static <E extends Comparable<E>> int getHeight(AvlTreeNode<E> node) {
+	private static <E> int getHeight(AvlTreeNode<E> node) {
 		if (node == null)
 			return 0;
 		else
