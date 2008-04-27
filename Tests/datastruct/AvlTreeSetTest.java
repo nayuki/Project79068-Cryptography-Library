@@ -63,6 +63,32 @@ public class AvlTreeSetTest {
 	
 	
 	@Test
+	public void testAddWithDuplicates() {
+		AvlTreeSet<String> set = new AvlTreeSet<String>();
+		set.add("Bob");
+		set.add("Carol");
+		set.add("Alice");
+		set.add("Dave");
+		set.add("Alice");
+		set.add("Bob");
+		set.add("Alice");
+		checkStructure(set);
+		assertEquals(4, set.size());
+		assertTrue(set.contains("Alice"));
+		assertTrue(set.contains("Bob"));
+		assertTrue(set.contains("Carol"));
+		assertTrue(set.contains("Dave"));
+		assertFalse(set.contains(""));
+		assertFalse(set.contains("Eve"));
+		assertFalse(set.contains("Mallory"));
+		assertFalse(set.contains("Peggy"));
+		assertFalse(set.contains("Trent"));
+		assertFalse(set.contains("Victor"));
+		assertFalse(set.contains("Zeta"));
+	}
+	
+	
+	@Test
 	public void testAddRandomly() {
 		AvlTreeSet<Integer> avlSet = new AvlTreeSet<Integer>();
 		Set<Integer> javaSet = new HashSet<Integer>();
