@@ -23,8 +23,8 @@ public class HashSet<E> {
 	public HashSet(int initTableSize, double loadFactor) {
 		if (!IntegerMath.isPowerOf2(initTableSize))
 			throw new IllegalArgumentException("Initial table size is not a power of 2");
-		if (loadFactor <= 0 || loadFactor > Integer.MAX_VALUE)
-			throw new IllegalArgumentException();
+		if (loadFactor <= 0 || loadFactor > Integer.MAX_VALUE || Double.isNaN(loadFactor))
+			throw new IllegalArgumentException("Load factor out of range");
 		
 		table = new LinkedListNode[initTableSize];
 		mask = table.length - 1;
