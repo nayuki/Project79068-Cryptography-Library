@@ -64,6 +64,40 @@ class AvlTreeNode<E> {
 	}
 	
 	
+	/*
+	 *   B            D
+	 *  / \          / \
+	 * A   D   ->   B   E
+	 *    / \      / \
+	 *   C   E    A   C
+	 */
+	public AvlTreeNode<E> rotateLeft() {
+		AvlTreeNode<E> root = this.right;
+		this.right = root.left;
+		root.left = this;
+		this.recalculate();
+		root.recalculate();
+		return root;
+	}
+	
+	
+	/*
+	 *     D        B
+	 *    / \      / \
+	 *   B   E -> A   D
+	 *  / \          / \
+	 * A   C        C   E
+	 */
+	public AvlTreeNode<E> rotateRight() {
+		AvlTreeNode<E> root = this.left;
+		this.left = root.right;
+		root.right = this;
+		this.recalculate();
+		root.recalculate();
+		return root;
+	}
+	
+	
 	
 	/**
 	 * Recursively checks the structure of the AVL tree rooted at this node for consistency.

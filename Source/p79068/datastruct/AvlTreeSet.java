@@ -136,48 +136,14 @@ public class AvlTreeSet<E extends Comparable<? super E>> {
 		int balance = node.getBalance();
 		if (balance == -2) {
 			if (node.left.getBalance() == +1)
-				node.left = rotateLeft(node.left);
-			node = rotateRight(node);
+				node.left = node.left.rotateLeft();
+			node = node.rotateRight();
 		} else if (balance == +2) {
 			if (node.right.getBalance() == -1)
-				node.right = rotateRight(node.right);
-			node = rotateLeft(node);
+				node.right = node.right.rotateRight();
+			node = node.rotateLeft();
 		}
 		return node;
-	}
-	
-	
-	/*
-	 *   B            D
-	 *  / \          / \
-	 * A   D   ->   B   E
-	 *    / \      / \
-	 *   C   E    A   C
-	 */
-	private static <E extends Comparable<? super E>> AvlTreeNode<E> rotateLeft(AvlTreeNode<E> node) {
-		AvlTreeNode<E> root = node.right;
-		node.right = root.left;
-		root.left = node;
-		root.left.recalculate();
-		root.recalculate();
-		return root;
-	}
-	
-	
-	/*
-	 *     D        B
-	 *    / \      / \
-	 *   B   E -> A   D
-	 *  / \          / \
-	 * A   C        C   E
-	 */
-	private static <E extends Comparable<? super E>> AvlTreeNode<E> rotateRight(AvlTreeNode<E> node) {
-		AvlTreeNode<E> root = node.left;
-		node.left = root.right;
-		root.right = node;
-		root.right.recalculate();
-		root.recalculate();
-		return root;
 	}
 	
 	
