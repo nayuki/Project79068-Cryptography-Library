@@ -5,15 +5,18 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
-import p79068.datastruct.ArrayQueue;
+import p79068.datastruct.Queue;
 import p79068.util.Random;
 
 
-public class QueueTest {
+public abstract class QueueTest {
+	
+	protected abstract <E> Queue<E> newQueue();
+	
 	
 	@Test
 	public void testEnqueueDequeue() {
-		ArrayQueue<String> queue = new ArrayQueue<String>(10);
+		Queue<String> queue = newQueue();
 		queue.enqueue("2");
 		queue.enqueue("3");
 		assertEquals("2", queue.dequeue());
@@ -39,14 +42,14 @@ public class QueueTest {
 	
 	@Test(expected = IllegalStateException.class)
 	public void testInvalidDequeue() {
-		ArrayQueue<String> queue = new ArrayQueue<String>();
+		Queue<String> queue = newQueue();
 		queue.dequeue();
 	}
 	
 	
 	@Test
 	public void testPeek() {
-		ArrayQueue<String> queue = new ArrayQueue<String>(4);
+		Queue<String> queue = newQueue();
 		queue.enqueue("zeroth");
 		assertEquals("zeroth", queue.peek());
 		queue.enqueue("first");
@@ -56,14 +59,14 @@ public class QueueTest {
 	
 	@Test(expected = IllegalStateException.class)
 	public void testInvalidPeek() {
-		ArrayQueue<String> queue = new ArrayQueue<String>();
+		Queue<String> queue = newQueue();
 		queue.peek();
 	}
 	
 	
 	@Test
 	public void testLength() {
-		ArrayQueue<String> queue = new ArrayQueue<String>(5);
+		Queue<String> queue = newQueue();
 		assertEquals(0, queue.length());
 		queue.enqueue("alpha");
 		queue.enqueue("beta");
@@ -78,7 +81,7 @@ public class QueueTest {
 	
 	@Test
 	public void testIsEmpty() {
-		ArrayQueue<String> queue = new ArrayQueue<String>(4);
+		Queue<String> queue = newQueue();
 		assertTrue(queue.isEmpty());
 		queue.enqueue("zero");
 		queue.enqueue("one");
@@ -91,10 +94,10 @@ public class QueueTest {
 	
 	@Test
 	public void testClone() {
-		ArrayQueue<String> queue0 = new ArrayQueue<String>(7);
+		Queue<String> queue0 = newQueue();
 		queue0.enqueue("qwerty");
 		queue0.enqueue("uiop");
-		ArrayQueue<String> queue1 = queue0.clone();
+		Queue<String> queue1 = queue0.clone();
 		assertNotSame(queue0, queue1);
 		queue0.enqueue("asdf");
 		queue0.enqueue("ghjkl");
@@ -111,7 +114,7 @@ public class QueueTest {
 	
 	@Test
 	public void testEnqueueDequeueRandomly() {
-		ArrayQueue<Integer> queue = new ArrayQueue<Integer>();
+		Queue<Integer> queue = newQueue();
 		int enqueued = 0;
 		int dequeued = 0;
 		for (int i = 0; i < 10000; i++) {

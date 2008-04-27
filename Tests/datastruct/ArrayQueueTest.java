@@ -7,6 +7,11 @@ import p79068.datastruct.ArrayQueue;
 
 public class ArrayQueueTest extends QueueTest {
 	
+	protected <E> ArrayQueue<E> newQueue() {
+		return new ArrayQueue<E>();
+	}
+	
+	
 	@Test
 	public void testInitialization() {
 		try {
