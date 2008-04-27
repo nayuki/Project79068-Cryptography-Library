@@ -57,7 +57,7 @@ public abstract class StackTest {
 			stack.push("world");
 			stack.pop();
 			stack.pop();
-		} catch(IllegalStateException e) {
+		} catch (IllegalStateException e) {
 			fail();
 			return;
 		}

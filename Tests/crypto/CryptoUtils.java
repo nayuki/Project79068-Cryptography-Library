@@ -36,13 +36,13 @@ public class CryptoUtils {
 		else {
 			try {
 				((Zeroizable)hasher).zeroize();
-			} catch(IllegalStateException e) {
+			} catch (IllegalStateException e) {
 				fail();
 			}
 			try {
 				((Zeroizable)hasher).zeroize();
 				fail();
-			} catch(IllegalStateException e) {}  // Pass
+			} catch (IllegalStateException e) {}  // Pass
 		}
 	}
 	

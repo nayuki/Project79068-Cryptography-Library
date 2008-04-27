@@ -57,7 +57,7 @@ public abstract class QueueTest {
 			queue.enqueue("world");
 			queue.dequeue();
 			queue.dequeue();
-		} catch(IllegalStateException e) {
+		} catch (IllegalStateException e) {
 			fail();
 			return;
 		}
