@@ -128,15 +128,15 @@ public class AvlTreeSetTest {
 	private static void checkStructure(AvlTreeSet<?> avlSet) {
 		try {
 			checkStructure.invoke(avlSet);
-		} catch (IllegalArgumentException e) {
-			throw new AssertionError(e);
-		} catch (IllegalAccessException e) {
-			throw new AssertionError(e);
 		} catch (InvocationTargetException e) {
 			if (e.getCause() instanceof AssertionError)
 				throw (AssertionError)e.getCause();
 			else
 				throw new RuntimeException(e);
+		} catch (IllegalArgumentException e) {
+			throw new AssertionError(e);
+		} catch (IllegalAccessException e) {
+			throw new AssertionError(e);
 		}
 	}
 	
