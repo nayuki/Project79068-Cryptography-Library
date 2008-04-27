@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import org.junit.Test;
 import p79068.datastruct.Queue;
 import p79068.util.Random;
@@ -41,8 +42,25 @@ public abstract class QueueTest {
 	
 	
 	@Test(expected = IllegalStateException.class)
-	public void testInvalidDequeue() {
+	public void testInvalidDequeue0() {
 		Queue<String> queue = newQueue();
+		queue.dequeue();
+	}
+	
+	
+	@Test(expected = IllegalStateException.class)
+	public void testInvalidDequeue1() {
+		Queue<String> queue;
+		try {
+			queue = newQueue();
+			queue.enqueue("hello");
+			queue.enqueue("world");
+			queue.dequeue();
+			queue.dequeue();
+		} catch(IllegalStateException e) {
+			fail();
+			return;
+		}
 		queue.dequeue();
 	}
 	
@@ -58,8 +76,25 @@ public abstract class QueueTest {
 	
 	
 	@Test(expected = IllegalStateException.class)
-	public void testInvalidPeek() {
+	public void testInvalidPeek0() {
 		Queue<String> queue = newQueue();
+		queue.peek();
+	}
+	
+	
+	@Test(expected = IllegalStateException.class)
+	public void testInvalidPeek1() {
+		Queue<String> queue;
+		try {
+			queue = newQueue();
+			queue.enqueue("hello");
+			queue.enqueue("world");
+			queue.dequeue();
+			queue.dequeue();
+		} catch(IllegalStateException e) {
+			fail();
+			return;
+		}
 		queue.peek();
 	}
 	
