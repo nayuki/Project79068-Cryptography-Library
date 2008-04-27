@@ -29,11 +29,14 @@ public class HashSet<E> {
 	
 	public boolean add(E obj) {
 		NullChecker.check(obj);
-		if (!contains(obj)) {
-			table[getBucket(obj)] = new LinkedListNode<E>(obj, table[getBucket(obj)]);
-			return true;
-		} else
-			return false;
+		int bucket = getBucket(obj);
+		LinkedListNode<E> node = table[bucket];
+		while (node != null) {
+			if (node.object.equals(obj))
+				return false;
+		}
+		table[bucket] = new LinkedListNode<E>(obj, table[bucket]);
+		return true;
 	}
 	
 	
