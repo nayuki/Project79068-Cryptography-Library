@@ -34,6 +34,35 @@ public class AvlTreeSetTest {
 	
 	
 	@Test
+	public void testAdd() {
+		AvlTreeSet<Integer> set = new AvlTreeSet<Integer>();
+		set.add( 1);
+		set.add( 4);
+		set.add( 9);
+		set.add(16);
+		set.add(25);
+		set.add(36);
+		set.add(49);
+		checkStructure(set);
+		//assertEquals(7, set.size());
+		assertTrue(set.contains( 1));
+		assertTrue(set.contains( 4));
+		assertTrue(set.contains( 9));
+		assertTrue(set.contains(16));
+		assertTrue(set.contains(25));
+		assertTrue(set.contains(36));
+		assertTrue(set.contains(49));
+		assertFalse(set.contains(-99));
+		assertFalse(set.contains(-21));
+		assertFalse(set.contains(  0));
+		assertFalse(set.contains(  2));
+		assertFalse(set.contains(  6));
+		assertFalse(set.contains( 37));
+		assertFalse(set.contains( 50));
+	}
+	
+	
+	@Test
 	public void testAddRandomly() {
 		AvlTreeSet<Integer> avlSet = new AvlTreeSet<Integer>();
 		Set<Integer> javaSet = new HashSet<Integer>();
