@@ -100,7 +100,7 @@ public final class ArrayList<E> extends AbstractDynamicArray<E> implements List<
 	}
 	
 	
-	public void insertList(int index, List<? extends E> list) {
+	public void insertListAt(int index, List<? extends E> list) {
 		NullChecker.check(list);
 		if (index < 0 || index > length)
 			throw new IndexOutOfBoundsException(String.format("Bounds = [0,%d), insertion index = %d", length, index));
@@ -373,7 +373,7 @@ public final class ArrayList<E> extends AbstractDynamicArray<E> implements List<
 		}
 		
 		
-		public void insertList(int index, List<? extends E> list) {
+		public void insertListAt(int index, List<? extends E> list) {
 			throw new UnsupportedOperationException();
 		}
 		

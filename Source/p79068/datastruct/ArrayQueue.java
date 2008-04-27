@@ -250,7 +250,7 @@ public final class ArrayQueue<E> implements Queue<E> {
 		}
 		
 		
-		public void insertList(int index, List<? extends E> list) {
+		public void insertListAt(int index, List<? extends E> list) {
 			throw new UnsupportedOperationException();
 		}
 		

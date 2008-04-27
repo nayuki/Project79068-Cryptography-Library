@@ -156,13 +156,13 @@ public abstract class ListTest {
 			smalllist.append("2");
 			smalllist.append("3");
 			smalllist.append("5");
-			list.insertList(0, smalllist);
+			list.insertListAt(0, smalllist);
 		} {
 			ArrayList<String> smalllist = new ArrayList<String>();
 			smalllist.append("377");
 			smalllist.append("610");
 			smalllist.append("987");
-			list.insertList(4, smalllist);
+			list.insertListAt(4, smalllist);
 		} {
 			ArrayList<String> smalllist = new ArrayList<String>();
 			smalllist.append("8");
@@ -170,13 +170,13 @@ public abstract class ListTest {
 			smalllist.append("21");
 			smalllist.append("144");
 			smalllist.append("233");
-			list.insertList(4, smalllist);
+			list.insertListAt(4, smalllist);
 		} {
 			ArrayList<String> smalllist = new ArrayList<String>();
 			smalllist.append("34");
 			smalllist.append("55");
 			smalllist.append("89");
-			list.insertList(7, smalllist);
+			list.insertListAt(7, smalllist);
 		}
 		assertEquals(15, list.length());
 		assertEquals(  "1", list.getAt( 0));

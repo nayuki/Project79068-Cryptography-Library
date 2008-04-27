@@ -40,7 +40,7 @@ public class AvlTreeList<E> implements List<E> {
 	
 	
 	public void appendList(List<? extends E> list) {
-		insertList(length(), list);
+		insertListAt(length(), list);
 	}
 	
 	
@@ -52,7 +52,7 @@ public class AvlTreeList<E> implements List<E> {
 	}
 	
 	
-	public void insertList(int index, List<? extends E> list) {
+	public void insertListAt(int index, List<? extends E> list) {
 		// TODO Auto-generated method stub
 		
 	}
