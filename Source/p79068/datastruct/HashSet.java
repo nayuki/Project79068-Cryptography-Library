@@ -1,5 +1,8 @@
 package p79068.datastruct;
 
+import p79068.lang.NullChecker;
+import p79068.math.IntegerMath;
+
 
 public class HashSet<E> {
 	
@@ -16,6 +19,8 @@ public class HashSet<E> {
 	
 	@SuppressWarnings("unchecked")
 	public HashSet(int initTableSize) {
+		if (!IntegerMath.isPowerOf2(initTableSize))
+			throw new IllegalArgumentException("Initial table size is not a power of 2");
 		table = new LinkedListNode[initTableSize];
 		mask = table.length - 1;
 	}
@@ -23,6 +28,7 @@ public class HashSet<E> {
 	
 	
 	public boolean add(E obj) {
+		NullChecker.check(obj);
 		if (!contains(obj)) {
 			table[getBucket(obj)] = new LinkedListNode<E>(obj, table[getBucket(obj)]);
 			return true;
@@ -32,6 +38,7 @@ public class HashSet<E> {
 	
 	
 	public boolean contains(E obj) {
+		NullChecker.check(obj);
 		LinkedListNode<E> node = table[getBucket(obj)];
 		while (node != null) {
 			if (node.object.equals(obj))
@@ -42,6 +49,7 @@ public class HashSet<E> {
 	
 	
 	public boolean remove(E obj) {
+		NullChecker.check(obj);
 		int bucket = getBucket(obj);
 		if (table[bucket] == null)
 			return false;
