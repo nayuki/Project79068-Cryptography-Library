@@ -72,7 +72,7 @@ public class AvlTreeSet<E extends Comparable<? super E>> {
 			return new AvlTreeNode<E>(obj);
 		else {
 			int comp = obj.compareTo(node.object);
-			if (comp < 0)      node.left = add(node.left, obj);
+			if      (comp < 0) node.left = add(node.left, obj);
 			else if (comp > 0) node.right = add(node.right, obj);
 			// Else object already exists at this node; do nothing
 			node.recalculateHeight();
