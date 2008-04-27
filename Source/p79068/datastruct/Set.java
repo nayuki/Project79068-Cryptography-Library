@@ -10,7 +10,7 @@ import java.util.Iterator;
 public interface Set<E> {
 	
 	/**
-	 * Returns the size of this set. It is illegal for a set's length to exceed <code>Integer.MAX_VALUE</code>.
+	 * Returns the size of this set. It is illegal for a set's size to exceed <code>Integer.MAX_VALUE</code>.
 	 * @return the number of objects in this set
 	 */
 	public int size();

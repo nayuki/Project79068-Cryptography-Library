@@ -10,7 +10,7 @@ import java.util.Iterator;
 public interface Collection<E> extends Iterable<E> {
 	
 	/**
-	 * Returns the size of this collection. It is illegal for a collection's length to exceed <code>Integer.MAX_VALUE</code>.
+	 * Returns the size of this collection. It is illegal for a collection's size to exceed <code>Integer.MAX_VALUE</code>.
 	 * @return the number of objects in this collection
 	 */
 	public int size();
