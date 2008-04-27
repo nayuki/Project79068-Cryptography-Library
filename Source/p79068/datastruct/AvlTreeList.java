@@ -1,6 +1,7 @@
 package p79068.datastruct;
 
 import java.util.Iterator;
+import p79068.lang.BoundsChecker;
 import p79068.lang.NullChecker;
 
 
@@ -25,11 +26,13 @@ public class AvlTreeList<E> implements List<E> {
 	
 	
 	public E getAt(int index) {
+		BoundsChecker.check(length(), index);
 		return getNodeAt(root, index).object;
 	}
 	
 	
 	public void setAt(int index, E obj) {
+		BoundsChecker.check(length(), index);
 		getNodeAt(root, index).object = obj;
 	}
 	
@@ -40,6 +43,7 @@ public class AvlTreeList<E> implements List<E> {
 	
 	
 	public void appendList(List<? extends E> list) {
+		NullChecker.check(list);
 		insertListAt(length(), list);
 	}
 	
@@ -53,6 +57,7 @@ public class AvlTreeList<E> implements List<E> {
 	
 	
 	public void insertListAt(int index, List<? extends E> list) {
+		NullChecker.check(list);
 		// TODO Auto-generated method stub
 		
 	}
@@ -65,6 +70,7 @@ public class AvlTreeList<E> implements List<E> {
 	
 	
 	public void removeRange(int offset, int length) {
+		BoundsChecker.check(length(), offset, length);
 		for (int i = 0; i < length; i++)
 			removeAt(offset);
 	}
@@ -83,6 +89,7 @@ public class AvlTreeList<E> implements List<E> {
 	
 	
 	public List<E> sublist(int offset, int length) {
+		BoundsChecker.check(length(), offset, length);
 		// TODO Auto-generated method stub
 		return null;
 	}
