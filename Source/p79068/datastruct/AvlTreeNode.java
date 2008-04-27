@@ -36,16 +36,16 @@ class AvlTreeNode<E> {
 	
 	public void checkStructure(Set<AvlTreeNode<E>> visitedNodes) {
 		if (visitedNodes.contains(this))
-			throw new AssertionError();
+			throw new AssertionError("AVL tree structure violated: duplicate objects");
 		visitedNodes.add(this);
 		if (left != null)
 			left.checkStructure(visitedNodes);
 		if (right != null)
 			right.checkStructure(visitedNodes);
 		if (height != 1 + Math.max(getHeight(left), getHeight(right)))
-			throw new AssertionError();
+			throw new AssertionError("AVL tree structure violated: incorrect cached height");
 		if (Math.abs(getBalance()) > 1)
-			throw new AssertionError();
+			throw new AssertionError("AVL tree structure violated: height imbalance");
 	}
 	
 	

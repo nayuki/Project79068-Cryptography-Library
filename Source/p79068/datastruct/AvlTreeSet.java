@@ -32,7 +32,12 @@ public class AvlTreeSet<E extends Comparable<? super E>> {
 	}
 	
 	
-	public void checkStructure() {if (root != null)root.checkStructure(new HashSet<AvlTreeNode<E>>());}
+	@SuppressWarnings("unused")
+	private void checkStructure() {
+		if (root != null)
+			root.checkStructure(new HashSet<AvlTreeNode<E>>());
+	}
+	
 	public List<E> dumpInOrder() {List<E> result = new ArrayList<E>();dumpInOrder(root, result);return result;}
 	private static <E extends Comparable<? super E>> void dumpInOrder(AvlTreeNode<E> node, List<E> list)
 	{if(node!=null){dumpInOrder(node.left,list);list.add(node.object);dumpInOrder(node.right,list);}}
