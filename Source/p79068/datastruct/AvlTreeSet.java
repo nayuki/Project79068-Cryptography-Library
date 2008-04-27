@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 
 
-public class AvlTreeSet<E extends Comparable<E>> {
+public class AvlTreeSet<E extends Comparable<? super E>> {
 	
 	private AvlTreeNode<E> root;
 	
@@ -34,12 +34,12 @@ public class AvlTreeSet<E extends Comparable<E>> {
 	
 	public void checkStructure() {if (root != null)root.checkStructure(new HashSet<AvlTreeNode<E>>());}
 	public List<E> dumpInOrder() {List<E> result = new ArrayList<E>();dumpInOrder(root, result);return result;}
-	private static <E extends Comparable<E>> void dumpInOrder(AvlTreeNode<E> node, List<E> list)
+	private static <E extends Comparable<? super E>> void dumpInOrder(AvlTreeNode<E> node, List<E> list)
 	{if(node!=null){dumpInOrder(node.left,list);list.add(node.object);dumpInOrder(node.right,list);}}
 	
 	
 	
-	private static <E extends Comparable<E>> AvlTreeNode<E> add(AvlTreeNode<E> node, E obj) {
+	private static <E extends Comparable<? super E>> AvlTreeNode<E> add(AvlTreeNode<E> node, E obj) {
 		if (node == null)
 			return new AvlTreeNode<E>(obj);
 		else {
@@ -53,7 +53,7 @@ public class AvlTreeSet<E extends Comparable<E>> {
 	}
 	
 	
-	private static <E extends Comparable<E>> boolean contains(AvlTreeNode<E> node, E obj) {
+	private static <E extends Comparable<? super E>> boolean contains(AvlTreeNode<E> node, E obj) {
 		while (true) {
 			if (node == null)
 				return false;
@@ -67,7 +67,7 @@ public class AvlTreeSet<E extends Comparable<E>> {
 	}
 	
 	
-	private static <E extends Comparable<E>> AvlTreeNode<E> remove(AvlTreeNode<E> node, E obj) {
+	private static <E extends Comparable<? super E>> AvlTreeNode<E> remove(AvlTreeNode<E> node, E obj) {
 		if (node == null)
 			return null;
 		else {
@@ -100,7 +100,7 @@ public class AvlTreeSet<E extends Comparable<E>> {
 	 * Assumes that the specified node has a balance in [-2,+2], and all subtrees are have balances in [-1,+1].
 	 * Also assumes that the specified node is not null (the 0-height tree).
 	 */
-	private static <E extends Comparable<E>> AvlTreeNode<E> balance(AvlTreeNode<E> node) {
+	private static <E extends Comparable<? super E>> AvlTreeNode<E> balance(AvlTreeNode<E> node) {
 		int balance = node.getBalance();
 		if (balance == -2) {
 			if (node.left.getBalance() == +1)
@@ -122,7 +122,7 @@ public class AvlTreeSet<E extends Comparable<E>> {
 	 *    / \      / \
 	 *   C   E    A   C
 	 */
-	private static <E extends Comparable<E>> AvlTreeNode<E> rotateLeft(AvlTreeNode<E> node) {
+	private static <E extends Comparable<? super E>> AvlTreeNode<E> rotateLeft(AvlTreeNode<E> node) {
 		AvlTreeNode<E> root = node.right;
 		node.right = root.left;
 		root.left = node;
@@ -139,7 +139,7 @@ public class AvlTreeSet<E extends Comparable<E>> {
 	 *  / \          / \
 	 * A   C        C   E
 	 */
-	private static <E extends Comparable<E>> AvlTreeNode<E> rotateRight(AvlTreeNode<E> node) {
+	private static <E extends Comparable<? super E>> AvlTreeNode<E> rotateRight(AvlTreeNode<E> node) {
 		AvlTreeNode<E> root = node.left;
 		node.left = root.right;
 		root.right = node;
@@ -150,7 +150,7 @@ public class AvlTreeSet<E extends Comparable<E>> {
 	
 	
 	@SuppressWarnings("unused")
-	private static <E extends Comparable<E>> E getPredecessor(AvlTreeNode<E> node) {
+	private static <E extends Comparable<? super E>> E getPredecessor(AvlTreeNode<E> node) {
 		if (node == null || node.left == null)
 			return null;
 		node = node.left;
@@ -160,7 +160,7 @@ public class AvlTreeSet<E extends Comparable<E>> {
 	}
 	
 	
-	private static <E extends Comparable<E>> E getSuccessor(AvlTreeNode<E> node) {
+	private static <E extends Comparable<? super E>> E getSuccessor(AvlTreeNode<E> node) {
 		if (node == null || node.right == null)
 			return null;
 		node = node.right;
