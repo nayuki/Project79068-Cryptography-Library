@@ -3,6 +3,7 @@ package p79068.datastruct;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import p79068.lang.NullChecker;
 
 
 public class AvlTreeSet<E extends Comparable<? super E>> {
@@ -26,11 +27,13 @@ public class AvlTreeSet<E extends Comparable<? super E>> {
 	
 	
 	public boolean contains(E obj) {
+		NullChecker.check(obj);
 		return contains(root, obj);
 	}
 	
 	
 	public boolean add(E obj) {
+		NullChecker.check(obj);
 		if (!contains(obj)) {
 			if (size == Integer.MAX_VALUE)
 				throw new IllegalStateException("Maximum size reached");
@@ -43,6 +46,7 @@ public class AvlTreeSet<E extends Comparable<? super E>> {
 	
 	
 	public boolean remove(E obj) {
+		NullChecker.check(obj);
 		if (contains(obj)) {
 			root = remove(root, obj);
 			return true;
