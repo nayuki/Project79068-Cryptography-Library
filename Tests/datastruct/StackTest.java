@@ -9,7 +9,6 @@ import org.junit.Test;
 import p79068.datastruct.Stack;
 
 
-
 public abstract class StackTest {
 	
 	protected abstract <E> Stack<E> newStack();
@@ -40,6 +39,7 @@ public abstract class StackTest {
 		assertEquals("5", stack.pop());
 	}
 	
+	
 	@Test
 	public void testInvalidPop() {
 		Stack<String> stack = newStack();
@@ -48,6 +48,7 @@ public abstract class StackTest {
 			fail();
 		} catch (IllegalStateException e) {}  // Pass
 	}
+	
 	
 	@Test
 	public void testPeek() {
@@ -60,6 +61,7 @@ public abstract class StackTest {
 		assertEquals("second", stack.peek());
 	}
 	
+	
 	@Test
 	public void testInvalidPeek() {
 		Stack<String> stack = newStack();
@@ -68,6 +70,7 @@ public abstract class StackTest {
 			fail();
 		} catch (IllegalStateException e) {}  // Pass
 	}
+	
 	
 	@Test
 	public void testHeight() {
@@ -83,6 +86,7 @@ public abstract class StackTest {
 		assertEquals(0, stack.height());
 	}
 	
+	
 	@Test
 	public void testIsEmpty() {
 		Stack<String> stack = newStack();
@@ -94,6 +98,7 @@ public abstract class StackTest {
 		stack.pop();
 		assertTrue(stack.isEmpty());
 	}
+	
 	
 	@Test
 	public void testClone() {
