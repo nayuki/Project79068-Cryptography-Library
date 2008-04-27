@@ -1,9 +1,10 @@
 package p79068.datastruct;
 
+import java.util.Iterator;
 import p79068.lang.NullChecker;
 
 
-public class AvlTreeList<E> {
+public class AvlTreeList<E> implements List<E> {
 	
 	private AvlTreeNode<E> root;
 	
@@ -15,7 +16,7 @@ public class AvlTreeList<E> {
 	
 	
 	
-	public int size() {
+	public int length() {
 		if (root == null)
 			return 0;
 		else
@@ -23,16 +24,72 @@ public class AvlTreeList<E> {
 	}
 	
 	
+	public E getAt(int index) {
+		return getNodeAt(root, index).object;
+	}
+	
+	
+	public void setAt(int index, E obj) {
+		getNodeAt(root, index).object = obj;
+	}
+	
+	
+	public void append(E obj) {
+		insertAt(length(), obj);
+	}
+	
+	
+	public void appendList(List<? extends E> list) {
+		insertList(length(), list);
+	}
+	
+	
 	public void insertAt(int index, E obj) {
 		NullChecker.check(obj);
-		if (size() == Integer.MAX_VALUE)
+		if (length() == Integer.MAX_VALUE)
 			throw new IllegalStateException("Maximum size reached");
 		root = insertAt(root, index, obj);
 	}
 	
 	
-	public void removeAt(int index) {
+	public void insertList(int index, List<? extends E> list) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
+	public E removeAt(int index) {
 		root = removeAt(root, index);
+		return null; // FIXME
+	}
+	
+	
+	public void removeRange(int offset, int length) {
+		for (int i = 0; i < length; i++)
+			removeAt(offset);
+	}
+	
+	
+	public void clear() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
+	public Iterator<E> iterator() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
+	public List<E> sublist(int offset, int length) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
+	public Collection<E> asCollection() {
+		return new ListCollectionAdapter<E>(this);
 	}
 	
 	
