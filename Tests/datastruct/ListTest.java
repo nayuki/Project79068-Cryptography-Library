@@ -2,7 +2,6 @@ package datastruct;
 
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
-import p79068.datastruct.ArrayList;
 import p79068.datastruct.List;
 
 
@@ -13,7 +12,7 @@ public abstract class ListTest {
 	
 	@Test
 	public void testAppend() {
-		ArrayList<String> list = new ArrayList<String>();
+		List<String> list = newList();
 		list.append("January");
 		list.append("February");
 		list.append("March");
@@ -32,19 +31,19 @@ public abstract class ListTest {
 	
 	@Test
 	public void testAppendList() {
-		ArrayList<String> list = new ArrayList<String>();
+		List<String> list = newList();
 		{
-			ArrayList<String> smalllist = new ArrayList<String>();
+			List<String> smalllist = newList();
 			smalllist.append("January");
 			list.appendList(smalllist);
 		} {
-			ArrayList<String> smalllist = new ArrayList<String>();
+			List<String> smalllist = newList();
 			smalllist.append("February");
 			smalllist.append("March");
 			smalllist.append("April");
 			list.appendList(smalllist);
 		} {
-			ArrayList<String> smalllist = new ArrayList<String>();
+			List<String> smalllist = newList();
 			smalllist.append("May");
 			smalllist.append("June");
 			smalllist.append("July");
@@ -73,7 +72,7 @@ public abstract class ListTest {
 	
 	@Test
 	public void testSetAt() {
-		ArrayList<String> list = new ArrayList<String>();
+		List<String> list = newList();
 		for (int i = 0; i < 10; i++)
 			list.append(null);
 		list.setAt(0, "zero");
@@ -102,7 +101,7 @@ public abstract class ListTest {
 	
 	@Test
 	public void testInsertAtBeginning() {
-		ArrayList<String> list = new ArrayList<String>();
+		List<String> list = newList();
 		list.insertAt(0, "Sunday");
 		list.insertAt(0, "Monday");
 		list.insertAt(0, "Tuesday");
@@ -115,7 +114,7 @@ public abstract class ListTest {
 	
 	@Test
 	public void testInsertAtEnd() {
-		ArrayList<String> list = new ArrayList<String>();
+		List<String> list = newList();
 		list.insertAt(0, "Saturday");
 		list.insertAt(1, "Friday");
 		list.insertAt(2, "Thursday");
@@ -130,7 +129,7 @@ public abstract class ListTest {
 	
 	@Test
 	public void testInsertInMiddle() {
-		ArrayList<String> list = new ArrayList<String>();
+		List<String> list = newList();
 		list.insertAt(0, "Up");
 		list.insertAt(1, "Down");
 		list.insertAt(1, "Left");
@@ -149,22 +148,22 @@ public abstract class ListTest {
 	
 	@Test
 	public void testInsertList() {
-		ArrayList<String> list = new ArrayList<String>();
+		List<String> list = newList();
 		{
-			ArrayList<String> smalllist = new ArrayList<String>();
+			List<String> smalllist = newList();
 			smalllist.append("1");
 			smalllist.append("2");
 			smalllist.append("3");
 			smalllist.append("5");
 			list.insertListAt(0, smalllist);
 		} {
-			ArrayList<String> smalllist = new ArrayList<String>();
+			List<String> smalllist = newList();
 			smalllist.append("377");
 			smalllist.append("610");
 			smalllist.append("987");
 			list.insertListAt(4, smalllist);
 		} {
-			ArrayList<String> smalllist = new ArrayList<String>();
+			List<String> smalllist = newList();
 			smalllist.append("8");
 			smalllist.append("13");
 			smalllist.append("21");
@@ -172,7 +171,7 @@ public abstract class ListTest {
 			smalllist.append("233");
 			list.insertListAt(4, smalllist);
 		} {
-			ArrayList<String> smalllist = new ArrayList<String>();
+			List<String> smalllist = newList();
 			smalllist.append("34");
 			smalllist.append("55");
 			smalllist.append("89");
@@ -199,7 +198,7 @@ public abstract class ListTest {
 	
 	@Test
 	public void testRemoveAt() {
-		ArrayList<Character> list = new ArrayList<Character>();
+		List<Character> list = newList();
 		{
 			String str = "the quick brown fox jumped over the lazy dog";
 			for (int i = 0; i < str.length(); i++)
