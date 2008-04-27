@@ -58,13 +58,10 @@ public class ArrayQueueTest {
 	}
 	
 	
-	@Test
+	@Test(expected = IllegalStateException.class)
 	public void testInvalidDequeue() {
 		ArrayQueue<String> queue = new ArrayQueue<String>();
-		try {
-			queue.dequeue();
-			fail();
-		} catch (IllegalStateException e) {}  // Pass
+		queue.dequeue();
 	}
 	
 	
@@ -78,13 +75,10 @@ public class ArrayQueueTest {
 	}
 	
 	
-	@Test
+	@Test(expected = IllegalStateException.class)
 	public void testInvalidPeek() {
 		ArrayQueue<String> queue = new ArrayQueue<String>();
-		try {
-			queue.peek();
-			fail();
-		} catch (IllegalStateException e) {}  // Pass
+		queue.peek();
 	}
 	
 	

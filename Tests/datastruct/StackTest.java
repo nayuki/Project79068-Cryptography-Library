@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 import org.junit.Test;
 import p79068.datastruct.Stack;
 import p79068.util.Random;
@@ -41,13 +40,10 @@ public abstract class StackTest {
 	}
 	
 	
-	@Test
+	@Test(expected = IllegalStateException.class)
 	public void testInvalidPop() {
 		Stack<String> stack = newStack();
-		try {
-			stack.pop();
-			fail();
-		} catch (IllegalStateException e) {}  // Pass
+		stack.pop();
 	}
 	
 	
@@ -63,13 +59,10 @@ public abstract class StackTest {
 	}
 	
 	
-	@Test
+	@Test(expected = IllegalStateException.class)
 	public void testInvalidPeek() {
 		Stack<String> stack = newStack();
-		try {
-			stack.peek();
-			fail();
-		} catch (IllegalStateException e) {}  // Pass
+		stack.peek();
 	}
 	
 	
