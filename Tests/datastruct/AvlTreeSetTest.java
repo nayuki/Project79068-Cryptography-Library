@@ -1,7 +1,10 @@
 package datastruct;
 
 import static org.junit.Assert.*;
+import org.junit.BeforeClass;
 import org.junit.Test;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.Set;
 import java.util.HashSet;
@@ -12,6 +15,23 @@ import p79068.datastruct.AvlTreeSet;
 
 
 public class AvlTreeSetTest {
+	
+	private static Method checkStructure;
+	
+	
+	@BeforeClass
+	public static void setUp() throws NoSuchMethodException {
+		checkStructure = AvlTreeSet.class.getDeclaredMethod("checkStructure");
+		checkStructure.setAccessible(true);
+	}
+	
+	
+	@Test
+	public void testEmpty() {
+		AvlTreeSet<Integer> avlSet = new AvlTreeSet<Integer>();
+		checkStructure(avlSet);
+	}
+	
 	
 	@Test
 	public void testAddRandomly() {
@@ -50,8 +70,21 @@ public class AvlTreeSetTest {
 	
 	
 	
+	private static void checkStructure(AvlTreeSet<?> avlSet) {
+		try {
+			checkStructure.invoke(avlSet);
+		} catch (IllegalArgumentException e) {
+			throw new AssertionError(e);
+		} catch (IllegalAccessException e) {
+			throw new AssertionError(e);
+		} catch (InvocationTargetException e) {
+			throw new AssertionError(e);
+		}
+	}
+	
+	
 	private static <E extends Comparable<? super E>> void checkConsistency(AvlTreeSet<E> avlSet, Set<E> javaSet) {
-		avlSet.checkStructure();
+		checkStructure(avlSet);
 		List<E> list0 = avlSet.dumpInOrder();
 		List<E> list1 = new ArrayList<E>();
 		list1.addAll(javaSet);
