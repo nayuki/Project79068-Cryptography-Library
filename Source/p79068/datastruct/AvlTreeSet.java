@@ -10,19 +10,19 @@ public class AvlTreeSet<E extends Comparable<? super E>> {
 	
 	private AvlTreeNode<E> root;
 	
-	private int size;
-	
 	
 	
 	public AvlTreeSet() {
 		root = null;
-		size = 0;
 	}
 	
 	
 	
 	public int size() {
-		return size;
+		if (root == null)
+			return 0;
+		else
+			return root.size;
 	}
 	
 	
@@ -35,10 +35,9 @@ public class AvlTreeSet<E extends Comparable<? super E>> {
 	public boolean add(E obj) {
 		NullChecker.check(obj);
 		if (!contains(obj)) {
-			if (size == Integer.MAX_VALUE)
+			if (size() == Integer.MAX_VALUE)
 				throw new IllegalStateException("Maximum size reached");
 			root = add(root, obj);
-			size++;
 			return true;
 		} else
 			return false;
