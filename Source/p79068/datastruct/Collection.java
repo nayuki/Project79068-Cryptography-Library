@@ -26,6 +26,15 @@ public interface Collection<E> extends Iterable<E> {
 	
 	
 	/**
+	 * Tests whether this collection contains all the objects in the specified collection. The number of instances of each object is important. For example, [3, 3, 4, 4] is a superset of [3, 4, 4], but [3, 4, 4] is not a subset of [3, 3, 4].
+	 * @param coll the other collection
+	 * @return whether this collection is a superset of <code>coll</code>
+	 * @throws NullPointerException if <code>coll</code> is <code>null</code>
+	 */
+	public boolean containsAll(Collection<?> coll);
+	
+	
+	/**
 	 * Returns the number of objects in this collection that are equal to the specified object.
 	 * @param obj the object whose presence to count
 	 * @return the number of objects that are equal to <code>obj</code>
@@ -51,12 +60,12 @@ public interface Collection<E> extends Iterable<E> {
 	
 	
 	/**
-	 * Removes and returns an object in this collection that is equal to the specified object. If no object in the collection equals the specified object, then the collection is unchanged and <code>null</code> is returned.
+	 * Removes an arbitrary object in this collection that is equal to the specified object and returns <code>true</code> if such object exists, otherwise returns <code>false</code>.
 	 * @param obj the object to remove
-	 * @return an arbitrary object in this collection that equal to <code>obj</code>, or <code>null</code> if there is none
+	 * @return <code>true</code> if there is an object in this set that is equal to <code>obj</code> and it was removed; <code>false</code> otherwise
 	 * @throws NullPointerException if <code>obj</code> is <code>null</code>
 	 */
-	public E remove(Object obj);
+	public boolean remove(Object obj);
 	
 	
 	/**
@@ -81,24 +90,6 @@ public interface Collection<E> extends Iterable<E> {
 	 * Removes all objects from this collection.
 	 */
 	public void clear();
-	
-	
-	/**
-	 * Tests whether the specified collection contains all the objects in this collection. The number of instances of each object is important. For example, [1, 2, 2] is a subset of [1, 1, 2, 2], but [1, 2, 2] is not a subset of [1, 1, 2].
-	 * @param coll the other collection
-	 * @return whether this collection is a subset of <code>coll</code>
-	 * @throws NullPointerException if <code>coll</code> is <code>null</code>
-	 */
-	public boolean isSubsetOf(Collection<?> coll);
-	
-	
-	/**
-	 * Tests whether this collection contains all the objects in the specified collection. The number of instances of each object is important. For example, [3, 3, 4, 4] is a superset of [3, 4, 4], but [3, 4, 4] is not a subset of [3, 3, 4].
-	 * @param coll the other collection
-	 * @return whether this collection is a subset of <code>coll</code>
-	 * @throws NullPointerException if <code>coll</code> is <code>null</code>
-	 */
-	public boolean isSupersetOf(Collection<?> coll);
 	
 	
 	/**
