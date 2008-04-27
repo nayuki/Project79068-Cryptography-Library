@@ -10,18 +10,22 @@ public class AvlTreeSet<E extends Comparable<E>> {
 	private AvlTreeNode<E> root;
 	
 	
+	
 	public AvlTreeSet() {
 		root = null;
 	}
+	
 	
 	
 	public void add(E obj) {
 		root = add(root, obj);
 	}
 	
+	
 	public boolean contains(E obj) {
 		return contains(root, obj);
 	}
+	
 	
 	public void remove(E obj) {
 		root = remove(root, obj);
@@ -33,6 +37,7 @@ public class AvlTreeSet<E extends Comparable<E>> {
 			root.checkStructure(new HashSet<AvlTreeNode<E>>());
 	}
 	
+	
 	public List<E> dumpInOrder() {
 		List<E> result = new ArrayList<E>();
 		dumpInOrder(root, result);
@@ -40,6 +45,7 @@ public class AvlTreeSet<E extends Comparable<E>> {
 	}
 	private static <E extends Comparable<E>> void dumpInOrder(AvlTreeNode<E> node, List<E> list)
 	{if(node!=null){dumpInOrder(node.left,list);list.add(node.object);dumpInOrder(node.right,list);}}
+	
 	
 	
 	private static <E extends Comparable<E>> AvlTreeNode<E> add(AvlTreeNode<E> node, E obj) {
@@ -55,6 +61,7 @@ public class AvlTreeSet<E extends Comparable<E>> {
 		}
 	}
 	
+	
 	private static <E extends Comparable<E>> boolean contains(AvlTreeNode<E> node, E obj) {
 		while (true) {
 			if (node == null)
@@ -67,6 +74,7 @@ public class AvlTreeSet<E extends Comparable<E>> {
 			}
 		}
 	}
+	
 	
 	private static <E extends Comparable<E>> AvlTreeNode<E> remove(AvlTreeNode<E> node, E obj) {
 		if (node == null)
@@ -115,6 +123,7 @@ public class AvlTreeSet<E extends Comparable<E>> {
 		return node;
 	}
 	
+	
 	/*
 	 *   B            D
 	 *  / \          / \
@@ -130,6 +139,7 @@ public class AvlTreeSet<E extends Comparable<E>> {
 		root.recalculateHeight();
 		return root;
 	}
+	
 	
 	/*
 	 *     D        B
@@ -147,6 +157,7 @@ public class AvlTreeSet<E extends Comparable<E>> {
 		return root;
 	}
 	
+	
 	@SuppressWarnings("unused")
 	private static <E extends Comparable<E>> E getPredecessor(AvlTreeNode<E> node) {
 		if (node == null || node.left == null)
@@ -156,6 +167,7 @@ public class AvlTreeSet<E extends Comparable<E>> {
 			node = node.right;
 		return node.object;
 	}
+	
 	
 	private static <E extends Comparable<E>> E getSuccessor(AvlTreeNode<E> node) {
 		if (node == null || node.right == null)

@@ -6,9 +6,13 @@ import java.util.Set;
 class AvlTreeNode<E extends Comparable<E>> {
 	
 	public E object;
+	
 	public int height;
+	
 	public AvlTreeNode<E> left;
+	
 	public AvlTreeNode<E> right;
+	
 	
 	
 	public AvlTreeNode(E obj) {
@@ -19,9 +23,11 @@ class AvlTreeNode<E extends Comparable<E>> {
 	}
 	
 	
+	
 	public int getBalance() {
 		return getHeight(right) - getHeight(left);
 	}
+	
 	
 	public void recalculateHeight() {
 		height = 1 + Math.max(getHeight(left), getHeight(right));
@@ -41,6 +47,7 @@ class AvlTreeNode<E extends Comparable<E>> {
 		if (Math.abs(getBalance()) > 1)
 			throw new AssertionError();
 	}
+	
 	
 	
 	private static <E extends Comparable<E>> int getHeight(AvlTreeNode<E> node) {
