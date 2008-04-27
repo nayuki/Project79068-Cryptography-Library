@@ -52,25 +52,29 @@ public class AvlTreeList<E> {
 		if (node == null)
 			return new AvlTreeNode<E>(obj);
 		else {
-			int comp = obj.compareTo(node.object);
-			if      (comp < 0) node.left = insertAt(node.left, obj);
-			else if (comp > 0) node.right = insertAt(node.right, obj);
-			// Else object already exists at this node; do nothing
+			int leftsize = AvlTreeNode.getSize(node.left);
+			if (index <= leftsize)
+				node.left = insertAt(node.left, index, obj);
+			else
+				node.right = insertAt(node.right, index - leftsize - 1, obj);
 			node.recalculate();
 			return balance(node);
 		}
 	}
 	
 	
-	private static <E> boolean getNodeAt(AvlTreeNode<E> node, int index) {
+	private static <E> AvlTreeNode<E> getNodeAt(AvlTreeNode<E> node, int index) {
 		while (true) {
 			if (node == null)
-				return false;
+				return null;
 			else {
-				int comp = obj.compareTo(node.object);
-				if      (comp < 0) node = node.left;
-				else if (comp > 0) node = node.right;
-				else return true;  // Found at this node
+				int leftsize = AvlTreeNode.getSize(node.left);
+				if (index < leftsize)
+					return getNodeAt(node.left, index);
+				else if (index > leftsize)
+					return getNodeAt(node.right, index - leftsize - 1);
+				else
+					return node;
 			}
 		}
 	}
@@ -80,9 +84,9 @@ public class AvlTreeList<E> {
 		if (node == null)
 			return null;
 		else {
-			int comp = obj.compareTo(node.object);
-			if      (comp < 0) node.left  = removeAt(node.left , obj);
-			else if (comp > 0) node.right = removeAt(node.right, obj);
+			int leftsize = AvlTreeNode.getSize(node.left);
+			if      (index < leftsize) node.left  = removeAt(node.left , index);
+			else if (index > leftsize) node.right = removeAt(node.right, index - leftsize - 1);
 			else {
 				if (node.left == null && node.right == null)
 					return null;
@@ -95,7 +99,7 @@ public class AvlTreeList<E> {
 					// In that case, remove that value from node.left .
 					E neighbor = getSuccessor(node);
 					node.object = neighbor;
-					node.right = removeAt(node.right, neighbor);
+					node.right = removeAt(node.right, 0);
 				}
 			}
 			node.recalculate();
