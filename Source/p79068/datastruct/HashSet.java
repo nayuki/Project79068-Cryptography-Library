@@ -10,19 +10,25 @@ public class HashSet<E> {
 	
 	private int mask;
 	
+	private double loadFactor;
+	
 	
 	
 	public HashSet() {
-		this(16);
+		this(16, 0.8);
 	}
 	
 	
 	@SuppressWarnings("unchecked")
-	public HashSet(int initTableSize) {
+	public HashSet(int initTableSize, double loadFactor) {
 		if (!IntegerMath.isPowerOf2(initTableSize))
 			throw new IllegalArgumentException("Initial table size is not a power of 2");
+		if (loadFactor <= 0 || loadFactor > Integer.MAX_VALUE)
+			throw new IllegalArgumentException();
+		
 		table = new LinkedListNode[initTableSize];
 		mask = table.length - 1;
+		this.loadFactor = loadFactor;
 	}
 	
 	
@@ -75,6 +81,25 @@ public class HashSet<E> {
 	
 	private int getBucket(E obj) {
 		return obj.hashCode() & mask;
+	}
+	
+	
+	@SuppressWarnings("unchecked")
+	private void resize(int newSize) {
+		if (!IntegerMath.isPowerOf2(newSize))
+			throw new IllegalArgumentException("New table size is not a power of 2");
+		LinkedListNode<E>[] newtable = new LinkedListNode[newSize];
+		mask = newtable.length - 1;
+		for (LinkedListNode<E> node : table) {
+			while (node != null) {
+				LinkedListNode<E> next = node.next;
+				int newbucket = getBucket(node.object);
+				node.next = newtable[newbucket];
+				newtable[newbucket] = node;
+				node = next;
+			}
+		}
+		table = newtable;
 	}
 	
 }
