@@ -9,7 +9,7 @@ import java.util.Iterator;
 public interface Dictionary<K,V> extends Iterable<DictionaryEntry<K,V>> {
 	
 	/**
-	 * Returns the number of entries (or keys) in this dictionary.
+	 * Returns the number of entries (or keys) in this dictionary. It is illegal for a dictionary's size to exceed <code>Integer.MAX_VALUE</code>.
 	 */
 	public int size();
 	
@@ -59,13 +59,13 @@ public interface Dictionary<K,V> extends Iterable<DictionaryEntry<K,V>> {
 	/**
 	 * Removes the mappings with keys in the specified set of keys.
 	 */
-	//public void removeAll(Set<K> keys);
+	public void removeAll(Set<K> keys);
 	
 	
 	/**
 	 * Returns the set of keys in this dictionary.
 	 */
-	//public abstract Set<K> getKeys();
+	public abstract Set<K> getKeys();
 	
 	
 	/**
