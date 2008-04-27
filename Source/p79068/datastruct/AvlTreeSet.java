@@ -9,16 +9,26 @@ public class AvlTreeSet<E extends Comparable<? super E>> {
 	
 	private AvlTreeNode<E> root;
 	
+	private int size;
+	
 	
 	
 	public AvlTreeSet() {
 		root = null;
+		size = 0;
 	}
 	
 	
 	
-	public void add(E obj) {
-		root = add(root, obj);
+	public boolean add(E obj) {
+		if (!contains(obj)) {
+			if (size == Integer.MAX_VALUE)
+				throw new IllegalStateException("Maximum size reached");
+			root = add(root, obj);
+			size++;
+			return true;
+		} else
+			return false;
 	}
 	
 	
@@ -27,8 +37,17 @@ public class AvlTreeSet<E extends Comparable<? super E>> {
 	}
 	
 	
-	public void remove(E obj) {
-		root = remove(root, obj);
+	public int size() {
+		return size;
+	}
+	
+	
+	public boolean remove(E obj) {
+		if (contains(obj)) {
+			root = remove(root, obj);
+			return true;
+		} else
+			return false;
 	}
 	
 	
