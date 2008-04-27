@@ -20,6 +20,16 @@ public class AvlTreeSet<E extends Comparable<? super E>> {
 	
 	
 	
+	public int size() {
+		return size;
+	}
+	
+	
+	public boolean contains(E obj) {
+		return contains(root, obj);
+	}
+	
+	
 	public boolean add(E obj) {
 		if (!contains(obj)) {
 			if (size == Integer.MAX_VALUE)
@@ -29,16 +39,6 @@ public class AvlTreeSet<E extends Comparable<? super E>> {
 			return true;
 		} else
 			return false;
-	}
-	
-	
-	public boolean contains(E obj) {
-		return contains(root, obj);
-	}
-	
-	
-	public int size() {
-		return size;
 	}
 	
 	
