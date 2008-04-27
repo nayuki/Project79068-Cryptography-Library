@@ -79,7 +79,7 @@ public class AvlTreeSet<E extends Comparable<? super E>> {
 			if      (comp < 0) node.left = add(node.left, obj);
 			else if (comp > 0) node.right = add(node.right, obj);
 			// Else object already exists at this node; do nothing
-			node.recalculateHeight();
+			node.recalculate();
 			return balance(node);
 		}
 	}
@@ -121,7 +121,7 @@ public class AvlTreeSet<E extends Comparable<? super E>> {
 					node.right = remove(node.right, neighbor);
 				}
 			}
-			node.recalculateHeight();
+			node.recalculate();
 			return balance(node);
 		}
 	}
@@ -158,8 +158,8 @@ public class AvlTreeSet<E extends Comparable<? super E>> {
 		AvlTreeNode<E> root = node.right;
 		node.right = root.left;
 		root.left = node;
-		root.left.recalculateHeight();
-		root.recalculateHeight();
+		root.left.recalculate();
+		root.recalculate();
 		return root;
 	}
 	
@@ -175,8 +175,8 @@ public class AvlTreeSet<E extends Comparable<? super E>> {
 		AvlTreeNode<E> root = node.left;
 		node.left = root.right;
 		root.right = node;
-		root.right.recalculateHeight();
-		root.recalculateHeight();
+		root.right.recalculate();
+		root.recalculate();
 		return root;
 	}
 	
