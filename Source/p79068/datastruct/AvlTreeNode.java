@@ -138,7 +138,7 @@ class AvlTreeNode<E> {
 	 * @param node the root node of the tree
 	 * @return <code>0</code> if <code>node</code> is <code>null</code>; otherwise <code>node.height</code>
 	 */
-	private static int getHeight(AvlTreeNode<?> node) {
+	public static int getHeight(AvlTreeNode<?> node) {
 		if (node == null)
 			return 0;
 		else
@@ -151,7 +151,7 @@ class AvlTreeNode<E> {
 	 * @param node the root node of the tree
 	 * @return <code>0</code> if <code>node</code> is <code>null</code>; otherwise <code>node.size</code>
 	 */
-	private static int getSize(AvlTreeNode<?> node) {
+	public static int getSize(AvlTreeNode<?> node) {
 		if (node == null)
 			return 0;
 		else
