@@ -155,7 +155,7 @@ class AvlTreeNode<E> {
 		if (node == null)
 			return 0;
 		else
-			return node.height;
+			return node.size;
 	}
 	
 }
