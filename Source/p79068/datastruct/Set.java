@@ -7,7 +7,7 @@ import java.util.Iterator;
  * An unordered set of objects, with no duplicates. <code>null</code>s must not be stored in a set.
  * @param <E> the type of object stored in this set
  */
-public interface Set<E> {
+public interface Set<E> extends Iterable<E> {
 	
 	/**
 	 * Returns the size of this set. It is illegal for a set's size to exceed <code>Integer.MAX_VALUE</code>.
