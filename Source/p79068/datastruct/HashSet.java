@@ -12,6 +12,8 @@ public class HashSet<E> {
 	
 	private double loadFactor;
 	
+	private int size;
+	
 	
 	
 	public HashSet() {
@@ -29,12 +31,20 @@ public class HashSet<E> {
 		table = new LinkedListNode[initTableSize];
 		mask = table.length - 1;
 		this.loadFactor = loadFactor;
+		size = 0;
 	}
 	
 	
 	
+	public int size() {
+		return size;
+	}
+	
+	
 	public boolean add(E obj) {
 		NullChecker.check(obj);
+		if (size == Integer.MAX_VALUE)
+			throw new IllegalStateException("Maximum size reached");
 		int bucket = getBucket(obj);
 		LinkedListNode<E> node = table[bucket];
 		while (node != null) {
@@ -42,6 +52,8 @@ public class HashSet<E> {
 				return false;
 		}
 		table[bucket] = new LinkedListNode<E>(obj, table[bucket]);
+		if ((double)size / table.length > loadFactor)
+			resize(table.length * 2);
 		return true;
 	}
 	
