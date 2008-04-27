@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import org.junit.Test;
 import p79068.datastruct.Stack;
+import p79068.util.Random;
 
 
 public abstract class StackTest {
@@ -117,6 +118,28 @@ public abstract class StackTest {
 		assertEquals("uiop", stack0.pop());
 		assertEquals("qwerty", stack0.pop());
 		assertTrue(stack0.isEmpty());
+	}
+	
+	
+	@Test
+	public void testPushPopHeightIsEmptyRandomly() {
+		for (int i = 0; i < 30; i++) {
+			Stack<Integer> stack = newStack();
+			int height = 0;
+			for (int j = 0; j < 3000; j++) {
+				if (Random.DEFAULT.randomBoolean()) {
+					stack.push(height);
+					height++;
+				} else {
+					if (height > 0) {
+						assertEquals(height - 1, stack.pop());
+						height--;
+					}
+				}
+				assertEquals(height, stack.height());
+				assertEquals(height == 0, stack.isEmpty());
+			}
+		}
 	}
 	
 }
