@@ -44,7 +44,7 @@ public class AvlTreeSetTest {
 		set.add(36);
 		set.add(49);
 		checkStructure(set);
-		//assertEquals(7, set.size());
+		assertEquals(7, set.size());
 		assertTrue(set.contains( 1));
 		assertTrue(set.contains( 4));
 		assertTrue(set.contains( 9));
