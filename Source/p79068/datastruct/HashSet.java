@@ -1,10 +1,11 @@
 package p79068.datastruct;
 
+import java.util.Iterator;
 import p79068.lang.NullChecker;
 import p79068.math.IntegerMath;
 
 
-public class HashSet<E> {
+public class HashSet<E> implements Set<E> {
 	
 	private LinkedListNode<E>[] table;
 	
@@ -58,7 +59,21 @@ public class HashSet<E> {
 	}
 	
 	
-	public boolean contains(E obj) {
+	public void addAll(Set<? extends E> set) {
+		NullChecker.check(set);
+		for (E obj : set)
+			add(obj);
+	}
+	
+	
+	public void addAll(Collection<? extends E> coll) {
+		NullChecker.check(coll);
+		for (E obj : coll)
+			add(obj);
+	}
+	
+	
+	public boolean contains(Object obj) {
 		NullChecker.check(obj);
 		LinkedListNode<E> node = table[getBucket(obj)];
 		while (node != null) {
@@ -69,7 +84,17 @@ public class HashSet<E> {
 	}
 	
 	
-	public boolean remove(E obj) {
+	public boolean containsAll(Set<?> set) {
+		NullChecker.check(set);
+		for (Object obj : set) {
+			if (!contains(obj))
+				return false;
+		}
+		return true;
+	}
+	
+	
+	public boolean remove(Object obj) {
 		NullChecker.check(obj);
 		int bucket = getBucket(obj);
 		if (table[bucket] == null)
@@ -90,8 +115,31 @@ public class HashSet<E> {
 	}
 	
 	
+	public int removeAll(Set<?> set) {
+		NullChecker.check(set);
+		int count = 0;
+		for (Object obj : set) {
+			if (remove(obj))
+				count++;
+		}
+		return count;
+	}
 	
-	private int getBucket(E obj) {
+	
+	public void clear() {
+		for (int i = 0; i < table.length; i++)
+			table[i] = null;
+	}
+	
+	
+	public Iterator<E> iterator() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
+	
+	private int getBucket(Object obj) {
 		return obj.hashCode() & mask;
 	}
 	
