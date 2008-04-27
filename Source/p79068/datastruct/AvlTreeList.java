@@ -49,7 +49,6 @@ public class AvlTreeList<E> implements List<E> {
 	
 	
 	public void insertAt(int index, E obj) {
-		NullChecker.check(obj);
 		if (length() == Integer.MAX_VALUE)
 			throw new IllegalStateException("Maximum size reached");
 		root = insertAt(root, index, obj);
@@ -58,14 +57,18 @@ public class AvlTreeList<E> implements List<E> {
 	
 	public void insertListAt(int index, List<? extends E> list) {
 		NullChecker.check(list);
-		// TODO Auto-generated method stub
-		
+		for (E obj : list) {
+			insertAt(index, obj);
+			index++;
+		}
 	}
 	
 	
 	public E removeAt(int index) {
+		BoundsChecker.check(length(), index);
+		E result = getAt(index);
 		root = removeAt(root, index);
-		return null; // FIXME
+		return result;
 	}
 	
 	
