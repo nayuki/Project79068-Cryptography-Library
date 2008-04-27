@@ -42,6 +42,16 @@ public final class ArrayCollection<E> extends AbstractDynamicArray<E> implements
 	}
 	
 	
+	public boolean containsAll(Collection<?> coll) {
+		NullChecker.check(coll);
+		for (Object obj : coll) {
+			if (count(obj) < coll.count(obj))
+				return false;
+		}
+		return true;
+	}
+	
+	
 	public int count(Object obj) {
 		NullChecker.check(obj);
 		int count = 0;
@@ -68,20 +78,18 @@ public final class ArrayCollection<E> extends AbstractDynamicArray<E> implements
 	}
 	
 	
-	@SuppressWarnings("unchecked")
-	public E remove(Object obj) {
+	public boolean remove(Object obj) {
 		NullChecker.check(obj);
 		for (int i = 0; i < length; i++) {
 			if (obj.equals(objects[i])) {
-				E result = (E)objects[i];
 				System.arraycopy(objects, i + 1, objects, i, length - (i + 1));
 				objects[length - 1] = null;
 				length--;
 				downsize();
-				return result;
+				return true;
 			}
 		}
-		return null;
+		return false;
 	}
 	
 	
@@ -89,7 +97,7 @@ public final class ArrayCollection<E> extends AbstractDynamicArray<E> implements
 		NullChecker.check(coll);
 		int count = 0;
 		for (Object obj : coll) {
-			if (remove(obj) != null)
+			if (remove(obj))
 				count++;
 		}
 		return count;
@@ -98,7 +106,7 @@ public final class ArrayCollection<E> extends AbstractDynamicArray<E> implements
 	
 	public int removeAllOf(Object obj) {
 		int count = 0;
-		while (remove(obj) != null)
+		while (remove(obj))
 			count++;
 		return count;
 	}
@@ -116,26 +124,6 @@ public final class ArrayCollection<E> extends AbstractDynamicArray<E> implements
 	}
 	
 	
-	public boolean isSubsetOf(Collection<?> coll) {
-		NullChecker.check(coll);
-		for (int i = 0; i < length; i++) {
-			if (count(objects[i]) > coll.count(objects[i]))
-				return false;
-		}
-		return true;
-	}
-	
-	
-	public boolean isSupersetOf(Collection<?> coll) {
-		NullChecker.check(coll);
-		for (Object obj : coll) {
-			if (count(obj) < coll.count(obj))
-				return false;
-		}
-		return true;
-	}
-	
-	
 	public boolean equals(Object other) {
 		if (other == this)
 			return true;
@@ -143,7 +131,7 @@ public final class ArrayCollection<E> extends AbstractDynamicArray<E> implements
 			return false;
 		else {
 			Collection<?> coll = (Collection<?>)other;
-			return isSubsetOf(coll) && isSupersetOf(coll);
+			return this.containsAll(coll) && coll.containsAll(this);
 		}
 	}
 	

@@ -23,6 +23,11 @@ public class CollectionView<E> implements Collection<E> {
 	}
 	
 	
+	public boolean containsAll(Collection<?> coll) {
+		return collection.containsAll(coll);
+	}
+	
+	
 	public int count(Object obj) {
 		return collection.count(obj);
 	}
@@ -30,16 +35,6 @@ public class CollectionView<E> implements Collection<E> {
 	
 	public Iterator<E> iterator() {
 		return new IteratorView<E>(collection.iterator());
-	}
-	
-	
-	public boolean isSubsetOf(Collection<?> coll) {
-		return collection.isSubsetOf(coll);
-	}
-	
-	
-	public boolean isSupersetOf(Collection<?> coll) {
-		return collection.isSupersetOf(coll);
 	}
 	
 	
@@ -59,7 +54,7 @@ public class CollectionView<E> implements Collection<E> {
 	}
 	
 	
-	public E remove(Object obj) {
+	public boolean remove(Object obj) {
 		throw new UnsupportedOperationException();
 	}
 	

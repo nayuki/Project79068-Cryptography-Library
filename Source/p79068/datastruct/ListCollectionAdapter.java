@@ -36,6 +36,16 @@ public final class ListCollectionAdapter<E> implements Collection<E> {
 	}
 	
 	
+	public boolean containsAll(Collection<?> coll) {
+		NullChecker.check(coll);
+		for (Object obj : coll) {
+			if (count(obj) < coll.count(obj))
+				return false;
+		}
+		return true;
+	}
+	
+	
 	public int count(Object obj) {
 		NullChecker.check(obj);
 		int count = 0;
@@ -61,16 +71,15 @@ public final class ListCollectionAdapter<E> implements Collection<E> {
 	}
 	
 	
-	public E remove(Object obj) {
+	public boolean remove(Object obj) {
 		NullChecker.check(obj);
 		for (int i = 0; i < list.length(); i++) {
 			if (obj.equals(list.getAt(i))) {
-				E result = list.getAt(i);
 				list.removeAt(i);
-				return result;
+				return true;
 			}
 		}
-		return null;
+		return false;
 	}
 	
 	
@@ -91,7 +100,7 @@ public final class ListCollectionAdapter<E> implements Collection<E> {
 		NullChecker.check(coll);
 		int count = 0;
 		for (Object obj : coll) {
-			if (remove(obj) != null)
+			if (remove(obj))
 				count++;
 		}
 		return count;
@@ -108,26 +117,6 @@ public final class ListCollectionAdapter<E> implements Collection<E> {
 	}
 	
 	
-	public boolean isSubsetOf(Collection<?> coll) {
-		NullChecker.check(coll);
-		for (E obj : this) {
-			if (count(obj) > coll.count(obj))
-				return false;
-		}
-		return true;
-	}
-	
-	
-	public boolean isSupersetOf(Collection<?> coll) {
-		NullChecker.check(coll);
-		for (Object obj : coll) {
-			if (count(obj) < coll.count(obj))
-				return false;
-		}
-		return true;
-	}
-	
-	
 	public boolean equals(Object other) {
 		if (other == this)
 			return true;
@@ -135,7 +124,7 @@ public final class ListCollectionAdapter<E> implements Collection<E> {
 			return false;
 		else {
 			Collection<?> coll = (Collection<?>)other;
-			return isSubsetOf(coll) && isSupersetOf(coll);
+			return this.containsAll(coll) && coll.containsAll(this);
 		}
 	}
 	
