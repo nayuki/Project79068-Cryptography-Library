@@ -49,7 +49,10 @@ public class AvlTreeList<E> implements List<E> {
 	
 	
 	public void insertAt(int index, E obj) {
-		if (length() == Integer.MAX_VALUE)
+		int len = length();
+		if (index < 0 || index > len)
+			throw new IndexOutOfBoundsException(String.format("Bounds = [0,%d), insertion index = %d", len, index));
+		if (len == Integer.MAX_VALUE)
 			throw new IllegalStateException("Maximum size reached");
 		root = insertAt(root, index, obj);
 	}
@@ -57,6 +60,8 @@ public class AvlTreeList<E> implements List<E> {
 	
 	public void insertListAt(int index, List<? extends E> list) {
 		NullChecker.check(list);
+		if (index < 0 || index > length())
+			throw new IndexOutOfBoundsException(String.format("Bounds = [0,%d), insertion index = %d", length(), index));
 		for (E obj : list) {
 			insertAt(index, obj);
 			index++;
