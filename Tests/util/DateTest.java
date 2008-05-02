@@ -25,7 +25,7 @@ public class DateTest {
 	
 	
 	@Test
-	public void isLeapYear() {
+	public void testIsLeapYear() {
 		int y = -4000;
 		int i = 0;  // Internal year counter for calculating leap years
 		while (y <= 6000) {
@@ -37,7 +37,7 @@ public class DateTest {
 	
 	
 	@Test
-	public void dayOfWeek() {
+	public void testDayOfWeek() {
 		int y = -2000;
 		int m = 1;
 		int d = 1;
@@ -59,7 +59,7 @@ public class DateTest {
 	
 	
 	@Test
-	public void getDaysSinceEpochForwards() {
+	public void testGetDaysSinceEpochForwards() {
 		int y = 2000;
 		int m = 1;
 		int d = 1;
@@ -81,7 +81,7 @@ public class DateTest {
 	
 	
 	@Test
-	public void getDaysSinceEpochBackwards() {
+	public void testGetDaysSinceEpochBackwards() {
 		int y = 2000;
 		int m = 1;
 		int d = 1;
@@ -104,7 +104,7 @@ public class DateTest {
 	
 	// Days since epoch to calendar date, forwards
 	@Test
-	public void toCalendarDateForwards() {
+	public void testToCalendarDateForwards() {
 		int i = 0;
 		int y = 2000;  // Internal calendar date counters
 		int m = 1;
@@ -130,7 +130,7 @@ public class DateTest {
 	
 	// Days since epoch to calendar date, backwards
 	@Test
-	public void toCalendarDateBackwards() {
+	public void testToCalendarDateBackwards() {
 		int i = 0;
 		int y = 2000;  // Internal calendar date counters
 		int m = 1;
@@ -156,7 +156,7 @@ public class DateTest {
 	
 	// new Date(y,m,d), because it requires a conversion to epoch days and then back to calendar date.
 	@Test
-	public void newDate() {
+	public void testNewDate() {
 		int y = -2000;
 		int m = 1;
 		int d = 1;
@@ -179,7 +179,7 @@ public class DateTest {
 	
 	
 	@Test
-	public void edgeCases() {
+	public void testEdgeCases() {
 		{
 			Date date = new Date(-2147483648);
 			assertEquals(date.getYear(), -5877611);
@@ -196,7 +196,7 @@ public class DateTest {
 	
 	
 	@Test
-	public void lenientRepresentations() {
+	public void testLenientRepresentations() {
 		{
 			int tp = Date.daysSinceEpoch(2000, 1, 1);
 			int y = 2000 + 1000;
