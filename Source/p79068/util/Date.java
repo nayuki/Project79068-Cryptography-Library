@@ -267,8 +267,9 @@ public final class Date implements Comparable<Date> {
 	}
 	
 	
+	
 	// The cumulative number of days since March 1st.
 	// 0 = March 1st, 1 = April 1st, ..., 11 = February 1st of next year
-	private static int[] cumulativeDays = {0, 31, 61, 92, 122, 153, 184, 214, 245, 275, 306, 337};
+	private static final int[] cumulativeDays = {0, 31, 61, 92, 122, 153, 184, 214, 245, 275, 306, 337};
 	
 }
