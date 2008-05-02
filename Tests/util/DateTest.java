@@ -12,10 +12,10 @@ import p79068.util.Date;
 
 public class DateTest {
 	
-	static int[] monthLength = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};  // In a non-leap year
+	private static int[] monthLength = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};  // In a non-leap year
 	
 	
-	static int monthLength(int y, int m) {
+	private static int monthLength(int y, int m) {
 		if (Date.isLeapYear(y) && m == 2)
 			return 29;  // We first assume that Date.isLeapYear() is correct
 		else
