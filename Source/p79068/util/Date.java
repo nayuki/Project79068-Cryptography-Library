@@ -196,8 +196,16 @@ public final class Date implements Comparable<Date> {
 	/**
 	 * Tests for equality with the specified object.
 	 */
-	public boolean equals(Object obj) {
-		return obj instanceof Date && daysSinceEpoch == ((Date)obj).daysSinceEpoch;
+	public boolean equals(Object other) {
+		if (other == this)
+			return true;
+		else if (!(other instanceof Date))
+			return false;
+		else {
+			Date date = (Date)other;
+			return daysSinceEpoch == date.daysSinceEpoch;
+			// With 'daysSinceEpoch' being equal, all 4 other fields (year, month, day, dayOfWeek) are equal too.
+		}
 	}
 	
 	
