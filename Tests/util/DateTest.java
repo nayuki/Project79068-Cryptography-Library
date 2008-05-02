@@ -1,12 +1,11 @@
 package util;
 
-/*
- * Does not test the corner cases, where overflow may be possible (due to bugs - by design, no overflow problems should occur).
- */
-
-
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import org.junit.Test;
+import p79068.math.ArithmeticOverflowException;
 import p79068.util.Date;
 
 
@@ -26,24 +25,86 @@ public class DateTest {
 	
 	@Test
 	public void testIsLeapYear() {
-		int y = -4000;
-		int i = 0;  // Internal year counter for calculating leap years
-		while (y <= 6000) {
-			assertEquals(Date.isLeapYear(y), (i % 4 == 0 && i % 100 != 0 || i % 400 == 0));
-			y++;
-			i = (i + 1) % 400;
-		}
+		assertFalse(Date.isLeapYear(1998));
+		assertFalse(Date.isLeapYear(2001));
+		assertFalse(Date.isLeapYear(2007));
+		
+		assertTrue(Date.isLeapYear(2004));
+		assertTrue(Date.isLeapYear(1980));
+		
+		assertFalse(Date.isLeapYear(1800));
+		assertFalse(Date.isLeapYear(1900));
+		assertFalse(Date.isLeapYear(2100));
+		assertFalse(Date.isLeapYear(2200));
+		assertFalse(Date.isLeapYear(2300));
+		
+		assertTrue(Date.isLeapYear(1600));
+		assertTrue(Date.isLeapYear(2000));
+		assertTrue(Date.isLeapYear(2400));
+	}
+	
+	
+	@Test
+	public void testIsLeapYearBce() {
+		assertFalse(Date.isLeapYear(-1));
+		assertFalse(Date.isLeapYear(-2));
+		assertFalse(Date.isLeapYear(-15));
+		
+		assertTrue(Date.isLeapYear(-4));
+		assertTrue(Date.isLeapYear(-36));
+		
+		assertFalse(Date.isLeapYear(-100));
+		assertFalse(Date.isLeapYear(-300));
+		
+		assertTrue(Date.isLeapYear(0));
+		assertTrue(Date.isLeapYear(-400));
+	}
+	
+	
+	@Test
+	public void testIsLeapYearEdgeCases() {
+		assertFalse(Date.isLeapYear(Integer.MAX_VALUE - 0));
+		assertFalse(Date.isLeapYear(Integer.MAX_VALUE - 1));
+		assertFalse(Date.isLeapYear(Integer.MAX_VALUE - 2));
+		assertTrue(Date.isLeapYear(Integer.MAX_VALUE - 3));
+		
+		assertTrue(Date.isLeapYear(Integer.MIN_VALUE + 0));
+		assertFalse(Date.isLeapYear(Integer.MIN_VALUE + 1));
+		assertFalse(Date.isLeapYear(Integer.MIN_VALUE + 2));
+		assertFalse(Date.isLeapYear(Integer.MIN_VALUE + 3));
+		assertTrue(Date.isLeapYear(Integer.MIN_VALUE + 4));
 	}
 	
 	
 	@Test
 	public void testDayOfWeek() {
-		int y = -2000;
+		assertEquals(6, Date.dayOfWeek(2000,  1,  1));
+		assertEquals(0, Date.dayOfWeek(2000,  1,  2));
+		assertEquals(1, Date.dayOfWeek(2000,  1,  3));
+		assertEquals(2, Date.dayOfWeek(2000,  2, 29));
+		assertEquals(3, Date.dayOfWeek(2000,  3,  1));
+		
+		assertEquals(5, Date.dayOfWeek(1997,  4,  4));
+		assertEquals(5, Date.dayOfWeek(1997,  6,  6));
+		assertEquals(5, Date.dayOfWeek(1997,  8,  8));
+		assertEquals(5, Date.dayOfWeek(1997, 10, 10));
+		assertEquals(5, Date.dayOfWeek(1997, 12, 12));
+		
+		assertEquals(0, Date.dayOfWeek(2100,  5,  9));
+		assertEquals(0, Date.dayOfWeek(2100,  9,  5));
+		assertEquals(0, Date.dayOfWeek(2100,  7, 11));
+		assertEquals(0, Date.dayOfWeek(2100, 11,  7));
+	}
+	
+	
+	@Test
+	public void testDayOfWeekCountingForward() {
+		int y = 2000;
 		int m = 1;
 		int d = 1;
 		int i = 6;  // Internal day of week counter. Note that 2000-01-01 is a Saturday (6). This day plus or minus any multiple of 400 years has the same day of week (e.g. 1600-01-01).
-		while (y <= 6000) {
-			assertEquals(Date.dayOfWeek(y, m, d), i);
+		while (y <= 2400) {
+			assertEquals(i, Date.dayOfWeek(y, m, d));
 			d++;
 			if (d > monthLength(y, m)) {
 				m++;
@@ -59,13 +120,56 @@ public class DateTest {
 	
 	
 	@Test
-	public void testGetDaysSinceEpochForwards() {
+	public void testDayOfWeekCountingBackward() {
+		int y = 2000;
+		int m = 1;
+		int d = 1;
+		int i = 6;  // Internal day of week counter. Note that 2000-01-01 is a Saturday (6). This day plus or minus any multiple of 400 years has the same day of week (e.g. 1600-01-01).
+		while (y >= 1600) {
+			assertEquals(i, Date.dayOfWeek(y, m, d));
+			d--;
+			if (d == 0) {
+				m--;
+				if (m == 0) {
+					y--;
+					m = 12;
+				}
+				d = monthLength(y, m);
+			}
+			i = (i + 6) % 7;
+		}
+	}
+	
+	
+	@Test
+	public void testDayOfWeekEdgeCases() {
+		assertEquals(2, Date.dayOfWeek(Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE));
+		assertEquals(4, Date.dayOfWeek(Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE));
+	}
+	
+	
+	@Test
+	public void testGetDaysSinceEpoch() {
+		assertEquals(-730, Date.daysSinceEpoch(1998, 1, 1));
+		assertEquals(-365, Date.daysSinceEpoch(1999, 1, 1));
+		assertEquals(   0, Date.daysSinceEpoch(2000, 1, 1));
+		assertEquals(   5, Date.daysSinceEpoch(2000, 1, 6));
+		assertEquals(  31, Date.daysSinceEpoch(2000, 2, 1));
+		assertEquals(  60, Date.daysSinceEpoch(2000, 3, 1));
+		assertEquals(  91, Date.daysSinceEpoch(2000, 4, 1));
+		assertEquals( 366, Date.daysSinceEpoch(2001, 1, 1));
+		assertEquals( 731, Date.daysSinceEpoch(2002, 1, 1));
+	}
+	
+	
+	@Test
+	public void testGetDaysSinceEpochCountingForward() {
 		int y = 2000;
 		int m = 1;
 		int d = 1;
 		int i = 0;  // Internal days since epoch counter. Remember that 2000-01-01 is the epoch, i.e. day 0.
-		while (y <= 6000) {
-			assertEquals(Date.daysSinceEpoch(y, m, d), i);
+		while (y <= 2400) {
+			assertEquals(i, Date.daysSinceEpoch(y, m, d));
 			d++;
 			if (d > monthLength(y, m)) {
 				m++;
@@ -81,12 +185,12 @@ public class DateTest {
 	
 	
 	@Test
-	public void testGetDaysSinceEpochBackwards() {
+	public void testGetDaysSinceEpochCountingBackward() {
 		int y = 2000;
 		int m = 1;
 		int d = 1;
 		int i = 0;  // Internal days since epoch counter
-		while (y >= -2000) {
+		while (y >= 1600) {
 			assertEquals(Date.daysSinceEpoch(y, m, d), i);
 			d--;
 			if (d <= 0) {
@@ -109,7 +213,7 @@ public class DateTest {
 		int y = 2000;  // Internal calendar date counters
 		int m = 1;
 		int d = 1;
-		while (y <= 6000) {
+		while (y <= 2400) {
 			Date date = new Date(i);
 			assertEquals(date.getYear(), y);
 			assertEquals(date.getMonth(), m);
@@ -135,7 +239,7 @@ public class DateTest {
 		int y = 2000;  // Internal calendar date counters
 		int m = 1;
 		int d = 1;
-		while (y >= -2000) {
+		while (y >= 1600) {
 			Date date = new Date(i);
 			assertEquals(date.getYear(), y);
 			assertEquals(date.getMonth(), m);
@@ -179,43 +283,50 @@ public class DateTest {
 	
 	
 	@Test
-	public void testEdgeCases() {
+	public void testNewDateEdgeCases() {
 		{
 			Date date = new Date(-2147483648);
-			assertEquals(date.getYear(), -5877611);
-			assertEquals(date.getMonth(), 6);
-			assertEquals(date.getDay(), 22);
-		}
-		{
+			assertEquals(-5877611, date.getYear());
+			assertEquals(6, date.getMonth());
+			assertEquals(22, date.getDay());
+		} {
 			Date date = new Date(2147483647);
-			assertEquals(date.getYear(), 5881610);
-			assertEquals(date.getMonth(), 7);
-			assertEquals(date.getDay(), 11);
+			assertEquals(5881610, date.getYear(), 5881610);
+			assertEquals(7, date.getMonth());
+			assertEquals(11, date.getDay());
 		}
 	}
 	
 	
 	@Test
-	public void testLenientRepresentations() {
-		{
-			int tp = Date.daysSinceEpoch(2000, 1, 1);
-			int y = 2000 + 1000;
-			int m = 1 - 1000 * 12;
-			while (y >= 2000 - 1000) {
-				assertEquals(Date.daysSinceEpoch(y, m, 1), tp);
-				y--;
-				m += 12;
-			}
+	public void testNewDateOverflow() {
+		int[][] cases = {
+				{-5877611, 6, 21},
+				{-5877611, 5, 30},
+				{5881610, 7, 12},
+				{5881610, 8, 1},
+				{0, Integer.MIN_VALUE, 0},
+				{0, Integer.MAX_VALUE, 0},
+				{Integer.MIN_VALUE, 0, 0},
+				{Integer.MAX_VALUE, 0, 0},
+		};
+		
+		for (int[] thecase : cases) {
+			try {
+				new Date(thecase[0], thecase[1], thecase[2]);
+				fail(String.format("%d %d %d", thecase[0], thecase[1], thecase[2]));
+			} catch (ArithmeticOverflowException e) {}
 		}
-		{
-			int tp = Date.daysSinceEpoch(2000, 1, 1);
-			int d = 1 - 200000;
-			while (d <= 1 + 200000) {
-				assertEquals(d - 1, Date.daysSinceEpoch(2000, 1, d));
-				tp++;
-				d++;
-			}
-		}
+	}
+	
+	
+	@Test
+	public void testNewDateLenientRepresentations() {
+		assertEquals(new Date(2000, 1, 1), new Date(2000, 2, -30));
+		assertEquals(new Date(2000, 1, 1), new Date(2000, 0, 32));
+		assertEquals(new Date(2000, 1, 1), new Date(1999, 12, 32));
+		assertEquals(new Date(2000, 1, 1), new Date(1997, 1, 1096));
+		assertEquals(new Date(2000, 1, 1), new Date(1993, 85, 1));
 	}
 	
 }
