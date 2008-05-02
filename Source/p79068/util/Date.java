@@ -154,6 +154,7 @@ public final class Date implements Comparable<Date> {
 	
 	/**
 	 * Returns the year of this date.
+	 * @return the year of this date
 	 */
 	public int getYear() {
 		return year;
@@ -162,6 +163,7 @@ public final class Date implements Comparable<Date> {
 	
 	/**
 	 * Returns the month of this date.
+	 * @return the month of this date
 	 */
 	public int getMonth() {
 		return month;
@@ -170,6 +172,7 @@ public final class Date implements Comparable<Date> {
 	
 	/**
 	 * Returns the day of month of this date.
+	 * @return the day of month of this date
 	 */
 	public int getDay() {
 		return day;
@@ -178,6 +181,7 @@ public final class Date implements Comparable<Date> {
 	
 	/**
 	 * Returns the day of week of this date.
+	 * @return the day of week of this date
 	 */
 	public int getDayOfWeek() {
 		return dayOfWeek;
@@ -186,6 +190,7 @@ public final class Date implements Comparable<Date> {
 	
 	/**
 	 * Returns the number of days since the epoch, of this date.
+	 * @return the number of days since the epoch, of this date
 	 */
 	public int getDaysSinceEpoch() {
 		return daysSinceEpoch;
@@ -194,8 +199,9 @@ public final class Date implements Comparable<Date> {
 	
 	
 	/**
-	 * Returns the date representing this date plus the specified number of days.
+	 * Returns a date representing this date plus the specified number of days. Addition and subtraction are related by the equation <code>this.add(x).subtract(this) == x</code> (for <code>int x</code>), assuming no overflow.
 	 * @param days the number of days to add
+	 * @return a date representing <code>days</code> days after this date
 	 * @throws ArithmeticOverflowException if the resulting cannot be represented
 	 */
 	public Date add(int days) {
@@ -207,8 +213,9 @@ public final class Date implements Comparable<Date> {
 	
 	
 	/**
-	 * Returns the difference between this date and the specified date, in days.
+	 * Returns the signed difference between this date and the specified date, in days. Addition and subtraction are related by the equation <code>this.add(x).subtract(this) == x</code> (for <code>int x</code>), assuming no overflow.
 	 * @param date the date to subtract
+	 * @return the number of days to add to <code>date</code> in order to get <code>this</code>
 	 * @throws ArithmeticOverflowException if the resulting difference cannot be represented
 	 */
 	public int subtract(Date date) {
