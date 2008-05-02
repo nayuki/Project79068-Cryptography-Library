@@ -12,7 +12,7 @@ public final class BoundsChecker {
 	 * <p>An index is out of bounds if at least one of these is true:</p>
 	 * <ul>
 	 *  <li><code>accessIndex &lt; 0</code></li>
-	 *  <li><code>accessIndex &ge; arrayLength</code></li>
+	 *  <li><code>accessIndex &gt;= arrayLength</code></li>
 	 * </ul>
 	 * @throws IllegalArgumentException if the array length is negative (supersedes index out of bounds exception)
 	 * @throws IndexOutOfBoundsException if the index is out of bounds

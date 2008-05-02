@@ -194,7 +194,7 @@ public final class IntegerMath {
 	
 	/**
 	 * Returns Euler's totient function of the specified integer. This is the number of integers between <code>1</code> (inclusive) and <code>x</code> (inclusive) that are coprime to <code>x</code>. Note that 1 is coprime to all integers, and <code>totient(1) == 1</code>.
-	 * @throws IllegalArgumentException if <code>x &le; 0</code>
+	 * @throws IllegalArgumentException if <code>x &lt;= 0</code>
 	 */
 	public static int totient(int x) {
 		if (x < 1)
@@ -383,7 +383,7 @@ public final class IntegerMath {
 	 * Returns the nearest power of 2 that is less than or equal to the specified integer.
 	 * @param x the integer to floor to a power of 2
 	 * @return a power of 2 less than or equal to <code>x</code>
-	 * @throws IllegalArgumentException if <code>x &le; 0</code>
+	 * @throws IllegalArgumentException if <code>x &lt;= 0</code>
 	 */
 	public static int floorToPowerOf2(int x) {
 		if (x <= 0)
@@ -401,7 +401,7 @@ public final class IntegerMath {
 	 * Returns the nearest power of 2 that is greater than or equal to the specified integer.
 	 * @param x the integer to ceiling to a power of 2
 	 * @return a power of 2 greater than or equal to <code>x</code>
-	 * @throws IllegalArgumentException if <code>x &le; 0</code>
+	 * @throws IllegalArgumentException if <code>x &lt;= 0</code>
 	 * @throws ArithmeticOverflowException if <code>x &gt; 1073741824</code>
 	 */
 	public static int ceilingToPowerOf2(int x) {
