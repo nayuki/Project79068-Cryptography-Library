@@ -212,8 +212,8 @@ public final class Date implements Comparable<Date> {
 	/**
 	 * Compares this date with the specified date.
 	 */
-	public int compareTo(Date obj) {
-		return IntegerMath.compare(daysSinceEpoch, obj.daysSinceEpoch);
+	public int compareTo(Date other) {
+		return IntegerMath.compare(daysSinceEpoch, other.daysSinceEpoch);
 	}
 	
 	
