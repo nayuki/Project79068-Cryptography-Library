@@ -194,6 +194,33 @@ public final class Date implements Comparable<Date> {
 	
 	
 	/**
+	 * Returns the date representing this date plus the specified number of days.
+	 * @param days the number of days to add
+	 * @throws ArithmeticOverflowException if the resulting cannot be represented
+	 */
+	public Date add(int days) {
+		long temp = (long)daysSinceEpoch + days;
+		if (temp < Integer.MIN_VALUE || temp > Integer.MAX_VALUE)
+			throw new ArithmeticOverflowException();
+		return new Date((int)temp);
+	}
+	
+	
+	/**
+	 * Returns the difference between this date and the specified date, in days.
+	 * @param date the date to subtract
+	 * @throws ArithmeticOverflowException if the resulting difference cannot be represented
+	 */
+	public int subtract(Date date) {
+		long temp = (long)daysSinceEpoch - date.daysSinceEpoch;
+		if (temp < Integer.MIN_VALUE || temp > Integer.MAX_VALUE)
+			throw new ArithmeticOverflowException();
+		return (int)temp;
+	}
+	
+	
+	
+	/**
 	 * Tests for equality with the specified object.
 	 */
 	public boolean equals(Object other) {
@@ -222,32 +249,6 @@ public final class Date implements Comparable<Date> {
 	 */
 	public int hashCode() {
 		return daysSinceEpoch;
-	}
-	
-	
-	/**
-	 * Returns the date representing this date plus the specified number of days.
-	 * @param days the number of days to add
-	 * @throws ArithmeticOverflowException if the resulting cannot be represented
-	 */
-	public Date add(int days) {
-		long temp = (long)daysSinceEpoch + days;
-		if (temp < Integer.MIN_VALUE || temp > Integer.MAX_VALUE)
-			throw new ArithmeticOverflowException();
-		return new Date((int)temp);
-	}
-	
-	
-	/**
-	 * Returns the difference between this date and the specified date, in days.
-	 * @param date the date to subtract
-	 * @throws ArithmeticOverflowException if the resulting difference cannot be represented
-	 */
-	public int subtract(Date date) {
-		long temp = (long)daysSinceEpoch - date.daysSinceEpoch;
-		if (temp < Integer.MIN_VALUE || temp > Integer.MAX_VALUE)
-			throw new ArithmeticOverflowException();
-		return (int)temp;
 	}
 	
 	
