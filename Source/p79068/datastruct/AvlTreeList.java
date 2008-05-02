@@ -226,6 +226,7 @@ public class AvlTreeList<E> implements List<E> {
 		Stack<AvlTreeNode<E>> stack;
 		
 		
+		
 		public Itr() {
 			stack = new ArrayStack<AvlTreeNode<E>>(AvlTreeNode.getHeight(root));
 			AvlTreeNode<E> node = root;
@@ -234,6 +235,7 @@ public class AvlTreeList<E> implements List<E> {
 				node = node.left;
 			}
 		}
+		
 		
 		
 		public boolean hasNext() {
