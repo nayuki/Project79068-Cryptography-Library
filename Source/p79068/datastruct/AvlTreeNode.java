@@ -102,6 +102,11 @@ class AvlTreeNode<E> {
 	}
 	
 	
+	public String toString() {
+		return String.valueOf(object);
+	}
+	
+	
 	
 	/**
 	 * Recursively checks the structure of the AVL tree rooted at this node for consistency.
