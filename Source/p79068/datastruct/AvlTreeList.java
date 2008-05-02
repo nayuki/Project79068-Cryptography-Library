@@ -1,6 +1,7 @@
 package p79068.datastruct;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import p79068.lang.BoundsChecker;
 import p79068.lang.NullChecker;
 
@@ -91,8 +92,7 @@ public class AvlTreeList<E> implements List<E> {
 	
 	
 	public Iterator<E> iterator() {
-		// TODO Auto-generated method stub
-		return null;
+		return new Itr();
 	}
 	
 	
@@ -218,6 +218,50 @@ public class AvlTreeList<E> implements List<E> {
 		while (node.left != null)
 			node = node.left;
 		return node.object;
+	}
+	
+	
+	
+	private class Itr implements Iterator<E> {
+		
+		Stack<AvlTreeNode<E>> stack;
+		
+		
+		public Itr() {
+			stack = new ArrayStack<AvlTreeNode<E>>();
+			AvlTreeNode<E> node = root;
+			while (node != null) {
+				stack.push(node);
+				node = node.left;
+			}
+		}
+		
+		
+		public boolean hasNext() {
+			return !stack.isEmpty();
+		}
+		
+		
+		public E next() {
+			if (!hasNext())
+				throw new NoSuchElementException();
+			else {
+				AvlTreeNode<E> node = stack.pop();
+				E result = node.object;
+				node = node.right;
+				while (node != null) {
+					stack.push(node);
+					node = node.left;
+				}
+				return result;
+			}
+		}
+		
+		
+		public void remove() {
+			throw new UnsupportedOperationException();
+		}
+		
 	}
 	
 }
