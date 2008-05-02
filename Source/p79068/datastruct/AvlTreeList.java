@@ -86,8 +86,7 @@ public class AvlTreeList<E> implements List<E> {
 	
 	
 	public void clear() {
-		// TODO Auto-generated method stub
-		
+		root = null;
 	}
 	
 	
@@ -228,7 +227,7 @@ public class AvlTreeList<E> implements List<E> {
 		
 		
 		public Itr() {
-			stack = new ArrayStack<AvlTreeNode<E>>();
+			stack = new ArrayStack<AvlTreeNode<E>>(AvlTreeNode.getHeight(root));
 			AvlTreeNode<E> node = root;
 			while (node != null) {
 				stack.push(node);
