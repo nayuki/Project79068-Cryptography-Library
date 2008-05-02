@@ -1,6 +1,9 @@
 package datastruct;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import java.util.Iterator;
 import org.junit.Test;
 import p79068.datastruct.List;
 
@@ -269,6 +272,40 @@ public abstract class ListTest {
 			for (int i = 0; i < str.length(); i++)
 				assertEquals(str.charAt(i), list.getAt(i));
 		}
+	}
+	
+	
+	@Test
+	public void testClear() {
+		List<Integer> list = newList();
+		for (int i = 0; i < 20; i++)
+			list.append(i * i);
+		
+		list.clear();
+		assertEquals(0, list.length());
+		
+		list.append(- 1);
+		list.append(- 8);
+		list.append(-27);
+		assertEquals(3, list.length());
+		assertEquals(- 1, list.getAt(0));
+		assertEquals(- 8, list.getAt(1));
+		assertEquals(-27, list.getAt(2));
+	}
+	
+	
+	@Test
+	public void testIterator() {
+		List<Integer> list = newList();
+		for (int i = 0; i < 50; i++)
+			list.append(i * i);
+		
+		Iterator<Integer> iter = list.iterator();
+		for (int i = 0; i < 50; i++) {
+			assertTrue(iter.hasNext());
+			assertEquals(i * i, iter.next());
+		}
+		assertFalse(iter.hasNext());
 	}
 	
 }
