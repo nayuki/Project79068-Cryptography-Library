@@ -372,6 +372,7 @@ final class TigerHasher extends BlockHasher {
 				c = temp;
 			}
 			
+			// Feedforward
 			a ^= state[0];
 			b -= state[1];
 			c += state[2];
