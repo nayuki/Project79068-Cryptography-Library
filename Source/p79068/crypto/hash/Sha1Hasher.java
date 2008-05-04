@@ -69,7 +69,7 @@ final class Sha1Hasher extends BlockHasher {
 			// Expand the schedule
 			for (int i = 16; i < 80; i++) {
 				int tp = schedule[i - 3] ^ schedule[i - 8] ^ schedule[i - 14] ^ schedule[i - 16];
-				if (sha1Mode)
+				if (sha1Mode)  // This is the only difference between SHA and SHA-1
 					tp = tp << 1 | tp >>> 31;
 				schedule[i] = tp;
 			}
