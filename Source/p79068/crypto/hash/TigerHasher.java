@@ -342,7 +342,8 @@ final class TigerHasher extends BlockHasher {
 			for (int i = 0; i < 8; i++) {
 				c ^= schedule[i];
 				a -= t1[(int)(c >>> 0) & 0xFF] ^ t2[(int)(c >>> 16) & 0xFF] ^ t3[(int)(c >>> 32) & 0xFF] ^ t4[(int)(c >>> 48) & 0xFF];
-				b = (b + (t4[(int)(c >>> 8) & 0xFF] ^ t3[(int)(c >>> 24) & 0xFF] ^ t2[(int)(c >>> 40) & 0xFF] ^ t1[(int)(c >>> 56) & 0xFF])) * 5;
+				b += t4[(int)(c >>> 8) & 0xFF] ^ t3[(int)(c >>> 24) & 0xFF] ^ t2[(int)(c >>> 40) & 0xFF] ^ t1[(int)(c >>> 56) & 0xFF];
+				b *= 5;
 				long temp = a;
 				a = b;
 				b = c;
@@ -352,7 +353,8 @@ final class TigerHasher extends BlockHasher {
 			for (int i = 0; i < 8; i++) {
 				c ^= schedule[i];
 				a -= t1[(int)(c >>> 0) & 0xFF] ^ t2[(int)(c >>> 16) & 0xFF] ^ t3[(int)(c >>> 32) & 0xFF] ^ t4[(int)(c >>> 48) & 0xFF];
-				b = (b + (t4[(int)(c >>> 8) & 0xFF] ^ t3[(int)(c >>> 24) & 0xFF] ^ t2[(int)(c >>> 40) & 0xFF] ^ t1[(int)(c >>> 56) & 0xFF])) * 7;
+				b += t4[(int)(c >>> 8) & 0xFF] ^ t3[(int)(c >>> 24) & 0xFF] ^ t2[(int)(c >>> 40) & 0xFF] ^ t1[(int)(c >>> 56) & 0xFF];
+				b *= 7;
 				long temp = a;
 				a = b;
 				b = c;
@@ -362,16 +364,20 @@ final class TigerHasher extends BlockHasher {
 			for (int i = 0; i < 8; i++) {
 				c ^= schedule[i];
 				a -= t1[(int)(c >>> 0) & 0xFF] ^ t2[(int)(c >>> 16) & 0xFF] ^ t3[(int)(c >>> 32) & 0xFF] ^ t4[(int)(c >>> 48) & 0xFF];
-				b = (b + (t4[(int)(c >>> 8) & 0xFF] ^ t3[(int)(c >>> 24) & 0xFF] ^ t2[(int)(c >>> 40) & 0xFF] ^ t1[(int)(c >>> 56) & 0xFF])) * 9;
+				b += t4[(int)(c >>> 8) & 0xFF] ^ t3[(int)(c >>> 24) & 0xFF] ^ t2[(int)(c >>> 40) & 0xFF] ^ t1[(int)(c >>> 56) & 0xFF];
+				b *= 9;
 				long temp = a;
 				a = b;
 				b = c;
 				c = temp;
 			}
 			
-			state[0] = a ^= state[0];
-			state[1] = b -= state[1];
-			state[2] = c += state[2];
+			a ^= state[0];
+			b -= state[1];
+			c += state[2];
+			state[0] = a;
+			state[1] = b;
+			state[2] = c;
 		}
 	}
 	

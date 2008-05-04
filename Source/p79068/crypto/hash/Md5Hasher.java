@@ -107,10 +107,14 @@ final class Md5Hasher extends BlockHasher {
 				c = b;
 				b = tp;
 			}
-			a = state[0] += a;
-			b = state[1] += b;
-			c = state[2] += c;
-			d = state[3] += d;
+			state[0] += a;
+			state[1] += b;
+			state[2] += c;
+			state[3] += d;
+			a = state[0];
+			b = state[1];
+			c = state[2];
+			d = state[3];
 		}
 	}
 	
