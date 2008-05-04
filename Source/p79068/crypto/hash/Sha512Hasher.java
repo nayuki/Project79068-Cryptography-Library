@@ -16,7 +16,7 @@ final class Sha512Hasher extends BlockHasher {
 	Sha512Hasher(Sha512 hashFunc) {
 		super(hashFunc, 128);
 		sha384Mode = false;
-		state = new long[]{
+		state = new long[] {
 				0x6A09E667F3BCC908L, 0xBB67AE8584CAA73BL, 0x3C6EF372FE94F82BL, 0xA54FF53A5F1D36F1L,
 				0x510E527FADE682D1L, 0x9B05688C2B3E6C1FL, 0x1F83D9ABFB41BD6BL, 0x5BE0CD19137E2179L
 		};
@@ -26,7 +26,7 @@ final class Sha512Hasher extends BlockHasher {
 	Sha512Hasher(Sha384 hashFunc) {
 		super(hashFunc, 128);
 		sha384Mode = true;
-		state = new long[]{  // Different from above
+		state = new long[] {  // Different from above
 				0xCBBB9D5DC1059ED8L, 0x629A292A367CD507L, 0x9159015A3070DD17L, 0x152FECD8F70E5939L,
 				0x67332667FFC00B31L, 0x8EB44A8768581511L, 0xDB0C2E0D64F98FA7L, 0x47B5481DBEFA4FA4L
 		};
