@@ -325,8 +325,9 @@ final class TigerHasher extends BlockHasher {
 		long a = state[0];
 		long b = state[1];
 		long c = state[2];
-		for (int end = off + len; off < end;) {
-			for (int i = 0; i < 8; i++, off += 8) {
+		
+		for (int end = off + len; off < end;) {  // For each block of 64 bytes
+			for (int i = 0; i < 8; i++, off += 8) {  // Pack bytes into int64s in little endian
 				schedule[i] =   (message[off + 0] & 0xFFL) <<  0
 				              | (message[off + 1] & 0xFFL) <<  8
 				              | (message[off + 2] & 0xFFL) << 16
@@ -336,6 +337,8 @@ final class TigerHasher extends BlockHasher {
 				              | (message[off + 6] & 0xFFL) << 48
 				              | (message[off + 7] & 0xFFL) << 56;
 			}
+			
+			// The 24 rounds
 			for (int i = 0; i < 8; i++) {
 				c ^= schedule[i];
 				a -= t1[(int)(c >>> 0) & 0xFF] ^ t2[(int)(c >>> 16) & 0xFF] ^ t3[(int)(c >>> 32) & 0xFF] ^ t4[(int)(c >>> 48) & 0xFF];
@@ -365,6 +368,7 @@ final class TigerHasher extends BlockHasher {
 				b = c;
 				c = temp;
 			}
+			
 			state[0] = a ^= state[0];
 			state[1] = b -= state[1];
 			state[2] = c += state[2];
