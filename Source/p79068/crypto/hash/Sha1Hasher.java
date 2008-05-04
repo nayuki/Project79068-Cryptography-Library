@@ -80,11 +80,11 @@ final class Sha1Hasher extends BlockHasher {
 			for (int i = 0; i < 80; i++) {
 				int f;
 				if (0 <= i && i < 20)
-					f = d ^ (b & (c ^ d));
+					f = d ^ (b & (c ^ d));  // Same as (b & c) | (~b & d)
 				else if (20 <= i && i < 40)
 					f = b ^ c ^ d;
 				else if (40 <= i && i < 60)
-					f = (b & (c | d)) | (c & d);
+					f = (b & (c | d)) | (c & d);  // Same as (b & c) | (c & d) | (d & b)
 				else if (60 <= i && i < 80)
 					f = b ^ c ^ d;
 				else

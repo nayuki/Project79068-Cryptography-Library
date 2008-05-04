@@ -86,7 +86,7 @@ final class Md5Hasher extends BlockHasher {
 					f = d ^ (b & (c ^ d));  // Same as (b & c) | (~b & d)
 					k = i;
 				} else if (16 <= i && i < 32) {
-					f = c ^ (d & (b ^ c));
+					f = c ^ (d & (b ^ c));  // Same as (d & b) | (~d & c)
 					k = (5 * i + 1) % 16;
 				} else if (32 <= i && i < 48) {
 					f = b ^ c ^ d;
