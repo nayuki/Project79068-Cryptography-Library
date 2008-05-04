@@ -79,38 +79,30 @@ final class Md5Hasher extends BlockHasher {
 			}
 			
 			// The 64 rounds
-			int i = 0;
-			for (; i < 16; i++) {
-				int tp = a + (d ^ (b & (c ^ d))) + t[i] + schedule[i];
-				tp = (tp << s[i & 3] | tp >>> (32 - s[i & 3])) + b;
+			for (int i = 0; i < 64; i++) {
+				int f;
+				int k;
+				if (0 <= i && i < 16) {
+					f = d ^ (b & (c ^ d));
+					k = i;
+				} else if (16 <= i && i < 32) {
+					f = c ^ (d & (b ^ c));
+					k = (5 * i + 1) % 16;
+				} else if (32 <= i && i < 48) {
+					f = b ^ c ^ d;
+					k = (3 * i + 5) % 16;
+				} else if (48 <= i && i < 64) {
+					f = c ^ (b | (~d));
+					k = 7 * i % 16;
+				} else
+					throw new AssertionError();
+				int temp = a + f + t[i] + schedule[k];
+				int rot = s[i / 16 * 4 + i % 4];
+				temp = b + (temp << rot | temp >>> (32 - rot));  // Addition and left rotation
 				a = d;
 				d = c;
 				c = b;
-				b = tp;
-			}
-			for (; i < 32; i++) {
-				int tp = a + (c ^ (d & (b ^ c))) + t[i] + schedule[(5 * i + 1) & 0xF];
-				tp = (tp << s[4 | i & 3] | tp >>> (32 - s[4 | i & 3])) + b;
-				a = d;
-				d = c;
-				c = b;
-				b = tp;
-			}
-			for (; i < 48; i++) {
-				int tp = a + (b ^ c ^ d) + t[i] + schedule[(3 * i + 5) & 0xF];
-				tp = (tp << s[8 | i & 3] | tp >>> (32 - s[8 | i & 3])) + b;
-				a = d;
-				d = c;
-				c = b;
-				b = tp;
-			}
-			for (; i < 64; i++) {
-				int tp = a + (c ^ (b | (~d))) + t[i] + schedule[(7 * i) & 0xF];
-				tp = (tp << s[12 | i & 3] | tp >>> (32 - s[12 | i & 3])) + b;
-				a = d;
-				d = c;
-				c = b;
-				b = tp;
+				b = temp;
 			}
 			
 			state[0] += a;
