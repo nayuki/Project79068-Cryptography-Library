@@ -107,7 +107,7 @@ final class Sha256Hasher extends BlockHasher {
 			for (int i = 0; i < 64; i++) {
 				int s0 = (a << 30 | a >>> 2) ^ (a << 19 | a >>> 13) ^ (a << 10 | a >>> 22);
 				int s1 = (e << 26 | e >>> 6) ^ (e << 21 | e >>> 11) ^ (e << 7 | e >>> 25);
-				int maj = (a & (b | c)) | (b & c);  // Same as (e & f) | (f & g) | (g & e)
+				int maj = (a & (b | c)) | (b & c);  // Same as (a & b) | (b & c) | (c & a)
 				int ch = g ^ (e & (f ^ g));  // Same as (e & f) | (~e & g)
 				int t1 = h + s1 + ch + k[i] + schedule[i];
 				int t2 = s0 + maj;
