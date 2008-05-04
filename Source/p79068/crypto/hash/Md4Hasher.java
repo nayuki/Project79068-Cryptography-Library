@@ -37,8 +37,21 @@ final class Md4Hasher extends BlockHasher {
 	
 	
 	
-	private static final int[] s = {3, 7, 11, 19, 3, 5, 9, 13, 3, 9, 11, 15};
-	private static final int[] k = {0, 4, 8, 12, 1, 5, 9, 13, 2, 6, 10, 14, 3, 7, 11, 15, 0, 8, 4, 12, 2, 10, 6, 14, 1, 9, 5, 13, 3, 11, 7, 15};
+	private static final int[] s = {
+		 3,  7, 11, 19,
+		 3,  5,  9, 13,
+		 3,  9, 11, 15
+	};
+	
+	private static final int[] k = {
+		 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15,
+		 0,  4,  8, 12,  1,  5,  9, 13,  2,  6, 10, 14,  3,  7, 11, 15,
+		 0,  8,  4, 12,  2, 10,  6, 14,  1,  9,  5, 13,  3, 11,  7, 15
+	};
+	
+	private static final int[] addCon = {  // Additive constant
+		0x00000000, 0x5A827999, 0x6ED9EBA1
+	};
 	
 	
 	protected void compress(byte[] message, int off, int len) {
@@ -62,24 +75,23 @@ final class Md4Hasher extends BlockHasher {
 			
 			// The 48 rounds
 			for (int i = 0; i < 48; i++) {
-				int tp;
-				int rot;
-				if (0 <= i && i < 16) {
-					tp = a + (d ^ (b & (c ^ d))) + schedule[i];
-					rot = s[i & 3];
-				} else if (16 <= i && i < 32) {
-					tp = a + ((b & c) | (d & (b | c))) + schedule[k[i & 0xF]] + 0x5A827999;
-					rot = s[4 | i & 3];
-				} else if (32 <= i && i < 48) {
-					tp = a + (b ^ c ^ d) + schedule[k[16 | i & 0xF]] + 0x6ED9EBA1;
-					rot = s[8 | i & 3];
-				} else
+				int f;
+				if (0 <= i && i < 16)
+					f = d ^ (b & (c ^ d));  // Same as (b & c) | (~b & d)
+				else if (16 <= i && i < 32)
+					f = (b & c) | (d & (b | c));
+				else if (32 <= i && i < 48)
+					f = b ^ c ^ d;
+				else
 					throw new AssertionError();
-				tp = tp << rot | tp >>> (32 - rot);  // Left rotation
+				
+				int temp = a + f + schedule[k[i / 16 * 16 + i % 16]] + addCon[i / 16];
+				int rot = s[i / 16 * 4 + i % 4];
+				temp = temp << rot | temp >>> (32 - rot);  // Left rotation
 				a = d;
 				d = c;
 				c = b;
-				b = tp;
+				b = temp;
 			}
 			
 			state[0] += a;
