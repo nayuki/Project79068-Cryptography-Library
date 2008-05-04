@@ -87,6 +87,7 @@ final class Sha1Hasher extends BlockHasher {
 					tp = e + (a << 5 | a >>> 27) + (b ^ c ^ d) + schedule[i] + 0xCA62C1D6;
 				else
 					throw new AssertionError();
+				
 				e = d;
 				d = c;
 				c = b << 30 | b >>> 2;

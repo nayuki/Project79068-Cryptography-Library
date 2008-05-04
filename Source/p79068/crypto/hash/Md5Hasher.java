@@ -96,6 +96,7 @@ final class Md5Hasher extends BlockHasher {
 					k = 7 * i % 16;
 				} else
 					throw new AssertionError();
+				
 				int temp = a + f + t[i] + schedule[k];
 				int rot = s[i / 16 * 4 + i % 4];
 				temp = b + (temp << rot | temp >>> (32 - rot));  // Addition and left rotation
