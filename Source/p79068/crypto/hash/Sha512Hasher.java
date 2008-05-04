@@ -105,13 +105,20 @@ final class Sha512Hasher extends BlockHasher {
 			}
 			
 			// Expand the schedule
-			for (int i = 16; i < 80; i++)
-				schedule[i] = schedule[i - 16] + ((schedule[i - 15] << 63 | schedule[i - 15] >>> 1) ^ (schedule[i - 15] << 56 | schedule[i - 15] >>> 8) ^ (schedule[i - 15] >>> 7)) + schedule[i - 7] + ((schedule[i - 2] << 45 | schedule[i - 2] >>> 19) ^ (schedule[i - 2] << 3 | schedule[i - 2] >>> 61) ^ (schedule[i - 2] >>> 6));
+			for (int i = 16; i < 80; i++) {
+				long s0 = (schedule[i-15] << 63 | schedule[i-15] >>> 1) ^ (schedule[i-15] << 56 | schedule[i-15] >>> 8) ^ (schedule[i-15] >>> 7);
+				long s1 = (schedule[i-2] << 45 | schedule[i-2] >>> 19) ^ (schedule[i-2] << 3 | schedule[i-2] >>> 61) ^ (schedule[i-2] >>> 6);
+				schedule[i] = schedule[i - 16] + schedule[i - 7] + s0 + s1;
+			}
 			
 			// The 80 rounds
 			for (int i = 0; i < 80; i++) {
-				long t1 = h + ((e << 50 | e >>> 14) ^ (e << 46 | e >>> 18) ^ (e << 23 | e >>> 41)) + (g ^ (e & (f ^ g))) + k[i] + schedule[i];
-				long t2 = ((a << 36 | a >>> 28) ^ (a << 30 | a >>> 34) ^ (a << 25 | a >>> 39)) + ((a & (b | c)) | (b & c));
+				long s0 = (a << 36 | a >>> 28) ^ (a << 30 | a >>> 34) ^ (a << 25 | a >>> 39);
+				long s1 = (e << 50 | e >>> 14) ^ (e << 46 | e >>> 18) ^ (e << 23 | e >>> 41);
+				long ch = g ^ (e & (f ^ g));  // Same as (e & f) | (~e & g)
+				long maj = (a & (b | c)) | (b & c);  // Same as (a & b) | (b & c) | (c & a)
+				long t1 = h + s1 + ch + k[i] + schedule[i];
+				long t2 = s0 + maj;
 				h = g;
 				g = f;
 				f = e;
