@@ -85,11 +85,16 @@ final class Sha1Hasher extends BlockHasher {
 				b = a;
 				a = tp;
 			}
-			a = state[0] += a;
-			b = state[1] += b;
-			c = state[2] += c;
-			d = state[3] += d;
-			e = state[4] += e;
+			state[0] += a;
+			state[1] += b;
+			state[2] += c;
+			state[3] += d;
+			state[4] += e;
+			a = state[0];
+			b = state[1];
+			c = state[2];
+			d = state[3];
+			e = state[4];
 		}
 	}
 	
