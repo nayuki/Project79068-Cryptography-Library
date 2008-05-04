@@ -83,17 +83,25 @@ final class Sha256Hasher extends BlockHasher {
 		int f = state[5];
 		int g = state[6];
 		int h = state[7];
-		for (int end = off + len; off < end;) {  // For each block of 64 bytes
-			for (int i = 0; i < 16; i++, off += 4) {  // Pack bytes into int32s in big endian
+		
+		// For each block of 64 bytes
+		for (int end = off + len; off < end;) {
+			
+			// Pack bytes into int32s in big endian
+			for (int i = 0; i < 16; i++, off += 4) {
 				schedule[i] =
 					  (message[off + 0] & 0xFF) << 24
 					| (message[off + 1] & 0xFF) << 16
 					| (message[off + 2] & 0xFF) <<  8
 					| (message[off + 3] & 0xFF) <<  0;
 			}
-			for (int i = 16; i < 64; i++)  // Expand the schedule
+			
+			// Expand the schedule
+			for (int i = 16; i < 64; i++)
 				schedule[i] = schedule[i - 16] + ((schedule[i - 15] << 25 | schedule[i - 15] >>> 7) ^ (schedule[i - 15] << 14 | schedule[i - 15] >>> 18) ^ (schedule[i - 15] >>> 3)) + schedule[i - 7] + ((schedule[i - 2] << 15 | schedule[i - 2] >>> 17) ^ (schedule[i - 2] << 13 | schedule[i - 2] >>> 19) ^ (schedule[i - 2] >>> 10));
-			for (int i = 0; i < 64; i++) {  // The 80 rounds
+			
+			// The 80 rounds
+			for (int i = 0; i < 64; i++) {
 				int t1 = h + ((e << 26 | e >>> 6) ^ (e << 21 | e >>> 11) ^ (e << 7 | e >>> 25)) + (g ^ (e & (f ^ g))) + k[i] + schedule[i];
 				int t2 = ((a << 30 | a >>> 2) ^ (a << 19 | a >>> 13) ^ (a << 10 | a >>> 22)) + ((a & (b | c)) | (b & c));
 				h = g;
@@ -105,6 +113,7 @@ final class Sha256Hasher extends BlockHasher {
 				b = a;
 				a = t1 + t2;
 			}
+			
 			a = state[0] += a;
 			b = state[1] += b;
 			c = state[2] += c;

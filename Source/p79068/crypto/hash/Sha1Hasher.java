@@ -53,21 +53,29 @@ final class Sha1Hasher extends BlockHasher {
 		int c = state[2];
 		int d = state[3];
 		int e = state[4];
-		for (int end = off + len; off < end;) {  // For each block of 64 bytes
-			for (int i = 0; i < 16; i++, off += 4) {  // Pack bytes into int32s in big endian
+		
+		// For each block of 64 bytes
+		for (int end = off + len; off < end;) {
+			
+			// Pack bytes into int32s in big endian
+			for (int i = 0; i < 16; i++, off += 4) {
 				schedule[i] =
 					  (message[off + 0] & 0xFF) << 24
 					| (message[off + 1] & 0xFF) << 16
 					| (message[off + 2] & 0xFF) <<  8
 					| (message[off + 3] & 0xFF) <<  0;
 			}
-			for (int i = 16; i < 80; i++) {  // Expand the schedule
+			
+			// Expand the schedule
+			for (int i = 16; i < 80; i++) {
 				int tp = schedule[i - 3] ^ schedule[i - 8] ^ schedule[i - 14] ^ schedule[i - 16];
 				if (sha1Mode)
 					tp = tp << 1 | tp >>> 31;
 				schedule[i] = tp;
 			}
-			for (int i = 0; i < 80; i++) {  // The 80 rounds
+			
+			// The 80 rounds
+			for (int i = 0; i < 80; i++) {
 				int tp;
 				if (0 <= i && i < 20)
 					tp = e + (a << 5 | a >>> 27) + (d ^ (b & (c ^ d))) + schedule[i] + 0x5A827999;
@@ -85,6 +93,7 @@ final class Sha1Hasher extends BlockHasher {
 				b = a;
 				a = tp;
 			}
+			
 			state[0] += a;
 			state[1] += b;
 			state[2] += c;
