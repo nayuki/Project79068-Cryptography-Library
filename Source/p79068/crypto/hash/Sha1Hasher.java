@@ -45,6 +45,8 @@ final class Sha1Hasher extends BlockHasher {
 	}
 	
 	
+	private static final int[] k = { 0x5A827999, 0x6ED9EBA1, 0x8F1BBCDC, 0xCA62C1D6 };
+	
 	
 	protected void compress(byte[] message, int off, int len) {
 		int[] schedule = new int[80];
@@ -76,23 +78,24 @@ final class Sha1Hasher extends BlockHasher {
 			
 			// The 80 rounds
 			for (int i = 0; i < 80; i++) {
-				int tp;
+				int f;
 				if (0 <= i && i < 20)
-					tp = e + (a << 5 | a >>> 27) + (d ^ (b & (c ^ d))) + schedule[i] + 0x5A827999;
+					f = d ^ (b & (c ^ d));
 				else if (20 <= i && i < 40)
-					tp = e + (a << 5 | a >>> 27) + (b ^ c ^ d) + schedule[i] + 0x6ED9EBA1;
+					f = b ^ c ^ d;
 				else if (40 <= i && i < 60)
-					tp = e + (a << 5 | a >>> 27) + ((b & (c | d)) | (c & d)) + schedule[i] + 0x8F1BBCDC;
+					f = (b & (c | d)) | (c & d);
 				else if (60 <= i && i < 80)
-					tp = e + (a << 5 | a >>> 27) + (b ^ c ^ d) + schedule[i] + 0xCA62C1D6;
+					f = b ^ c ^ d;
 				else
 					throw new AssertionError();
 				
+				int temp = (a << 5 | a >>> 27) + f + e + k[i / 20] + schedule[i];
 				e = d;
 				d = c;
 				c = b << 30 | b >>> 2;
 				b = a;
-				a = tp;
+				a = temp;
 			}
 			
 			state[0] += a;
