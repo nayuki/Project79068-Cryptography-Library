@@ -44,7 +44,9 @@ final class FastMd4Hasher extends BlockHasher {
 		int c = state[2];
 		int d = state[3];
 		
-		for (int end = off + len; off < end; off += 64) {  // For each block of 64 bytes
+		// For each block of 64 bytes
+		for (int end = off + len; off < end; off += 64) {
+			
 			// Pack bytes into int32s in little endian
 			schedule[ 0] = (message[off +  0] & 0xFF) | (message[off +  1] & 0xFF) << 8 | (message[off +  2] & 0xFF) << 16 | message[off +  3] << 24;
 			schedule[ 1] = (message[off +  4] & 0xFF) | (message[off +  5] & 0xFF) << 8 | (message[off +  6] & 0xFF) << 16 | message[off +  7] << 24;
