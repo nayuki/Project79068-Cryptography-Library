@@ -42,10 +42,23 @@ final class FastWhirlpoolHasher extends BlockHasher {
 		long[] tempblock = new long[8];
 		long[] tempstate = new long[8];
 		long[] temp = new long[8];
-		for (len += off; off < len;) {
+		
+		// For each block of 64 bytes
+		for (int end = off + len; off < end;) {
+			
+			// Pack bytes into int64s in big endian
 			for (int i = 0; i < 8; i++, off += 8) {
-				block[i] = tempblock[i] = (message[off + 0] & 0xFFL) << 56 | (message[off + 1] & 0xFFL) << 48 | (message[off + 2] & 0xFFL) << 40 | (message[off + 3] & 0xFFL) << 32 | (message[off + 4] & 0xFFL) << 24 | (message[off + 5] & 0xFFL) << 16 | (message[off + 6] & 0xFFL) << 8 | (message[off + 7] & 0xFFL) << 0;
+				block[i] = (message[off + 0] & 0xFFL) << 56
+				         | (message[off + 1] & 0xFFL) << 48
+				         | (message[off + 2] & 0xFFL) << 40
+				         | (message[off + 3] & 0xFFL) << 32
+				         | (message[off + 4] & 0xFFL) << 24
+				         | (message[off + 5] & 0xFFL) << 16
+				         | (message[off + 6] & 0xFFL) <<  8
+				         | (message[off + 7] & 0xFFL) <<  0;
+				tempblock[i] = block[i];
 			}
+			
 			System.arraycopy(state, 0, tempstate, 0, 8);
 			w(tempblock, tempstate, temp);
 			for (int i = 0; i < 8; i++)
@@ -78,7 +91,8 @@ final class FastWhirlpoolHasher extends BlockHasher {
 	private static long[][] mul;
 	
 	
-	private static void w(long[] block, long[] key, long[] temp) { // The internal block cipher. Overwrites block, key, and temp.
+	// The internal block cipher. Overwrites block, key, and temp.
+	private static void w(long[] block, long[] key, long[] temp) {
 		for (int i = 0; i < 8; i++)
 			block[i] ^= key[i]; // Sigma
 		for (int i = 0; i < rcon.length; i++) {
@@ -88,20 +102,21 @@ final class FastWhirlpoolHasher extends BlockHasher {
 	}
 	
 	
-	private static void rho(long[] block, long[] key, long[] temp) { // The round function. Overwrites block and temp.
+	// The round function. Overwrites block and temp.
+	private static void rho(long[] block, long[] key, long[] temp) {
 		for (int i = 0; i < 8; i++)
 			temp[i] = 0;
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++)
 				temp[(i + j) & 7] ^= mul[j][(int)(block[i] >>> ((j ^ 7) << 3)) & 0xFF];
 		}
-		for (int i = 0; i < 8; i++)
+		for (int i = 0; i < 8; i++)  // Sigma
 			block[i] = temp[i] ^ key[i];
-	} // Sigma
+	}
 	
 	
 	
-	private static int[] sub; // These are only used in class initialization.
+	private static int[] sub;  // This is only used in class initialization.
 	
 	
 	static {
@@ -113,9 +128,9 @@ final class FastWhirlpoolHasher extends BlockHasher {
 	
 	
 	private static void initSBox() {
-		int[] e = {0x1, 0xB, 0x9, 0xC, 0xD, 0x6, 0xF, 0x3, 0xE, 0x8, 0x7, 0x4, 0xA, 0x2, 0x5, 0x0}; // The E mini-box
-		int[] r = {0x7, 0xC, 0xB, 0xD, 0xE, 0x4, 0x9, 0xF, 0x6, 0x3, 0x8, 0xA, 0x2, 0x5, 0x1, 0x0}; // The R mini-box
-		int[] einv = new int[16]; // The inverse of E
+		int[] e = {0x1, 0xB, 0x9, 0xC, 0xD, 0x6, 0xF, 0x3, 0xE, 0x8, 0x7, 0x4, 0xA, 0x2, 0x5, 0x0};  // The E mini-box
+		int[] r = {0x7, 0xC, 0xB, 0xD, 0xE, 0x4, 0x9, 0xF, 0x6, 0x3, 0x8, 0xA, 0x2, 0x5, 0x1, 0x0};  // The R mini-box
+		int[] einv = new int[16];  // The inverse of E
 		for (int i = 0; i < e.length; i++)
 			einv[e[i]] = i;
 		sub = new int[256];
