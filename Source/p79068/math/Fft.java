@@ -46,13 +46,13 @@ final class Fft extends Dft {
 	public void transform(double[] re, double[] im) {
 		for (int i = 0; i < length; i++) {
 			if (permutation[i] > i) {  // This is possible because the permutation is self-inverting.
-				double tp;
-				tp = re[i];
+				double temp;
+				temp = re[i];
 				re[i] = re[permutation[i]];
-				re[permutation[i]] = tp;
-				tp = im[i];
+				re[permutation[i]] = temp;
+				temp = im[i];
 				im[i] = im[permutation[i]];
-				im[permutation[i]] = tp;
+				im[permutation[i]] = temp;
 			}
 		}
 		transformPrivate(re, im);

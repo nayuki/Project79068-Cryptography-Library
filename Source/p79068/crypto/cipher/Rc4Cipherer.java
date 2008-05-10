@@ -18,9 +18,9 @@ final class Rc4Cipherer extends StreamCipherer {
 			s[i] = i;
 		for (int i = 0, j = 0; i < 256; i++) {
 			j = (j + s[i] + key[i % key.length]) & 0xFF;
-			int tp = s[i];
+			int temp = s[i];
 			s[i] = s[j];
-			s[j] = tp;
+			s[j] = temp;
 		}
 		i = 0;
 		j = 0;
