@@ -63,9 +63,13 @@ final class WhirlpoolHasher extends BlockHasher {
 	
 	// Uses Miyaguchi-Preneel construction: next state = encrypt(msg: message block, key: state) XOR state XOR message block
 	protected void compress(byte[] message, int off, int len) {
+		// The lifetime of all 3 arrays actually begin and end within each loop iteration.
+		// But in this implementation, they are allocated only once, to avoid the allocation and garbage collection overheads.
 		byte[] tempmsg = new byte[64];
 		byte[] tempstate = new byte[64];
 		byte[] temp = new byte[64];
+		
+		// For each block of 64 bytes
 		for (int end = off + len; off < end; off += 64) {
 			System.arraycopy(message, off, tempmsg, 0, 64);
 			System.arraycopy(state, 0, tempstate, 0, 64);
@@ -92,7 +96,7 @@ final class WhirlpoolHasher extends BlockHasher {
 	}
 	
 	
-	// The internal block cipher. Overwrites message and key.
+	// The internal block cipher. Overwrites message, key, and temp.
 	private void w(byte[] message, byte[] key, byte[] temp) {
 		sigma(message, key);
 		for (int i = 0; i < rcon.length; i++) {  // rcon.length is the number of rounds
@@ -102,7 +106,7 @@ final class WhirlpoolHasher extends BlockHasher {
 	}
 	
 	
-	// The round function. Overwrites block and temp.
+	// The round function. Overwrites block and temp. Does not overwrite key.
 	private void rho(byte[] block, byte[] key, byte[] temp) {
 		gamma(sub, block);
 		pi(block, temp);
