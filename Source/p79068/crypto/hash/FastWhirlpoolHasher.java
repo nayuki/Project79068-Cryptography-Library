@@ -133,7 +133,7 @@ final class FastWhirlpoolHasher extends BlockHasher {
 		for (int i = 0; i < 256; i++) {
 			long vector = 0;
 			for (int j = 0; j < 8; j++)
-				vector |= (long)WhirlpoolUtil.multiply(sub[i], c[j]) << ((7 - j) * 8);
+				vector |= (long)WhirlpoolUtils.multiply(sub[i], c[j]) << ((7 - j) * 8);
 			for (int j = 0; j < 8; j++)
 				mul[j][i] = LongBitMath.rotateRight(vector, j * 8);
 		}

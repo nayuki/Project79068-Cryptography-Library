@@ -1,7 +1,7 @@
 package p79068.crypto.hash;
 
 
-final class WhirlpoolUtil {
+final class WhirlpoolUtils {
 	
 	/**
 	 * The exponential table. <code>exp[i]</code> is equal to <code>0x02</code> to the power of <code>i</code>, in GF(2^8)/0x11D.
@@ -70,7 +70,7 @@ final class WhirlpoolUtil {
 		byte[][] mul = new byte[8][256];
 		for (int i = 0; i < c.length; i++) {
 			for (int j = 0; j < 256; j++)
-				mul[i][j] = (byte)WhirlpoolUtil.multiply(j, c[i]);
+				mul[i][j] = (byte)WhirlpoolUtils.multiply(j, c[i]);
 		}
 		return mul;
 	}

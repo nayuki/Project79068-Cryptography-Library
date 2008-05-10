@@ -72,9 +72,9 @@ public class Whirlpool0 extends BlockHashFunction {
 		if (ROUNDS < 1 || ROUNDS > 32)
 			throw new AssertionError("Invalid number of rounds");
 		SUB = makeSub();
-		RCON = WhirlpoolUtil.makeRoundConstants(ROUNDS, SUB);
+		RCON = WhirlpoolUtils.makeRoundConstants(ROUNDS, SUB);
 		int[] c = {0x01, 0x05, 0x09, 0x08, 0x05, 0x01, 0x03, 0x01};  // Identical to the one in Whirlpool-1
-		MUL = WhirlpoolUtil.makeMultiplicationTable(c);
+		MUL = WhirlpoolUtils.makeMultiplicationTable(c);
 	}
 	
 	
