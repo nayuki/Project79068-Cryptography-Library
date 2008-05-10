@@ -96,7 +96,7 @@ final class WhirlpoolHasher extends BlockHasher {
 	// The internal block cipher. Overwrites message and key.
 	private void w(byte[] message, byte[] key, byte[] temp) {
 		sigma(message, key);
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < rcon.length; i++) {  // rcon.length is the number of rounds
 			rho(key, rcon[i], temp);
 			rho(message, key, temp);
 		}
