@@ -9,14 +9,14 @@ import p79068.util.hash.HashFunction;
  * <p>Revisions of the Whirlpool function:</p>
  * <ul>
  *  <li>Version 0: The original Whirlpool algorithm (Whirlpool-0)</li>
- *  <li>Version 1: S-box changed (Whirlpool-1)</li>
+ *  <li>Version 1: S-box changed (Whirlpool-T)</li>
  *  <li>Version 2: Linear mixing changed (current version, just Whirlpool)</li>
  * </ul>
  * <p>Mutability: <em>Immutable</em><br>
  *  Instantiability: <em>Singleton</em></p>
  * @see HashFunction
  * @see Whirlpool0
- * @see Whirlpool1
+ * @see WhirlpoolT
  */
 public class Whirlpool extends BlockHashFunction {
 	
@@ -84,7 +84,7 @@ public class Whirlpool extends BlockHashFunction {
 	}
 	
 	
-	// Identical to the one in Whirlpool-1
+	// Identical to the one in Whirlpool-T
 	private static byte[] makeSub() {
 		byte[] sub = new byte[256];
 		

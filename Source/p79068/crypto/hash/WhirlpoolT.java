@@ -5,19 +5,19 @@ import p79068.util.hash.HashFunction;
 
 
 /**
- * The Whirlpool-1 hash function.
+ * The Whirlpool-T hash function.
  * <p>Mutability: <em>Immutable</em><br>
  *  Instantiability: <em>Singleton</em></p>
  * @see HashFunction
  * @see Whirlpool0
  * @see Whirlpool
  */
-public class Whirlpool1 extends BlockHashFunction {
+public class WhirlpoolT extends BlockHashFunction {
 	
 	/**
 	 * The singleton instance of the Whirlpool-1 hash function.
 	 */
-	public final static Whirlpool1 FUNCTION = new Whirlpool1();
+	public final static WhirlpoolT FUNCTION = new WhirlpoolT();
 	
 	
 	
@@ -31,10 +31,10 @@ public class Whirlpool1 extends BlockHashFunction {
 	
 	
 	/**
-	 * Returns the name of this hash function: <code>Whirlpool-1</code>.
+	 * Returns the name of this hash function: <code>Whirlpool-T</code>.
 	 */
 	public String getName() {
-		return "Whirlpool-1";
+		return "Whirlpool-T";
 	}
 	
 	
@@ -55,7 +55,7 @@ public class Whirlpool1 extends BlockHashFunction {
 	
 	
 	
-	private Whirlpool1() {}
+	private WhirlpoolT() {}
 	
 	
 	

@@ -25,7 +25,7 @@ final class WhirlpoolHasher extends BlockHasher {
 	}
 	
 	
-	WhirlpoolHasher(Whirlpool1 hashFunc, byte[] sub, byte[][] rcon, byte[][] mul) {
+	WhirlpoolHasher(WhirlpoolT hashFunc, byte[] sub, byte[][] rcon, byte[][] mul) {
 		this((BlockHashFunction)hashFunc, sub, rcon, mul);
 	}
 	

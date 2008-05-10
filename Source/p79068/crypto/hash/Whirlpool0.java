@@ -9,7 +9,7 @@ import p79068.util.hash.HashFunction;
  * <p>Mutability: <em>Immutable</em><br>
  *  Instantiability: <em>Singleton</em></p>
  * @see HashFunction
- * @see Whirlpool1
+ * @see WhirlpoolT
  * @see Whirlpool
  */
 public class Whirlpool0 extends BlockHashFunction {
@@ -73,7 +73,7 @@ public class Whirlpool0 extends BlockHashFunction {
 			throw new AssertionError("Invalid number of rounds");
 		SUB = makeSub();
 		RCON = WhirlpoolUtils.makeRoundConstants(ROUNDS, SUB);
-		int[] c = {0x01, 0x05, 0x09, 0x08, 0x05, 0x01, 0x03, 0x01};  // Identical to the one in Whirlpool-1
+		int[] c = {0x01, 0x05, 0x09, 0x08, 0x05, 0x01, 0x03, 0x01};  // Identical to the one in Whirlpool-T
 		MUL = WhirlpoolUtils.makeMultiplicationTable(c);
 	}
 	
