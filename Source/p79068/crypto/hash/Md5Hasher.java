@@ -57,7 +57,14 @@ final class Md5Hasher extends BlockHasher {
 		0xF7537E82, 0xBD3AF235, 0x2AD7D2BB, 0xEB86D391
 	};
 	
-	private static final int[] s = {7, 12, 17, 22, 5, 9, 14, 20, 4, 11, 16, 23, 6, 10, 15, 21};
+	
+	private static final int[] s = {
+		 7, 12, 17, 22,
+		 5,  9, 14, 20,
+		 4, 11, 16, 23,
+		 6, 10, 15, 21
+	};
+	
 	
 	
 	protected void compress(byte[] message, int off, int len) {
