@@ -1,5 +1,6 @@
 package p79068.crypto.hash;
 
+import p79068.lang.BoundsChecker;
 import p79068.math.LongBitMath;
 import p79068.util.hash.HashValue;
 
@@ -38,6 +39,10 @@ final class FastWhirlpoolHasher extends BlockHasher {
 	
 	
 	protected void compress(byte[] message, int off, int len) {
+		BoundsChecker.check(message.length, off, len);
+		if (len % 64 != 0)
+			throw new AssertionError();
+		
 		long[] block = new long[8];
 		long[] tempblock = new long[8];
 		long[] tempstate = new long[8];

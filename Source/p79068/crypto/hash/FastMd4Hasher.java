@@ -1,6 +1,7 @@
 package p79068.crypto.hash;
 
 import p79068.crypto.Zeroizer;
+import p79068.lang.BoundsChecker;
 import p79068.math.IntegerBitMath;
 import p79068.util.hash.HashValue;
 
@@ -38,6 +39,10 @@ final class FastMd4Hasher extends BlockHasher {
 	
 	
 	protected void compress(byte[] message, int off, int len) {
+		BoundsChecker.check(message.length, off, len);
+		if (len % 64 != 0)
+			throw new AssertionError();
+		
 		int[] schedule = new int[16];
 		int a = state[0];
 		int b = state[1];

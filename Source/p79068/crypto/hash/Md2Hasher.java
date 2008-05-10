@@ -1,6 +1,7 @@
 package p79068.crypto.hash;
 
 import p79068.crypto.Zeroizer;
+import p79068.lang.BoundsChecker;
 import p79068.util.hash.HashValue;
 
 
@@ -62,6 +63,10 @@ final class Md2Hasher extends BlockHasher {
 	
 	
 	protected void compress(byte[] message, int off, int len) {
+		BoundsChecker.check(message.length, off, len);
+		if (len % 16 != 0)
+			throw new AssertionError();
+		
 		for (int end = off + len; off < end; off += 16) {  // For each block of 16 bytes
 			for (int i = 0; i < 16; i++) {
 				state[i + 16] = message[off + i] & 0xFF;

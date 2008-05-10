@@ -1,6 +1,7 @@
 package p79068.crypto.hash;
 
 import p79068.crypto.Zeroizer;
+import p79068.lang.BoundsChecker;
 import p79068.util.hash.HashValue;
 
 
@@ -63,6 +64,10 @@ final class WhirlpoolHasher extends BlockHasher {
 	
 	// Uses Miyaguchi-Preneel construction: next state = encrypt(msg: message block, key: state) XOR state XOR message block
 	protected void compress(byte[] message, int off, int len) {
+		BoundsChecker.check(message.length, off, len);
+		if (len % 64 != 0)
+			throw new AssertionError();
+		
 		// The lifetime of all 3 arrays actually begin and end within each loop iteration.
 		// But in this implementation, they are allocated only once, to avoid the allocation and garbage collection overheads.
 		byte[] tempmsg = new byte[64];
