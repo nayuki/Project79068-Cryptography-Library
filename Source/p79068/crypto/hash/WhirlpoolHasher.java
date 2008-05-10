@@ -160,9 +160,6 @@ final class WhirlpoolHasher extends BlockHasher {
 	private static final byte[][] WHIRLPOOL1_RCON;
 	private static final byte[][] WHIRLPOOL_RCON;
 	
-	private static int[] exp;  // exp[i] = pow(0x02,i) in GF(2^8)/0x11D.
-	private static int[] log;  // These are only used in class initialization.
-	
 	static {
 		// Initialize WHIRLPOOL0_SUB
 		{
@@ -211,19 +208,6 @@ final class WhirlpoolHasher extends BlockHasher {
 				WHIRLPOOL1_RCON[i][j] = 0;
 		}
 		
-		// Initialize exponential and logarithm tables
-		exp = new int[255];
-		log = new int[256];
-		exp[0] = 1;
-		log[0] = Integer.MIN_VALUE;
-		log[1] = 0;
-		for (int i = 1; i < exp.length; i++) {
-			exp[i] = exp[i - 1] << 1;  // Multiply by 0x02
-			if ((exp[i] & 0x100) != 0)
-				exp[i] ^= 0x11D;  // Modulo by 0x11D in GF(2)
-			log[exp[i]] = i;
-		}
-		
 		// Initialize WHIRLPOOL0_MUL, WHIRLPOOL1_MUL
 		{
 			int[] c = {0x01, 0x05, 0x09, 0x08, 0x05, 0x01, 0x03, 0x01};
@@ -231,7 +215,7 @@ final class WhirlpoolHasher extends BlockHasher {
 			WHIRLPOOL1_MUL = WHIRLPOOL0_MUL;
 			for (int i = 0; i < c.length; i++) {
 				for (int j = 0; j < 256; j++)
-					WHIRLPOOL0_MUL[i][j] = (byte)multiply(j, c[i]);
+					WHIRLPOOL0_MUL[i][j] = (byte)WhirlpoolUtil.multiply(j, c[i]);
 			}
 		}
 		
@@ -241,19 +225,10 @@ final class WhirlpoolHasher extends BlockHasher {
 			WHIRLPOOL_MUL = new byte[8][256];
 			for (int i = 0; i < c.length; i++) {
 				for (int j = 0; j < 256; j++)
-					WHIRLPOOL_MUL[i][j] = (byte)multiply(j, c[i]);
+					WHIRLPOOL_MUL[i][j] = (byte)WhirlpoolUtil.multiply(j, c[i]);
 			}
 		}
 		
-		exp = null;
-		log = null;
-	}
-	
-	
-	private static int multiply(int x, int y) {
-		if (x == 0 || y == 0)
-			return 0;
-		return exp[(log[x] + log[y]) % 255];
 	}
 	
 }
