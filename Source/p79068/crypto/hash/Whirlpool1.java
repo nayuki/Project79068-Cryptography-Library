@@ -26,7 +26,7 @@ public class Whirlpool1 extends BlockHashFunction {
 	 * @return a new hasher of this hash function
 	 */
 	public Hasher newHasher() {
-		return new WhirlpoolHasher(this);
+		return new WhirlpoolHasher(this, SUB, RCON, MUL);
 	}
 	
 	
