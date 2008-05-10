@@ -9,10 +9,12 @@ final class FastWhirlpoolHasher extends BlockHasher {
 	private long[] state;
 	
 	
+	
 	FastWhirlpoolHasher(Whirlpool hashFunc) {
 		super(hashFunc, 64);
 		state = new long[8];
 	}
+	
 	
 	
 	public FastWhirlpoolHasher clone() {
@@ -23,6 +25,7 @@ final class FastWhirlpoolHasher extends BlockHasher {
 		return result;
 	}
 	
+	
 	public void zeroize() {
 		if (hashFunction == null)
 			throw new IllegalStateException("Already zeroized");
@@ -31,6 +34,7 @@ final class FastWhirlpoolHasher extends BlockHasher {
 		state = null;
 		super.zeroize();
 	}
+	
 	
 	
 	protected void compress(byte[] message, int off, int len) {
@@ -49,6 +53,7 @@ final class FastWhirlpoolHasher extends BlockHasher {
 		}
 	}
 	
+	
 	protected HashValue getHashDestructively() {
 		block[blockLength] = (byte)0x80;
 		for (int i = blockLength + 1; i < block.length; i++)
@@ -65,10 +70,13 @@ final class FastWhirlpoolHasher extends BlockHasher {
 	}
 	
 	
+	
 	private static final int ROUNDS = 10;
 	
 	private static long[][] rcon;
+	
 	private static long[][] mul;
+	
 	
 	private static void w(long[] block, long[] key, long[] temp) { // The internal block cipher. Overwrites block, key, and temp.
 		for (int i = 0; i < 8; i++)
@@ -78,6 +86,7 @@ final class FastWhirlpoolHasher extends BlockHasher {
 			rho(block, key, temp);
 		}
 	}
+	
 	
 	private static void rho(long[] block, long[] key, long[] temp) { // The round function. Overwrites block and temp.
 		for (int i = 0; i < 8; i++)
@@ -90,10 +99,14 @@ final class FastWhirlpoolHasher extends BlockHasher {
 			block[i] = temp[i] ^ key[i];
 	} // Sigma
 	
-
+	
+	
 	private static int[] exp; // exp[i] = pow(0x02,i) in GF(2^8)/0x11D.
+	
 	private static int[] log;
+	
 	private static int[] sub; // These are only used in class initialization.
+	
 	
 	static {
 		initExpLogTables();
@@ -104,6 +117,7 @@ final class FastWhirlpoolHasher extends BlockHasher {
 		log = null;
 		sub = null;
 	}
+	
 	
 	private static void initExpLogTables() {
 		exp = new int[255];
@@ -118,6 +132,7 @@ final class FastWhirlpoolHasher extends BlockHasher {
 			log[exp[i]] = i;
 		}
 	}
+	
 	
 	private static void initSBox() {
 		int[] e = {0x1, 0xB, 0x9, 0xC, 0xD, 0x6, 0xF, 0x3, 0xE, 0x8, 0x7, 0x4, 0xA, 0x2, 0x5, 0x0}; // The E mini-box
@@ -134,6 +149,7 @@ final class FastWhirlpoolHasher extends BlockHasher {
 		}
 	}
 	
+	
 	private static void initMultiplyTable(int[] c) {
 		mul = new long[8][256];
 		for (int i = 0; i < 256; i++) {
@@ -145,6 +161,7 @@ final class FastWhirlpoolHasher extends BlockHasher {
 		}
 	}
 	
+	
 	private static void initRoundConstant() {
 		rcon = new long[ROUNDS][8];
 		for (int i = 0; i < rcon.length; i++) {
@@ -155,13 +172,16 @@ final class FastWhirlpoolHasher extends BlockHasher {
 		}
 	}
 	
+	
 	private static int multiply(int x, int y) {
 		if (x == 0 || y == 0)
 			return 0;
 		return exp[(log[x] + log[y]) % 255];
 	}
 	
+	
 	private static long rotateRight(long x, int rotate) {
 		return x << (64 - rotate) | x >>> rotate;
 	}
+	
 }
