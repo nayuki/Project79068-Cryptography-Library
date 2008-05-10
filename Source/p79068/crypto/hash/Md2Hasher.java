@@ -42,7 +42,8 @@ final class Md2Hasher extends BlockHasher {
 	
 	
 	
-	private static final int[] s = {  // Substitution table derived from pi. This is a permutation.
+	// Substitution table derived from pi. This is a permutation.
+	private static final int[] s = {
 		0x29, 0x2E, 0x43, 0xC9, 0xA2, 0xD8, 0x7C, 0x01, 0x3D, 0x36, 0x54, 0xA1, 0xEC, 0xF0, 0x06, 0x13,
 		0x62, 0xA7, 0x05, 0xF3, 0xC0, 0xC7, 0x73, 0x8C, 0x98, 0x93, 0x2B, 0xD9, 0xBC, 0x4C, 0x82, 0xCA,
 		0x1E, 0x9B, 0x57, 0x3C, 0xFD, 0xD4, 0xE0, 0x16, 0x67, 0x42, 0x6F, 0x18, 0x8A, 0x17, 0xE5, 0x12,
@@ -67,7 +68,8 @@ final class Md2Hasher extends BlockHasher {
 		if (len % 16 != 0)
 			throw new AssertionError();
 		
-		for (int end = off + len; off < end; off += 16) {  // For each block of 16 bytes
+		// For each block of 16 bytes
+		for (int end = off + len; off < end; off += 16) {
 			for (int i = 0; i < 16; i++) {
 				state[i + 16] = message[off + i] & 0xFF;
 				state[i + 32] = state[i + 16] ^ state[i];
