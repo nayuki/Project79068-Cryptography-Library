@@ -1,7 +1,6 @@
 package p79068.crypto.hash;
 
 import p79068.crypto.Zeroizer;
-import p79068.util.hash.HashFunction;
 import p79068.util.hash.HashValue;
 
 
