@@ -7,6 +7,10 @@ import p79068.util.hash.HashValue;
 
 final class WhirlpoolHasher extends BlockHasher {
 	
+	private final byte[] sub;
+	private final byte[][] mul;
+	private final byte[][] rcon;
+	
 	private byte[] state;
 	
 	
@@ -89,12 +93,6 @@ final class WhirlpoolHasher extends BlockHasher {
 	}
 	
 	
-	
-	private byte[] sub;
-	private byte[][] mul;
-	private byte[][] rcon;
-	
-	
 	// The internal block cipher. Overwrites message and key.
 	private void w(byte[] message, byte[] key, byte[] temp) {
 		sigma(message, key);
@@ -107,22 +105,22 @@ final class WhirlpoolHasher extends BlockHasher {
 	
 	// The round function. Overwrites block and temp.
 	private void rho(byte[] block, byte[] key, byte[] temp) {
-		gamma(block);
+		gamma(sub, block);
 		pi(block, temp);
-		theta(temp, block);
+		theta(mul, temp, block);
 		sigma(block, key);
 	}
 	
 	
 	// The non-linear layer
-	private void gamma(byte[] block) {
+	private static void gamma(byte[] sub, byte[] block) {
 		for (int i = 0; i < 64; i++)
 			block[i] = sub[block[i] & 0xFF];
 	}
 	
 	
 	// The cyclical permutation
-	private void pi(byte[] blockin, byte[] blockout) {
+	private static void pi(byte[] blockin, byte[] blockout) {
 		for (int j = 0; j < 8; j++) {
 			for (int i = 0; i < 8; i++)
 				blockout[((i + j) & 7) << 3 | j] = blockin[i << 3 | j];
@@ -131,7 +129,7 @@ final class WhirlpoolHasher extends BlockHasher {
 	
 	
 	// The linear diffusion layer
-	private void theta(byte[] blockin, byte[] blockout) {
+	private static void theta(byte[][] mul, byte[] blockin, byte[] blockout) {
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
 				int sum = 0;
@@ -144,7 +142,7 @@ final class WhirlpoolHasher extends BlockHasher {
 	
 	
 	// The key addition
-	private void sigma(byte[] block, byte[] key) {
+	private static void sigma(byte[] block, byte[] key) {
 		for (int i = 0; i < 64; i++)
 			block[i] ^= key[i];
 	}
