@@ -119,7 +119,7 @@ public class Whirlpool extends BlockHashFunction {
 	
 	private static byte[][] makeMul() {
 		byte[][] mul = new byte[8][256];
-		int[] c = {0x01, 0x05, 0x09, 0x08, 0x05, 0x01, 0x03, 0x01};
+		int[] c = {0x01, 0x09, 0x02, 0x05, 0x08, 0x01, 0x04, 0x01};
 		for (int i = 0; i < c.length; i++) {
 			for (int j = 0; j < 256; j++)
 				mul[i][j] = (byte)WhirlpoolUtil.multiply(j, c[i]);
