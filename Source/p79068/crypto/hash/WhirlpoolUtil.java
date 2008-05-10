@@ -52,4 +52,27 @@ final class WhirlpoolUtil {
 			return exp[(log[x] + log[y]) % 255];
 	}
 	
+	
+	
+	public static byte[][] makeRoundConstants(int rounds, byte[] sub) {
+		byte[][] rcon = new byte[rounds][64];
+		for (int i = 0; i < rcon.length; i++) {
+			for (int j = 0; j < 8; j++)  // The leading 8 bytes (top row) are taken from the S-box
+				rcon[i][j] = sub[8 * i + j];
+			for (int j = 8; j < 64; j++)  // The remaining 7 rows are zero
+				rcon[i][j] = 0;
+		}
+		return rcon;
+	}
+	
+	
+	public static byte[][] makeMultiplicationTable(int[] c) {
+		byte[][] mul = new byte[8][256];
+		for (int i = 0; i < c.length; i++) {
+			for (int j = 0; j < 256; j++)
+				mul[i][j] = (byte)WhirlpoolUtil.multiply(j, c[i]);
+		}
+		return mul;
+	}
+	
 }

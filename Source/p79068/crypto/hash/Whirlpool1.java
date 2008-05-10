@@ -72,8 +72,9 @@ public class Whirlpool1 extends BlockHashFunction {
 		if (ROUNDS < 1 || ROUNDS > 32)
 			throw new AssertionError("Invalid number of rounds");
 		SUB = makeSub();
-		RCON = makeRcon(SUB);
-		MUL = makeMul();
+		RCON = WhirlpoolUtil.makeRoundConstants(ROUNDS, SUB);
+		int[] c = {0x01, 0x05, 0x09, 0x08, 0x05, 0x01, 0x03, 0x01};
+		MUL = WhirlpoolUtil.makeMultiplicationTable(c);
 	}
 	
 	
@@ -96,29 +97,6 @@ public class Whirlpool1 extends BlockHashFunction {
 		}
 		
 		return sub;
-	}
-	
-	
-	private static byte[][] makeRcon(byte[] sub) {
-		byte[][] rcon = new byte[ROUNDS][64];
-		for (int i = 0; i < rcon.length; i++) {
-			for (int j = 0; j < 8; j++)  // The leading 8 bytes (top row) are taken from the S-box
-				rcon[i][j] = sub[8 * i + j];
-			for (int j = 8; j < 64; j++)  // The remaining 7 rows are zero
-				rcon[i][j] = 0;
-		}
-		return rcon;
-	}
-	
-	
-	private static byte[][] makeMul() {
-		byte[][] mul = new byte[8][256];
-		int[] c = {0x01, 0x05, 0x09, 0x08, 0x05, 0x01, 0x03, 0x01};
-		for (int i = 0; i < c.length; i++) {
-			for (int j = 0; j < 256; j++)
-				mul[i][j] = (byte)WhirlpoolUtil.multiply(j, c[i]);
-		}
-		return mul;
 	}
 	
 }
