@@ -101,36 +101,14 @@ final class FastWhirlpoolHasher extends BlockHasher {
 	
 	
 	
-	private static int[] exp; // exp[i] = pow(0x02,i) in GF(2^8)/0x11D.
-	
-	private static int[] log;
-	
 	private static int[] sub; // These are only used in class initialization.
 	
 	
 	static {
-		initExpLogTables();
 		initSBox();
 		initMultiplyTable(new int[]{0x01, 0x01, 0x04, 0x01, 0x08, 0x05, 0x02, 0x09});
 		initRoundConstant();
-		exp = null;
-		log = null;
 		sub = null;
-	}
-	
-	
-	private static void initExpLogTables() {
-		exp = new int[255];
-		log = new int[256];
-		exp[0] = 1;
-		log[0] = Integer.MIN_VALUE;
-		log[1] = 0;
-		for (int i = 1; i < exp.length; i++) {
-			exp[i] = exp[i - 1] << 1; // Multiply by 0x02
-			if ((exp[i] & 0x100) != 0)
-				exp[i] ^= 0x11D; // Modulo by 0x11D in GF(2)
-			log[exp[i]] = i;
-		}
 	}
 	
 	
@@ -155,9 +133,9 @@ final class FastWhirlpoolHasher extends BlockHasher {
 		for (int i = 0; i < 256; i++) {
 			long vector = 0;
 			for (int j = 0; j < 8; j++)
-				vector |= (long)multiply(sub[i], c[j]) << ((7 - j) * 8);
+				vector |= (long)WhirlpoolUtil.multiply(sub[i], c[j]) << ((7 - j) * 8);
 			for (int j = 0; j < 8; j++)
-				mul[j][i] = rotateRight(vector, j * 8);
+				mul[j][i] = LongBitMath.rotateRight(vector, j * 8);
 		}
 	}
 	
@@ -170,18 +148,6 @@ final class FastWhirlpoolHasher extends BlockHasher {
 			for (int j = 1; j < 8; j++)
 				rcon[i][j] = 0;
 		}
-	}
-	
-	
-	private static int multiply(int x, int y) {
-		if (x == 0 || y == 0)
-			return 0;
-		return exp[(log[x] + log[y]) % 255];
-	}
-	
-	
-	private static long rotateRight(long x, int rotate) {
-		return x << (64 - rotate) | x >>> rotate;
 	}
 	
 }
