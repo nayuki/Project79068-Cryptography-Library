@@ -63,6 +63,7 @@ final class Md2Hasher extends BlockHasher {
 	};
 	
 	
+	
 	protected void compress(byte[] message, int off, int len) {
 		BoundsChecker.check(message.length, off, len);
 		if (len % 16 != 0)
