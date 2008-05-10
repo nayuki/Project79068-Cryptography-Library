@@ -70,24 +70,31 @@ final class Md2Hasher extends BlockHasher {
 		
 		// For each block of 16 bytes
 		for (int end = off + len; off < end; off += 16) {
+			
+			// Copy the block into state
 			for (int i = 0; i < 16; i++) {
 				state[i + 16] = message[off + i] & 0xFF;
 				state[i + 32] = state[i + 16] ^ state[i];
 			}
 			
+			// Do 18 rounds
 			int t = 0;
 			for (int i = 0; i < 18; i++) {
 				for (int j = 0; j < 48; j++) {
-					state[j] ^= s[t];
-					t = state[j];
+					int temp = state[j] ^ s[t];
+					state[j] = temp;
+					t = temp;
 				}
 				t = (t + i) & 0xFF;
 			}
 			
+			// Checksum the block
 			int l = checksum[15];
 			for (int i = 0; i < 16; i++) {
-				checksum[i] ^= s[(message[off + i] & 0xFF) ^ l];
-				l = checksum[i];
+				int c = message[off + i] & 0xFF;
+				int temp = checksum[i] ^ s[c ^ l];
+				checksum[i] = temp;
+				l = temp;
 			}
 		}
 	}
@@ -97,9 +104,11 @@ final class Md2Hasher extends BlockHasher {
 		for (int i = blockLength; i < block.length; i++)
 			block[i] = (byte)(16 - blockLength);
 		compress();
+		
 		for (int i = 0; i < 16; i++)
 			block[i] = (byte)checksum[i];
 		compress();
+		
 		byte[] hash = new byte[16];
 		for (int i = 0; i < 16; i++)
 			hash[i] = (byte)state[i];
