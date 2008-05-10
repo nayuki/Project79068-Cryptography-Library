@@ -91,10 +91,13 @@ final class FastWhirlpoolHasher extends BlockHasher {
 	private static long[][] mul;
 	
 	
-	// The internal block cipher. Overwrites block, key, and temp.
+	// The internal block cipher. Encrypts block in place. Overwrites key and temp.
 	private static void w(long[] block, long[] key, long[] temp) {
+		// Sigma
 		for (int i = 0; i < 8; i++)
-			block[i] ^= key[i]; // Sigma
+			block[i] ^= key[i];
+		
+		// Do the rounds
 		for (int i = 0; i < rcon.length; i++) {
 			rho(key, rcon[i], temp);
 			rho(block, key, temp);
@@ -102,15 +105,20 @@ final class FastWhirlpoolHasher extends BlockHasher {
 	}
 	
 	
-	// The round function. Overwrites block and temp.
+	// The round function. Encrypts block in place. Overwrites block and temp.
 	private static void rho(long[] block, long[] key, long[] temp) {
+		// Clear temp
 		for (int i = 0; i < 8; i++)
 			temp[i] = 0;
+		
+		// Do the combined gamma, pi, and theta
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++)
 				temp[(i + j) & 7] ^= mul[j][(int)(block[i] >>> ((j ^ 7) << 3)) & 0xFF];
 		}
-		for (int i = 0; i < 8; i++)  // Sigma
+		
+		// Sigma
+		for (int i = 0; i < 8; i++)
 			block[i] = temp[i] ^ key[i];
 	}
 	
