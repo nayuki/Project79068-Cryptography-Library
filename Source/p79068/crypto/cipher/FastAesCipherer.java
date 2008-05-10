@@ -23,9 +23,9 @@ final class FastAesCipherer extends RijndaelCiphererParent {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
 		BoundsChecker.check(b.length, off, len);
-		if ((len & 0xF) != 0)
+		if (len % 16 != 0)
 			throw new IllegalArgumentException("Invalid block length");
-		for (len += off; off < len; off += 16) {
+		for (int end = off + len; off < end; off += 16) {
 			// Each variable represents a column
 			int x0 = (b[off +  0] << 24 | (b[off +  1] & 0xFF) << 16 | (b[off +  2] & 0xFF) << 8 | (b[off +  3] & 0xFF)) ^ encryptionKeySch[0];
 			int x1 = (b[off +  4] << 24 | (b[off +  5] & 0xFF) << 16 | (b[off +  6] & 0xFF) << 8 | (b[off +  7] & 0xFF)) ^ encryptionKeySch[1];
@@ -69,9 +69,9 @@ final class FastAesCipherer extends RijndaelCiphererParent {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
 		BoundsChecker.check(b.length, off, len);
-		if ((len & 0xF) != 0)
+		if (len % 16 != 0)
 			throw new IllegalArgumentException("Invalid block length");
-		for (len += off; off < len; off += 16) {
+		for (int end = off + len; off < end; off += 16) {
 			// Each variable represents a column
 			int x0 = (b[off +  0] << 24 | (b[off +  1] & 0xFF) << 16 | (b[off +  2] & 0xFF) << 8 | (b[off +  3] & 0xFF)) ^ decryptionKeySch[0];
 			int x1 = (b[off +  4] << 24 | (b[off +  5] & 0xFF) << 16 | (b[off +  6] & 0xFF) << 8 | (b[off +  7] & 0xFF)) ^ decryptionKeySch[1];
