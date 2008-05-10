@@ -9,7 +9,8 @@ abstract class RijndaelCiphererParent extends Cipherer {
 	
 	
 	
-	protected static int[] expandKey(byte[] key, int nb) {  // In the FIPS 197 specification, this function is named KeyExpansion.
+	// In the FIPS 197 specification, this function is named KeyExpansion.
+	protected static int[] expandKey(byte[] key, int nb) {
 		int nk = key.length / 4;
 		int round = Math.max(nk, nb) + 6;
 		int[] w = new int[(round + 1) * nb];  // Key schedule
