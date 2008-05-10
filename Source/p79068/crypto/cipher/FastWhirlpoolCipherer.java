@@ -17,12 +17,14 @@ final class FastWhirlpoolCipherer extends Cipherer {
 	private long[][] keySchedule;
 	
 	
+	
 	FastWhirlpoolCipherer(WhirlpoolCipher cipher, byte[] key) {
 		super(cipher, key);
 		rcon = RCON;
 		mul = MUL;
 		setKey(key);
 	}
+	
 	
 	
 	public void encrypt(byte[] b, int off, int len) {
@@ -39,6 +41,7 @@ final class FastWhirlpoolCipherer extends Cipherer {
 			toBytesBigEndian(tempmsg, b, off);
 		}
 	}
+	
 	
 	public void decrypt(byte[] b, int off, int len) {
 		if (cipher == null)
@@ -122,6 +125,7 @@ final class FastWhirlpoolCipherer extends Cipherer {
 	}
 	
 	
+	
 	private static final int ROUNDS = 10;
 	
 	private static int[] exp; // exp[i] = pow(0x02,i) in GF(2^8)/0x11D.
@@ -131,12 +135,14 @@ final class FastWhirlpoolCipherer extends Cipherer {
 	private static long[][] MUL;
 	private static long[][] RCON;
 	
+	
 	static {
 		initExpLogTables();
 		initSBox();
 		initMultiplyTable(new int[]{0x01, 0x01, 0x04, 0x01, 0x08, 0x05, 0x02, 0x09});
 		initRoundConstant();
 	}
+	
 	
 	private static void initExpLogTables() {
 		exp = new int[255];
@@ -145,16 +151,17 @@ final class FastWhirlpoolCipherer extends Cipherer {
 		log[0] = Integer.MIN_VALUE;
 		log[1] = 0;
 		for (int i = 1; i < exp.length; i++) {
-			exp[i] = exp[i - 1] << 1; // Multiply by 0x02
+			exp[i] = exp[i - 1] << 1;  // Multiply by 0x02
 			if ((exp[i] & 0x100) != 0)
-				exp[i] ^= 0x11D; // Modulo by 0x11D in GF(2)
+				exp[i] ^= 0x11D;  // Modulo by 0x11D in GF(2)
 			log[exp[i]] = i;
 		}
 	}
 	
+	
 	private static void initSBox() {
-		int[] e = {0x1, 0xB, 0x9, 0xC, 0xD, 0x6, 0xF, 0x3, 0xE, 0x8, 0x7, 0x4, 0xA, 0x2, 0x5, 0x0}; // The E mini-box
-		int[] r = {0x7, 0xC, 0xB, 0xD, 0xE, 0x4, 0x9, 0xF, 0x6, 0x3, 0x8, 0xA, 0x2, 0x5, 0x1, 0x0}; // The R mini-box
+		int[] e = {0x1, 0xB, 0x9, 0xC, 0xD, 0x6, 0xF, 0x3, 0xE, 0x8, 0x7, 0x4, 0xA, 0x2, 0x5, 0x0};  // The E mini-box
+		int[] r = {0x7, 0xC, 0xB, 0xD, 0xE, 0x4, 0x9, 0xF, 0x6, 0x3, 0x8, 0xA, 0x2, 0x5, 0x1, 0x0};  // The R mini-box
 		int[] einv = new int[16]; // The inverse of E
 		for (int i = 0; i < e.length; i++)
 			einv[e[i]] = i;
@@ -167,6 +174,7 @@ final class FastWhirlpoolCipherer extends Cipherer {
 		}
 	}
 	
+	
 	private static void initMultiplyTable(int[] c) {
 		MUL = new long[8][256];
 		for (int i = 0; i < 256; i++) {
@@ -178,6 +186,7 @@ final class FastWhirlpoolCipherer extends Cipherer {
 		}
 	}
 	
+	
 	private static void initRoundConstant() {
 		RCON = new long[ROUNDS][8];
 		for (int i = 0; i < RCON.length; i++) {
@@ -188,13 +197,16 @@ final class FastWhirlpoolCipherer extends Cipherer {
 		}
 	}
 	
+	
 	private static int multiply(int x, int y) {
 		if (x == 0 || y == 0)
 			return 0;
 		return exp[(log[x] + log[y]) % 255];
 	}
 	
+	
 	private static long rotateRight(long x, int rotate) {
 		return x << (64 - rotate) | x >>> rotate;
 	}
+	
 }
