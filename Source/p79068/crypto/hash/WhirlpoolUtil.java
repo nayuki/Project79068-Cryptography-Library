@@ -3,10 +3,21 @@ package p79068.crypto.hash;
 
 final class WhirlpoolUtil {
 	
+	public static int add(int x, int y) {
+		if ((x & ~0xFF) != 0 || (y & ~0xFF) != 0)
+			throw new IllegalArgumentException("Input out of range");
+		else
+			return x ^ y;
+	}
+	
+	
 	public static int multiply(int x, int y) {
-		if (x == 0 || y == 0)
+		if ((x & ~0xFF) != 0 || (y & ~0xFF) != 0)
+			throw new IllegalArgumentException("Input out of range");
+		else if (x == 0 || y == 0)
 			return 0;
-		return exp[(log[x] + log[y]) % 255];
+		else
+			return exp[(log[x] + log[y]) % 255];
 	}
 	
 	
