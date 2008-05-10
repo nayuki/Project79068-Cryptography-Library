@@ -25,22 +25,22 @@ final class WhirlpoolUtil {
 	/**
 	 * The exponential table. <code>exp[i]</code> is equal to <code>0x02</code> to the power of <code>i</code>, in GF(2^8)/0x11D.
 	 */
-	private static int[] exp;
+	private static final int[] exp;
 	
 	/**
 	 * The logarithm table.
 	 */
-	private static int[] log;
+	private static final int[] log;
 	
 	
 	static {
+		exp = new int[255];
+		log = new int[256];
 		initExpLogTables();
 	}
 	
 	
 	private static void initExpLogTables() {
-		exp = new int[255];
-		log = new int[256];
 		exp[0] = 1;
 		log[0] = Integer.MIN_VALUE;
 		log[1] = 0;
