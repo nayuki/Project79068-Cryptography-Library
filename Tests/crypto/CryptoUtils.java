@@ -16,7 +16,7 @@ public class CryptoUtils {
 		byte[] hash1 = CryptoUtils.hexToBytes(expectedHash);
 		byte[] msg = CryptoUtils.asciiToBytes(message);
 		byte[] hash0 = hashFunc.getHash(msg).toBytes();
-		assertArrayEquals(hash1, hash0);
+		assertArrayEquals(hashFunc.toString(), hash1, hash0);
 	}
 	
 	
@@ -24,7 +24,7 @@ public class CryptoUtils {
 		byte[] hash1 = CryptoUtils.hexToBytes(expectedHash);
 		byte[] msg = CryptoUtils.hexToBytes(message);
 		byte[] hash0 = hashFunc.getHash(msg).toBytes();
-		assertArrayEquals(hash1, hash0);
+		assertArrayEquals(hashFunc.toString(), hash1, hash0);
 	}
 	
 	
@@ -55,7 +55,7 @@ public class CryptoUtils {
 	public static void testCipher(Cipher cipher, byte[] key, byte[] plaintext, byte[] expectedCiphertext) {
 		Cipherer cipherer = cipher.newCipherer(key);
 		cipherer.encrypt(plaintext);
-		assertArrayEquals(expectedCiphertext, plaintext);
+		assertArrayEquals(cipher.toString(), expectedCiphertext, plaintext);
 	}
 	
 	
@@ -69,7 +69,7 @@ public class CryptoUtils {
 		cipherer.encrypt(message1);
 		cipherer = cipher.newCipherer(key);  // Reinitialize the cipher
 		cipherer.decrypt(message1);
-		assertArrayEquals(message0, message1);
+		assertArrayEquals(cipher.toString(), message0, message1);
 	}
 	
 	
