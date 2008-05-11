@@ -58,6 +58,7 @@ public final class Rijndael extends BlockCipher {
 	}
 	
 	
+	
 	/**
 	 * Returns the name of this cipher algorithm: <samp>Rijndael (<var>n</var>-bit key, <var>m</var>-bit block)</samp>.
 	 */
@@ -65,12 +66,14 @@ public final class Rijndael extends BlockCipher {
 		return String.format("Rijndael (%d-bit key, %d-bit block)", keyLength * 8, blockLength * 8);
 	}
 	
+	
 	/**
 	 * Returns the key length of this cipher algorithm.
 	 */
 	public int getKeyLength() {
 		return keyLength;
 	}
+	
 	
 	/**
 	 * Returns the block length of this cipher algorithm.
