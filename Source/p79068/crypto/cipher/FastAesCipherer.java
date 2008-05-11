@@ -5,7 +5,7 @@ import p79068.lang.BoundsChecker;
 import p79068.math.IntegerBitMath;
 
 
-final class FastAesCipherer extends RijndaelCiphererParent {
+final class FastAesCipherer extends Cipherer {
 	
 	private int[] encryptionKeySch;  // Encryption key schedule, containing the round keys (in the order of application).
 	private int[] decryptionKeySch;  // Decryption key schedule, containing the round keys (in the order of application).
@@ -142,14 +142,14 @@ final class FastAesCipherer extends RijndaelCiphererParent {
 			throw new IllegalArgumentException("Invalid key length");
 		int nk = key.length / 4;  // Number of 32-bit blocks in the key
 		roundCount = Math.max(nk, 4) + 6;
-		encryptionKeySch = expandKey(key, 4);
+		encryptionKeySch = RijndaelUtils.expandKey(key, 4);
 		decryptionKeySch = new int[encryptionKeySch.length];
 		for (int i = 0; i < roundCount + 1; i++) {
 			if (i == 0 || i == roundCount)
 				System.arraycopy(encryptionKeySch, (roundCount - i) * 4, decryptionKeySch, i * 4, 4);
 			else {
 				for (int j = 0; j < 4; j++) {
-					decryptionKeySch[i * 4 + j] = mulinv0[sub[encryptionKeySch[(roundCount - i) * 4 + j] >>> 24 & 0xFF] & 0xFF] ^ mulinv1[sub[encryptionKeySch[(roundCount - i) * 4 + j] >>> 16 & 0xFF] & 0xFF] ^ mulinv2[sub[encryptionKeySch[(roundCount - i) * 4 + j] >>> 8 & 0xFF] & 0xFF] ^ mulinv3[sub[encryptionKeySch[(roundCount - i) * 4 + j] >>> 0 & 0xFF] & 0xFF];
+					decryptionKeySch[i * 4 + j] = mulinv0[RijndaelUtils.sub[encryptionKeySch[(roundCount - i) * 4 + j] >>> 24 & 0xFF] & 0xFF] ^ mulinv1[RijndaelUtils.sub[encryptionKeySch[(roundCount - i) * 4 + j] >>> 16 & 0xFF] & 0xFF] ^ mulinv2[RijndaelUtils.sub[encryptionKeySch[(roundCount - i) * 4 + j] >>> 8 & 0xFF] & 0xFF] ^ mulinv3[RijndaelUtils.sub[encryptionKeySch[(roundCount - i) * 4 + j] >>> 0 & 0xFF] & 0xFF];
 				}
 			}
 		}
@@ -172,8 +172,8 @@ final class FastAesCipherer extends RijndaelCiphererParent {
 		bigsub = new int[65536];
 		bigsubinv = new int[65536];
 		for (int i = 0; i < 65536; i++) {
-			bigsub[i] = (sub[i >>> 8] & 0xFF) << 8 | (sub[i & 0xFF] & 0xFF);
-			bigsubinv[i] = (subinv[i >>> 8] & 0xFF) << 8 | (subinv[i & 0xFF] & 0xFF);
+			bigsub[i] = (RijndaelUtils.sub[i >>> 8] & 0xFF) << 8 | (RijndaelUtils.sub[i & 0xFF] & 0xFF);
+			bigsubinv[i] = (RijndaelUtils.subinv[i >>> 8] & 0xFF) << 8 | (RijndaelUtils.subinv[i & 0xFF] & 0xFF);
 		}
 	}
 	
@@ -184,8 +184,11 @@ final class FastAesCipherer extends RijndaelCiphererParent {
 		mul2 = new int[256];
 		mul3 = new int[256];
 		for (int i = 0; i < 256; i++) {
-			int j = sub[i] & 0xFF;
-			int temp = multiply(j, 0x02) << 24 | multiply(j, 0x01) << 16 | multiply(j, 0x01) << 8 | multiply(j, 0x03);
+			int j = RijndaelUtils.sub[i] & 0xFF;
+			int temp = RijndaelUtils.multiply(j, 0x02) << 24
+			         | RijndaelUtils.multiply(j, 0x01) << 16
+			         | RijndaelUtils.multiply(j, 0x01) <<  8
+			         | RijndaelUtils.multiply(j, 0x03) <<  0;
 			mul0[i] = IntegerBitMath.rotateRight(temp,  0);
 			mul1[i] = IntegerBitMath.rotateRight(temp,  8);
 			mul2[i] = IntegerBitMath.rotateRight(temp, 16);
@@ -197,8 +200,11 @@ final class FastAesCipherer extends RijndaelCiphererParent {
 		mulinv2 = new int[256];
 		mulinv3 = new int[256];
 		for (int i = 0; i < 256; i++) {
-			int j = subinv[i] & 0xFF;
-			int temp = multiply(j, 0x0E) << 24 | multiply(j, 0x09) << 16 | multiply(j, 0x0D) << 8 | multiply(j, 0x0B);
+			int j = RijndaelUtils.subinv[i] & 0xFF;
+			int temp = RijndaelUtils.multiply(j, 0x0E) << 24
+			         | RijndaelUtils.multiply(j, 0x09) << 16
+			         | RijndaelUtils.multiply(j, 0x0D) <<  8
+			         | RijndaelUtils.multiply(j, 0x0B) <<  0;
 			mulinv0[i] = IntegerBitMath.rotateRight(temp,  0);
 			mulinv1[i] = IntegerBitMath.rotateRight(temp,  8);
 			mulinv2[i] = IntegerBitMath.rotateRight(temp, 16);

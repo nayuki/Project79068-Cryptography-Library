@@ -9,7 +9,7 @@ import p79068.crypto.Zeroizer;
 import p79068.lang.BoundsChecker;
 
 
-class RijndaelCipherer extends RijndaelCiphererParent {
+class RijndaelCipherer extends Cipherer {
 	
 	protected byte[][] keySchedule;  // Key schedule, containing the round keys. The number of rounds is equal to keySchedule.length-1.
 	protected int blockLength;
@@ -83,7 +83,7 @@ class RijndaelCipherer extends RijndaelCiphererParent {
 		int nk = key.length / 4;  // Number of 32-bit blocks in the key
 		int nb = blockLength / 4;  // Number of 32-bit blocks in the state
 		int rounds = Math.max(nk, nb) + 6;
-		int[] w = expandKey(key, nb);  // Key schedule
+		int[] w = RijndaelUtils.expandKey(key, nb);  // Key schedule
 		keySchedule = new byte[rounds + 1][];
 		for (int i = 0; i < keySchedule.length; i++)
 			keySchedule[i] = toBytesBigEndian(w, i * nb, nb);
@@ -120,7 +120,7 @@ class RijndaelCipherer extends RijndaelCiphererParent {
 	
 	protected void subBytes(byte[] block) {
 		for (int i = 0; i < blockLength; i++)
-			block[i] = sub[block[i] & 0xFF];
+			block[i] = RijndaelUtils.sub[block[i] & 0xFF];
 	}
 	
 	
@@ -152,7 +152,7 @@ class RijndaelCipherer extends RijndaelCiphererParent {
 	
 	protected void subBytesInverse(byte[] block) {
 		for (int i = 0; i < blockLength; i++)
-			block[i] = subinv[block[i] & 0xFF];
+			block[i] = RijndaelUtils.subinv[block[i] & 0xFF];
 	}
 	
 	
@@ -176,8 +176,8 @@ class RijndaelCipherer extends RijndaelCiphererParent {
 	
 	
 	
-	protected static byte[] mul02, mul03;
-	protected static byte[] mul0E, mul0B, mul0D, mul09;
+	protected static final byte[] mul02, mul03;
+	protected static final byte[] mul0E, mul0B, mul0D, mul09;
 	
 	
 	private static byte[] toBytesBigEndian(int[] ain, int off, int len) {
@@ -193,11 +193,7 @@ class RijndaelCipherer extends RijndaelCiphererParent {
 	
 	
 	static {
-		initMultiplyTable();
-	}
-	
-	
-	private static void initMultiplyTable() {
+		// Initialize the multiplication tables
 		mul02 = new byte[256];
 		mul03 = new byte[256];
 		mul0E = new byte[256];
@@ -205,12 +201,12 @@ class RijndaelCipherer extends RijndaelCiphererParent {
 		mul0D = new byte[256];
 		mul09 = new byte[256];
 		for (int i = 0; i < 256; i++) {
-			mul02[i] = (byte)multiply(i, 0x02);
-			mul03[i] = (byte)multiply(i, 0x03);
-			mul0E[i] = (byte)multiply(i, 0x0E);
-			mul0B[i] = (byte)multiply(i, 0x0B);
-			mul0D[i] = (byte)multiply(i, 0x0D);
-			mul09[i] = (byte)multiply(i, 0x09);
+			mul02[i] = (byte)RijndaelUtils.multiply(i, 0x02);
+			mul03[i] = (byte)RijndaelUtils.multiply(i, 0x03);
+			mul0E[i] = (byte)RijndaelUtils.multiply(i, 0x0E);
+			mul0B[i] = (byte)RijndaelUtils.multiply(i, 0x0B);
+			mul0D[i] = (byte)RijndaelUtils.multiply(i, 0x0D);
+			mul09[i] = (byte)RijndaelUtils.multiply(i, 0x09);
 		}
 	}
 	

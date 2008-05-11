@@ -62,7 +62,7 @@ final class AesCipherer extends RijndaelCipherer {
 	
 	protected void subBytes(byte[] block) {
 		for (int i = 0; i < 16; i++)
-			block[i] = sub[block[i] & 0xFF];
+			block[i] = RijndaelUtils.sub[block[i] & 0xFF];
 	}
 	
 	
@@ -91,7 +91,7 @@ final class AesCipherer extends RijndaelCipherer {
 	
 	protected void subByteblockinverse(byte[] block) {
 		for (int i = 0; i < 16; i++)
-			block[i] = subinv[block[i] & 0xFF];
+			block[i] = RijndaelUtils.subinv[block[i] & 0xFF];
 	}
 	
 	
