@@ -7,7 +7,10 @@ import p79068.lang.*;
 final class Rc4Cipherer extends StreamCipherer {
 	
 	private int[] s;  // A permutation of {0, 1, 2, ..., 254, 255}
-	private int i, j;
+	
+	private int i;  // A counter modulo 256
+	
+	private int j;
 	
 	
 	
@@ -32,6 +35,7 @@ final class Rc4Cipherer extends StreamCipherer {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
 		BoundsChecker.check(b.length, off, len);
+		
 		for (int end = off + len; off < end; off++) {
 			i = (i + 1) & 0xFF;
 			j = (j + s[i]) & 0xFF;
@@ -46,6 +50,9 @@ final class Rc4Cipherer extends StreamCipherer {
 	public void skip(int byteCount) {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
+		if (byteCount < 0)
+			throw new IllegalArgumentException("Negative skip");
+		
 		for (int k = 0; k < byteCount; k++) {
 			i = (i + 1) & 0xFF;
 			j = (j + s[i]) & 0xFF;
