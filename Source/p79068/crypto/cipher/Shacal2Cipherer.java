@@ -48,8 +48,12 @@ final class Shacal2Cipherer extends Cipherer {
 			int g = B[off + 24] << 24 | (B[off + 25] & 0xFF) << 16 | (B[off + 26] & 0xFF) << 8 | (B[off + 27] & 0xFF);
 			int h = B[off + 28] << 24 | (B[off + 29] & 0xFF) << 16 | (B[off + 30] & 0xFF) << 8 | (B[off + 31] & 0xFF);
 			for (int i = 0; i < 64; i++) {
-				int t1 = h + ((e << 26 | e >>> 6) ^ (e << 21 | e >>> 11) ^ (e << 7 | e >>> 25)) + (g ^ (e & (f ^ g))) + k[i] + keySchedule[i];
-				int t2 = ((a << 30 | a >>> 2) ^ (a << 19 | a >>> 13) ^ (a << 10 | a >>> 22)) + ((a & (b | c)) | (b & c));
+				int s0 = (a << 30 | a >>> 2) ^ (a << 19 | a >>> 13) ^ (a << 10 | a >>> 22);
+				int s1 = (e << 26 | e >>> 6) ^ (e << 21 | e >>> 11) ^ (e << 7 | e >>> 25);
+				int maj = (a & (b | c)) | (b & c);
+				int ch = g ^ (e & (f ^ g));
+				int t1 = h + s1 + ch + k[i] + keySchedule[i];
+				int t2 = s0 + maj;
 				h = g;
 				g = f;
 				f = e;
@@ -134,8 +138,12 @@ final class Shacal2Cipherer extends Cipherer {
 				e = f;
 				f = g;
 				g = h;
-				int t2 = ((e << 26 | e >>> 6) ^ (e << 21 | e >>> 11) ^ (e << 7 | e >>> 25)) + (g ^ (e & (f ^ g))) + k[i] + keySchedule[i];
-				int t3 = ((a << 30 | a >>> 2) ^ (a << 19 | a >>> 13) ^ (a << 10 | a >>> 22)) + ((a & (b | c)) | (b & c));
+				int s0 = (a << 30 | a >>> 2) ^ (a << 19 | a >>> 13) ^ (a << 10 | a >>> 22);
+				int s1 = (e << 26 | e >>> 6) ^ (e << 21 | e >>> 11) ^ (e << 7 | e >>> 25);
+				int maj = (a & (b | c)) | (b & c);
+				int ch = g ^ (e & (f ^ g));
+				int t2 = s1 + ch + k[i] + keySchedule[i];
+				int t3 = s0 + maj;
 				h = t0 - (t2 + t3);
 				d = t1 - (h + t2);
 			}
@@ -194,8 +202,11 @@ final class Shacal2Cipherer extends Cipherer {
 		int i = 0;
 		for (; i < 16; i++)
 			keySchedule[i] = key[i * 4] << 24 | (key[i * 4 + 1] & 0xFF) << 16 | (key[i * 4 + 2] & 0xFF) << 8 | (key[i * 4 + 3] & 0xFF);
-		for (; i < 64; i++)
-			keySchedule[i] = keySchedule[i - 16] + ((keySchedule[i - 15] << 25 | keySchedule[i - 15] >>> 7) ^ (keySchedule[i - 15] << 14 | keySchedule[i - 15] >>> 18) ^ (keySchedule[i - 15] >>> 3)) + keySchedule[i - 7] + ((keySchedule[i - 2] << 15 | keySchedule[i - 2] >>> 17) ^ (keySchedule[i - 2] << 13 | keySchedule[i - 2] >>> 19) ^ (keySchedule[i - 2] >>> 10));
+		for (; i < 64; i++) {
+			int s0 = (keySchedule[i-15] << 25 | keySchedule[i-15] >>> 7) ^ (keySchedule[i-15] << 14 | keySchedule[i-15] >>> 18) ^ (keySchedule[i-15] >>> 3);
+			int s1 = (keySchedule[i-2] << 15 | keySchedule[i-2] >>> 17) ^ (keySchedule[i-2] << 13 | keySchedule[i-2] >>> 19) ^ (keySchedule[i-2] >>> 10);
+			keySchedule[i] = keySchedule[i - 16] + keySchedule[i - 7] + s0 + s1;
+		}
 	}
 	
 	
