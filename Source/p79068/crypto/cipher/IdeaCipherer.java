@@ -10,7 +10,7 @@ final class IdeaCipherer extends Cipherer {
 	private int[] decKeySch;  // Decryption key schedule
 	
 	
-
+	
 	IdeaCipherer(Idea cipher, byte[] key) {
 		super(cipher, key);
 		setKey(key);
@@ -22,7 +22,7 @@ final class IdeaCipherer extends Cipherer {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
 		BoundsChecker.check(b.length, off, len);
-		if ((len & 0x7) != 0)
+		if (len % 8 != 0)
 			throw new IllegalArgumentException("Invalid block length");
 		crypt(b, off, len, encKeySch);
 	}
@@ -32,7 +32,7 @@ final class IdeaCipherer extends Cipherer {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
 		BoundsChecker.check(b.length, off, len);
-		if ((len & 0x7) != 0)
+		if (len % 8 != 0)
 			throw new IllegalArgumentException("Invalid block length");
 		crypt(b, off, len, decKeySch);
 	}
@@ -52,9 +52,10 @@ final class IdeaCipherer extends Cipherer {
 	
 	private void setKey(byte[] key) {
 		encKeySch = new int[52];
-		decKeySch = new int[52];
 		for (int i = 0; i < encKeySch.length; i++)
 			encKeySch[i] = getInt16(key, i * 16 + i / 8 * 25);
+		
+		decKeySch = new int[52];
 		decKeySch[0] = reciprocal(encKeySch[48]);
 		decKeySch[1] = negate(encKeySch[49]);
 		decKeySch[2] = negate(encKeySch[50]);
@@ -77,12 +78,17 @@ final class IdeaCipherer extends Cipherer {
 	
 	
 	private static void crypt(byte[] b, int off, int len, int[] keysch) {
-		for (len += off; off < len; off += 8) {
-			int w = (b[off + 0] & 0xFF) << 8 | (b[off + 1] & 0xFF);  // 4 unsigned 16-bit integers
+		// For each block of 8 bytes
+		for (int end = off + len; off < end; off += 8) {
+			
+			// Pack bytes into uint16s in big endian
+			int w = (b[off + 0] & 0xFF) << 8 | (b[off + 1] & 0xFF);
 			int x = (b[off + 2] & 0xFF) << 8 | (b[off + 3] & 0xFF);
 			int y = (b[off + 4] & 0xFF) << 8 | (b[off + 5] & 0xFF);
 			int z = (b[off + 6] & 0xFF) << 8 | (b[off + 7] & 0xFF);
-			for (int i = 0; i < 48; i += 6) {  // 8 rounds. i represents the offset in the key schedule.
+			
+			// 8 rounds. i represents the offset in the key schedule.
+			for (int i = 0; i < 48; i += 6) {
 				w = multiply(w, keysch[i + 0]);
 				x = (x + keysch[i + 1]) & 0xFFFF;
 				y = (y + keysch[i + 2]) & 0xFFFF;
@@ -103,6 +109,8 @@ final class IdeaCipherer extends Cipherer {
 			x = (y + keysch[49]) & 0xFFFF;
 			y = tp;
 			z = multiply(z, keysch[51]);
+			
+			// Unpack uint16s into bytes in big endian
 			b[off + 0] = (byte)(w >>> 8);
 			b[off + 1] = (byte)(w >>> 0);
 			b[off + 2] = (byte)(x >>> 8);
@@ -118,25 +126,36 @@ final class IdeaCipherer extends Cipherer {
 	
 	// This has been verified by brute force. But it can be proven mathematically too.
 	private static int multiply(int x, int y) {
+		if ((x & ~0xFFFF) != 0 || (y & ~0xFFFF) != 0)
+			throw new IllegalArgumentException();
+		
 		if (x == 0)
 			return (0x10001 - y) & 0xFFFF;
-		if (y == 0)
+		else if (y == 0)
 			return (0x10001 - x) & 0xFFFF;
-		int z = x * y;
-		z = (z & 0xFFFF) - (z >>> 16);
-		if (z < 0)
-			z += 0x10001;
-		return z & 0xFFFF;
+		else {
+			int z = x * y;
+			z = (z & 0xFFFF) - (z >>> 16);
+			if (z < 0)
+				z += 0x10001;
+			return z & 0xFFFF;
+		}
 	}
 	
 	
 	private static int negate(int x) {
-		return 0x10000 - x;
+		if ((x & ~0xFFFF) != 0)
+			throw new IllegalArgumentException();
+		else
+			return 0x10000 - x;
 	}
 	
 	
 	// Returns the multiplicative inverse of x modulo 65537 using the extended Euclidean algorithm. Verified by brute force.
 	private static int reciprocal(int y) {
+		if ((y & ~0xFFFF) != 0)
+			throw new IllegalArgumentException();
+		
 		if (y == 0)
 			return 0;
 		int x = 0x10001;
@@ -152,7 +171,8 @@ final class IdeaCipherer extends Cipherer {
 		}
 		if (a >= 0)
 			return a;
-		return a + 0x10001;
+		else
+			return a + 0x10001;
 	}
 	
 	
