@@ -2,6 +2,7 @@ package crypto.hash;
 
 import org.junit.Test;
 import crypto.CryptoUtils;
+import p79068.crypto.hash.Sha;
 import p79068.crypto.hash.Sha1;
 import p79068.crypto.hash.Sha224;
 import p79068.crypto.hash.Sha256;
@@ -25,6 +26,15 @@ public class ShaTest {
 		msg4 = sb.toString();
 	}
 	
+	
+	
+	@Test
+	public void testSha() {
+		CryptoUtils.testWithAsciiMessage(Sha.FUNCTION, msg0, "F96CEA198AD1DD5617AC084A3D92C6107708C0EF");
+		CryptoUtils.testWithAsciiMessage(Sha.FUNCTION, msg1, "0164B8A914CD2A5E74C4F7FF082C4D97F1EDF880");
+		CryptoUtils.testWithAsciiMessage(Sha.FUNCTION, msg2, "D2516EE1ACFA5BAF33DFC1C471E438449EF134C8");
+		CryptoUtils.testWithAsciiMessage(Sha.FUNCTION, msg4, "3232AFFA48628A26653B5AAA44541FD90D690603");
+	}
 	
 	
 	@Test
@@ -55,6 +65,7 @@ public class ShaTest {
 	
 	@Test
 	public void testSha384() {
+		CryptoUtils.testWithAsciiMessage(Sha384.FUNCTION, msg0, "38B060A751AC96384CD9327EB1B1E36A21FDB71114BE07434C0CC7BF63F6E1DA274EDEBFE76F65FBD51AD2F14898B95B");
 		CryptoUtils.testWithAsciiMessage(Sha384.FUNCTION, msg1, "CB00753F45A35E8BB5A03D699AC65007272C32AB0EDED1631A8B605A43FF5BED8086072BA1E7CC2358BAECA134C825A7");
 		CryptoUtils.testWithAsciiMessage(Sha384.FUNCTION, msg3, "09330C33F71147E83D192FC782CD1B4753111B173B3B05D22FA08086E3B0F712FCC7C71A557E2DB966C3E9FA91746039");
 		CryptoUtils.testWithAsciiMessage(Sha384.FUNCTION, msg4, "9D0E1809716474CB086E834E310A4A1CED149E9C00F248527972CEC5704C2A5B07B8B3DC38ECC4EBAE97DDD87F3D8985");
