@@ -25,8 +25,15 @@ public final class Rijndael extends BlockCipher {
 	
 	
 	
-	private int keyLength;
+	/**
+	 * The block length, in bytes.
+	 */
 	private int blockLength;
+	
+	/**
+	 * The key length, in bytes.
+	 */
+	private int keyLength;
 	
 	
 	
