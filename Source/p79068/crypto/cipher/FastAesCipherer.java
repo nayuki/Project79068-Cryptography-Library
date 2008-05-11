@@ -7,8 +7,8 @@ import p79068.math.IntegerBitMath;
 
 final class FastAesCipherer extends Cipherer {
 	
-	private int[] encryptionKeySch;  // Encryption key schedule, containing the round keys (in the order of application).
-	private int[] decryptionKeySch;  // Decryption key schedule, containing the round keys (in the order of application).
+	private int[] encKeySch;  // Encryption key schedule, containing the round keys (in the order of application).
+	private int[] decKeySch;  // Decryption key schedule, containing the round keys (in the order of application).
 	private int roundCount;
 	
 	
@@ -31,26 +31,26 @@ final class FastAesCipherer extends Cipherer {
 		for (int end = off + len; off < end; off += 16) {
 			
 			// Pack bytes into columns. Each variable represents a column.
-			int x0 = (b[off +  0] << 24 | (b[off +  1] & 0xFF) << 16 | (b[off +  2] & 0xFF) << 8 | (b[off +  3] & 0xFF)) ^ encryptionKeySch[0];
-			int x1 = (b[off +  4] << 24 | (b[off +  5] & 0xFF) << 16 | (b[off +  6] & 0xFF) << 8 | (b[off +  7] & 0xFF)) ^ encryptionKeySch[1];
-			int x2 = (b[off +  8] << 24 | (b[off +  9] & 0xFF) << 16 | (b[off + 10] & 0xFF) << 8 | (b[off + 11] & 0xFF)) ^ encryptionKeySch[2];
-			int x3 = (b[off + 12] << 24 | (b[off + 13] & 0xFF) << 16 | (b[off + 14] & 0xFF) << 8 | (b[off + 15] & 0xFF)) ^ encryptionKeySch[3];
+			int x0 = (b[off +  0] << 24 | (b[off +  1] & 0xFF) << 16 | (b[off +  2] & 0xFF) << 8 | (b[off +  3] & 0xFF)) ^ encKeySch[0];
+			int x1 = (b[off +  4] << 24 | (b[off +  5] & 0xFF) << 16 | (b[off +  6] & 0xFF) << 8 | (b[off +  7] & 0xFF)) ^ encKeySch[1];
+			int x2 = (b[off +  8] << 24 | (b[off +  9] & 0xFF) << 16 | (b[off + 10] & 0xFF) << 8 | (b[off + 11] & 0xFF)) ^ encKeySch[2];
+			int x3 = (b[off + 12] << 24 | (b[off + 13] & 0xFF) << 16 | (b[off + 14] & 0xFF) << 8 | (b[off + 15] & 0xFF)) ^ encKeySch[3];
 			
 			for (int i = 1; i < roundCount; i++) {
 				int y0 = mul0[x0 >>> 24] ^ mul1[x1 >>> 16 & 0xFF] ^ mul2[x2 >>> 8 & 0xFF] ^ mul3[x3 & 0xFF];
 				int y1 = mul0[x1 >>> 24] ^ mul1[x2 >>> 16 & 0xFF] ^ mul2[x3 >>> 8 & 0xFF] ^ mul3[x0 & 0xFF];
 				int y2 = mul0[x2 >>> 24] ^ mul1[x3 >>> 16 & 0xFF] ^ mul2[x0 >>> 8 & 0xFF] ^ mul3[x1 & 0xFF];
 				int y3 = mul0[x3 >>> 24] ^ mul1[x0 >>> 16 & 0xFF] ^ mul2[x1 >>> 8 & 0xFF] ^ mul3[x2 & 0xFF];
-				x0 = y0 ^ encryptionKeySch[i << 2 | 0];
-				x1 = y1 ^ encryptionKeySch[i << 2 | 1];
-				x2 = y2 ^ encryptionKeySch[i << 2 | 2];
-				x3 = y3 ^ encryptionKeySch[i << 2 | 3];
+				x0 = y0 ^ encKeySch[i << 2 | 0];
+				x1 = y1 ^ encKeySch[i << 2 | 1];
+				x2 = y2 ^ encKeySch[i << 2 | 2];
+				x3 = y3 ^ encKeySch[i << 2 | 3];
 			}
 			
-			int y0 = (bigsub[(x0 & 0xFF000000 | x1 & 0x00FF0000) >>> 16] << 16 | bigsub[x2 & 0x0000FF00 | x3 & 0x000000FF]) ^ encryptionKeySch[roundCount << 2 | 0];
-			int y1 = (bigsub[(x1 & 0xFF000000 | x2 & 0x00FF0000) >>> 16] << 16 | bigsub[x3 & 0x0000FF00 | x0 & 0x000000FF]) ^ encryptionKeySch[roundCount << 2 | 1];
-			int y2 = (bigsub[(x2 & 0xFF000000 | x3 & 0x00FF0000) >>> 16] << 16 | bigsub[x0 & 0x0000FF00 | x1 & 0x000000FF]) ^ encryptionKeySch[roundCount << 2 | 2];
-			int y3 = (bigsub[(x3 & 0xFF000000 | x0 & 0x00FF0000) >>> 16] << 16 | bigsub[x1 & 0x0000FF00 | x2 & 0x000000FF]) ^ encryptionKeySch[roundCount << 2 | 3];
+			int y0 = (bigsub[(x0 & 0xFF000000 | x1 & 0x00FF0000) >>> 16] << 16 | bigsub[x2 & 0x0000FF00 | x3 & 0x000000FF]) ^ encKeySch[roundCount << 2 | 0];
+			int y1 = (bigsub[(x1 & 0xFF000000 | x2 & 0x00FF0000) >>> 16] << 16 | bigsub[x3 & 0x0000FF00 | x0 & 0x000000FF]) ^ encKeySch[roundCount << 2 | 1];
+			int y2 = (bigsub[(x2 & 0xFF000000 | x3 & 0x00FF0000) >>> 16] << 16 | bigsub[x0 & 0x0000FF00 | x1 & 0x000000FF]) ^ encKeySch[roundCount << 2 | 2];
+			int y3 = (bigsub[(x3 & 0xFF000000 | x0 & 0x00FF0000) >>> 16] << 16 | bigsub[x1 & 0x0000FF00 | x2 & 0x000000FF]) ^ encKeySch[roundCount << 2 | 3];
 			
 			// Unpack columns into bytes
 			b[off +  0] = (byte)(y0 >>> 24);
@@ -84,26 +84,26 @@ final class FastAesCipherer extends Cipherer {
 		for (int end = off + len; off < end; off += 16) {
 			
 			// Pack bytes into columns. Each variable represents a column.
-			int x0 = (b[off +  0] << 24 | (b[off +  1] & 0xFF) << 16 | (b[off +  2] & 0xFF) << 8 | (b[off +  3] & 0xFF)) ^ decryptionKeySch[0];
-			int x1 = (b[off +  4] << 24 | (b[off +  5] & 0xFF) << 16 | (b[off +  6] & 0xFF) << 8 | (b[off +  7] & 0xFF)) ^ decryptionKeySch[1];
-			int x2 = (b[off +  8] << 24 | (b[off +  9] & 0xFF) << 16 | (b[off + 10] & 0xFF) << 8 | (b[off + 11] & 0xFF)) ^ decryptionKeySch[2];
-			int x3 = (b[off + 12] << 24 | (b[off + 13] & 0xFF) << 16 | (b[off + 14] & 0xFF) << 8 | (b[off + 15] & 0xFF)) ^ decryptionKeySch[3];
+			int x0 = (b[off +  0] << 24 | (b[off +  1] & 0xFF) << 16 | (b[off +  2] & 0xFF) << 8 | (b[off +  3] & 0xFF)) ^ decKeySch[0];
+			int x1 = (b[off +  4] << 24 | (b[off +  5] & 0xFF) << 16 | (b[off +  6] & 0xFF) << 8 | (b[off +  7] & 0xFF)) ^ decKeySch[1];
+			int x2 = (b[off +  8] << 24 | (b[off +  9] & 0xFF) << 16 | (b[off + 10] & 0xFF) << 8 | (b[off + 11] & 0xFF)) ^ decKeySch[2];
+			int x3 = (b[off + 12] << 24 | (b[off + 13] & 0xFF) << 16 | (b[off + 14] & 0xFF) << 8 | (b[off + 15] & 0xFF)) ^ decKeySch[3];
 			
 			for (int i = 1; i < roundCount; i++) {
 				int y0 = mulinv0[x0 >>> 24] ^ mulinv1[x3 >>> 16 & 0xFF] ^ mulinv2[x2 >>> 8 & 0xFF] ^ mulinv3[x1 & 0xFF];
 				int y1 = mulinv0[x1 >>> 24] ^ mulinv1[x0 >>> 16 & 0xFF] ^ mulinv2[x3 >>> 8 & 0xFF] ^ mulinv3[x2 & 0xFF];
 				int y2 = mulinv0[x2 >>> 24] ^ mulinv1[x1 >>> 16 & 0xFF] ^ mulinv2[x0 >>> 8 & 0xFF] ^ mulinv3[x3 & 0xFF];
 				int y3 = mulinv0[x3 >>> 24] ^ mulinv1[x2 >>> 16 & 0xFF] ^ mulinv2[x1 >>> 8 & 0xFF] ^ mulinv3[x0 & 0xFF];
-				x0 = y0 ^ decryptionKeySch[i << 2 | 0];
-				x1 = y1 ^ decryptionKeySch[i << 2 | 1];
-				x2 = y2 ^ decryptionKeySch[i << 2 | 2];
-				x3 = y3 ^ decryptionKeySch[i << 2 | 3];
+				x0 = y0 ^ decKeySch[i << 2 | 0];
+				x1 = y1 ^ decKeySch[i << 2 | 1];
+				x2 = y2 ^ decKeySch[i << 2 | 2];
+				x3 = y3 ^ decKeySch[i << 2 | 3];
 			}
 			
-			int y0 = (bigsubinv[(x0 & 0xFF000000 | x3 & 0x00FF0000) >>> 16] << 16 | bigsubinv[x2 & 0x0000FF00 | x1 & 0x000000FF]) ^ decryptionKeySch[roundCount << 2 | 0];
-			int y1 = (bigsubinv[(x1 & 0xFF000000 | x0 & 0x00FF0000) >>> 16] << 16 | bigsubinv[x3 & 0x0000FF00 | x2 & 0x000000FF]) ^ decryptionKeySch[roundCount << 2 | 1];
-			int y2 = (bigsubinv[(x2 & 0xFF000000 | x1 & 0x00FF0000) >>> 16] << 16 | bigsubinv[x0 & 0x0000FF00 | x3 & 0x000000FF]) ^ decryptionKeySch[roundCount << 2 | 2];
-			int y3 = (bigsubinv[(x3 & 0xFF000000 | x2 & 0x00FF0000) >>> 16] << 16 | bigsubinv[x1 & 0x0000FF00 | x0 & 0x000000FF]) ^ decryptionKeySch[roundCount << 2 | 3];
+			int y0 = (bigsubinv[(x0 & 0xFF000000 | x3 & 0x00FF0000) >>> 16] << 16 | bigsubinv[x2 & 0x0000FF00 | x1 & 0x000000FF]) ^ decKeySch[roundCount << 2 | 0];
+			int y1 = (bigsubinv[(x1 & 0xFF000000 | x0 & 0x00FF0000) >>> 16] << 16 | bigsubinv[x3 & 0x0000FF00 | x2 & 0x000000FF]) ^ decKeySch[roundCount << 2 | 1];
+			int y2 = (bigsubinv[(x2 & 0xFF000000 | x1 & 0x00FF0000) >>> 16] << 16 | bigsubinv[x0 & 0x0000FF00 | x3 & 0x000000FF]) ^ decKeySch[roundCount << 2 | 2];
+			int y3 = (bigsubinv[(x3 & 0xFF000000 | x2 & 0x00FF0000) >>> 16] << 16 | bigsubinv[x1 & 0x0000FF00 | x0 & 0x000000FF]) ^ decKeySch[roundCount << 2 | 3];
 			
 			// Unpack columns into bytes
 			b[off +  0] = (byte)(y0 >>> 24);
@@ -129,10 +129,10 @@ final class FastAesCipherer extends Cipherer {
 	public void zeroize() {
 		if (cipher == null)
 			return;
-		Zeroizer.clear(encryptionKeySch);
-		Zeroizer.clear(decryptionKeySch);
-		encryptionKeySch = null;
-		decryptionKeySch = null;
+		Zeroizer.clear(encKeySch);
+		Zeroizer.clear(decKeySch);
+		encKeySch = null;
+		decKeySch = null;
 		super.zeroize();
 	}
 	
@@ -142,14 +142,14 @@ final class FastAesCipherer extends Cipherer {
 			throw new IllegalArgumentException("Invalid key length");
 		int nk = key.length / 4;  // Number of 32-bit blocks in the key
 		roundCount = Math.max(nk, 4) + 6;
-		encryptionKeySch = RijndaelUtils.expandKey(key, 4);
-		decryptionKeySch = new int[encryptionKeySch.length];
+		encKeySch = RijndaelUtils.expandKey(key, 4);
+		decKeySch = new int[encKeySch.length];
 		for (int i = 0; i < roundCount + 1; i++) {
 			if (i == 0 || i == roundCount)
-				System.arraycopy(encryptionKeySch, (roundCount - i) * 4, decryptionKeySch, i * 4, 4);
+				System.arraycopy(encKeySch, (roundCount - i) * 4, decKeySch, i * 4, 4);
 			else {
 				for (int j = 0; j < 4; j++) {
-					decryptionKeySch[i * 4 + j] = mulinv0[RijndaelUtils.sub[encryptionKeySch[(roundCount - i) * 4 + j] >>> 24 & 0xFF] & 0xFF] ^ mulinv1[RijndaelUtils.sub[encryptionKeySch[(roundCount - i) * 4 + j] >>> 16 & 0xFF] & 0xFF] ^ mulinv2[RijndaelUtils.sub[encryptionKeySch[(roundCount - i) * 4 + j] >>> 8 & 0xFF] & 0xFF] ^ mulinv3[RijndaelUtils.sub[encryptionKeySch[(roundCount - i) * 4 + j] >>> 0 & 0xFF] & 0xFF];
+					decKeySch[i * 4 + j] = mulinv0[RijndaelUtils.sub[encKeySch[(roundCount - i) * 4 + j] >>> 24 & 0xFF] & 0xFF] ^ mulinv1[RijndaelUtils.sub[encKeySch[(roundCount - i) * 4 + j] >>> 16 & 0xFF] & 0xFF] ^ mulinv2[RijndaelUtils.sub[encKeySch[(roundCount - i) * 4 + j] >>> 8 & 0xFF] & 0xFF] ^ mulinv3[RijndaelUtils.sub[encKeySch[(roundCount - i) * 4 + j] >>> 0 & 0xFF] & 0xFF];
 				}
 			}
 		}
