@@ -16,11 +16,12 @@ public final class Rijndael extends BlockCipher {
 	/**
 	 * The AES cipher algorithm with 192-bit key size.
 	 */
-	public static final Rijndael AES192_CIPHER = new Rijndael(24, 16);
+	public static final Rijndael AES192_CIPHER = new Rijndael(16, 24);
 	
-	/** The AES cipher algorithm with 256-bit key size.
+	/**
+	 * The AES cipher algorithm with 256-bit key size.
 	 */
-	public static final Rijndael AES256_CIPHER = new Rijndael(32, 16);
+	public static final Rijndael AES256_CIPHER = new Rijndael(16, 32);
 	
 	
 	
@@ -29,7 +30,7 @@ public final class Rijndael extends BlockCipher {
 	
 	
 	
-	public Rijndael(int keyLength, int blockLength) {
+	public Rijndael(int blockLength, int keyLength) {
 		if (keyLength < 4 || keyLength % 4 != 0)
 			throw new IllegalArgumentException("Invalid key length");
 		if (blockLength < 16 || blockLength > 32 || blockLength % 4 != 0)
