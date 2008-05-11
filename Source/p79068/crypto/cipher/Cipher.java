@@ -25,13 +25,15 @@ public abstract class Cipher {
 	
 	
 	/**
-	 * Returns the key length of this cipher algorithm.
+	 * Returns the key length of this cipher algorithm, in bytes.
+	 * @return the key length of this cipher algorithm, in bytes
 	 */
 	public abstract int getKeyLength();
 	
 	
 	/**
-	 * Returns the block length of this cipher algorithm. Encryptions and decryptions only act on complete blocks.
+	 * Returns the block length of this cipher algorithm, in bytes. Encryptions and decryptions only act on complete blocks.
+	 * @return the block length of this cipher algorithm, in bytes
 	 */
 	public abstract int getBlockLength();
 	
