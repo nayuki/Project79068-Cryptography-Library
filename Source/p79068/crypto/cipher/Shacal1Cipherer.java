@@ -38,13 +38,17 @@ final class Shacal1Cipherer extends Cipherer {
 		if (len % 20 != 0)
 			throw new IllegalArgumentException("Invalid block length");
 		
+		// For each block of 20 bytes
 		for (int end = off + len; off < end; off += 20) {
+			
+			// Pack bytes into int32s in big endian
 			int a = B[off +  0] << 24 | (B[off +  1] & 0xFF) << 16 | (B[off +  2] & 0xFF) << 8 | (B[off +  3] & 0xFF);
 			int b = B[off +  4] << 24 | (B[off +  5] & 0xFF) << 16 | (B[off +  6] & 0xFF) << 8 | (B[off +  7] & 0xFF);
 			int c = B[off +  8] << 24 | (B[off +  9] & 0xFF) << 16 | (B[off + 10] & 0xFF) << 8 | (B[off + 11] & 0xFF);
 			int d = B[off + 12] << 24 | (B[off + 13] & 0xFF) << 16 | (B[off + 14] & 0xFF) << 8 | (B[off + 15] & 0xFF);
 			int e = B[off + 16] << 24 | (B[off + 17] & 0xFF) << 16 | (B[off + 18] & 0xFF) << 8 | (B[off + 19] & 0xFF);
 			
+			// The 80 rounds
 			for (int i = 0; i < 80; i++) {
 				int f;
 				if (0 <= i && i < 20)
@@ -66,6 +70,7 @@ final class Shacal1Cipherer extends Cipherer {
 				a = temp;
 			}
 			
+			// Unpack int32s into bytes in big endian
 			B[off +  0] = (byte)(a >>> 24);
 			B[off +  1] = (byte)(a >>> 16);
 			B[off +  2] = (byte)(a >>>  8);
@@ -108,13 +113,17 @@ final class Shacal1Cipherer extends Cipherer {
 		if (len % 20 != 0)
 			throw new IllegalArgumentException("Invalid block length");
 		
+		// For each block of 20 bytes
 		for (int end = off + len; off < end; off += 20) {
+			
+			// Pack bytes into int32s in big endian
 			int a = B[off +  0] << 24 | (B[off +  1] & 0xFF) << 16 | (B[off +  2] & 0xFF) << 8 | (B[off +  3] & 0xFF);
 			int b = B[off +  4] << 24 | (B[off +  5] & 0xFF) << 16 | (B[off +  6] & 0xFF) << 8 | (B[off +  7] & 0xFF);
 			int c = B[off +  8] << 24 | (B[off +  9] & 0xFF) << 16 | (B[off + 10] & 0xFF) << 8 | (B[off + 11] & 0xFF);
 			int d = B[off + 12] << 24 | (B[off + 13] & 0xFF) << 16 | (B[off + 14] & 0xFF) << 8 | (B[off + 15] & 0xFF);
 			int e = B[off + 16] << 24 | (B[off + 17] & 0xFF) << 16 | (B[off + 18] & 0xFF) << 8 | (B[off + 19] & 0xFF);
 			
+			// The 80 rounds
 			for (int i = 79; i >= 0; i--) {
 				int temp = a;
 				a = b;
@@ -137,6 +146,7 @@ final class Shacal1Cipherer extends Cipherer {
 				e = temp - ((a << 5 | a >>> 27) + f + k[i / 20] + keySchedule[i]);
 			}
 			
+			// Unpack int32s into bytes in big endian
 			B[off +  0] = (byte)(a >>> 24);
 			B[off +  1] = (byte)(a >>> 16);
 			B[off +  2] = (byte)(a >>>  8);
@@ -171,19 +181,30 @@ final class Shacal1Cipherer extends Cipherer {
 	
 	
 	
-	private void setKey(byte[] key) {  // If the key is shorter than 64 bytes, then zeros are appended
-		{
-			byte[] tempkey = new byte[64];
-			System.arraycopy(key, 0, tempkey, 0, key.length);
-			key = tempkey;
+	private void setKey(byte[] key) {
+		key = ensureKeyLength(key);
+
+		// Pack bytes into int32s in big endian
+		for (int i = 0; i < 16; i++) {
+			keySchedule[i] = (key[i * 4 + 0] & 0xFF) << 24
+			               | (key[i * 4 + 1] & 0xFF) << 16
+			               | (key[i * 4 + 2] & 0xFF) <<  8
+			               | (key[i * 4 + 3] & 0xFF) <<  0;
 		}
-		int i = 0;
-		for (; i < 16; i++)
-			keySchedule[i] = key[i * 4] << 24 | (key[i * 4 + 1] & 0xFF) << 16 | (key[i * 4 + 2] & 0xFF) << 8 | (key[i * 4 + 3] & 0xFF);
-		for (; i < 80; i++) {
+		
+		// Expand the key schedule
+		for (int i = 16; i < 80; i++) {
 			int temp = keySchedule[i - 3] ^ keySchedule[i - 8] ^ keySchedule[i - 14] ^ keySchedule[i - 16];
 			keySchedule[i] = temp << 1 | temp >>> 31;
 		}
+	}
+	
+	
+	// If the key is shorter than 64 bytes, then zeros are appended. If the key is longer, then it is truncated.
+	private static byte[] ensureKeyLength(byte[] key) {
+		byte[] result = new byte[64];
+		System.arraycopy(key, 0, result, 0, Math.min(key.length, result.length));
+		return result;
 	}
 	
 }

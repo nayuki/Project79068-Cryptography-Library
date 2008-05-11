@@ -35,10 +35,13 @@ final class Shacal2Cipherer extends Cipherer {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
 		BoundsChecker.check(B.length, off, len);
-		if ((len & 0x1F) != 0)
+		if (len % 32 != 0)
 			throw new IllegalArgumentException("Invalid block length");
 		
+		// For each block of 32 bytes
 		for (int end = off + len; off < end; off += 32) {
+			
+			// Pack bytes into int32s in big endian
 			int a = B[off +  0] << 24 | (B[off +  1] & 0xFF) << 16 | (B[off +  2] & 0xFF) << 8 | (B[off +  3] & 0xFF);
 			int b = B[off +  4] << 24 | (B[off +  5] & 0xFF) << 16 | (B[off +  6] & 0xFF) << 8 | (B[off +  7] & 0xFF);
 			int c = B[off +  8] << 24 | (B[off +  9] & 0xFF) << 16 | (B[off + 10] & 0xFF) << 8 | (B[off + 11] & 0xFF);
@@ -47,6 +50,8 @@ final class Shacal2Cipherer extends Cipherer {
 			int f = B[off + 20] << 24 | (B[off + 21] & 0xFF) << 16 | (B[off + 22] & 0xFF) << 8 | (B[off + 23] & 0xFF);
 			int g = B[off + 24] << 24 | (B[off + 25] & 0xFF) << 16 | (B[off + 26] & 0xFF) << 8 | (B[off + 27] & 0xFF);
 			int h = B[off + 28] << 24 | (B[off + 29] & 0xFF) << 16 | (B[off + 30] & 0xFF) << 8 | (B[off + 31] & 0xFF);
+			
+			// The 64 rounds
 			for (int i = 0; i < 64; i++) {
 				int s0 = (a << 30 | a >>> 2) ^ (a << 19 | a >>> 13) ^ (a << 10 | a >>> 22);
 				int s1 = (e << 26 | e >>> 6) ^ (e << 21 | e >>> 11) ^ (e << 7 | e >>> 25);
@@ -63,6 +68,8 @@ final class Shacal2Cipherer extends Cipherer {
 				b = a;
 				a = t1 + t2;
 			}
+			
+			// Unpack int32s into bytes in big endian
 			B[off +  0] = (byte)(a >>> 24);
 			B[off +  1] = (byte)(a >>> 16);
 			B[off +  2] = (byte)(a >>>  8);
@@ -117,10 +124,13 @@ final class Shacal2Cipherer extends Cipherer {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
 		BoundsChecker.check(B.length, off, len);
-		if ((len & 0x1F) != 0)
+		if (len % 32 != 0)
 			throw new IllegalArgumentException("Invalid block length");
 		
+		// For each block of 32 bytes
 		for (int end = off + len; off < end; off += 32) {
+			
+			// Pack bytes into int32s in big endian
 			int a = B[off +  0] << 24 | (B[off +  1] & 0xFF) << 16 | (B[off +  2] & 0xFF) << 8 | (B[off +  3] & 0xFF);
 			int b = B[off +  4] << 24 | (B[off +  5] & 0xFF) << 16 | (B[off +  6] & 0xFF) << 8 | (B[off +  7] & 0xFF);
 			int c = B[off +  8] << 24 | (B[off +  9] & 0xFF) << 16 | (B[off + 10] & 0xFF) << 8 | (B[off + 11] & 0xFF);
@@ -129,6 +139,8 @@ final class Shacal2Cipherer extends Cipherer {
 			int f = B[off + 20] << 24 | (B[off + 21] & 0xFF) << 16 | (B[off + 22] & 0xFF) << 8 | (B[off + 23] & 0xFF);
 			int g = B[off + 24] << 24 | (B[off + 25] & 0xFF) << 16 | (B[off + 26] & 0xFF) << 8 | (B[off + 27] & 0xFF);
 			int h = B[off + 28] << 24 | (B[off + 29] & 0xFF) << 16 | (B[off + 30] & 0xFF) << 8 | (B[off + 31] & 0xFF);
+			
+			// The 64 rounds
 			for (int i = 63; i >= 0; i--) {
 				int t0 = a;
 				int t1 = e;
@@ -147,6 +159,8 @@ final class Shacal2Cipherer extends Cipherer {
 				h = t0 - (t2 + t3);
 				d = t1 - (h + t2);
 			}
+			
+			// Unpack int32s into bytes in big endian
 			B[off +  0] = (byte)(a >>> 24);
 			B[off +  1] = (byte)(a >>> 16);
 			B[off +  2] = (byte)(a >>>  8);
@@ -193,20 +207,31 @@ final class Shacal2Cipherer extends Cipherer {
 	
 	
 	
-	private void setKey(byte[] key) {  // If the key is shorter than 64 bytes, then zeros are appended
-		{
-			byte[] tempkey = new byte[64];
-			System.arraycopy(key, 0, tempkey, 0, key.length);
-			key = tempkey;
+	private void setKey(byte[] key) {
+		key = ensureKeyLength(key);
+		
+		// Pack bytes into int32s in big endian
+		for (int i = 0; i < 16; i++) {
+			keySchedule[i] = (key[i * 4 + 0] & 0xFF) << 24
+			               | (key[i * 4 + 1] & 0xFF) << 16
+			               | (key[i * 4 + 2] & 0xFF) <<  8
+			               | (key[i * 4 + 3] & 0xFF) <<  0;
 		}
-		int i = 0;
-		for (; i < 16; i++)
-			keySchedule[i] = key[i * 4] << 24 | (key[i * 4 + 1] & 0xFF) << 16 | (key[i * 4 + 2] & 0xFF) << 8 | (key[i * 4 + 3] & 0xFF);
-		for (; i < 64; i++) {
+		
+		// Expand the key schedule
+		for (int i = 16; i < 64; i++) {
 			int s0 = (keySchedule[i-15] << 25 | keySchedule[i-15] >>> 7) ^ (keySchedule[i-15] << 14 | keySchedule[i-15] >>> 18) ^ (keySchedule[i-15] >>> 3);
 			int s1 = (keySchedule[i-2] << 15 | keySchedule[i-2] >>> 17) ^ (keySchedule[i-2] << 13 | keySchedule[i-2] >>> 19) ^ (keySchedule[i-2] >>> 10);
 			keySchedule[i] = keySchedule[i - 16] + keySchedule[i - 7] + s0 + s1;
 		}
+	}
+	
+	
+	// If the key is shorter than 64 bytes, then zeros are appended. If the key is longer, then it is truncated.
+	private static byte[] ensureKeyLength(byte[] key) {
+		byte[] result = new byte[64];
+		System.arraycopy(key, 0, result, 0, Math.min(key.length, result.length));
+		return result;
 	}
 	
 	
