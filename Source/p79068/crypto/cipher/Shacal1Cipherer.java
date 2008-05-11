@@ -18,6 +18,9 @@ final class Shacal1Cipherer extends Cipherer {
 	
 	
 	
+	private static final int[] k = { 0x5A827999, 0x6ED9EBA1, 0x8F1BBCDC, 0xCA62C1D6 };
+	
+	
 	/*
 	 * Each round performs a transform of this form:
 	 *  a' = e + f(a,b,c,d)
@@ -41,39 +44,28 @@ final class Shacal1Cipherer extends Cipherer {
 			int c = B[off +  8] << 24 | (B[off +  9] & 0xFF) << 16 | (B[off + 10] & 0xFF) << 8 | (B[off + 11] & 0xFF);
 			int d = B[off + 12] << 24 | (B[off + 13] & 0xFF) << 16 | (B[off + 14] & 0xFF) << 8 | (B[off + 15] & 0xFF);
 			int e = B[off + 16] << 24 | (B[off + 17] & 0xFF) << 16 | (B[off + 18] & 0xFF) << 8 | (B[off + 19] & 0xFF);
-			int i = 0;
-			for (; i < 20; i++) {
-				int tp = e + (a << 5 | a >>> 27) + (d ^ (b & (c ^ d))) + keySchedule[i] + 0x5A827999;
+			
+			for (int i = 0; i < 80; i++) {
+				int f;
+				if (0 <= i && i < 20)
+					f = d ^ (b & (c ^ d));
+				else if (20 <= i && i < 40)
+					f = b ^ c ^ d;
+				else if (40 <= i && i < 60)
+					f = (b & (c | d)) | (c & d);
+				else if (60 <= i && i < 80)
+					f = b ^ c ^ d;
+				else
+					throw new AssertionError();
+				
+				int temp = (a << 5 | a >>> 27) + f + e + k[i / 20] + keySchedule[i];
 				e = d;
 				d = c;
 				c = b << 30 | b >>> 2;
 				b = a;
-				a = tp;
+				a = temp;
 			}
-			for (; i < 40; i++) {
-				int tp = e + (a << 5 | a >>> 27) + (b ^ c ^ d) + keySchedule[i] + 0x6ED9EBA1;
-				e = d;
-				d = c;
-				c = b << 30 | b >>> 2;
-				b = a;
-				a = tp;
-			}
-			for (; i < 60; i++) {
-				int tp = e + (a << 5 | a >>> 27) + ((b & (c | d)) | (c & d)) + keySchedule[i] + 0x8F1BBCDC;
-				e = d;
-				d = c;
-				c = b << 30 | b >>> 2;
-				b = a;
-				a = tp;
-			}
-			for (; i < 80; i++) {
-				int tp = e + (a << 5 | a >>> 27) + (b ^ c ^ d) + keySchedule[i] + 0xCA62C1D6;
-				e = d;
-				d = c;
-				c = b << 30 | b >>> 2;
-				b = a;
-				a = tp;
-			}
+			
 			B[off +  0] = (byte)(a >>> 24);
 			B[off +  1] = (byte)(a >>> 16);
 			B[off +  2] = (byte)(a >>>  8);
@@ -122,39 +114,29 @@ final class Shacal1Cipherer extends Cipherer {
 			int c = B[off +  8] << 24 | (B[off +  9] & 0xFF) << 16 | (B[off + 10] & 0xFF) << 8 | (B[off + 11] & 0xFF);
 			int d = B[off + 12] << 24 | (B[off + 13] & 0xFF) << 16 | (B[off + 14] & 0xFF) << 8 | (B[off + 15] & 0xFF);
 			int e = B[off + 16] << 24 | (B[off + 17] & 0xFF) << 16 | (B[off + 18] & 0xFF) << 8 | (B[off + 19] & 0xFF);
-			int i = 79;
-			for (; i >= 60; i--) {
-				int tp = a;
+			
+			for (int i = 79; i >= 0; i--) {
+				int temp = a;
 				a = b;
 				b = c << 2 | c >>> 30;
 				c = d;
 				d = e;
-				e = tp - ((a << 5 | a >>> 27) + (b ^ c ^ d) + keySchedule[i] + 0xCA62C1D6);
+				
+				int f;
+				if (0 <= i && i < 20)
+					f = d ^ (b & (c ^ d));
+				else if (20 <= i && i < 40)
+					f = b ^ c ^ d;
+				else if (40 <= i && i < 60)
+					f = (b & (c | d)) | (c & d);
+				else if (60 <= i && i < 80)
+					f = b ^ c ^ d;
+				else
+					throw new AssertionError();
+				
+				e = temp - ((a << 5 | a >>> 27) + f + k[i / 20] + keySchedule[i]);
 			}
-			for (; i >= 40; i--) {
-				int tp = a;
-				a = b;
-				b = c << 2 | c >>> 30;
-				c = d;
-				d = e;
-				e = tp - ((a << 5 | a >>> 27) + ((b & (c | d)) | (c & d)) + keySchedule[i] + 0x8F1BBCDC);
-			}
-			for (; i >= 20; i--) {
-				int tp = a;
-				a = b;
-				b = c << 2 | c >>> 30;
-				c = d;
-				d = e;
-				e = tp - ((a << 5 | a >>> 27) + (b ^ c ^ d) + keySchedule[i] + 0x6ED9EBA1);
-			}
-			for (; i >= 0; i--) {
-				int tp = a;
-				a = b;
-				b = c << 2 | c >>> 30;
-				c = d;
-				d = e;
-				e = tp - ((a << 5 | a >>> 27) + (d ^ (b & (c ^ d))) + keySchedule[i] + 0x5A827999);
-			}
+			
 			B[off +  0] = (byte)(a >>> 24);
 			B[off +  1] = (byte)(a >>> 16);
 			B[off +  2] = (byte)(a >>>  8);
