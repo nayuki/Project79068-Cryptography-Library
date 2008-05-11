@@ -22,7 +22,6 @@ final class AesCipherer extends RijndaelCipherer {
 		super(cipher, key);
 		if (cipher.getBlockLength() != 16)
 			throw new AssertionError();
-		setKey(key);
 	}
 	
 	
@@ -31,11 +30,12 @@ final class AesCipherer extends RijndaelCipherer {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
 		BoundsChecker.check(b.length, off, len);
-		if ((len & 0xF) != 0)
+		if (len % 8 != 0)
 			throw new IllegalArgumentException("Invalid block length");
+		
 		byte[] block = new byte[16];  // Column-major indexed
 		byte[] temp = new byte[16];
-		for (len += off; off < len; off += 16) {
+		for (int end = off + len; off < end; off += 16) {  // For each block of 16 bytes
 			System.arraycopy(b, off, block, 0, 16);
 			encrypt(block, temp);
 			System.arraycopy(temp, 0, b, off, 16);
@@ -47,11 +47,12 @@ final class AesCipherer extends RijndaelCipherer {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
 		BoundsChecker.check(b.length, off, len);
-		if ((len & 0xF) != 0)
+		if (len % 8 != 0)
 			throw new IllegalArgumentException("Invalid block length");
+		
 		byte[] block = new byte[16];  // Column-major indexed
 		byte[] temp = new byte[16];
-		for (len += off; off < len; off += 16) {
+		for (int end = off + len; off < end; off += 16) {  // For each block of 16 bytes
 			System.arraycopy(b, off, block, 0, 16);
 			decrypt(block, temp);
 			System.arraycopy(temp, 0, b, off, 16);
@@ -89,13 +90,13 @@ final class AesCipherer extends RijndaelCipherer {
 	}
 	
 	
-	protected void subByteblockinverse(byte[] block) {
+	protected void subBytesInverse(byte[] block) {
 		for (int i = 0; i < 16; i++)
 			block[i] = RijndaelUtils.subinv[block[i] & 0xFF];
 	}
 	
 	
-	protected void shiftRowblockinverse(byte[] blockin, byte[] blockout) {
+	protected void shiftRowsInverse(byte[] blockin, byte[] blockout) {
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 4; j++)
 				blockout[i + j * 4] = blockin[i + (j - i + 4) % 4 * 4];
@@ -103,7 +104,7 @@ final class AesCipherer extends RijndaelCipherer {
 	}
 	
 	
-	protected void mixColumnblockinverse(byte[] blockin, byte[] blockout) {
+	protected void mixColumnsInverse(byte[] blockin, byte[] blockout) {
 		for (int i = 0; i < 16; i += 4) {
 			for (int j = 0; j < 4; j++)
 				blockout[i + j] = (byte)(mul0E[blockin[i + j] & 0xFF] ^ mul0B[blockin[i + (j + 1) % 4] & 0xFF] ^ mul0D[blockin[i + (j + 2) % 4] & 0xFF] ^ mul09[blockin[i + (j + 3) % 4] & 0xFF]);

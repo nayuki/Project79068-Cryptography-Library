@@ -39,9 +39,10 @@ class RijndaelCipherer extends Cipherer {
 		BoundsChecker.check(b.length, off, len);
 		if (len % blockLength != 0)
 			throw new IllegalArgumentException("Invalid block length");
+		
 		byte[] block = new byte[blockLength];  // Column-major indexed
 		byte[] temp = new byte[blockLength];
-		for (len += off; off < len; off += blockLength) {
+		for (int end = off + len; off < end; off += blockLength) {
 			System.arraycopy(b, off, block, 0, blockLength);
 			encrypt(block, temp);
 			System.arraycopy(temp, 0, b, off, blockLength);
@@ -55,9 +56,10 @@ class RijndaelCipherer extends Cipherer {
 		BoundsChecker.check(b.length, off, len);
 		if (len % blockLength != 0)
 			throw new IllegalArgumentException("Invalid block length");
+		
 		byte[] block = new byte[blockLength];  // Column-major indexed
 		byte[] temp = new byte[blockLength];
-		for (len += off; off < len; off += blockLength) {
+		for (int end = off + len; off < end; off += blockLength) {
 			System.arraycopy(b, off, block, 0, blockLength);
 			decrypt(block, temp);
 			System.arraycopy(temp, 0, b, off, blockLength);
@@ -83,7 +85,9 @@ class RijndaelCipherer extends Cipherer {
 		int nk = key.length / 4;  // Number of 32-bit blocks in the key
 		int nb = blockLength / 4;  // Number of 32-bit blocks in the state
 		int rounds = Math.max(nk, nb) + 6;
+		
 		int[] w = RijndaelUtils.expandKey(key, nb);  // Key schedule
+		
 		keySchedule = new byte[rounds + 1][];
 		for (int i = 0; i < keySchedule.length; i++)
 			keySchedule[i] = toBytesBigEndian(w, i * nb, nb);
@@ -127,7 +131,7 @@ class RijndaelCipherer extends Cipherer {
 	protected void shiftRows(byte[] blockin, byte[] sout) {
 		int nb = blockLength / 4;  // Number of columns, i.e. the number of elements in a row
 		for (int i = 0; i < nb; i++) {
-			sout[i * 4 + 0] = blockin[(i) % nb * 4 + 0];
+			sout[i * 4 + 0] = blockin[(i     ) % nb * 4 + 0];
 			sout[i * 4 + 1] = blockin[(i + c1) % nb * 4 + 1];
 			sout[i * 4 + 2] = blockin[(i + c2) % nb * 4 + 2];
 			sout[i * 4 + 3] = blockin[(i + c3) % nb * 4 + 3];
@@ -137,8 +141,12 @@ class RijndaelCipherer extends Cipherer {
 	
 	protected void mixColumns(byte[] blockin, byte[] sout) {
 		for (int i = 0; i < blockLength; i += 4) {
-			for (int j = 0; j < 4; j++)
-				sout[i + j] = (byte)(mul02[blockin[i + j] & 0xFF] ^ mul03[blockin[i + (j + 1) % 4] & 0xFF] ^ blockin[i + (j + 2) % 4] ^ blockin[i + (j + 3) % 4]);
+			for (int j = 0; j < 4; j++) {
+				sout[i + j] = (byte)(mul02[blockin[i + (j + 0) % 4] & 0xFF]
+				                   ^ mul03[blockin[i + (j + 1) % 4] & 0xFF]
+				                   ^       blockin[i + (j + 2) % 4]
+				                   ^       blockin[i + (j + 3) % 4]);
+			}
 		}
 	}
 	
@@ -159,7 +167,7 @@ class RijndaelCipherer extends Cipherer {
 	protected void shiftRowsInverse(byte[] blockin, byte[] sout) {
 		int nb = blockLength / 4;  // Number of columns, i.e. the number of elements in a row
 		for (int i = 0; i < nb; i++) {
-			sout[i * 4 + 0] = blockin[(i + nb) % nb * 4 + 0];
+			sout[i * 4 + 0] = blockin[(i      + nb) % nb * 4 + 0];
 			sout[i * 4 + 1] = blockin[(i - c1 + nb) % nb * 4 + 1];
 			sout[i * 4 + 2] = blockin[(i - c2 + nb) % nb * 4 + 2];
 			sout[i * 4 + 3] = blockin[(i - c3 + nb) % nb * 4 + 3];
@@ -169,8 +177,12 @@ class RijndaelCipherer extends Cipherer {
 	
 	protected void mixColumnsInverse(byte[] blockin, byte[] sout) {
 		for (int i = 0; i < blockLength; i += 4) {
-			for (int j = 0; j < 4; j++)
-				sout[i + j] = (byte)(mul0E[blockin[i + j] & 0xFF] ^ mul0B[blockin[i + (j + 1) % 4] & 0xFF] ^ mul0D[blockin[i + (j + 2) % 4] & 0xFF] ^ mul09[blockin[i + (j + 3) % 4] & 0xFF]);
+			for (int j = 0; j < 4; j++) {
+				sout[i + j] = (byte)(mul0E[blockin[i + (j + 0) % 4] & 0xFF]
+				                   ^ mul0B[blockin[i + (j + 1) % 4] & 0xFF]
+				                   ^ mul0D[blockin[i + (j + 2) % 4] & 0xFF]
+				                   ^ mul09[blockin[i + (j + 3) % 4] & 0xFF]);
+			}
 		}
 	}
 	
@@ -181,12 +193,13 @@ class RijndaelCipherer extends Cipherer {
 	
 	
 	private static byte[] toBytesBigEndian(int[] ain, int off, int len) {
+		BoundsChecker.check(ain.length, off, len);
 		byte[] aout = new byte[len * 4];
 		for (int i = 0; i < len; i++) {
-			aout[i << 2 | 0] = (byte)(ain[off + i] >>> 24);
-			aout[i << 2 | 1] = (byte)(ain[off + i] >>> 16);
-			aout[i << 2 | 2] = (byte)(ain[off + i] >>> 8);
-			aout[i << 2 | 3] = (byte)(ain[off + i] >>> 0);
+			aout[i * 4 + 0] = (byte)(ain[off + i] >>> 24);
+			aout[i * 4 + 1] = (byte)(ain[off + i] >>> 16);
+			aout[i * 4 + 2] = (byte)(ain[off + i] >>>  8);
+			aout[i * 4 + 3] = (byte)(ain[off + i] >>>  0);
 		}
 		return aout;
 	}
