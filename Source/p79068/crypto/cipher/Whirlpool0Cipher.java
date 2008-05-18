@@ -4,7 +4,7 @@ package p79068.crypto.cipher;
 /**
  * The internal block cipher used in the Whirlpool hash function.
  * <p>Instantiability: <em>Singleton</em></p>
- * @see Whirlpool1Cipher
+ * @see WhirlpoolTCipher
  * @see WhirlpoolCipher
  */
 public final class Whirlpool0Cipher extends BlockCipher {

@@ -24,7 +24,7 @@ final class WhirlpoolCipherer extends Cipherer {
 	}
 	
 	
-	WhirlpoolCipherer(Whirlpool1Cipher cipher, byte[] sub, byte[] subinv, byte[][] mul, byte[][] mulinv, byte[][] rcon, byte[] key) {
+	WhirlpoolCipherer(WhirlpoolTCipher cipher, byte[] sub, byte[] subinv, byte[][] mul, byte[][] mulinv, byte[][] rcon, byte[] key) {
 		this((Cipher)cipher, sub, subinv, mul, mulinv, rcon, key);
 	}
 	

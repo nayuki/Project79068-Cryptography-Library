@@ -7,12 +7,12 @@ package p79068.crypto.cipher;
  * @see Whirlpool0Cipher
  * @see WhirlpoolCipher
  */
-public final class Whirlpool1Cipher extends BlockCipher {
+public final class WhirlpoolTCipher extends BlockCipher {
 	
 	/**
 	 * The singleton instance of this cipher algorithm.
 	 */
-	public static final Whirlpool1Cipher CIPHER = new Whirlpool1Cipher();
+	public static final WhirlpoolTCipher CIPHER = new WhirlpoolTCipher();
 	
 	
 	
@@ -24,10 +24,10 @@ public final class Whirlpool1Cipher extends BlockCipher {
 	
 	
 	/**
-	 * Returns the name of this cipher algorithm: <samp>Whirlpool-1 Cipher</samp>.
+	 * Returns the name of this cipher algorithm: <samp>Whirlpool-T Cipher</samp>.
 	 */
 	public String getName() {
-		return "Whirlpool-1 Cipher";
+		return "Whirlpool-T Cipher";
 	}
 	
 	
@@ -48,7 +48,7 @@ public final class Whirlpool1Cipher extends BlockCipher {
 	
 	
 	
-	private Whirlpool1Cipher() {}
+	private WhirlpoolTCipher() {}
 	
 	
 	
