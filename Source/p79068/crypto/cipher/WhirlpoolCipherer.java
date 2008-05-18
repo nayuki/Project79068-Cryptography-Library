@@ -4,7 +4,7 @@ import p79068.crypto.Zeroizer;
 import p79068.lang.BoundsChecker;
 
 
-final class WhirlpoolCiphererParent extends Cipherer {
+final class WhirlpoolCipherer extends Cipherer {
 	
 	protected byte[] sub;
 	protected byte[] subinv;
@@ -19,22 +19,22 @@ final class WhirlpoolCiphererParent extends Cipherer {
 	
 	
 	
-	WhirlpoolCiphererParent(Whirlpool0Cipher cipher, byte[] sub, byte[] subinv, byte[][] mul, byte[][] mulinv, byte[][] rcon, byte[] key) {
+	WhirlpoolCipherer(Whirlpool0Cipher cipher, byte[] sub, byte[] subinv, byte[][] mul, byte[][] mulinv, byte[][] rcon, byte[] key) {
 		this((Cipher)cipher, sub, subinv, mul, mulinv, rcon, key);
 	}
 	
 	
-	WhirlpoolCiphererParent(Whirlpool1Cipher cipher, byte[] sub, byte[] subinv, byte[][] mul, byte[][] mulinv, byte[][] rcon, byte[] key) {
+	WhirlpoolCipherer(Whirlpool1Cipher cipher, byte[] sub, byte[] subinv, byte[][] mul, byte[][] mulinv, byte[][] rcon, byte[] key) {
 		this((Cipher)cipher, sub, subinv, mul, mulinv, rcon, key);
 	}
 	
 	
-	WhirlpoolCiphererParent(WhirlpoolCipher cipher, byte[] sub, byte[] subinv, byte[][] mul, byte[][] mulinv, byte[][] rcon, byte[] key) {
+	WhirlpoolCipherer(WhirlpoolCipher cipher, byte[] sub, byte[] subinv, byte[][] mul, byte[][] mulinv, byte[][] rcon, byte[] key) {
 		this((Cipher)cipher, sub, subinv, mul, mulinv, rcon, key);
 	}
 	
 	
-	private WhirlpoolCiphererParent(Cipher cipher, byte[] sub, byte[] subinv, byte[][] mul, byte[][] mulinv, byte[][] rcon, byte[] key) {
+	private WhirlpoolCipherer(Cipher cipher, byte[] sub, byte[] subinv, byte[][] mul, byte[][] mulinv, byte[][] rcon, byte[] key) {
 		super(cipher, key);
 		this.sub = sub;
 		this.subinv = subinv;

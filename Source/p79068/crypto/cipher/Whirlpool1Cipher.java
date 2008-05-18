@@ -19,7 +19,7 @@ public final class Whirlpool1Cipher extends BlockCipher {
 	public Cipherer newCipherer(byte[] key) {
 		if (key.length != 64)
 			throw new IllegalArgumentException();
-		return new WhirlpoolCiphererParent(this, SUB, SUB_INV, MUL, MUL_INV, RCON, key);
+		return new WhirlpoolCipherer(this, SUB, SUB_INV, MUL, MUL_INV, RCON, key);
 	}
 	
 	
