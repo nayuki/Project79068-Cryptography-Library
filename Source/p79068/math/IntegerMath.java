@@ -393,7 +393,7 @@ public final class IntegerMath {
 		x |= x >>> 4;
 		x |= x >>> 8;
 		x |= x >>> 16;
-		return x & (~(x >>> 1));
+		return x ^ (x >>> 1);
 	}
 	
 	
