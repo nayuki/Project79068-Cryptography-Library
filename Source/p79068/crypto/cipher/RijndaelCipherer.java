@@ -11,9 +11,17 @@ import p79068.lang.BoundsChecker;
 
 class RijndaelCipherer extends Cipherer {
 	
-	protected byte[][] keySchedule;  // Key schedule, containing the round keys. The number of rounds is equal to keySchedule.length-1.
-	protected int blockLength;
-	protected int c1, c2, c3;  // Constants for ShiftRows
+	/**
+	 * Key schedule, containing the round keys. The number of rounds is equal to <code>keySchedule.length - 1</code>.
+	 */
+	protected byte[][] keySchedule;
+	
+	/**
+	 * The block length, in bytes.
+	 */
+	protected final int blockLength;
+	
+	protected final int c1, c2, c3;  // Constants for ShiftRows
 	
 	
 	
@@ -70,7 +78,6 @@ class RijndaelCipherer extends Cipherer {
 	public void zeroize() {
 		if (cipher == null)
 			return;
-		blockLength = 0;
 		for (int i = 0; i < keySchedule.length; i++) {
 			Zeroizer.clear(keySchedule[i]);
 			keySchedule[i] = null;

@@ -7,15 +7,43 @@ import p79068.math.IntegerBitMath;
 
 final class FastAesCipherer extends Cipherer {
 	
-	private int[] encKeySch;  // Encryption key schedule, containing the round keys (in the order of application).
-	private int[] decKeySch;  // Decryption key schedule, containing the round keys (in the order of application).
-	private int roundCount;
+	/**
+	 * Encryption key schedule, containing the round keys (in the order of application).
+	 */
+	private int[] encKeySch;
+	
+	/**
+	 * Decryption key schedule, containing the round keys (in the order of application).
+	 */
+	private int[] decKeySch;
+	
+	/**
+	 * The number of rounds. Equal to <code>min(key.length/4, 4) + 6</code>, where <code>key.length</code> is in bytes.
+	 */
+	private final int roundCount;
 	
 	
 	
 	FastAesCipherer(Rijndael cipher, byte[] key) {
 		super(cipher, key);
-		setKey(key);
+		if (key.length % 4 != 0 || key.length == 0)
+			throw new IllegalArgumentException("Invalid key length");
+		
+		int nk = key.length / 4;  // Number of 32-bit blocks in the key
+		roundCount = Math.max(nk, 4) + 6;
+		
+		encKeySch = RijndaelUtils.expandKey(key, 4);
+		
+		decKeySch = new int[encKeySch.length];
+		for (int i = 0; i < roundCount + 1; i++) {
+			if (i == 0 || i == roundCount)  // Copy directly from encryption key schedule
+				System.arraycopy(encKeySch, (roundCount - i) * 4, decKeySch, i * 4, 4);
+			else {
+				for (int j = 0; j < 4; j++) {
+					decKeySch[i * 4 + j] = mulinv0[RijndaelUtils.sub[encKeySch[(roundCount - i) * 4 + j] >>> 24 & 0xFF] & 0xFF] ^ mulinv1[RijndaelUtils.sub[encKeySch[(roundCount - i) * 4 + j] >>> 16 & 0xFF] & 0xFF] ^ mulinv2[RijndaelUtils.sub[encKeySch[(roundCount - i) * 4 + j] >>> 8 & 0xFF] & 0xFF] ^ mulinv3[RijndaelUtils.sub[encKeySch[(roundCount - i) * 4 + j] >>> 0 & 0xFF] & 0xFF];
+				}
+			}
+		}
 	}
 	
 	
@@ -134,25 +162,6 @@ final class FastAesCipherer extends Cipherer {
 		encKeySch = null;
 		decKeySch = null;
 		super.zeroize();
-	}
-	
-	
-	private void setKey(byte[] key) {
-		if (key.length % 4 != 0 || key.length == 0)
-			throw new IllegalArgumentException("Invalid key length");
-		int nk = key.length / 4;  // Number of 32-bit blocks in the key
-		roundCount = Math.max(nk, 4) + 6;
-		encKeySch = RijndaelUtils.expandKey(key, 4);
-		decKeySch = new int[encKeySch.length];
-		for (int i = 0; i < roundCount + 1; i++) {
-			if (i == 0 || i == roundCount)
-				System.arraycopy(encKeySch, (roundCount - i) * 4, decKeySch, i * 4, 4);
-			else {
-				for (int j = 0; j < 4; j++) {
-					decKeySch[i * 4 + j] = mulinv0[RijndaelUtils.sub[encKeySch[(roundCount - i) * 4 + j] >>> 24 & 0xFF] & 0xFF] ^ mulinv1[RijndaelUtils.sub[encKeySch[(roundCount - i) * 4 + j] >>> 16 & 0xFF] & 0xFF] ^ mulinv2[RijndaelUtils.sub[encKeySch[(roundCount - i) * 4 + j] >>> 8 & 0xFF] & 0xFF] ^ mulinv3[RijndaelUtils.sub[encKeySch[(roundCount - i) * 4 + j] >>> 0 & 0xFF] & 0xFF];
-				}
-			}
-		}
 	}
 	
 	

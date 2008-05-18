@@ -78,7 +78,11 @@ final class AesCipherer extends RijndaelCipherer {
 	protected void mixColumns(byte[] blockin, byte[] blockout) {
 		for (int i = 0; i < 16; i += 4) {
 			for (int j = 0; j < 4; j++)
-				blockout[i + j] = (byte)(mul02[blockin[i + j] & 0xFF] ^ mul03[blockin[i + (j + 1) % 4] & 0xFF] ^ blockin[i + (j + 2) % 4] ^ blockin[i + (j + 3) % 4]);
+				blockout[i + j] = (byte)(
+						  mul02[blockin[i + (j + 0) % 4] & 0xFF]
+						^ mul03[blockin[i + (j + 1) % 4] & 0xFF]
+						^ blockin[i + (j + 2) % 4]
+						^ blockin[i + (j + 3) % 4]);
 		}
 	}
 	
@@ -107,7 +111,11 @@ final class AesCipherer extends RijndaelCipherer {
 	protected void mixColumnsInverse(byte[] blockin, byte[] blockout) {
 		for (int i = 0; i < 16; i += 4) {
 			for (int j = 0; j < 4; j++)
-				blockout[i + j] = (byte)(mul0E[blockin[i + j] & 0xFF] ^ mul0B[blockin[i + (j + 1) % 4] & 0xFF] ^ mul0D[blockin[i + (j + 2) % 4] & 0xFF] ^ mul09[blockin[i + (j + 3) % 4] & 0xFF]);
+				blockout[i + j] = (byte)(
+						  mul0E[blockin[i + (j + 0) % 4] & 0xFF]
+						^ mul0B[blockin[i + (j + 1) % 4] & 0xFF]
+						^ mul0D[blockin[i + (j + 2) % 4] & 0xFF]
+						^ mul09[blockin[i + (j + 3) % 4] & 0xFF]);
 		}
 	}
 	
