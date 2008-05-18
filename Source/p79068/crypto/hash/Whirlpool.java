@@ -1,6 +1,5 @@
 package p79068.crypto.hash;
 
-import p79068.util.hash.Hasher;
 import p79068.util.hash.HashFunction;
 
 
@@ -18,22 +17,13 @@ import p79068.util.hash.HashFunction;
  * @see Whirlpool0
  * @see WhirlpoolT
  */
-public class Whirlpool extends BlockHashFunction {
+public class Whirlpool extends AbstractWhirlpool {
 	
 	/**
 	 * The singleton instance of the Whirlpool hash function.
 	 */
 	public final static Whirlpool FUNCTION = new Whirlpool();
 	
-	
-	
-	/**
-	 * Returns a new hasher of this hash function.
-	 * @return a new hasher of this hash function
-	 */
-	public Hasher newHasher() {
-		return new FastWhirlpoolHasher(this);
-	}
 	
 	
 	/**
@@ -44,24 +34,24 @@ public class Whirlpool extends BlockHashFunction {
 	}
 	
 	
-	/**
-	 * Returns the length of hash values produced by this hash function: <code>64</code> bytes (512 bits).
-	 */
-	public int getHashLength() {
-		return 64;
-	}
-	
-	
-	/**
-	 * Returns the block length of this hash function: <code>64</code> bytes (512 bits).
-	 */
-	public int getBlockLength() {
-		return 64;
-	}
-	
-	
 	
 	private Whirlpool() {}
+	
+	
+	
+	int getRounds() {
+		return ROUNDS;
+	}
+	
+	
+	byte[] getSbox() {
+		return SUB;
+	}
+	
+	
+	int[] getC() {
+		return C;
+	}
 	
 	
 	
@@ -69,18 +59,14 @@ public class Whirlpool extends BlockHashFunction {
 	
 	private static final byte[] SUB;
 	
-	private static final byte[][] MUL;
-	
-	private static final byte[][] RCON;
+	private static final int[] C;
 	
 	
 	static {
 		if (ROUNDS < 1 || ROUNDS > 32)
 			throw new AssertionError("Invalid number of rounds");
 		SUB = makeSub();
-		RCON = WhirlpoolUtils.makeRoundConstants(ROUNDS, SUB);
-		int[] c = {0x01, 0x09, 0x02, 0x05, 0x08, 0x01, 0x04, 0x01};
-		MUL = WhirlpoolUtils.makeMultiplicationTable(c);
+		C = new int[]{0x01, 0x09, 0x02, 0x05, 0x08, 0x01, 0x04, 0x01};
 	}
 	
 	

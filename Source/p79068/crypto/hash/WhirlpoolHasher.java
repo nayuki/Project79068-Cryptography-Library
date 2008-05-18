@@ -1,5 +1,8 @@
 package p79068.crypto.hash;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import p79068.crypto.Zeroizer;
 import p79068.lang.BoundsChecker;
 import p79068.util.hash.HashValue;
@@ -15,29 +18,21 @@ final class WhirlpoolHasher extends BlockHasher {
 	
 	
 	
-	WhirlpoolHasher(Whirlpool hashFunc, byte[] sub, byte[][] rcon, byte[][] mul) {
-		this((BlockHashFunction)hashFunc, sub, rcon, mul);
-	}
-	
-	
-	WhirlpoolHasher(Whirlpool0 hashFunc, byte[] sub, byte[][] rcon, byte[][] mul) {
-		this((BlockHashFunction)hashFunc, sub, rcon, mul);
-	}
-	
-	
-	WhirlpoolHasher(WhirlpoolT hashFunc, byte[] sub, byte[][] rcon, byte[][] mul) {
-		this((BlockHashFunction)hashFunc, sub, rcon, mul);
-	}
-	
-	
-	// Private constructor. hashFunc must be either Whirlpool0, Whirlpool1, or Whirlpool.
-	private WhirlpoolHasher(BlockHashFunction hashFunc, byte[] sub, byte[][] rcon, byte[][] mul) {
+	WhirlpoolHasher(AbstractWhirlpool hashFunc) {
 		super(hashFunc, 64);
-		if (sub == null || rcon == null || mul == null)
-			throw new AssertionError();
-		this.sub = sub;
-		this.rcon = rcon;
-		this.mul = mul;
+		
+		sub = hashFunc.getSbox();
+		
+		if (!tablesByFunction.containsKey(hashFunc)) {
+			mul = makeMultiplicationTable(hashFunc.getC());
+			rcon = makeRoundConstants(hashFunc.getRounds(), sub);
+			tablesByFunction.put(hashFunc, new Tables(mul, rcon));
+		} else {
+			Tables tables = tablesByFunction.get(hashFunc);
+			mul = tables.multiply;
+			rcon = tables.roundConstants;
+		}
+		
 		state = new byte[64];
 	}
 	
@@ -153,6 +148,55 @@ final class WhirlpoolHasher extends BlockHasher {
 	private static void sigma(byte[] block, byte[] key) {
 		for (int i = 0; i < 64; i++)
 			block[i] ^= key[i];
+	}
+	
+	
+	
+	private static Map<AbstractWhirlpool,Tables> tablesByFunction;
+	
+	static {
+		tablesByFunction = new HashMap<AbstractWhirlpool,Tables>();
+		tablesByFunction = Collections.synchronizedMap(tablesByFunction);
+	}
+	
+	
+	
+	private static class Tables {
+		
+		public final byte[][] multiply;
+		
+		public final byte[][] roundConstants;
+		
+		
+		
+		public Tables(byte[][] multiply, byte[][] roundConstants) {
+			this.multiply = multiply;
+			this.roundConstants = roundConstants;
+		}
+		
+	}
+	
+	
+	
+	private static byte[][] makeRoundConstants(int rounds, byte[] sub) {
+		byte[][] rcon = new byte[rounds][64];
+		for (int i = 0; i < rcon.length; i++) {
+			for (int j = 0; j < 8; j++)  // The leading 8 bytes (top row) are taken from the S-box
+				rcon[i][j] = sub[8 * i + j];
+			for (int j = 8; j < 64; j++)  // The remaining 7 rows are zero
+				rcon[i][j] = 0;
+		}
+		return rcon;
+	}
+	
+	
+	private static byte[][] makeMultiplicationTable(int[] c) {
+		byte[][] mul = new byte[8][256];
+		for (int i = 0; i < c.length; i++) {
+			for (int j = 0; j < 256; j++)
+				mul[i][j] = (byte)WhirlpoolUtils.multiply(j, c[i]);
+		}
+		return mul;
 	}
 	
 }
