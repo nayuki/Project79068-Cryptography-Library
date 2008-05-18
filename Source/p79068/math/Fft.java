@@ -97,7 +97,7 @@ final class Fft extends Dft {
 				re[i] += tpre;
 				im[i] += tpim;
 				
-				tpre = im[i | 3];
+				tpre =  im[i | 3];
 				tpim = -re[i | 3];
 				re[i | 3] = re[i | 1] - tpre;
 				im[i | 3] = im[i | 1] - tpim;
@@ -106,24 +106,26 @@ final class Fft extends Dft {
 			}
 		}
 		
-		for (int i = 4, j = length/8; i*2 <= length; i *= 2, j /= 2) {
-			// i*2 is the current DFT size
-			for (int k = 0, l = 0, end = i;;) {
-				if (k < end) {
-					double tpre =  re[k | i] * cos[l] + im[k | i] * sin[l];
-					double tpim = -re[k | i] * sin[l] + im[k | i] * cos[l];
-					re[k | i] = re[k] - tpre;
-					im[k | i] = im[k] - tpim;
-					re[k] += tpre;
-					im[k] += tpim;
-					k++;
-					l += j;
+		for (int size = 8; size <= length; size *= 2) {
+			int halfsize = size / 2;
+			int tablestep = length / size;
+			
+			for (int i = 0, j = 0, blockend = halfsize;;) {
+				if (i < blockend) {
+					double tpre =  re[i | halfsize] * cos[j] + im[i | halfsize] * sin[j];
+					double tpim = -re[i | halfsize] * sin[j] + im[i | halfsize] * cos[j];
+					re[i | halfsize] = re[i] - tpre;
+					im[i | halfsize] = im[i] - tpim;
+					re[i] += tpre;
+					im[i] += tpim;
+					i++;
+					j += tablestep;
 				} else {
-					k += i;
-					l = 0;
-					if (k == length)
+					i += halfsize;
+					j = 0;
+					if (i == length)
 						break;
-					end += i * 2;
+					blockend += size;
 				}
 			}
 		}
