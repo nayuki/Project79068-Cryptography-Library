@@ -14,45 +14,52 @@ final class Fft extends Dft {
 	
 	
 	
-	Fft(int len) {
-		if (len < 1)
+	public Fft(int length) {
+		if (length < 1)
 			throw new IllegalArgumentException("Length must be positive");
-		length = len;
-		int levels = log2(length);
-		if ((1 << levels) != length)
-			throw new IllegalArgumentException("Length not power of 2");
-		cos = new double[len / 2];
-		sin = new double[len / 2];
-		for (int i = 0; i < len / 2; i++) {
-			cos[i] = Math.cos(i * 2 * Math.PI / len);
-			sin[i] = Math.sin(i * 2 * Math.PI / len);
+		if (!IntegerMath.isPowerOf2(length))
+			throw new IllegalArgumentException("Length must be a power of 2");
+		
+		this.length = length;
+		
+		cos = new double[length / 2];
+		sin = new double[length / 2];
+		for (int i = 0; i < length / 2; i++) {
+			cos[i] = Math.cos(i * 2 * Math.PI / length);
+			sin[i] = Math.sin(i * 2 * Math.PI / length);
 		}
-		permutation = new int[len];
-		for (int i = 0; i < len; i++)
+		
+		int levels = log2(length);
+		permutation = new int[length];
+		for (int i = 0; i < length; i++)
 			permutation[i] = IntegerBitMath.reverseBits(i) >>> (32 - levels);
 	}
 	
 	
 	
 	public void transform(double[] inre, double[] inim, double[] outre, double[] outim) {
+		// Permute input array onto output array
 		for (int i = 0; i < length; i++) {
 			outre[i] = inre[permutation[i]];
 			outim[i] = inim[permutation[i]];
 		}
+		
+		// Transform in-place on the output array
 		transformPrivate(outre, outim);
 	}
 	
 	
 	public void transform(double[] re, double[] im) {
+		// Do the permutation in-place. This is possible because the permutation is self-inverting.
 		for (int i = 0; i < length; i++) {
-			if (permutation[i] > i) {  // This is possible because the permutation is self-inverting.
-				double temp;
-				temp = re[i];
+			if (permutation[i] > i) {
+				double tempreal = re[i];
 				re[i] = re[permutation[i]];
-				re[permutation[i]] = temp;
-				temp = im[i];
+				re[permutation[i]] = tempreal;
+				
+				double tempimag = im[i];
 				im[i] = im[permutation[i]];
-				im[permutation[i]] = temp;
+				im[permutation[i]] = tempimag;
 			}
 		}
 		transformPrivate(re, im);
@@ -60,9 +67,15 @@ final class Fft extends Dft {
 	
 	
 	
+	/**
+	 * Computes the fast Fourier transform on the specified complex vector in-place.
+	 * @param re the real parts of the vector
+	 * @param im the imaginary parts of the vector
+	 */
 	private void transformPrivate(double[] re, double[] im) {
 		if (length >= 2) {
-			for (int i = 0; i < length; i += 2) {  // Perform multiply-less length-2 DFT.
+			// Perform a multiply-less length-2 DFT
+			for (int i = 0; i < length; i += 2) {
 				double tpre = re[i | 1];
 				double tpim = im[i | 1];
 				re[i | 1] = re[i] - tpre;
@@ -71,8 +84,10 @@ final class Fft extends Dft {
 				im[i] += tpim;
 			}
 		}
+		
 		if (length >= 4) {
-			for (int i = 0; i < length; i += 4) {  // Perform multiply-less length-4 DFT.
+			// Perform a multiply-less length-4 DFT
+			for (int i = 0; i < length; i += 4) {
 				double tpre;
 				double tpim;
 				tpre = re[i | 2];
@@ -81,6 +96,7 @@ final class Fft extends Dft {
 				im[i | 2] = im[i] - tpim;
 				re[i] += tpre;
 				im[i] += tpim;
+				
 				tpre = im[i | 3];
 				tpim = -re[i | 3];
 				re[i | 3] = re[i | 1] - tpre;
@@ -89,10 +105,12 @@ final class Fft extends Dft {
 				im[i | 1] += tpim;
 			}
 		}
-		for (int i = 4, j = length / 8; i * 2 <= length; i *= 2, j /= 2) {  // i*2 is the current DFT size.
+		
+		for (int i = 4, j = length/8; i*2 <= length; i *= 2, j /= 2) {
+			// i*2 is the current DFT size
 			for (int k = 0, l = 0, end = i;;) {
 				if (k < end) {
-					double tpre = re[k | i] * cos[l] + im[k | i] * sin[l];
+					double tpre =  re[k | i] * cos[l] + im[k | i] * sin[l];
 					double tpim = -re[k | i] * sin[l] + im[k | i] * cos[l];
 					re[k | i] = re[k] - tpre;
 					im[k | i] = im[k] - tpim;
