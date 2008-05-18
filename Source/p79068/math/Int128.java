@@ -178,12 +178,19 @@ public final class Int128 implements Comparable<Int128> {
 	
 	
 	public int hashCode() {
-		return HashCoder.newInstance().add(high).add(low).getHashCode();
+		HashCoder hc = HashCoder.newInstance();
+		hc.add(high);
+		hc.add(low);
+		return hc.getHashCode();
 	}
 	
 	
 	public String toString() {
-		return new BigInteger(new byte[]{(byte)(high >>> 56), (byte)(high >>> 48), (byte)(high >>> 40), (byte)(high >>> 32), (byte)(high >>> 24), (byte)(high >>> 16), (byte)(high >>> 8), (byte)(high >>> 0), (byte)(low >>> 56), (byte)(low >>> 48), (byte)(low >>> 40), (byte)(low >>> 32), (byte)(low >>> 24), (byte)(low >>> 16), (byte)(low >>> 8), (byte)(low >>> 0)}).toString();
+		long[] temp = new long[]{ high, low };
+		byte[] b = new byte[temp.length * 8];
+		for (int i = 0; i < b.length; i++)
+			b[i] = (byte)(temp[i / 8] >>> ((7 - i % 8) * 8));
+		return new BigInteger(b).toString();
 	}
 	
 }
