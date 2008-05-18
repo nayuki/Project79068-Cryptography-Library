@@ -33,6 +33,14 @@ public final class Whirlpool0 extends AbstractWhirlpool {
 	
 	
 	
+	private static final int ROUNDS = 10;
+	
+	private static final byte[] SUB;
+	
+	private static final int[] C;
+	
+	
+	
 	int getRounds() {
 		return ROUNDS;
 	}
@@ -47,13 +55,6 @@ public final class Whirlpool0 extends AbstractWhirlpool {
 		return C;
 	}
 	
-	
-	
-	private static final int ROUNDS = 10;
-	
-	private static final byte[] SUB;
-	
-	private static final int[] C;
 	
 	
 	static {
