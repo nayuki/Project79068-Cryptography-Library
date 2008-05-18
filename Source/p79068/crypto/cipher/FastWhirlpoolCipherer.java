@@ -31,8 +31,9 @@ final class FastWhirlpoolCipherer extends Cipherer {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
 		BoundsChecker.check(b.length, off, len);
-		if ((len & 0x3F) != 0)
+		if (len % 64 != 0)
 			throw new IllegalArgumentException("Invalid block length");
+		
 		long[] tempmsg = new long[8];
 		long[] temp = new long[8];
 		for (len += off; off < len; off += 64) {
@@ -47,8 +48,9 @@ final class FastWhirlpoolCipherer extends Cipherer {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
 		BoundsChecker.check(b.length, off, len);
-		if ((len & 0x3F) != 0)
+		if (len % 64 != 0)
 			throw new IllegalArgumentException("Invalid block length");
+		
 		long[] tempmsg = new long[8];
 		long[] temp = new long[8];
 		for (len += off; off < len; off += 64) {
