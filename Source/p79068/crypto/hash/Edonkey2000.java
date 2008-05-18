@@ -12,7 +12,7 @@ import p79068.util.hash.HashFunction;
  * @see HashFunction
  * @see NewEdonkey2000
  */
-public class Edonkey2000 extends HashFunction {
+public final class Edonkey2000 extends HashFunction {
 	
 	/**
 	 * The singleton instance of the eDonkey2000 hash function.

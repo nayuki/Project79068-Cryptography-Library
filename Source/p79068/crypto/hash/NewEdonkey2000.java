@@ -11,7 +11,7 @@ import p79068.util.hash.HashFunction;
  *  Instantiability: <em>Singleton</em></p>
  * @see Edonkey2000
  */
-public class NewEdonkey2000 extends HashFunction {
+public final class NewEdonkey2000 extends HashFunction {
 	
 	/**
 	 * The singleton instance of the new eDonkey2000 hash function.

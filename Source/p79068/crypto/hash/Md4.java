@@ -10,7 +10,7 @@ import p79068.util.hash.HashFunction;
  *  Instantiability: <em>Singleton</em></p>
  * @see HashFunction
  */
-public class Md4 extends BlockHashFunction {
+public final class Md4 extends BlockHashFunction {
 	
 	/**
 	 * The singleton instance of the MD4 hash function.

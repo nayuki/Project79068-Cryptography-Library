@@ -11,7 +11,7 @@ import p79068.util.hash.HashFunction;
  * @see HashFunction
  * @see Sha256
  */
-public class Sha224 extends BlockHashFunction {
+public final class Sha224 extends BlockHashFunction {
 	
 	/**
 	 * The singleton instance of the SHA-224 hash function.

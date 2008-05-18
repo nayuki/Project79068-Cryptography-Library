@@ -10,7 +10,7 @@ import p79068.util.hash.HashFunction;
  *  Instantiability: <em>Singleton</em></p>
  * @see HashFunction
  */
-public class Sha512 extends BlockHashFunction {
+public final class Sha512 extends BlockHashFunction {
 	
 	/**
 	 * The singleton instance of the SHA-512 hash function.

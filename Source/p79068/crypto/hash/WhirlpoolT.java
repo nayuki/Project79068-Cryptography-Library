@@ -11,7 +11,7 @@ import p79068.util.hash.HashFunction;
  * @see Whirlpool0
  * @see Whirlpool
  */
-public class WhirlpoolT extends AbstractWhirlpool {
+public final class WhirlpoolT extends AbstractWhirlpool {
 	
 	/**
 	 * The singleton instance of the Whirlpool-1 hash function.

@@ -10,7 +10,7 @@ import p79068.util.hash.Hasher;
  * Instantiability: <em>Singleton</em></p>
  * @see HashFunction
  */
-public class Sha1 extends BlockHashFunction {
+public final class Sha1 extends BlockHashFunction {
 	
 	/**
 	 * The singleton instance of the SHA-1 hash function.

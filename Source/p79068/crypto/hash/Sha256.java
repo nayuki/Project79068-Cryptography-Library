@@ -10,7 +10,7 @@ import p79068.util.hash.HashFunction;
  *  Instantiability: <em>Singleton</em></p>
  * @see HashFunction
  */
-public class Sha256 extends BlockHashFunction {
+public final class Sha256 extends BlockHashFunction {
 	
 	/**
 	 * The singleton instance of the SHA-256 hash function.
