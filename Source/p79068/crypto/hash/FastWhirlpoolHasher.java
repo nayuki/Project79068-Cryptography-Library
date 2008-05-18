@@ -1,5 +1,8 @@
 package p79068.crypto.hash;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import p79068.lang.BoundsChecker;
 import p79068.math.LongBitMath;
 import p79068.util.hash.HashValue;
@@ -7,12 +10,28 @@ import p79068.util.hash.HashValue;
 
 final class FastWhirlpoolHasher extends BlockHasher {
 	
+	private final long[][] rcon;
+	
+	private final long[][] mul;
+	
+	
 	private long[] state;
 	
 	
 	
-	FastWhirlpoolHasher(Whirlpool hashFunc) {
+	FastWhirlpoolHasher(AbstractWhirlpool hashFunc) {
 		super(hashFunc, 64);
+		
+		if (!tablesByFunction.containsKey(hashFunc)) {
+			mul = makeMultiplicationTable(hashFunc.getSbox(), hashFunc.getC());
+			rcon = makeRoundConstants(hashFunc.getRounds(), hashFunc.getSbox());
+			tablesByFunction.put(hashFunc, new Tables(mul, rcon));
+		} else {
+			Tables tables = tablesByFunction.get(hashFunc);
+			mul = tables.multiply;
+			rcon = tables.roundConstants;
+		}
+		
 		state = new long[8];
 	}
 	
@@ -82,22 +101,15 @@ final class FastWhirlpoolHasher extends BlockHasher {
 				block[i] = 0x00;
 		}
 		for (int i = 0; i < 8; i++)
-			block[block.length - 1 - i] = (byte)((length * 8) >>> (i * 8)); // Whirlpool supports lengths just less than 2^256 bits (2^253 bytes), but this implementation only counts to just less than 2^64 bytes.
+			block[block.length - 1 - i] = (byte)((length * 8) >>> (i * 8));  // Whirlpool supports lengths just less than 2^256 bits (2^253 bytes), but this implementation only counts to just less than 2^64 bytes.
 		compress();
 		return createHash(LongBitMath.toBytesBigEndian(state));
 	}
 	
 	
 	
-	private static final int ROUNDS = 10;
-	
-	private static long[][] rcon;
-	
-	private static long[][] mul;
-	
-	
 	// The internal block cipher. Encrypts block in place. Overwrites key and temp.
-	private static void w(long[] block, long[] key, long[] temp) {
+	private void w(long[] block, long[] key, long[] temp) {
 		// Sigma
 		for (int i = 0; i < 8; i++)
 			block[i] ^= key[i];
@@ -111,7 +123,7 @@ final class FastWhirlpoolHasher extends BlockHasher {
 	
 	
 	// The round function. Encrypts block in place. Overwrites block and temp.
-	private static void rho(long[] block, long[] key, long[] temp) {
+	private void rho(long[] block, long[] key, long[] temp) {
 		// Clear temp
 		for (int i = 0; i < 8; i++)
 			temp[i] = 0;
@@ -129,54 +141,64 @@ final class FastWhirlpoolHasher extends BlockHasher {
 	
 	
 	
+	private static Map<AbstractWhirlpool,Tables> tablesByFunction;
+	
 	static {
-		int[] sub = makeSBox();
-		int[] c = {0x01, 0x01, 0x04, 0x01, 0x08, 0x05, 0x02, 0x09};
-		initMultiplyTable(sub, c);
-		initRoundConstant(sub);
-		sub = null;
+		tablesByFunction = new HashMap<AbstractWhirlpool,Tables>();
+		tablesByFunction = Collections.synchronizedMap(tablesByFunction);
 	}
 	
 	
-	private static int[] makeSBox() {
-		int[] e = {0x1, 0xB, 0x9, 0xC, 0xD, 0x6, 0xF, 0x3, 0xE, 0x8, 0x7, 0x4, 0xA, 0x2, 0x5, 0x0};  // The E mini-box
-		int[] r = {0x7, 0xC, 0xB, 0xD, 0xE, 0x4, 0x9, 0xF, 0x6, 0x3, 0x8, 0xA, 0x2, 0x5, 0x1, 0x0};  // The R mini-box
+	
+	private static class Tables {
 		
-		int[] einv = new int[16];  // The inverse of E
-		for (int i = 0; i < e.length; i++)
-			einv[e[i]] = i;
+		public final long[][] multiply;
 		
-		int[] sub = new int[256];
-		for (int i = 0; i < sub.length; i++) {
-			int left = e[i >>> 4];
-			int right = einv[i & 0xF];
-			int temp = r[left ^ right];
-			sub[i] = e[left ^ temp] << 4 | einv[right ^ temp];
+		public final long[][] roundConstants;
+		
+		
+		
+		public Tables(long[][] multiply, long[][] roundConstants) {
+			this.multiply = multiply;
+			this.roundConstants = roundConstants;
 		}
-		return sub;
+		
 	}
 	
 	
-	private static void initMultiplyTable(int[] sub, int[] c) {
-		mul = new long[8][256];
+	
+	private static long[][] makeMultiplicationTable(byte[] sub, int[] c) {
+		c = pseudoReverse(c);
+		long[][] result = new long[8][256];
 		for (int i = 0; i < 256; i++) {
 			long vector = 0;
 			for (int j = 0; j < 8; j++)
-				vector |= (long)WhirlpoolUtils.multiply(sub[i], c[j]) << ((7 - j) * 8);
+				vector |= (long)WhirlpoolUtils.multiply(sub[i] & 0xFF, c[j]) << ((7 - j) * 8);
 			for (int j = 0; j < 8; j++)
-				mul[j][i] = LongBitMath.rotateRight(vector, j * 8);
+				result[j][i] = LongBitMath.rotateRight(vector, j * 8);
 		}
+		return result;
 	}
 	
 	
-	private static void initRoundConstant(int[] sub) {
-		rcon = new long[ROUNDS][8];
-		for (int i = 0; i < rcon.length; i++) {
+	private static long[][] makeRoundConstants(int rounds, byte[] sub) {
+		long[][] result = new long[rounds][8];
+		for (int i = 0; i < result.length; i++) {
 			for (int j = 0; j < 8; j++)
-				rcon[i][0] |= (long)sub[8 * i + j] << ((7 - j) * 8);
+				result[i][0] |= (long)(sub[8 * i + j] & 0xFF) << ((7 - j) * 8);
 			for (int j = 1; j < 8; j++)
-				rcon[i][j] = 0;
+				result[i][j] = 0;
 		}
+		return result;
+	}
+	
+	
+	private static int[] pseudoReverse(int[] array) {
+		int[] result = new int[array.length];
+		result[0] = array[0];
+		for (int i = 1; i < array.length; i++)
+			result[result.length - i] = array[i];
+		return result;
 	}
 	
 }
