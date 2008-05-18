@@ -93,7 +93,7 @@ public class IntegerMathTest {
 	
 	
 	@Test
-	public void testClamp(){
+	public void testClamp() {
 		assertEquals(5, IntegerMath.clamp(5, 0, 10));
 		assertEquals(10, IntegerMath.clamp(12, 0, 10));
 		assertEquals(0, IntegerMath.clamp(-7, 0, 10));
@@ -101,7 +101,7 @@ public class IntegerMathTest {
 	
 	
 	@Test
-	public void testSign(){
+	public void testSign() {
 		assertEquals( 0, IntegerMath.sign(0));
 		
 		assertEquals(+1, IntegerMath.sign(1));
@@ -121,7 +121,7 @@ public class IntegerMathTest {
 	
 	
 	@Test
-	public void testIsPowerOf2(){
+	public void testIsPowerOf2() {
 		assertTrue(IntegerMath.isPowerOf2(1));
 		assertTrue(IntegerMath.isPowerOf2(2));
 		assertTrue(IntegerMath.isPowerOf2(4));
@@ -147,7 +147,38 @@ public class IntegerMathTest {
 	
 	
 	@Test
-	public void testCompareUnsigned(){
+	public void testFloorToPowerOf2() {
+		assertEquals(1, IntegerMath.floorToPowerOf2(1));
+		assertEquals(2, IntegerMath.floorToPowerOf2(2));
+		assertEquals(2, IntegerMath.floorToPowerOf2(3));
+		assertEquals(4, IntegerMath.floorToPowerOf2(4));
+		assertEquals(4, IntegerMath.floorToPowerOf2(5));
+		assertEquals(4, IntegerMath.floorToPowerOf2(6));
+		assertEquals(4, IntegerMath.floorToPowerOf2(7));
+		assertEquals(8, IntegerMath.floorToPowerOf2(8));
+		assertEquals(536870912, IntegerMath.floorToPowerOf2(1073741823));
+		assertEquals(1073741824, IntegerMath.floorToPowerOf2(1073741824));
+		assertEquals(1073741824, IntegerMath.floorToPowerOf2(2147483647));
+	}
+	
+	
+	@Test
+	public void testCeilingToPowerOf2() {
+		assertEquals(1, IntegerMath.ceilingToPowerOf2(1));
+		assertEquals(2, IntegerMath.ceilingToPowerOf2(2));
+		assertEquals(4, IntegerMath.ceilingToPowerOf2(3));
+		assertEquals(4, IntegerMath.ceilingToPowerOf2(4));
+		assertEquals(8, IntegerMath.ceilingToPowerOf2(5));
+		assertEquals(8, IntegerMath.ceilingToPowerOf2(6));
+		assertEquals(8, IntegerMath.ceilingToPowerOf2(7));
+		assertEquals(8, IntegerMath.ceilingToPowerOf2(8));
+		assertEquals(1073741824, IntegerMath.ceilingToPowerOf2(1073741823));
+		assertEquals(1073741824, IntegerMath.ceilingToPowerOf2(1073741824));
+	}
+	
+	
+	@Test
+	public void testCompareUnsigned() {
 		assertTrue(IntegerMath.compareUnsigned(13, 72) < 0);
 		assertTrue(IntegerMath.compareUnsigned(0xFFFFFFFF, 0x00000000) > 0);
 		assertTrue(IntegerMath.compareUnsigned(0xFFFFFFFF, 0x80000000) > 0);
