@@ -18,7 +18,7 @@ public class CipherTest {
 		Tea.CIPHER,
 		Xtea.CIPHER,
 		Whirlpool0Cipher.CIPHER,
-		Whirlpool1Cipher.CIPHER,
+		WhirlpoolTCipher.CIPHER,
 		WhirlpoolCipher.CIPHER
 	};
 	
