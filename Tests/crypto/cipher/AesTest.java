@@ -1,9 +1,13 @@
 package crypto.cipher;
 
+import static org.junit.Assert.assertArrayEquals;
 import org.junit.Test;
-import crypto.CryptoUtils;
+import p79068.crypto.cipher.BlockCipher;
+import p79068.crypto.cipher.Cipherer;
 import p79068.crypto.cipher.Rijndael;
+import p79068.crypto.cipher.mode.CbcModeCipher;
 import p79068.util.Random;
+import crypto.CryptoUtils;
 
 
 public class AesTest {
@@ -34,6 +38,20 @@ public class AesTest {
 			int blocklength = (5 + Random.DEFAULT.randomInt(4)) * 4;  // Random block length from 160 bits to 256 bits, at multiples of 32 bits. Other than 128 bits (AES), these are the only other block sizes allowed by Rijndael.
 			CryptoUtils.testCipherInvertibility(new Rijndael(blocklength, keylength), blocklength);
 		}
+	}
+	
+	
+	@Test
+	public void testAesCbcMode() {
+		byte[] key = CryptoUtils.hexToBytes("06A9214036B8A15B512E03D534120006");
+		byte[] initvector = CryptoUtils.hexToBytes("3DAFBA429D9EB430B422DA802C9FAC41");
+		byte[] plaintext = CryptoUtils.asciiToBytes("Single block msg");
+		byte[] expectedCiphertext = CryptoUtils.hexToBytes("E353779C1079AEB82708942DBE77181A");
+		BlockCipher aescipher = Rijndael.AES128_CIPHER;
+		CbcModeCipher cbccipher = new CbcModeCipher(aescipher, key);
+		Cipherer cipherer = cbccipher.newCipherer(initvector);
+		cipherer.encrypt(plaintext);
+		assertArrayEquals(plaintext, expectedCiphertext);
 	}
 	
 }
