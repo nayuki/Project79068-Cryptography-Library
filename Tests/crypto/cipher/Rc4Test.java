@@ -2,10 +2,16 @@ package crypto.cipher;
 
 import org.junit.Test;
 import p79068.crypto.cipher.Rc4;
+import p79068.crypto.cipher.StreamCipher;
 import crypto.CryptoUtils;
 
 
-public class Rc4Test {
+public class Rc4Test extends StreamCipherTest {
+	
+	protected StreamCipher getCipher() {
+		return new Rc4(256);
+	}
+	
 	
 	@Test
 	public void testRc4() {
