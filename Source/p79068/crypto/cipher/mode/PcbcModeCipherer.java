@@ -55,8 +55,7 @@ final class PcbcModeCipherer extends Cipherer {
 		
 		byte[] ciphertext = new byte[blockLength];
 		for (int end = off + len; off < end; off += blockLength) {
-			for (int i = 0; i < blockLength; i++)
-				ciphertext[i] = b[off + i];
+			System.arraycopy(b, off, ciphertext, 0, blockLength);
 			cipherer.decrypt(b, off, blockLength);
 			for (int i = 0; i < blockLength; i++) {
 				b[off + i] ^= prevPlainXorCipher[i];
