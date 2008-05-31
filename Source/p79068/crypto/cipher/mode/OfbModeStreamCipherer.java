@@ -1,5 +1,6 @@
 package p79068.crypto.cipher.mode;
 
+import p79068.crypto.Zeroizer;
 import p79068.crypto.cipher.BlockCipher;
 import p79068.crypto.cipher.Cipherer;
 import p79068.crypto.cipher.StreamCipherer;
@@ -65,8 +66,7 @@ final class OfbModeStreamCipherer extends StreamCipherer {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
 		keyStreamOff = 0;
-		for (int i = 0; i < blockLength; i++)
-			keyStream[i] = 0;
+		Zeroizer.clear(keyStream);
 		keyStream = null;
 		cipherer.zeroize();
 		cipherer = null;

@@ -1,6 +1,7 @@
 package p79068.crypto.cipher.mode;
 
 import p79068.crypto.Zeroizable;
+import p79068.crypto.Zeroizer;
 import p79068.crypto.cipher.BlockCipher;
 import p79068.crypto.cipher.Cipher;
 import p79068.crypto.cipher.Cipherer;
@@ -64,8 +65,7 @@ public final class CbcModeCipher extends Cipher implements Zeroizable {
 	public void zeroize() {
 		if (blockCipher == null)
 			throw new IllegalStateException("Already zeroized");
-		for (int i = 0; i < key.length; i++)
-			key[i] = 0;
+		Zeroizer.clear(key);
 		key = null;
 		if (blockCipher instanceof Zeroizable)
 			((Zeroizable)blockCipher).zeroize();

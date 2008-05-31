@@ -1,5 +1,6 @@
 package p79068.crypto.cipher.mode;
 
+import p79068.crypto.Zeroizer;
 import p79068.crypto.cipher.BlockCipher;
 import p79068.crypto.cipher.Cipherer;
 import p79068.lang.BoundsChecker;
@@ -63,8 +64,7 @@ final class BcModeCipherer extends Cipherer {
 	public void zeroize() {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
-		for (int i = 0; i < prevCiphertextsXored.length; i++)
-			prevCiphertextsXored[i] = 0;
+		Zeroizer.clear(prevCiphertextsXored);
 		prevCiphertextsXored = null;
 		cipherer.zeroize();
 		cipherer = null;
