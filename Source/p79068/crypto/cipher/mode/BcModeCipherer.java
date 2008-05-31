@@ -13,6 +13,7 @@ final class BcModeCipherer extends Cipherer {
 	private byte[] prevCiphertextsXored;
 	
 	
+	
 	BcModeCipherer(BcModeCipher cipher, byte[] initVector, BlockCipher blockCipher, byte[] cipherKey) {
 		super(cipher, initVector);
 		blockLength = blockCipher.getBlockLength();
@@ -21,6 +22,7 @@ final class BcModeCipherer extends Cipherer {
 		cipherer = blockCipher.newCipherer(cipherKey);
 		prevCiphertextsXored = initVector.clone();
 	}
+	
 	
 	
 	public void encrypt(byte[] b, int off, int len) {
@@ -37,6 +39,7 @@ final class BcModeCipherer extends Cipherer {
 				prevCiphertextsXored[i] ^= b[off + i];
 		}
 	}
+	
 	
 	public void decrypt(byte[] b, int off, int len) {
 		if (cipher == null)
@@ -67,4 +70,5 @@ final class BcModeCipherer extends Cipherer {
 		cipherer = null;
 		super.zeroize();
 	}
+	
 }

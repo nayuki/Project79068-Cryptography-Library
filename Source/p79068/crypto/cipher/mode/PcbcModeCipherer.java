@@ -13,6 +13,7 @@ final class PcbcModeCipherer extends Cipherer {
 	private byte[] prevPlainXorCipher;
 	
 	
+	
 	PcbcModeCipherer(PcbcModeCipher cipher, byte[] initVector, BlockCipher blockCipher, byte[] cipherKey) {
 		super(cipher, initVector);
 		blockLength = blockCipher.getBlockLength();
@@ -21,6 +22,7 @@ final class PcbcModeCipherer extends Cipherer {
 		cipherer = blockCipher.newCipherer(cipherKey);
 		prevPlainXorCipher = initVector.clone();
 	}
+	
 	
 	
 	public void encrypt(byte[] b, int off, int len) {
@@ -40,6 +42,7 @@ final class PcbcModeCipherer extends Cipherer {
 				prevPlainXorCipher[i] ^= b[off + i];
 		}
 	}
+	
 	
 	public void decrypt(byte[] b, int off, int len) {
 		if (cipher == null)
@@ -70,4 +73,5 @@ final class PcbcModeCipherer extends Cipherer {
 		cipherer = null;
 		super.zeroize();
 	}
+	
 }

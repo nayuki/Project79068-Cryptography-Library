@@ -14,6 +14,7 @@ final class IgeModeCipherer extends Cipherer {
 	private byte[] prevCiphertext;
 	
 	
+	
 	IgeModeCipherer(IgeModeCipher cipher, byte[] initVector, BlockCipher blockCipher, byte[] cipherKey) {
 		super(cipher, initVector);
 		blockLength = blockCipher.getBlockLength();
@@ -23,6 +24,7 @@ final class IgeModeCipherer extends Cipherer {
 		prevPlaintext = new byte[blockLength];
 		prevCiphertext = initVector.clone();
 	}
+	
 	
 	
 	public void encrypt(byte[] b, int off, int len) {
@@ -45,6 +47,7 @@ final class IgeModeCipherer extends Cipherer {
 		}
 	}
 	
+	
 	public void decrypt(byte[] b, int off, int len) {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
@@ -65,6 +68,7 @@ final class IgeModeCipherer extends Cipherer {
 		}
 	}
 	
+	
 	public void zeroize() {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
@@ -78,4 +82,5 @@ final class IgeModeCipherer extends Cipherer {
 		cipherer = null;
 		super.zeroize();
 	}
+	
 }

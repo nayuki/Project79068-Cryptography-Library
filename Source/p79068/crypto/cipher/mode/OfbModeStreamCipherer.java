@@ -15,6 +15,7 @@ final class OfbModeStreamCipherer extends StreamCipherer {
 	private int keyStreamOff;
 	
 	
+	
 	OfbModeStreamCipherer(OfbModeStreamCipher cipher, byte[] initVector, BlockCipher blockCipher, byte[] cipherKey) {
 		super(cipher, initVector);
 		blockLength = blockCipher.getBlockLength();
@@ -24,6 +25,7 @@ final class OfbModeStreamCipherer extends StreamCipherer {
 		keyStream = initVector.clone();
 		keyStreamOff = 0;
 	}
+	
 	
 	
 	public void encrypt(byte[] b, int off, int len) {
@@ -39,6 +41,7 @@ final class OfbModeStreamCipherer extends StreamCipherer {
 			}
 		}
 	}
+	
 	
 	public void skip(int byteCount) {
 		if (cipher == null)
@@ -69,4 +72,5 @@ final class OfbModeStreamCipherer extends StreamCipherer {
 		cipherer = null;
 		super.zeroize();
 	}
+	
 }

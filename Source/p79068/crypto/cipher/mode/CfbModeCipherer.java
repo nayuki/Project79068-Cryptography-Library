@@ -13,6 +13,7 @@ final class CfbModeCipherer extends Cipherer {
 	private byte[] prevCiphertext;
 	
 	
+	
 	CfbModeCipherer(CfbModeCipher cipher, byte[] initVector, BlockCipher blockCipher, byte[] cipherKey) {
 		super(cipher, initVector);
 		blockLength = blockCipher.getBlockLength();
@@ -21,6 +22,7 @@ final class CfbModeCipherer extends Cipherer {
 		cipherer = blockCipher.newCipherer(cipherKey);
 		prevCiphertext = initVector.clone();
 	}
+	
 	
 	
 	public void encrypt(byte[] b, int off, int len) {
@@ -35,6 +37,7 @@ final class CfbModeCipherer extends Cipherer {
 			cipherer.encrypt(prevCiphertext);
 		}
 	}
+	
 	
 	public void decrypt(byte[] b, int off, int len) {
 		if (cipher == null)
@@ -63,4 +66,5 @@ final class CfbModeCipherer extends Cipherer {
 		cipherer = null;
 		super.zeroize();
 	}
+	
 }
