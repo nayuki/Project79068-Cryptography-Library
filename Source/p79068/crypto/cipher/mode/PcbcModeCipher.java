@@ -10,7 +10,7 @@ import p79068.crypto.cipher.Cipherer;
 /**
  * A cipher using a block cipher in PCBC (propagating cipher block chaining) mode.
  * <p>Encryption algorithm:</p>
- * <p><code>plain xor cipher[-1] = initializationVector<br>
+ * <p><code>plainXorCipher[-1] = initializationVector<br>
  * plainXorCipher[i] = plaintext[i] XOR ciphertext[i]<br>
  * ciphertext[i] = encrypt(plaintext[i] XOR plainXorCipher[i-1])</code></p>
  * <p>Decryption algorithm:</p>
