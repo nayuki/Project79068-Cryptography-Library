@@ -46,12 +46,20 @@ public class AesTest {
 		byte[] key = CryptoUtils.hexToBytes("06A9214036B8A15B512E03D534120006");
 		byte[] initvector = CryptoUtils.hexToBytes("3DAFBA429D9EB430B422DA802C9FAC41");
 		byte[] plaintext = CryptoUtils.asciiToBytes("Single block msg");
-		byte[] expectedCiphertext = CryptoUtils.hexToBytes("E353779C1079AEB82708942DBE77181A");
+		byte[] ciphertext = CryptoUtils.hexToBytes("E353779C1079AEB82708942DBE77181A");
+		
 		BlockCipher aescipher = Rijndael.AES128_CIPHER;
 		CbcModeCipher cbccipher = new CbcModeCipher(aescipher, key);
-		Cipherer cipherer = cbccipher.newCipherer(initvector);
-		cipherer.encrypt(plaintext);
-		assertArrayEquals(plaintext, expectedCiphertext);
+		Cipherer cipherer;
+		byte[] temp = plaintext.clone();
+		
+		cipherer = cbccipher.newCipherer(initvector);
+		cipherer.encrypt(temp);
+		assertArrayEquals(ciphertext, temp);
+		
+		cipherer = cbccipher.newCipherer(initvector);
+		cipherer.decrypt(temp);
+		assertArrayEquals(plaintext, temp);
 	}
 	
 }
