@@ -11,7 +11,7 @@ import p79068.crypto.Zeroizer;
  * Instantiability: Via <code>Cipher instance.newCipherer()</code></p>
  * @see Cipher
  */
-public abstract class Cipherer implements Zeroizable {
+public abstract class Cipherer implements Cloneable, Zeroizable {
 	
 	protected Cipher cipher;
 	protected byte[] key;
@@ -60,6 +60,17 @@ public abstract class Cipherer implements Zeroizable {
 	 */
 	public Cipher getCipher() {
 		return cipher;
+	}
+	
+	
+	public Cipherer clone() {
+		try {
+			Cipherer result = (Cipherer)super.clone();
+			result.key = result.key.clone();
+			return result;
+		} catch (CloneNotSupportedException e) {
+			throw new AssertionError(e);
+		}
 	}
 	
 	

@@ -65,6 +65,13 @@ final class PcbcModeCipherer extends Cipherer {
 	}
 	
 	
+	public PcbcModeCipherer clone() {
+		PcbcModeCipherer result = (PcbcModeCipherer)super.clone();
+		result.prevPlainXorCipher = result.prevPlainXorCipher.clone();
+		return result;
+	}
+	
+	
 	public void zeroize() {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");

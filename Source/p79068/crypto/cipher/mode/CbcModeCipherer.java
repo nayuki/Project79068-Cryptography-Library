@@ -60,6 +60,13 @@ final class CbcModeCipherer extends Cipherer {
 	}
 	
 	
+	public CbcModeCipherer clone() {
+		CbcModeCipherer result = (CbcModeCipherer)super.clone();
+		result.prevCiphertext = result.prevCiphertext.clone();
+		return result;
+	}
+	
+	
 	public void zeroize() {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");

@@ -70,6 +70,14 @@ final class IgeModeCipherer extends Cipherer {
 	}
 	
 	
+	public IgeModeCipherer clone() {
+		IgeModeCipherer result = (IgeModeCipherer)super.clone();
+		result.prevPlaintext = result.prevPlaintext.clone();
+		result.prevCiphertext = result.prevCiphertext.clone();
+		return result;
+	}
+	
+	
 	public void zeroize() {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");

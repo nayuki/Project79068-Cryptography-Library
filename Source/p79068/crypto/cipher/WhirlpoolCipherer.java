@@ -80,6 +80,13 @@ final class WhirlpoolCipherer extends Cipherer {
 	}
 	
 	
+	public WhirlpoolCipherer clone() {
+		WhirlpoolCipherer result = (WhirlpoolCipherer)super.clone();
+		result.keySchedule = result.keySchedule.clone();
+		return result;
+	}
+	
+	
 	public void zeroize() {
 		if (cipher == null)
 			return;

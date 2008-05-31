@@ -62,6 +62,13 @@ final class BcModeCipherer extends Cipherer {
 	}
 	
 	
+	public BcModeCipherer clone() {
+		BcModeCipherer result = (BcModeCipherer)super.clone();
+		result.prevCiphertextsXored = result.prevCiphertextsXored.clone();
+		return result;
+	}
+	
+	
 	public void zeroize() {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");

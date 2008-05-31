@@ -72,6 +72,13 @@ final class Rc4Cipherer extends StreamCipherer {
 	}
 	
 	
+	public Rc4Cipherer clone() {
+		Rc4Cipherer result = (Rc4Cipherer)super.clone();
+		result.s = result.s.clone();
+		return result;
+	}
+	
+	
 	public void zeroize() {
 		if (cipher == null)
 			return;

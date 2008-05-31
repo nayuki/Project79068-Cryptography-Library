@@ -116,6 +116,13 @@ final class TeaCipherer extends Cipherer {
 	}
 	
 	
+	public TeaCipherer clone() {
+		TeaCipherer result = (TeaCipherer)super.clone();
+		result.int32Key = result.int32Key.clone();
+		return result;
+	}
+	
+	
 	public void zeroize() {
 		if (cipher == null)
 			return;

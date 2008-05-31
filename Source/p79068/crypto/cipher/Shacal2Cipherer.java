@@ -197,6 +197,13 @@ final class Shacal2Cipherer extends Cipherer {
 	}
 	
 	
+	public Shacal2Cipherer clone() {
+		Shacal2Cipherer result = (Shacal2Cipherer)super.clone();
+		result.keySchedule = result.keySchedule.clone();
+		return result;
+	}
+	
+	
 	public void zeroize() {
 		if (cipher == null)
 			return;

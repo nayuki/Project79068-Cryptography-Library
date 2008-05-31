@@ -108,6 +108,13 @@ final class XteaCipherer extends Cipherer {
 	}
 	
 	
+	public XteaCipherer clone() {
+		XteaCipherer result = (XteaCipherer)super.clone();
+		result.int32Key = result.int32Key.clone();
+		return result;
+	}
+	
+	
 	public void zeroize() {
 		if (cipher == null)
 			return;

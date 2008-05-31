@@ -82,6 +82,13 @@ final class Rc2Cipherer extends Cipherer {
 	}
 	
 	
+	public Rc2Cipherer clone() {
+		Rc2Cipherer result = (Rc2Cipherer)super.clone();
+		result.keySchedule = result.keySchedule.clone();
+		return result;
+	}
+	
+	
 	public void zeroize() {
 		if (cipher == null)
 			return;

@@ -154,6 +154,14 @@ final class FastAesCipherer extends Cipherer {
 	}
 	
 	
+	public FastAesCipherer clone() {
+		FastAesCipherer result = (FastAesCipherer)super.clone();
+		result.encKeySch = result.encKeySch.clone();
+		result.decKeySch = result.decKeySch.clone();
+		return result;
+	}
+	
+	
 	public void zeroize() {
 		if (cipher == null)
 			return;

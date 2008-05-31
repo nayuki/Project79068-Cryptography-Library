@@ -70,6 +70,13 @@ final class OfbModeStreamCipherer extends StreamCipherer {
 		keyStreamIndex += byteCount;  // 0 <= byteCount < blockLength
 	}
 	
+	
+	public OfbModeStreamCipherer clone() {
+		OfbModeStreamCipherer result = (OfbModeStreamCipherer)super.clone();
+		result.keyStream = result.keyStream.clone();
+		return result;
+	}
+	
 
 	public void zeroize() {
 		if (cipher == null)

@@ -62,6 +62,13 @@ final class FastWhirlpoolCipherer extends Cipherer {
 	}
 	
 	
+	public FastWhirlpoolCipherer clone() {
+		FastWhirlpoolCipherer result = (FastWhirlpoolCipherer)super.clone();
+		result.keySchedule = result.keySchedule.clone();
+		return result;
+	}
+	
+	
 	public void zeroize() {
 		if (cipher == null)
 			return;

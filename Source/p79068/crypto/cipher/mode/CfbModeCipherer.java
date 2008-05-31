@@ -60,6 +60,13 @@ final class CfbModeCipherer extends Cipherer {
 	}
 	
 	
+	public CfbModeCipherer clone() {
+		CfbModeCipherer result = (CfbModeCipherer)super.clone();
+		result.prevCiphertext = result.prevCiphertext.clone();
+		return result;
+	}
+	
+	
 	public void zeroize() {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
