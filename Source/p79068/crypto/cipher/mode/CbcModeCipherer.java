@@ -53,10 +53,9 @@ final class CbcModeCipherer extends Cipherer {
 		for (int end = off + len; off < end; off += blockLength) {
 			System.arraycopy(b, off, ciphertext, 0, blockLength);
 			cipherer.decrypt(b, off, blockLength);
-			for (int i = 0; i < blockLength; i++) {
+			for (int i = 0; i < blockLength; i++)
 				b[off + i] ^= prevCiphertext[i];
-				prevCiphertext[i] = ciphertext[i];
-			}
+			System.arraycopy(ciphertext, 0, prevCiphertext, 0, blockLength);
 		}
 	}
 	

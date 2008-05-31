@@ -34,9 +34,10 @@ final class CfbModeCipherer extends Cipherer {
 			throw new IllegalArgumentException("Invalid block length");
 		
 		for (int end = off + len; off < end; off += blockLength) {
-			for (int i = 0; i < blockLength; i++)
-				prevCiphertext[i] = b[off + i] ^= prevCiphertext[i];
 			cipherer.encrypt(prevCiphertext);
+			for (int i = 0; i < blockLength; i++)
+				b[off + i] ^= prevCiphertext[i];
+			System.arraycopy(b, off, prevCiphertext, 0, blockLength);
 		}
 	}
 	
@@ -49,12 +50,12 @@ final class CfbModeCipherer extends Cipherer {
 			throw new IllegalArgumentException("Invalid block length");
 		
 		for (int end = off + len; off < end; off += blockLength) {
+			cipherer.encrypt(prevCiphertext);
 			for (int i = 0; i < blockLength; i++) {
 				byte temp = b[off + i];
 				b[off + i] ^= prevCiphertext[i];
 				prevCiphertext[i] = temp;
 			}
-			cipherer.encrypt(prevCiphertext);
 		}
 	}
 	
