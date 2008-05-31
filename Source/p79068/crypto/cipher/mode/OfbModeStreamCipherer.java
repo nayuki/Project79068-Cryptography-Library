@@ -13,7 +13,7 @@ final class OfbModeStreamCipherer extends StreamCipherer {
 	private int blockLength;
 	
 	private byte[] keyStream;  // The current key stream block
-	private int keyStreamOff;
+	private int keyStreamIndex;
 	
 	
 	
@@ -24,7 +24,7 @@ final class OfbModeStreamCipherer extends StreamCipherer {
 			throw new AssertionError();
 		cipherer = blockCipher.newCipherer(cipherKey);
 		keyStream = initVector.clone();
-		keyStreamOff = 0;
+		keyStreamIndex = 0;
 	}
 	
 	
@@ -34,12 +34,12 @@ final class OfbModeStreamCipherer extends StreamCipherer {
 			throw new IllegalStateException("Already zeroized");
 		BoundsChecker.check(b.length, off, len);
 		
-		for (int end = off + len; off < end; off++) {
-			b[off] ^= keyStream[keyStreamOff];
-			keyStreamOff++;
-			if (keyStreamOff == blockLength) {
+		for (int i = off, end = off + len; i < end; i++) {
+			b[i] ^= keyStream[keyStreamIndex];
+			keyStreamIndex++;
+			if (keyStreamIndex == blockLength) {
 				cipherer.encrypt(keyStream);
-				keyStreamOff = 0;
+				keyStreamIndex = 0;
 			}
 		}
 	}
@@ -48,25 +48,33 @@ final class OfbModeStreamCipherer extends StreamCipherer {
 	public void skip(int byteCount) {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
-		if (keyStreamOff > 0) {
-			int templen = Math.min(blockLength - keyStreamOff, byteCount);
-			keyStreamOff += templen;
-			byteCount -= templen;
-			if (keyStreamOff == blockLength) {
+		if (byteCount < 0)
+			throw new IllegalArgumentException("Negative skip");
+		
+		// Try to finish the current block
+		if (keyStreamIndex > 0) {
+			int temp = Math.min(blockLength - keyStreamIndex, byteCount);  // 0 <= temp < blockLength
+			keyStreamIndex += temp;
+			byteCount -= temp;
+			if (keyStreamIndex == blockLength) {
 				cipherer.encrypt(keyStream);
-				keyStreamOff = 0;
+				keyStreamIndex = 0;
 			}
 		}
+		
+		// Skip one block at a time
 		for (; byteCount >= blockLength; byteCount -= blockLength)
 			cipherer.encrypt(keyStream);
-		keyStreamOff += byteCount;  // 0 <= byteCount < blockLength
+		
+		// The residual, which is less than a block
+		keyStreamIndex += byteCount;  // 0 <= byteCount < blockLength
 	}
 	
 
 	public void zeroize() {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
-		keyStreamOff = 0;
+		keyStreamIndex = 0;
 		Zeroizer.clear(keyStream);
 		keyStream = null;
 		cipherer.zeroize();

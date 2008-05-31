@@ -33,7 +33,7 @@ public abstract class StreamCipherer extends Cipherer {
 	
 	public void skip(int byteCount) {
 		if (byteCount < 0)
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("Negative skip");
 		byte[] b = new byte[1024];
 		while (byteCount > 0) {
 			int templen = Math.min(b.length, byteCount);
