@@ -32,7 +32,8 @@ final class BcModeCipherer extends Cipherer {
 		BoundsChecker.check(b.length, off, len);
 		if (len % blockLength != 0)
 			throw new IllegalArgumentException("Invalid block length");
-		for (len += off; off < len; off += blockLength) {
+		
+		for (int end = off + len; off < end; off += blockLength) {
 			for (int i = 0; i < blockLength; i++)
 				b[off + i] ^= prevCiphertextsXored[i];
 			cipherer.encrypt(b, off, blockLength);
@@ -48,8 +49,9 @@ final class BcModeCipherer extends Cipherer {
 		BoundsChecker.check(b.length, off, len);
 		if (len % blockLength != 0)
 			throw new IllegalArgumentException("Invalid block length");
+		
 		byte[] ciphertext = new byte[blockLength];
-		for (len += off; off < len; off += blockLength) {
+		for (int end = off + len; off < end; off += blockLength) {
 			for (int i = 0; i < blockLength; i++)
 				ciphertext[i] = b[off + i];
 			cipherer.decrypt(b, off, blockLength);

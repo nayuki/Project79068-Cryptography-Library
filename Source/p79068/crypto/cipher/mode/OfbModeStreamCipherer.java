@@ -33,7 +33,8 @@ final class OfbModeStreamCipherer extends StreamCipherer {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
 		BoundsChecker.check(b.length, off, len);
-		for (len += off; off < len; off++) {
+		
+		for (int end = off + len; off < end; off++) {
 			b[off] ^= keyStream[keyStreamOff];
 			keyStreamOff++;
 			if (keyStreamOff == blockLength) {

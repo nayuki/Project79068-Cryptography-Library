@@ -32,7 +32,8 @@ final class CfbModeCipherer extends Cipherer {
 		BoundsChecker.check(b.length, off, len);
 		if (len % blockLength != 0)
 			throw new IllegalArgumentException("Invalid block length");
-		for (len += off; off < len; off += blockLength) {
+		
+		for (int end = off + len; off < end; off += blockLength) {
 			for (int i = 0; i < blockLength; i++)
 				prevCiphertext[i] = b[off + i] ^= prevCiphertext[i];
 			cipherer.encrypt(prevCiphertext);
@@ -46,7 +47,8 @@ final class CfbModeCipherer extends Cipherer {
 		BoundsChecker.check(b.length, off, len);
 		if (len % blockLength != 0)
 			throw new IllegalArgumentException("Invalid block length");
-		for (len += off; off < len; off += blockLength) {
+		
+		for (int end = off + len; off < end; off += blockLength) {
 			for (int i = 0; i < blockLength; i++) {
 				byte temp = b[off + i];
 				b[off + i] ^= prevCiphertext[i];

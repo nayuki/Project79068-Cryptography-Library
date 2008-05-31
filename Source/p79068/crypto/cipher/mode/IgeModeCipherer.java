@@ -34,8 +34,9 @@ final class IgeModeCipherer extends Cipherer {
 		BoundsChecker.check(b.length, off, len);
 		if (len % blockLength != 0)
 			throw new IllegalArgumentException("Invalid block length");
+		
 		byte[] plaintext = new byte[blockLength];
-		for (len += off; off < len; off += blockLength) {
+		for (int end = off + len; off < end; off += blockLength) {
 			for (int i = 0; i < blockLength; i++) {
 				plaintext[i] = b[off + i];
 				b[off + i] ^= prevCiphertext[i];
@@ -55,8 +56,9 @@ final class IgeModeCipherer extends Cipherer {
 		BoundsChecker.check(b.length, off, len);
 		if (len % blockLength != 0)
 			throw new IllegalArgumentException("Invalid block length");
+		
 		byte[] ciphertext = new byte[blockLength];
-		for (len += off; off < len; off += blockLength) {
+		for (int end = off + len; off < end; off += blockLength) {
 			for (int i = 0; i < blockLength; i++) {
 				ciphertext[i] = b[off + i];
 				b[off + i] ^= prevPlaintext[i];
