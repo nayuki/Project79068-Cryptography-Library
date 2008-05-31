@@ -7,20 +7,21 @@ import p79068.crypto.cipher.StreamCipher;
 
 
 /**
-A stream cipher using a block cipher in OFB (output feedback) mode.
-<p>Encryption algorithm:</p>
-<p><code>key stream[-1] = initialization vector<br>
-key stream[i] = encrypt(key stream[i-1])<br>
-ciphertext[i] = key stream[i] XOR plaintext[i]</code></p>
-<p>Decryption algorithm:</p>
-<p><code>key stream[-1] = initialization vector<br>
-key stream[i] = encrypt(key stream[i-1])<br>
-plaintext[i] = key stream[i] XOR ciphertext[i]</code></p>
-*/
+ * A stream cipher using a block cipher in OFB (output feedback) mode.
+ * <p>Encryption algorithm:</p>
+ * <p><code>key stream[-1] = initialization vector<br>
+ * key stream[i] = encrypt(key stream[i-1])<br>
+ * ciphertext[i] = key stream[i] XOR plaintext[i]</code></p>
+ * <p>Decryption algorithm:</p>
+ * <p><code>key stream[-1] = initialization vector<br>
+ * key stream[i] = encrypt(key stream[i-1])<br>
+ * plaintext[i] = key stream[i] XOR ciphertext[i]</code></p>
+ */
 public final class OfbModeStreamCipher extends StreamCipher implements Zeroizable {
 	
 	private BlockCipher blockCipher;
 	private byte[] key;
+	
 	
 	
 	public OfbModeStreamCipher(BlockCipher cipher, byte[] key) {
@@ -29,6 +30,7 @@ public final class OfbModeStreamCipher extends StreamCipher implements Zeroizabl
 		blockCipher = cipher;
 		this.key = key.clone();
 	}
+	
 	
 	
 	public StreamCipherer newCipherer(byte[] initVector) {
@@ -45,6 +47,7 @@ public final class OfbModeStreamCipher extends StreamCipher implements Zeroizabl
 			throw new IllegalStateException("Already zeroized");
 		return String.format("%s in CBC mode", blockCipher.getName());
 	}
+	
 	
 	public int getKeyLength() {
 		if (blockCipher == null)
@@ -68,4 +71,5 @@ public final class OfbModeStreamCipher extends StreamCipher implements Zeroizabl
 	public boolean equals(Object obj) {
 		return obj instanceof OfbModeStreamCipher && blockCipher.equals(((OfbModeStreamCipher)obj).blockCipher);
 	}
+	
 }

@@ -7,20 +7,21 @@ import p79068.crypto.cipher.Cipherer;
 
 
 /**
-A cipher using a block cipher in IGE (infinite garble extension) mode.
-<p>Encryption algorithm:</p>
-<p><code>plaintext[-1] = zeros<br>
-ciphertext[-1] = initialization vector<br>
-ciphertext[i] = encrypt(plaintext[i] XOR ciphertext[i-1]) XOR plaintext[i-1]</code></p>
-<p>Decryption algorithm:</p>
-<p><code>plaintext[-1] = zeros<br>
-ciphertext[-1] = initialization vector<br>
-plaintext[i] = decrypt(ciphertext[i] XOR plaintext[i-1]) XOR ciphertext[i-1]</code></p>
-*/
+ * A cipher using a block cipher in IGE (infinite garble extension) mode.
+ * <p>Encryption algorithm:</p>
+ * <p><code>plaintext[-1] = zeros<br>
+ * ciphertext[-1] = initialization vector<br>
+ * ciphertext[i] = encrypt(plaintext[i] XOR ciphertext[i-1]) XOR plaintext[i-1]</code></p>
+ * <p>Decryption algorithm:</p>
+ * <p><code>plaintext[-1] = zeros<br>
+ * ciphertext[-1] = initialization vector<br>
+ * plaintext[i] = decrypt(ciphertext[i] XOR plaintext[i-1]) XOR ciphertext[i-1]</code></p>
+ */
 public final class IgeModeCipher extends Cipher implements Zeroizable {
 	
 	private BlockCipher blockCipher;
 	private byte[] key;
+	
 	
 	
 	public IgeModeCipher(BlockCipher cipher, byte[] key) {
@@ -29,6 +30,7 @@ public final class IgeModeCipher extends Cipher implements Zeroizable {
 		blockCipher = cipher;
 		this.key = key.clone();
 	}
+	
 	
 	
 	public Cipherer newCipherer(byte[] initVector) {
@@ -46,11 +48,13 @@ public final class IgeModeCipher extends Cipher implements Zeroizable {
 		return String.format("%s in IGE mode", blockCipher.getName());
 	}
 	
+	
 	public int getKeyLength() {
 		if (blockCipher == null)
 			throw new IllegalStateException("Already zeroized");
 		return blockCipher.getBlockLength();
 	}
+	
 	
 	public int getBlockLength() {
 		if (blockCipher == null)
@@ -74,4 +78,5 @@ public final class IgeModeCipher extends Cipher implements Zeroizable {
 	public boolean equals(Object obj) {
 		return obj instanceof IgeModeCipher && blockCipher.equals(((IgeModeCipher)obj).blockCipher);
 	}
+	
 }

@@ -7,20 +7,21 @@ import p79068.crypto.cipher.Cipherer;
 
 
 /**
-A cipher using a block cipher in PCBC (propagating cipher block chaining) mode.
-<p>Encryption algorithm:</p>
-<p><code>plain xor cipher[-1] = initialization vector<br>
-plain xor cipher[i] = plaintext[i] xor ciphertext[i]<br>
-ciphertext[i] = encrypt(plaintext[i] XOR plain xor cipher[i-1])</code></p>
-<p>Decryption algorithm:</p>
-<p><code>plain xor cipher[-1] = initialization vector<br>
-plain xor cipher[i] = plaintext[i] xor ciphertext[i]<br>
-plaintext[i] = decrypt(ciphertext[i]) XOR plain xor cipher[i-1]</code></p>
-*/
+ * A cipher using a block cipher in PCBC (propagating cipher block chaining) mode.
+ * <p>Encryption algorithm:</p>
+ * <p><code>plain xor cipher[-1] = initialization vector<br>
+ * plain xor cipher[i] = plaintext[i] xor ciphertext[i]<br>
+ * ciphertext[i] = encrypt(plaintext[i] XOR plain xor cipher[i-1])</code></p>
+ * <p>Decryption algorithm:</p>
+ * <p><code>plain xor cipher[-1] = initialization vector<br>
+ * plain xor cipher[i] = plaintext[i] xor ciphertext[i]<br>
+ * plaintext[i] = decrypt(ciphertext[i]) XOR plain xor cipher[i-1]</code></p>
+ */
 public final class PcbcModeCipher extends Cipher implements Zeroizable {
 	
 	private BlockCipher blockCipher;
 	private byte[] key;
+	
 	
 	
 	public PcbcModeCipher(BlockCipher cipher, byte[] key) {
@@ -29,6 +30,7 @@ public final class PcbcModeCipher extends Cipher implements Zeroizable {
 		blockCipher = cipher;
 		this.key = key.clone();
 	}
+	
 	
 	
 	public Cipherer newCipherer(byte[] initVector) {
@@ -46,11 +48,13 @@ public final class PcbcModeCipher extends Cipher implements Zeroizable {
 		return String.format("%s in PCBC mode", blockCipher.getName());
 	}
 	
+	
 	public int getKeyLength() {
 		if (blockCipher == null)
 			throw new IllegalStateException("Already zeroized");
 		return blockCipher.getBlockLength();
 	}
+	
 	
 	public int getBlockLength() {
 		if (blockCipher == null)
@@ -74,4 +78,5 @@ public final class PcbcModeCipher extends Cipher implements Zeroizable {
 	public boolean equals(Object obj) {
 		return obj instanceof PcbcModeCipher && blockCipher.equals(((PcbcModeCipher)obj).blockCipher);
 	}
+	
 }
