@@ -53,12 +53,14 @@ public class CryptoUtils {
 	
 	
 	public static void testCipher(Cipher cipher, byte[] key, byte[] plaintext, byte[] expectedCiphertext) {
-		Cipherer cipherer = cipher.newCipherer(key);
+		Cipherer cipherer;
 		byte[] temp = plaintext.clone();
 		
+		cipherer = cipher.newCipherer(key);
 		cipherer.encrypt(temp);
 		assertArrayEquals(cipher.toString(), expectedCiphertext, temp);
 		
+		cipherer = cipher.newCipherer(key);
 		cipherer.decrypt(temp);
 		assertArrayEquals(cipher.toString(), plaintext, temp);
 	}
