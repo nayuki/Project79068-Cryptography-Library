@@ -67,10 +67,8 @@ public class CryptoUtils {
 	
 	
 	public static void testCipherInvertibility(Cipher cipher, int messageLength) {
-		byte[] key = new byte[cipher.getKeyLength()];
-		byte[] message0 = new byte[messageLength];
-		Random.DEFAULT.randomBytes(key);
-		Random.DEFAULT.randomBytes(message0);
+		byte[] key = getRandomBytes(cipher.getKeyLength());
+		byte[] message0 = getRandomBytes(messageLength);
 		byte[] message1 = message0.clone();
 		Cipherer cipherer = cipher.newCipherer(key);
 		cipherer.encrypt(message1);
@@ -122,6 +120,13 @@ public class CryptoUtils {
 				sb.append('?');
 		}
 		return sb.toString();
+	}
+	
+	
+	public static byte[] getRandomBytes(int length) {
+		byte[] b = new byte[length];
+		Random.DEFAULT.randomBytes(b);
+		return b;
 	}
 	
 	
