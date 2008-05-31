@@ -11,11 +11,11 @@ import p79068.crypto.cipher.Cipherer;
  * A cipher using a block cipher in IGE (infinite garble extension) mode.
  * <p>Encryption algorithm:</p>
  * <p><code>plaintext[-1] = zeros<br>
- * ciphertext[-1] = initialization vector<br>
+ * ciphertext[-1] = initializationVector<br>
  * ciphertext[i] = encrypt(plaintext[i] XOR ciphertext[i-1]) XOR plaintext[i-1]</code></p>
  * <p>Decryption algorithm:</p>
  * <p><code>plaintext[-1] = zeros<br>
- * ciphertext[-1] = initialization vector<br>
+ * ciphertext[-1] = initializationVector<br>
  * plaintext[i] = decrypt(ciphertext[i] XOR plaintext[i-1]) XOR ciphertext[i-1]</code></p>
  */
 public final class IgeModeCipher extends Cipher implements Zeroizable {

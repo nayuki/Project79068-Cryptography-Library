@@ -10,13 +10,13 @@ import p79068.crypto.cipher.Cipherer;
 /**
  * A cipher using a block cipher in PCBC (propagating cipher block chaining) mode.
  * <p>Encryption algorithm:</p>
- * <p><code>plain xor cipher[-1] = initialization vector<br>
- * plain xor cipher[i] = plaintext[i] xor ciphertext[i]<br>
- * ciphertext[i] = encrypt(plaintext[i] XOR plain xor cipher[i-1])</code></p>
+ * <p><code>plain xor cipher[-1] = initializationVector<br>
+ * plainXorCipher[i] = plaintext[i] XOR ciphertext[i]<br>
+ * ciphertext[i] = encrypt(plaintext[i] XOR plainXorCipher[i-1])</code></p>
  * <p>Decryption algorithm:</p>
- * <p><code>plain xor cipher[-1] = initialization vector<br>
- * plain xor cipher[i] = plaintext[i] xor ciphertext[i]<br>
- * plaintext[i] = decrypt(ciphertext[i]) XOR plain xor cipher[i-1]</code></p>
+ * <p><code>plainXorCipher[-1] = initializationVector<br>
+ * plainXorCipher[i] = plaintext[i] XOR ciphertext[i]<br>
+ * plaintext[i] = decrypt(ciphertext[i]) XOR plainXorCipher[i-1]</code></p>
  */
 public final class PcbcModeCipher extends Cipher implements Zeroizable {
 	

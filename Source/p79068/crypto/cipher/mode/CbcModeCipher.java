@@ -10,10 +10,10 @@ import p79068.crypto.cipher.Cipherer;
 /**
  * A cipher using a block cipher in CBC (cipher block chaining) mode.
  * <p>Encryption algorithm:</p>
- * <p><code>ciphertext[-1] = initialization vector<br>
+ * <p><code>ciphertext[-1] = initializationVector<br>
  * ciphertext[i] = encrypt(plaintext[i] XOR ciphertext[i-1])</code></p>
  * <p>Decryption algorithm:</p>
- * <p><code>ciphertext[-1] = initialization vector<br>
+ * <p><code>ciphertext[-1] = initializationVector<br>
  * plaintext[i] = decrypt(ciphertext[i]) XOR ciphertext[i-1]</code></p>
  */
 public final class CbcModeCipher extends Cipher implements Zeroizable {

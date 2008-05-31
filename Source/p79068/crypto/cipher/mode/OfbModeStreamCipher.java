@@ -10,11 +10,11 @@ import p79068.crypto.cipher.StreamCipher;
 /**
  * A stream cipher using a block cipher in OFB (output feedback) mode.
  * <p>Encryption algorithm:</p>
- * <p><code>key stream[-1] = initialization vector<br>
+ * <p><code>key stream[-1] = initializationVector<br>
  * key stream[i] = encrypt(key stream[i-1])<br>
  * ciphertext[i] = key stream[i] XOR plaintext[i]</code></p>
  * <p>Decryption algorithm:</p>
- * <p><code>key stream[-1] = initialization vector<br>
+ * <p><code>key stream[-1] = initializationVector<br>
  * key stream[i] = encrypt(key stream[i-1])<br>
  * plaintext[i] = key stream[i] XOR ciphertext[i]</code></p>
  */

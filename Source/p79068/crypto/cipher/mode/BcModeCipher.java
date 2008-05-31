@@ -10,13 +10,13 @@ import p79068.crypto.cipher.Cipherer;
 /**
  * A cipher using a block cipher in BC (block chaining) mode.
  * <p>Encryption algorithm:</p>
- * <p><code>prev ciphertexts xored[-1] = initialization vector<br>
- * prev ciphertexts xored[i] = prev ciphertexts xored[i-1] XOR ciphertext[i]<br>
- * ciphertext[i] = encrypt(plaintext[i] XOR prev ciphertexts xored[i-1])</code></p>
+ * <p><code>prevCiphersXored[-1] = initializationVector<br>
+ * prevCiphersXored[i] = prevCiphersXored[i-1] XOR ciphertext[i]<br>
+ * ciphertext[i] = encrypt(plaintext[i] XOR prevCiphersXored[i-1])</code></p>
  * <p>Decryption algorithm:</p>
- * <p><code>prev ciphertexts xored[-1] = initialization vector<br>
- * prev ciphertexts xored[i] = prev ciphertexts xored[i-1] XOR ciphertext[i]<br>
- * plaintext[i] = decrypt(ciphertext[i]) XOR prev ciphertexts xored[i-1]</code></p>
+ * <p><code>prevCiphersXored[-1] = initializationVector<br>
+ * prevCiphersXored[i] = prevCiphersXored[i-1] XOR ciphertext[i]<br>
+ * plaintext[i] = decrypt(ciphertext[i]) XOR prevCiphersXored[i-1]</code></p>
  */
 public final class BcModeCipher extends Cipher implements Zeroizable {
 	

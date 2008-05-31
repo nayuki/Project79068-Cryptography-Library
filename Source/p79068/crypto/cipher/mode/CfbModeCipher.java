@@ -10,10 +10,10 @@ import p79068.crypto.cipher.Cipherer;
 /**
  * A cipher using a block cipher in CFB (cipher feedback) mode.
  * <p>Encryption algorithm:</p>
- * <p><code>ciphertext[-1] = initialization vector<br>
+ * <p><code>ciphertext[-1] = initializationVector<br>
  * ciphertext[i] = encrypt(ciphertext[i-1]) XOR plaintext[i]</code></p>
  * <p>Decryption algorithm:</p>
- * <p><code>ciphertext[-1] = initialization vector<br>
+ * <p><code>ciphertext[-1] = initializationVector<br>
  * plaintext[i] = encrypt(ciphertext[i-1]) XOR ciphertext[i]</code></p>
  */
 public final class CfbModeCipher extends Cipher implements Zeroizable {
