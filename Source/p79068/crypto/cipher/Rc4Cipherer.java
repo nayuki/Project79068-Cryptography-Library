@@ -6,10 +6,19 @@ import p79068.lang.*;
 
 final class Rc4Cipherer extends StreamCipherer {
 	
-	private int[] s;  // A permutation of {0, 1, 2, ..., 254, 255}
+	/**
+	 * A permutation of {0, 1, 2, ..., 254, 255}.
+	 */
+	private int[] s;
 	
-	private int i;  // A counter modulo 256
+	/**
+	 * The number of key stream bytes generated, modulo 256. Note: number of key stream bytes generated = number of bytes encrypted + number of bytes decrypted + number of bytes skipped.
+	 */
+	private int i;
 	
+	/**
+	 * A state variable in the range [0, 256).
+	 */
 	private int j;
 	
 	
