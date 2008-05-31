@@ -45,7 +45,7 @@ public final class OfbModeStreamCipher extends StreamCipher implements Zeroizabl
 	public String getName() {
 		if (blockCipher == null)
 			throw new IllegalStateException("Already zeroized");
-		return String.format("%s in CBC mode", blockCipher.getName());
+		return String.format("%s in OFB mode", blockCipher.getName());
 	}
 	
 	
