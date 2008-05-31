@@ -32,7 +32,7 @@ final class Sha1Hasher extends BlockHasher {
 		if (hashFunction == null)
 			throw new IllegalStateException("Already zeroized");
 		Sha1Hasher result = (Sha1Hasher)super.clone();
-		result.state = state.clone();
+		result.state = result.state.clone();
 		return result;
 	}
 	

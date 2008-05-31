@@ -24,8 +24,8 @@ final class Md2Hasher extends BlockHasher {
 		if (hashFunction == null)
 			throw new IllegalStateException("Already zeroized");
 		Md2Hasher result = (Md2Hasher)super.clone();
-		result.state = state.clone();
-		result.checksum = checksum.clone();
+		result.state = result.state.clone();
+		result.checksum = result.checksum.clone();
 		return result;
 	}
 	

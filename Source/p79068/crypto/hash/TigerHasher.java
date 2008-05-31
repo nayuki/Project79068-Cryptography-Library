@@ -33,7 +33,7 @@ final class TigerHasher extends BlockHasher {
 		if (hashFunction == null)
 			throw new IllegalStateException("Already zeroized");
 		TigerHasher result = (TigerHasher)super.clone();
-		result.state = state.clone();
+		result.state = result.state.clone();
 		return result;
 	}
 	

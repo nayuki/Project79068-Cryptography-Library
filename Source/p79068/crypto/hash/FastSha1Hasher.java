@@ -23,7 +23,7 @@ final class FastSha1Hasher extends BlockHasher {
 		if (hashFunction == null)
 			throw new IllegalStateException("Already zeroized");
 		FastSha1Hasher result = (FastSha1Hasher)super.clone();
-		result.state = state.clone();
+		result.state = result.state.clone();
 		return result;
 	}
 	

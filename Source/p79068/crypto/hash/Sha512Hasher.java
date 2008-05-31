@@ -39,7 +39,7 @@ final class Sha512Hasher extends BlockHasher {
 		if (hashFunction == null)
 			throw new IllegalStateException("Already zeroized");
 		Sha512Hasher result = (Sha512Hasher)super.clone();
-		result.state = state.clone();
+		result.state = result.state.clone();
 		return result;
 	}
 	

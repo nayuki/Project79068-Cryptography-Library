@@ -85,8 +85,8 @@ final class NewEdonkey2000Hasher extends Hasher implements Zeroizable {
 			throw new IllegalStateException("Already zeroized");
 		
 		NewEdonkey2000Hasher result = (NewEdonkey2000Hasher)super.clone();
-		result.outerHasher = outerHasher.clone();
-		result.innerHasher = innerHasher.clone();
+		result.outerHasher = result.outerHasher.clone();
+		result.innerHasher = result.innerHasher.clone();
 		return result;
 	}
 	

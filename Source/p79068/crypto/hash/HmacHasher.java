@@ -42,8 +42,8 @@ final class HmacHasher extends Hasher implements Zeroizable {
 		if (hashFunction == null)
 			throw new IllegalStateException("Already zeroized");
 		HmacHasher result = (HmacHasher)super.clone();
-		result.inner = inner.clone();
-		result.outer = outer.clone();
+		result.inner = result.inner.clone();
+		result.outer = result.outer.clone();
 		return result;
 	}
 	
