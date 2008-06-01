@@ -9,7 +9,7 @@ final class Rc2Cipherer extends Cipherer {
 	private int[] keySchedule;  // 16-bit integers
 	
 	
-
+	
 	Rc2Cipherer(Rc2 cipher, byte[] key) {
 		super(cipher, key);
 		int t1 = cipher.getEffectiveKeyLength();

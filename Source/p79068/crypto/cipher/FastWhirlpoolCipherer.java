@@ -113,7 +113,7 @@ final class FastWhirlpoolCipherer extends Cipherer {
 			block[i] = temp[i] ^ key[i];
 	} // Sigma
 	
-
+	
 	private static void toInt64sBigEndian(byte[] in, int off, long[] out) {
 		for (int i = 0; i < out.length; i++, off += 8) {
 			out[i] = (in[off + 0] & 0xFFL) << 56 | (in[off + 1] & 0xFFL) << 48 | (in[off + 2] & 0xFFL) << 40 | (in[off + 3] & 0xFFL) << 32 | (in[off + 4] & 0xFFL) << 24 | (in[off + 5] & 0xFFL) << 16 | (in[off + 6] & 0xFFL) << 8 | (in[off + 7] & 0xFFL) << 0;

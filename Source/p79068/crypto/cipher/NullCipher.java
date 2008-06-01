@@ -13,6 +13,7 @@ public final class NullCipher extends BlockCipher {
 	public static final NullCipher CIPHER = new NullCipher();
 	
 	
+	
 	public Cipherer newCipherer(byte[] key) {
 		if (key.length != 0)
 			throw new IllegalArgumentException();

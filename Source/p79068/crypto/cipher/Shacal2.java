@@ -11,7 +11,8 @@ public final class Shacal2 extends BlockCipher {
 	
 	private int keyLength;  // In bytes
 	
-
+	
+	
 	public Shacal2(int keyLength) {
 		if (keyLength < 0 || keyLength > 64)
 			throw new IllegalArgumentException();
