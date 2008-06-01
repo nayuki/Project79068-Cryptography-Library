@@ -31,6 +31,7 @@ public final class Sha extends BlockHashFunction {
 	
 	/**
 	 * Returns the name of this hash function: <code>SHA</code>.
+	 * @return <code>"SHA"</code>
 	 */
 	public String getName() {
 		return "SHA";
@@ -39,6 +40,7 @@ public final class Sha extends BlockHashFunction {
 	
 	/**
 	 * Returns the length of hash values produced by this hash function: <code>20</code> bytes (160 bits).
+	 * @return <code>20</code>
 	 */
 	public int getHashLength() {
 		return 20;
@@ -47,6 +49,7 @@ public final class Sha extends BlockHashFunction {
 	
 	/**
 	 * Returns the block length of this hash function: <code>64</code> bytes (512 bits).
+	 * @return <code>64</code>
 	 */
 	public int getBlockLength() {
 		return 64;

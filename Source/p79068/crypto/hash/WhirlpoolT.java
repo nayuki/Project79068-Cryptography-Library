@@ -22,6 +22,7 @@ public final class WhirlpoolT extends AbstractWhirlpool {
 	
 	/**
 	 * Returns the name of this hash function: <code>Whirlpool-T</code>.
+	 * @return <code>"Whirlpool-T"</code>
 	 */
 	public String getName() {
 		return "Whirlpool-T";
