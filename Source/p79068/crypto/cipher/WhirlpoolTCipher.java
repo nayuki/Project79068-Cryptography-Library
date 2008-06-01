@@ -25,6 +25,7 @@ public final class WhirlpoolTCipher extends BlockCipher {
 	
 	/**
 	 * Returns the name of this cipher algorithm: <samp>Whirlpool-T Cipher</samp>.
+	 * @return <code>"Whirlpool-T Cipher"</code>
 	 */
 	public String getName() {
 		return "Whirlpool-T Cipher";
@@ -33,6 +34,7 @@ public final class WhirlpoolTCipher extends BlockCipher {
 	
 	/**
 	 * Returns the key length of this cipher algorithm: <samp>64</samp> bytes (512 bits).
+	 * @return <code>64</code>
 	 */
 	public int getKeyLength() {
 		return 64;
@@ -41,6 +43,7 @@ public final class WhirlpoolTCipher extends BlockCipher {
 	
 	/**
 	 * Returns the block length of this cipher algorithm: <samp>64</samp> bytes (512 bits).
+	 * @return <code>64</code>
 	 */
 	public int getBlockLength() {
 		return 64;

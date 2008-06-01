@@ -47,6 +47,7 @@ public final class Rc2 extends BlockCipher {
 	
 	/**
 	 * Returns the block length of this cipher algorithm: <samp>8</samp> bytes (64 bits).
+	 * @return <code>8</code>
 	 */
 	public int getBlockLength() {
 		return 8;

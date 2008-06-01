@@ -46,6 +46,7 @@ public final class Shacal2 extends BlockCipher {
 	
 	/**
 	 * Returns the block length of this cipher algorithm: <samp>32</samp> bytes (256 bits).
+	 * @return <code>32</code>
 	 */
 	public int getBlockLength() {
 		return 32;
