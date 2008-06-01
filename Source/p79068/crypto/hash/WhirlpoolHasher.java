@@ -19,7 +19,7 @@ final class WhirlpoolHasher extends BlockHasher {
 	
 	
 	WhirlpoolHasher(AbstractWhirlpool hashFunc) {
-		super(hashFunc, 64);
+		super(hashFunc);
 		
 		sub = hashFunc.getSbox();
 		

@@ -20,7 +20,7 @@ final class FastWhirlpoolHasher extends BlockHasher {
 	
 	
 	FastWhirlpoolHasher(AbstractWhirlpool hashFunc) {
-		super(hashFunc, 64);
+		super(hashFunc);
 		
 		if (!tablesByFunction.containsKey(hashFunc)) {
 			mul = makeMultiplicationTable(hashFunc.getSbox(), hashFunc.getC());

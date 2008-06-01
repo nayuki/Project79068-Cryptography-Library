@@ -13,7 +13,7 @@ final class Md5Hasher extends BlockHasher {
 	
 	
 	Md5Hasher(Md5 hashFunc) {
-		super(hashFunc, 64);
+		super(hashFunc);
 		state = new int[]{0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476};
 	}
 	

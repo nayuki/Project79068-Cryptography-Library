@@ -15,14 +15,14 @@ final class TigerHasher extends BlockHasher {
 	
 	
 	TigerHasher(Tiger hashFunc) {
-		super(hashFunc, 64);
+		super(hashFunc);
 		tiger2Mode = false;
 		state = new long[] { 0x0123456789ABCDEFL, 0xFEDCBA9876543210L, 0xF096A5B4C3B2E187L };
 	}
 	
 	
 	TigerHasher(Tiger2 hashFunc) {
-		super(hashFunc, 64);
+		super(hashFunc);
 		tiger2Mode = true;
 		state = new long[] { 0x0123456789ABCDEFL, 0xFEDCBA9876543210L, 0xF096A5B4C3B2E187L };  // Same as above
 	}

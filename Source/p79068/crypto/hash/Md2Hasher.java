@@ -13,7 +13,7 @@ final class Md2Hasher extends BlockHasher {
 	
 	
 	Md2Hasher(Md2 hashFunc) {
-		super(hashFunc, 16);
+		super(hashFunc);
 		state = new int[48];
 		checksum = new int[16];
 	}
