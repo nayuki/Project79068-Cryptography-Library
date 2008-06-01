@@ -37,7 +37,7 @@ public abstract class BlockHasher extends Hasher implements Zeroizable {
 		super(hashFunc);
 		length = 0;
 		block = new byte[hashFunc.getBlockLength()];
-		this.blockLength = 0;
+		blockLength = 0;
 	}
 	
 	
