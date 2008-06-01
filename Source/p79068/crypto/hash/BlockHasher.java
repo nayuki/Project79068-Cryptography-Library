@@ -1,6 +1,7 @@
 package p79068.crypto.hash;
 
 import p79068.crypto.Zeroizable;
+import p79068.crypto.Zeroizer;
 import p79068.lang.*;
 import p79068.util.hash.Hasher;
 import p79068.util.hash.HashValue;
@@ -123,8 +124,7 @@ public abstract class BlockHasher extends Hasher implements Zeroizable {
 			throw new IllegalStateException("Already zeroized");
 		length = 0;
 		blockLength = 0;
-		for (int i = 0; i < block.length; i++)
-			block[i] = 0;
+		Zeroizer.clear(block);
 		block = null;
 		hashFunction = null;
 	}

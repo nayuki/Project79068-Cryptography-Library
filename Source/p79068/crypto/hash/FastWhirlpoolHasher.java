@@ -3,6 +3,7 @@ package p79068.crypto.hash;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import p79068.crypto.Zeroizer;
 import p79068.lang.BoundsChecker;
 import p79068.math.LongBitMath;
 import p79068.util.hash.HashValue;
@@ -49,8 +50,7 @@ final class FastWhirlpoolHasher extends BlockHasher {
 	public void zeroize() {
 		if (hashFunction == null)
 			throw new IllegalStateException("Already zeroized");
-		for (int i = 0; i < state.length; i++)
-			state[i] = 0;
+		Zeroizer.clear(state);
 		state = null;
 		super.zeroize();
 	}
