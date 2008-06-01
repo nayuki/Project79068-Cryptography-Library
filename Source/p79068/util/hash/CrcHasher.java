@@ -94,11 +94,11 @@ final class CrcHasher extends Hasher {
 	public void update(byte[] b, int off, int len) {
 		BoundsChecker.check(b.length, off, len);
 		if (!revin) {
-			for (len += off; off < len; off++)
-				register = (register << 8) ^ xortable[(int)(register >>> 56) ^ (b[off] & 0xFF)];
+			for (int i = off, end = off + len; i < end; i++)
+				register = (register << 8) ^ xortable[(int)(register >>> 56) ^ (b[i] & 0xFF)];
 		} else {
-			for (len += off; off < len; off++)
-				register = (register >>> 8) ^ xortable[((int)register ^ b[off]) & 0xFF];
+			for (int i = off, end = off + len; i < end; i++)
+				register = (register >>> 8) ^ xortable[((int)register ^ b[i]) & 0xFF];
 		}
 	}
 	
