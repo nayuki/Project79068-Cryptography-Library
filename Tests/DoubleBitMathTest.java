@@ -13,38 +13,38 @@ public class DoubleBitMathTest {
 	
 	@Test
 	public void getSign() {
-		assertEquals(DoubleBitMath.getSign(POSITIVE_ZERO), 0);
-		assertEquals(DoubleBitMath.getSign(NEGATIVE_ZERO), 0);
-		assertEquals(DoubleBitMath.getSign(+1), +1);
-		assertEquals(DoubleBitMath.getSign(-1), -1);
+		assertEquals( 0, DoubleBitMath.getSign(POSITIVE_ZERO));
+		assertEquals( 0, DoubleBitMath.getSign(NEGATIVE_ZERO));
+		assertEquals(+1, DoubleBitMath.getSign(+1));
+		assertEquals(-1, DoubleBitMath.getSign(-1));
 	}
 	
 	
 	@Test
 	public void getExponent() {
-		assertEquals(DoubleBitMath.getExponent(0), -1022);
-		assertEquals(DoubleBitMath.getExponent(0.5), -1);
-		assertEquals(DoubleBitMath.getExponent(1), 0);
-		assertEquals(DoubleBitMath.getExponent(2), 1);
-		assertEquals(DoubleBitMath.getExponent(3), 1);
-		assertEquals(DoubleBitMath.getExponent(4), 2);
-		assertEquals(DoubleBitMath.getExponent(Double.MIN_VALUE), -1022);
-		assertEquals(DoubleBitMath.getExponent(Double.MAX_VALUE), 1023);
-		assertEquals(DoubleBitMath.getExponent(Math.PI), 1);
-		assertEquals(DoubleBitMath.getExponent(Math.E), 1);
+		assertEquals(-1022, DoubleBitMath.getExponent(0));
+		assertEquals(-1, DoubleBitMath.getExponent(0.5));
+		assertEquals(0, DoubleBitMath.getExponent(1));
+		assertEquals(1, DoubleBitMath.getExponent(2));
+		assertEquals(1, DoubleBitMath.getExponent(3));
+		assertEquals(2, DoubleBitMath.getExponent(4));
+		assertEquals(-1022, DoubleBitMath.getExponent(Double.MIN_VALUE));
+		assertEquals(1023, DoubleBitMath.getExponent(Double.MAX_VALUE));
+		assertEquals(1, DoubleBitMath.getExponent(Math.PI));
+		assertEquals(1, DoubleBitMath.getExponent(Math.E));
 	}
 	
 	
 	@Test
 	public void getMantissa() {
-		assertEquals(DoubleBitMath.getMantissa(0), 0);
-		assertEquals(DoubleBitMath.getMantissa(0.5), 0x10000000000000L);
-		assertEquals(DoubleBitMath.getMantissa(1), 0x10000000000000L);
-		assertEquals(DoubleBitMath.getMantissa(2), 0x10000000000000L);
-		assertEquals(DoubleBitMath.getMantissa(3), 0x18000000000000L);
-		assertEquals(DoubleBitMath.getMantissa(4), 0x10000000000000L);
-		assertEquals(DoubleBitMath.getMantissa(Double.MIN_VALUE), 1);
-		assertEquals(DoubleBitMath.getMantissa(Double.MAX_VALUE), 0x1FFFFFFFFFFFFFL);
+		assertEquals(0, DoubleBitMath.getMantissa(0));
+		assertEquals(0x10000000000000L, DoubleBitMath.getMantissa(0.5));
+		assertEquals(0x10000000000000L, DoubleBitMath.getMantissa(1));
+		assertEquals(0x10000000000000L, DoubleBitMath.getMantissa(2));
+		assertEquals(0x18000000000000L, DoubleBitMath.getMantissa(3));
+		assertEquals(0x10000000000000L, DoubleBitMath.getMantissa(4));
+		assertEquals(1, DoubleBitMath.getMantissa(Double.MIN_VALUE));
+		assertEquals(0x1FFFFFFFFFFFFFL, DoubleBitMath.getMantissa(Double.MAX_VALUE));
 	}
 	
 	
@@ -69,14 +69,14 @@ public class DoubleBitMathTest {
 	
 	@Test
 	public void isSubnormal() {
-		assertEquals(DoubleBitMath.isSubnormal(0), false);
-		assertEquals(DoubleBitMath.isSubnormal(1), false);
-		assertEquals(DoubleBitMath.isSubnormal(Double.MIN_VALUE), true);
-		assertEquals(DoubleBitMath.isSubnormal(Double.MIN_VALUE * 3), true);
-		assertEquals(DoubleBitMath.isSubnormal(Double.MAX_VALUE), false);
-		assertEquals(DoubleBitMath.isSubnormal(Double.POSITIVE_INFINITY), false);
-		assertEquals(DoubleBitMath.isSubnormal(Math.PI), false);
-		assertEquals(DoubleBitMath.isSubnormal(Math.E), false);
+		assertFalse(DoubleBitMath.isSubnormal(0));
+		assertFalse(DoubleBitMath.isSubnormal(1));
+		assertTrue(DoubleBitMath.isSubnormal(Double.MIN_VALUE));
+		assertTrue(DoubleBitMath.isSubnormal(Double.MIN_VALUE * 3));
+		assertFalse(DoubleBitMath.isSubnormal(Double.MAX_VALUE));
+		assertFalse(DoubleBitMath.isSubnormal(Double.POSITIVE_INFINITY));
+		assertFalse(DoubleBitMath.isSubnormal(Math.PI));
+		assertFalse(DoubleBitMath.isSubnormal(Math.E));
 	}
 	
 	
