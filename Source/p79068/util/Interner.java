@@ -9,6 +9,7 @@ public final class Interner<E> {
 	private WeakHashMap<E,WeakReference<E>> weakHashMap;
 	
 	
+	
 	public Interner() {
 		weakHashMap = new WeakHashMap<E,WeakReference<E>>();
 	}
