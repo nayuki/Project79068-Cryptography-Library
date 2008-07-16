@@ -70,10 +70,7 @@ final class FastSha1Hasher extends BlockHasher {
 			int schedule14 = message[off + 56] << 24 | (message[off + 57] & 0xFF) << 16 | (message[off + 58] & 0xFF) << 8 | (message[off + 59] & 0xFF);
 			int schedule15 = message[off + 60] << 24 | (message[off + 61] & 0xFF) << 16 | (message[off + 62] & 0xFF) << 8 | (message[off + 63] & 0xFF);
 			
-			// Expand the schedule
-
-			
-			// The 80 rounds
+			// The 80 rounds (the schedule is expanded on the fly)
 			int tp;
 			e += (a << 5 | a >>> 27) + (d ^ (b & (c ^ d))) + schedule00 + 0x5A827999;  b = b << 30 | b >>> 2;
 			d += (e << 5 | e >>> 27) + (c ^ (a & (b ^ c))) + schedule01 + 0x5A827999;  a = a << 30 | a >>> 2;
