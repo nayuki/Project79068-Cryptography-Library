@@ -50,12 +50,12 @@ final class ChirpZFft extends Dft {
 	
 	
 	
-	public void transform(double[] inre, double[] inim, double[] outre, double[] outim) {
+	public void transform(double[] inreal, double[] inimag, double[] outreal, double[] outimag) {
 		double[] tpre = new double[convolutionLength];
 		double[] tpim = new double[convolutionLength];
 		for (int i = 0; i < length; i++) {
-			tpre[i] = inre[i] * cos[i] + inim[i] * sin[i];
-			tpim[i] = -inre[i] * sin[i] + inim[i] * cos[i];
+			tpre[i] = inreal[i] * cos[i] + inimag[i] * sin[i];
+			tpim[i] = -inreal[i] * sin[i] + inimag[i] * cos[i];
 		}
 		
 		fft.transform(tpre, tpim);
@@ -69,14 +69,14 @@ final class ChirpZFft extends Dft {
 		fft.inverseTransform(tpre, tpim);
 		
 		for (int i = 0; i < length; i++) {
-			outre[i] = tpre[i] * cos[i] + tpim[i] * sin[i];
-			outim[i] = -tpre[i] * sin[i] + tpim[i] * cos[i];
+			outreal[i] = tpre[i] * cos[i] + tpim[i] * sin[i];
+			outimag[i] = -tpre[i] * sin[i] + tpim[i] * cos[i];
 		}
 	}
 	
 	
-	public void transform(double[] re, double[] im) {
-		transform(re, im, re, im);
+	public void transform(double[] real, double[] imag) {
+		transform(real, imag, real, imag);
 	}
 	
 }

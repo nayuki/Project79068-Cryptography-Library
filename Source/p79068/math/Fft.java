@@ -37,32 +37,32 @@ final class Fft extends Dft {
 	
 	
 	
-	public void transform(double[] inre, double[] inim, double[] outre, double[] outim) {
+	public void transform(double[] inreal, double[] inimag, double[] outreal, double[] outimag) {
 		// Permute input array onto output array
 		for (int i = 0; i < length; i++) {
-			outre[i] = inre[permutation[i]];
-			outim[i] = inim[permutation[i]];
+			outreal[i] = inreal[permutation[i]];
+			outimag[i] = inimag[permutation[i]];
 		}
 		
 		// Transform in-place on the output array
-		transformPrivate(outre, outim);
+		transformPrivate(outreal, outimag);
 	}
 	
 	
-	public void transform(double[] re, double[] im) {
+	public void transform(double[] real, double[] imag) {
 		// Do the permutation in-place. This is possible because the permutation is self-inverting.
 		for (int i = 0; i < length; i++) {
 			if (permutation[i] > i) {
-				double tempreal = re[i];
-				re[i] = re[permutation[i]];
-				re[permutation[i]] = tempreal;
+				double tempreal = real[i];
+				real[i] = real[permutation[i]];
+				real[permutation[i]] = tempreal;
 				
-				double tempimag = im[i];
-				im[i] = im[permutation[i]];
-				im[permutation[i]] = tempimag;
+				double tempimag = imag[i];
+				imag[i] = imag[permutation[i]];
+				imag[permutation[i]] = tempimag;
 			}
 		}
-		transformPrivate(re, im);
+		transformPrivate(real, imag);
 	}
 	
 	

@@ -37,13 +37,13 @@ public abstract class Dft {
 	/**
 	 * Computes the forward transform of the specified complex vector, done in-place if possible.
 	 */
-	public void transform(double[] re, double[] im) {
-		double[] outre = new double[re.length];
-		double[] outim = new double[im.length];
-		transform(re, im, outre, outim);
-		for (int i = 0; i < re.length; i++) {
-			re[i] = outre[i];
-			im[i] = outim[i];
+	public void transform(double[] real, double[] imag) {
+		double[] outre = new double[real.length];
+		double[] outim = new double[imag.length];
+		transform(real, imag, outre, outim);
+		for (int i = 0; i < real.length; i++) {
+			real[i] = outre[i];
+			imag[i] = outim[i];
 		}
 	}
 	
@@ -51,22 +51,22 @@ public abstract class Dft {
 	/**
 	 * Computes the forward transform of the specified complex vector.
 	 */
-	public abstract void transform(double[] inre, double[] inim, double[] outre, double[] outim);
+	public abstract void transform(double[] inreal, double[] inimag, double[] outreal, double[] outimag);
 	
 	
 	/**
 	 * Computes the inverse transform of the specified complex vector, done in-place if possible.
 	 */
-	public void inverseTransform(double[] re, double[] im) {
-		transform(im, re);
+	public void inverseTransform(double[] real, double[] imag) {
+		transform(imag, real);
 	}
 	
 	
 	/**
 	 * Computes the inverse transform of the specified complex vector.
 	 */
-	public void inverseTransform(double[] inre, double[] inim, double[] outre, double[] outim) {
-		transform(inim, inre, outim, outre);
+	public void inverseTransform(double[] inreal, double[] inimag, double[] outreal, double[] outimag) {
+		transform(inimag, inreal, outimag, outreal);
 	}
 	
 }
