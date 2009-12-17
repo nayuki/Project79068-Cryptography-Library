@@ -1,5 +1,7 @@
 package p79068.util.hash;
 
+import java.util.Arrays;
+
 
 /**
  * Represents a hash value produced by a hash function.
@@ -62,7 +64,7 @@ public final class HashValue implements Comparable<HashValue> {
 		if (!(o instanceof HashValue))
 			return false;
 		HashValue hash = (HashValue)o;
-		return hashFunction.equals(hash.hashFunction) && areEqual(hashValue, hash.hashValue);
+		return hashFunction.equals(hash.hashFunction) && Arrays.equals(hashValue, hash.hashValue);
 	}
 	
 	
@@ -85,7 +87,7 @@ public final class HashValue implements Comparable<HashValue> {
 	 */
 	public int hashCode() {
 		int result = 0;
-		for (int i = 0; i < hashValue.length && i < 4; i++)
+		for (int i = 0; i < Math.min(hashValue.length, 4); i++)
 			result = result << 8 | (hashValue[i] & 0xFF);
 		return result;
 	}
@@ -102,15 +104,5 @@ public final class HashValue implements Comparable<HashValue> {
 	
 	
 	private static final char[] hexDigits = "0123456789ABCDEF".toCharArray();
-	
-	private static boolean areEqual(byte[] a, byte[] b) {
-		if (a.length != b.length)
-			return false;
-		for (int i = 0; i < a.length; i++) {
-			if (a[i] != b[i])
-				return false;
-		}
-		return true;
-	}
 	
 }
