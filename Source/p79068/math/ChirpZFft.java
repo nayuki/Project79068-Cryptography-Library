@@ -18,8 +18,6 @@ final class ChirpZFft extends Dft {
 	public static ChirpZFft getInstance(int length) {
 		if (length <= 0)
 			throw new IllegalArgumentException();
-		if (!IntegerMath.isPowerOf2(length))
-			throw new IllegalArgumentException();
 		
 		ChirpZFft dft = cache.get(length);
 		if (dft == null) {

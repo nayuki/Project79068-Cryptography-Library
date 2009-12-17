@@ -15,8 +15,6 @@ private static KeyedIntener<Integer,NaiveDft> cache = new KeyedIntener<Integer,N
 	public static NaiveDft getInstance(int length) {
 		if (length <= 0)
 			throw new IllegalArgumentException();
-		if (!IntegerMath.isPowerOf2(length))
-			throw new IllegalArgumentException();
 		
 		NaiveDft dft = cache.get(length);
 		if (dft == null) {

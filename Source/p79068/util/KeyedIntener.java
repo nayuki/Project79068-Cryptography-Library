@@ -6,7 +6,6 @@ import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Map;
 import p79068.lang.NullChecker;
-import p79068.math.Fft;
 
 
 public final class KeyedIntener<K,V> {
