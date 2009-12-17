@@ -17,6 +17,14 @@ public final class NullChecker {
 	}
 	
 	
+	public static void check(Object... obj) {
+		for (Object o : obj) {
+			if (o == null)
+				throw new NullPointerException();
+		}
+	}
+	
+	
 	/**
 	 * Not instantiable.
 	 */
