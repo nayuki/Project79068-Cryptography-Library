@@ -113,7 +113,7 @@ final class CrcHasher extends Hasher {
 		byte[] b = new byte[getHashFunction().getHashLength()];
 		for (int i = 0; i < b.length; i++)
 			b[b.length - 1 - i] = (byte)(temp >>> (i * 8));
-		return createHash(b);
+		return new HashValue(b);
 	}
 	
 }

@@ -31,7 +31,7 @@ final class NewEdonkey2000Hasher extends Hasher implements Zeroizable {
 	
 	
 	
-	NewEdonkey2000Hasher(NewEdonkey2000 hashFunc) {
+	public NewEdonkey2000Hasher(NewEdonkey2000 hashFunc) {
 		super(hashFunc);
 		outerHasher = null;
 		innerHasher = Md4.FUNCTION.newHasher();

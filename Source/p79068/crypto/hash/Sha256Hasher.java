@@ -15,7 +15,7 @@ final class Sha256Hasher extends BlockHasherCore {
 	
 	
 	
-	Sha256Hasher(boolean sha256Mode) {
+	public Sha256Hasher(boolean sha256Mode) {
 		this.sha256Mode = sha256Mode;
 		if (sha256Mode) {
 			state = new int[] {

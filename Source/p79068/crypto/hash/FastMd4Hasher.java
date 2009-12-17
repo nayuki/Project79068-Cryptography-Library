@@ -12,7 +12,7 @@ final class FastMd4Hasher extends BlockHasherCore {
 	
 	
 	
-	FastMd4Hasher() {
+	public FastMd4Hasher() {
 		state = new int[] { 0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476 };
 	}
 	

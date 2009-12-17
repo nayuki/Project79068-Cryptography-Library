@@ -12,7 +12,7 @@ final class Md5Hasher extends BlockHasherCore {
 	
 	
 	
-	Md5Hasher() {
+	public Md5Hasher() {
 		state = new int[]{0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476};
 	}
 	

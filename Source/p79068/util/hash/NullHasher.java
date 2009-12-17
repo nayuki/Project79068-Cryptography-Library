@@ -20,7 +20,7 @@ final class NullHasher extends Hasher {
 	
 	
 	public HashValue getHash() {
-		return createHash(new byte[1]);
+		return new HashValue(new byte[1]);
 	}
 	
 }

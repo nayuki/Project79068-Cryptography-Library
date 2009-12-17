@@ -32,7 +32,7 @@ final class Xor8Hasher extends Hasher {
 	
 	
 	public HashValue getHash() {
-		return createHash(new byte[]{(byte)xor});
+		return new HashValue(new byte[]{(byte)xor});
 	}
 	
 }

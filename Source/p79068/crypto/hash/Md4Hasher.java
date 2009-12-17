@@ -12,7 +12,7 @@ final class Md4Hasher extends BlockHasherCore {
 	
 	
 	
-	Md4Hasher() {
+	public Md4Hasher() {
 		state = new int[]{0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476};
 	}
 	

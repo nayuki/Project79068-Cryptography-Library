@@ -33,7 +33,7 @@ final class Sum32Hasher extends Hasher {
 	
 	
 	public HashValue getHash() {
-		return createHash(IntegerBitMath.toBytesBigEndian(new int[]{sum}));
+		return new HashValue(IntegerBitMath.toBytesBigEndian(new int[]{sum}));
 	}
 	
 }

@@ -18,7 +18,7 @@ final class WhirlpoolHasher extends BlockHasherCore {
 	
 	
 	
-	WhirlpoolHasher(AbstractWhirlpool hashFunc) {
+	public WhirlpoolHasher(AbstractWhirlpool hashFunc) {
 		sub = hashFunc.getSbox();
 		
 		if (!tablesByFunction.containsKey(hashFunc)) {

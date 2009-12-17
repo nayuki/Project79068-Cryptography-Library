@@ -96,15 +96,4 @@ public abstract class Hasher implements Cloneable {
 		return String.format("%s: %s", getHashFunction().getName(), getHash().toHexString());
 	}
 	
-	
-	
-	/**
-	 * Returns a <code>HashValue</code> set to this algorithm and the specified hash value.
-	 * @param hashVal the hash value
-	 * @return a HashValue set to this algorithm and the hash value hashVal
-	 */
-	protected final HashValue createHash(byte[] hashVal) {
-		return new HashValue(hashVal);
-	}
-	
 }

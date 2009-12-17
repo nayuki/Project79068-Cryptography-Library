@@ -36,7 +36,7 @@ final class Crc32Hasher extends Hasher {
 	
 	
 	public HashValue getHash() {
-		return createHash(IntegerBitMath.toBytesBigEndian(new int[]{~register}));
+		return new HashValue(IntegerBitMath.toBytesBigEndian(new int[]{~register}));
 	}
 	
 	

@@ -15,7 +15,7 @@ final class Sha512Hasher extends BlockHasherCore {
 	
 	
 	
-	Sha512Hasher(boolean sha512Mode) {
+	public Sha512Hasher(boolean sha512Mode) {
 		this.sha512Mode = sha512Mode;
 		if (sha512Mode) {
 			state = new long[] {

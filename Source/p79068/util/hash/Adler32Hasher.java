@@ -43,7 +43,7 @@ final class Adler32Hasher extends Hasher {
 	
 	
 	public HashValue getHash() {
-		return createHash(IntegerBitMath.toBytesBigEndian(new int[]{s2 << 16 | s1}));
+		return new HashValue(IntegerBitMath.toBytesBigEndian(new int[]{s2 << 16 | s1}));
 	}
 	
 }

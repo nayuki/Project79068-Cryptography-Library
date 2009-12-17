@@ -12,7 +12,7 @@ final class Md2Hasher extends BlockHasherCore {
 	
 	
 	
-	Md2Hasher() {
+	public Md2Hasher() {
 		state = new int[48];
 		checksum = new int[16];
 	}

@@ -50,7 +50,7 @@ public final class BlockHasher extends Hasher implements Zeroizable {
 	 * Updates the current hash with the specified byte.
 	 * @throws IllegalStateException if this object has been zeroized
 	 */
-	public final void update(byte b) {
+	public void update(byte b) {
 		if (hashFunction == null)
 			throw new IllegalStateException("Already zeroized");
 		block[blockLength] = b;
@@ -69,7 +69,7 @@ public final class BlockHasher extends Hasher implements Zeroizable {
 	 * @throws IndexOutOfBoundsException if <code>off</code> and <code>len</code> specify that indices out of array <code>b</code>'s range to be accessed
 	 * @throws IllegalStateException if this object has been zeroized
 	 */
-	public final void update(byte[] b, int off, int len) {
+	public void update(byte[] b, int off, int len) {
 		if (hashFunction == null)
 			throw new IllegalStateException("Already zeroized");
 		BoundsChecker.check(b.length, off, len);
@@ -133,6 +133,7 @@ public final class BlockHasher extends Hasher implements Zeroizable {
 		block = null;
 		hashFunction = null;
 		core.zeroize();
+		core = null;
 	}
 	
 }
