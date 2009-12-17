@@ -1,19 +1,37 @@
 package p79068.math.fourier;
 
 import p79068.lang.NullChecker;
+import p79068.util.KeyedIntener;
 
 
 /**
  * Computes the DCT by using the naive direct algorithm.
  */
-final class NaiveDct extends Dct {
+public final class NaiveDct extends Dct {
+	
+	private static KeyedIntener<Integer,NaiveDct> cache = new KeyedIntener<Integer,NaiveDct>();
+	
+	
+	public static NaiveDct getInstance(int length) {
+		if (length <= 0)
+			throw new IllegalArgumentException();
+		
+		NaiveDct dct = cache.get(length);
+		if (dct == null) {
+			dct = new NaiveDct(length);
+			cache.put(length, dct);
+		}
+		return dct;
+	}
+	
+	
 	
 	private int length;
 	private double[] cos;
 	
 	
 	
-	NaiveDct(int len) {
+	private NaiveDct(int len) {
 		if (len < 1)
 			throw new IllegalArgumentException("Length less than 1");
 		length = len;

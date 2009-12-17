@@ -1,12 +1,30 @@
 package p79068.math.fourier;
 
 import p79068.lang.NullChecker;
+import p79068.util.KeyedIntener;
 
 
 /**
  * Computes the DCT by hijacking an FFT algorithm.
  */
-final class FastDct extends Dct {
+public final class FastDct extends Dct {
+	
+	private static KeyedIntener<Integer,FastDct> cache = new KeyedIntener<Integer,FastDct>();
+	
+	
+	public static FastDct getInstance(int length) {
+		if (length <= 0)
+			throw new IllegalArgumentException();
+		
+		FastDct dct = cache.get(length);
+		if (dct == null) {
+			dct = new FastDct(length);
+			cache.put(length, dct);
+		}
+		return dct;
+	}
+	
+	
 	
 	private int length;
 	private Dft fft;
@@ -14,7 +32,7 @@ final class FastDct extends Dct {
 	
 	
 	
-	FastDct(int len) {
+	private FastDct(int len) {
 		if (len < 1)
 			throw new IllegalArgumentException("Length less than 1");
 		length = len;

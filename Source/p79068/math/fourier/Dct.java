@@ -16,12 +16,12 @@ public abstract class Dct {
 	public static Dct getInstance(int length) {
 		if (length <= 0)
 			throw new IllegalArgumentException();
-		return new FastDct(length);
+		return FastDct.getInstance(length);
 	}
 	
 	
 	
-	protected Dct() {}
+	public Dct() {}
 	
 	
 	

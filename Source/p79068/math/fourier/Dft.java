@@ -32,7 +32,7 @@ public abstract class Dft {
 	
 	
 	
-	protected Dft() {}
+	public Dft() {}
 	
 	
 	

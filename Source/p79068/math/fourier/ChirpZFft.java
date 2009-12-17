@@ -11,7 +11,7 @@ import p79068.util.KeyedIntener;
  * 
  * Multi-thread safe.
  */
-final class ChirpZFft extends Dft {
+public final class ChirpZFft extends Dft {
 	
 	private static KeyedIntener<Integer,ChirpZFft> cache = new KeyedIntener<Integer,ChirpZFft>();
 	

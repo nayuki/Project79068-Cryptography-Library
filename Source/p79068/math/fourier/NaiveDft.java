@@ -9,7 +9,7 @@ import p79068.util.KeyedIntener;
  */
 public final class NaiveDft extends Dft {
 	
-private static KeyedIntener<Integer,NaiveDft> cache = new KeyedIntener<Integer,NaiveDft>();
+	private static KeyedIntener<Integer,NaiveDft> cache = new KeyedIntener<Integer,NaiveDft>();
 	
 	
 	public static NaiveDft getInstance(int length) {
