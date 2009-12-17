@@ -6,6 +6,8 @@ package p79068.math;
  */
 public class DoubleBitMath {
 	
+	// Raw bit extraction
+	
 	/**
 	 * Returns the 1 sign bit of the bit representation of specified double-precision number. Positive numbers have a sign of 0; negative numbers have a sign of 1. All numbers are valid inputs.
 	 * @param x the double-precision number
@@ -17,7 +19,7 @@ public class DoubleBitMath {
 	
 	
 	/**
-	 * Returns the 11 exponent bits of the bit representation of specified double-precision number. All numbers are valid inputs.
+	 * Returns the 11 exponent bits of the bit representation of specified double-precision number. All numbers are valid inputs. The result is in the range [0, 2<sup>11</sup>).
 	 * @param x the double-precision number
 	 * @return the 11 exponent bits
 	 */
@@ -27,7 +29,7 @@ public class DoubleBitMath {
 	
 	
 	/**
-	 * Returns the 52 mantissa bits of the bit representation of specified double-precision number number. All numbers are valid inputs.
+	 * Returns the 52 mantissa bits of the bit representation of specified double-precision number number. All numbers are valid inputs. The result is in the range [0, 2<sup>52</sup>).
 	 * @param x the double-precision number
 	 * @return the 52 mantissa bits
 	 */
@@ -35,6 +37,9 @@ public class DoubleBitMath {
 		return Double.doubleToRawLongBits(x) & 0xFFFFFFFFFFFFFL;
 	}
 	
+	
+	
+	// Managed values
 	
 	/**
 	 * Returns the signum of the specified number. Positive and negative zero both have a signum of 0. For finite numbers, this relation holds: <code>x</code> = <code>getSign(x)</code> × (<code>getMantissa(x)</code> / 2<sup>52</sup>) × 2<sup><code>getExponent(x)</code></sup>. Infinities are valid inputs, but NaN is not a valid input.
@@ -55,7 +60,7 @@ public class DoubleBitMath {
 	
 	
 	/**
-	 * Returns the exponent of the specified number. For finite numbers, this relation holds: <code>x</code> = <code>getSign(x)</code> × (<code>getMantissa(x)</code> / 2<sup>52</sup>) × 2<sup><code>getExponent(x)</code></sup>. Infinities and NaN are invalid inputs.
+	 * Returns the exponent of the specified number. For finite numbers, this relation holds: <code>x</code> = <code>getSign(x)</code> × (<code>getMantissa(x)</code> / 2<sup>52</sup>) × 2<sup><code>getExponent(x)</code></sup>. Infinities and NaN are invalid inputs. The result is in the range [-1022, 1023].
 	 * @param x the double-precision number
 	 * @return the exponent
 	 * @throws IllegalArgumentException if x is infinite or NaN
@@ -72,7 +77,7 @@ public class DoubleBitMath {
 	
 	
 	/**
-	 * Returns the mantissa of the specified number. For finite numbers, this relation holds: <code>x</code> = <code>getSign(x)</code> × (<code>getMantissa(x)</code> / 2<sup>52</sup>) × 2<sup><code>getExponent(x)</code></sup>. Infinities and NaN are invalid inputs.
+	 * Returns the mantissa of the specified number. For finite numbers, this relation holds: <code>x</code> = <code>getSign(x)</code> × (<code>getMantissa(x)</code> / 2<sup>52</sup>) × 2<sup><code>getExponent(x)</code></sup>. Infinities and NaN are invalid inputs. The result is in the range [2<sup>52</sup>, 2<sup>53</sup>) for normal numbers and [0, 2<sup>52</sup>) for subnormal numbers.
 	 * @param x the double-precision number
 	 * @return the mantissa
 	 * @throws IllegalArgumentException if x is infinite or NaN
@@ -89,7 +94,55 @@ public class DoubleBitMath {
 	
 	
 	/**
-	 * Tests whether the specified number is subnormal. Zero is neither normal nor subnormal. All numbers are valid inputs.
+	 * Returns the sign of the specified number it is zero. Returns 1 for positive zero and -1 for negative zero. Non-zero inputs are invalid.
+	 * @param x the double-precision number
+	 * @return the sign of the number if it is zero
+	 * @throws IllegalArgumentException if x is not zero
+	 */
+	public static int getZeroSign(double x) {
+		long bits = Double.doubleToRawLongBits(x);
+		if ((bits << 1) != 0)
+			throw new IllegalArgumentException();
+		return (int)(1 - (bits >>> 63) * 2);
+	}
+	
+	
+	
+	// Tests
+	
+	/**
+	 * Tests whether the specified number is NaN (not a number). All numbers are valid inputs.
+	 * @param x the double-precision number
+	 * @return whether the specified number is NaN
+	 */
+	public static boolean isNaN(double x) {
+		return x != x;
+	}
+	
+	
+	/**
+	 * Tests whether the specified number is infinite. All numbers are valid inputs.
+	 * @param x the double-precision number
+	 * @return whether the specified number is infinite
+	 */
+	public static boolean isInfinite(double x) {
+		return x == Double.POSITIVE_INFINITY || x == Double.NEGATIVE_INFINITY;
+	}
+	
+	
+	/**
+	 * Tests whether the specified number is normal. Zeros, infinities, and NaN are not normal. All numbers are valid inputs.
+	 * @param x the double-precision number
+	 * @return whether the specified number is normal
+	 */
+	public static boolean isNormal(double x) {
+		int exp = getRawExponent(x);
+		return exp >= 1 && exp <= 2046;
+	}
+	
+	
+	/**
+	 * Tests whether the specified number is subnormal. Zeros, infinities, and NaN are not subnormal. All numbers are valid inputs.
 	 * @param x the double-precision number
 	 * @return whether the specified number is subnormal
 	 */
@@ -106,7 +159,7 @@ public class DoubleBitMath {
 	 * @return whether the specified number is finite
 	 */
 	public static boolean isFinite(double x) {
-		return !Double.isNaN(x) && !Double.isInfinite(x);
+		return !isNaN(x) && !isInfinite(x);
 	}
 	
 	

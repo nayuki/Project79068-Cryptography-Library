@@ -71,6 +71,31 @@ public class DoubleBitMathTest {
 	
 	
 	@Test
+	public void testGetZeroSign() {
+		assertEquals(+1, DoubleBitMath.getZeroSign(POSITIVE_ZERO));
+		assertEquals(-1, DoubleBitMath.getZeroSign(NEGATIVE_ZERO));
+	}
+	
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void testGetZeroSignInvalidNonZero() {
+		DoubleBitMath.getZeroSign(1);
+	}
+	
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void testGetZeroSignInvalidInfinity() {
+		DoubleBitMath.getZeroSign(Double.POSITIVE_INFINITY);
+	}
+	
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void testGetZeroSignInvalidNaN() {
+		DoubleBitMath.getZeroSign(Double.NaN);
+	}
+	
+	
+	@Test
 	public void isSubnormal() {
 		assertFalse(DoubleBitMath.isSubnormal(0));
 		assertFalse(DoubleBitMath.isSubnormal(1));
@@ -93,6 +118,8 @@ public class DoubleBitMathTest {
 	
 	
 	private static double toDouble(int signum, long mantissa, int exponent) {
+		if (signum < -1 || signum > 1 || mantissa < 0 || mantissa >= (1L << 53) || exponent < -1022 || exponent > 1023)
+			throw new IllegalArgumentException();
 		return (double)signum * mantissa * Math.pow(2, exponent - 52);
 	}
 	
