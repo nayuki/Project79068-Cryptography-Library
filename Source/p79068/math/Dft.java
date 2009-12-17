@@ -57,7 +57,7 @@ public abstract class Dft {
 	/**
 	 * Computes the inverse transform of the specified complex vector, done in-place if possible.
 	 */
-	public void transformInverse(double[] re, double[] im) {
+	public void inverseTransform(double[] re, double[] im) {
 		transform(im, re);
 	}
 	
@@ -65,7 +65,7 @@ public abstract class Dft {
 	/**
 	 * Computes the inverse transform of the specified complex vector.
 	 */
-	public void transformInverse(double[] inre, double[] inim, double[] outre, double[] outim) {
+	public void inverseTransform(double[] inre, double[] inim, double[] outre, double[] outim) {
 		transform(inim, inre, outim, outre);
 	}
 	

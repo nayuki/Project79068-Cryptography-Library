@@ -46,7 +46,7 @@ final class FastDct extends Dct {
 			tpre[i] = in[i] * cos[i];
 			tpim[i] = in[i] * sin[i];
 		}
-		fft.transformInverse(tpre, tpim);
+		fft.inverseTransform(tpre, tpim);
 		for (int i = 0; i < length; i++)
 			out[i] = tpre[i];
 	}

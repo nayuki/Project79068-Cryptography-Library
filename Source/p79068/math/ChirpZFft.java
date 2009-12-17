@@ -66,7 +66,7 @@ final class ChirpZFft extends Dft {
 			tpre[i] = re;
 		}
 		
-		fft.transformInverse(tpre, tpim);
+		fft.inverseTransform(tpre, tpim);
 		
 		for (int i = 0; i < length; i++) {
 			outre[i] = tpre[i] * cos[i] + tpim[i] * sin[i];
