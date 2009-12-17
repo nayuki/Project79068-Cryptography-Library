@@ -4,9 +4,45 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
+import p79068.util.Random;
 
 
 public class IntegerMathTest {
+	
+	private static Random random = Random.newInstance();
+	
+	
+	
+	@Test
+	public void testMod() {
+		assertEquals(3, IntegerMath.mod(7, 4));
+		assertEquals(1, IntegerMath.mod(-7, 4));
+		assertEquals(-1, IntegerMath.mod(7, -4));
+		assertEquals(-3, IntegerMath.mod(-7, -4));
+		assertEquals(-1, IntegerMath.mod(Integer.MAX_VALUE, Integer.MIN_VALUE));
+	}
+	
+	
+	@Test
+	public void testReciprocalMod() {
+		assertEquals(1, IntegerMath.reciprocalMod(1, 2));
+		assertEquals(1, IntegerMath.reciprocalMod(1, 5));
+		assertEquals(3, IntegerMath.reciprocalMod(2, 5));
+		assertEquals(13, IntegerMath.reciprocalMod(7, 15));
+	}
+	
+	
+	@Test
+	public void testReciprocalModRandom() {
+		for (int i = 0; i < 1000; i++) {
+			int m = random.randomInt(46341) + 1;
+			int x = random.randomInt(m - 1) + 1;
+			if (IntegerMath.gcd(x, m) != 1)
+				continue;
+			assertEquals(1, x * IntegerMath.reciprocalMod(x, m) % m);
+		}
+	}
+	
 	
 	@Test
 	public void testSqrt() {

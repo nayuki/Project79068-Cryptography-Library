@@ -24,17 +24,15 @@ public final class IntegerMath {
 	 * @throws ArithmeticException if <code>y</code> is zero
 	 */
 	public static int mod(int x, int y) {
-		x %= y;
-		if (y > 0 && x < 0)
+		x %= y;  // x is now in (-y, y)
+		if (y > 0 && x < 0 || y < 0 && x > 0)
 			x += y;
-		else if (y < 0 && x > 0)
-			x -= y;
 		return x;
 	}
 	
 	
 	/**
-	 * Returns the integer <code>y</code> such that <code>x * y == 1</code>, modulo <code>m</code>.
+	 * Returns the integer <code>y</code> such that <code>(x * y) mod m == 1</code> (when there is no overflow).
 	 * @param x the integer to reciprocate
 	 * @param m the modulus
 	 * @throws IllegalArgumentException if <code>x == 0</code> or if a reciprocal does no exist
