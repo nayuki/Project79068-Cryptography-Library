@@ -1,19 +1,39 @@
 package p79068.math;
 
 import p79068.lang.NullChecker;
+import p79068.util.KeyedIntener;
 
 
 /**
  * Computes the discrete Fourier transform/inverse transform of a complex vector using the naive O(n^2) algorithm.
  */
-final class NaiveDft extends Dft {
+public final class NaiveDft extends Dft {
+	
+private static KeyedIntener<Integer,NaiveDft> cache = new KeyedIntener<Integer,NaiveDft>();
+	
+	
+	public static NaiveDft getInstance(int length) {
+		if (length <= 0)
+			throw new IllegalArgumentException();
+		if (!IntegerMath.isPowerOf2(length))
+			throw new IllegalArgumentException();
+		
+		NaiveDft dft = cache.get(length);
+		if (dft == null) {
+			dft = new NaiveDft(length);
+			cache.put(length, dft);
+		}
+		return dft;
+	}
+	
+	
 	
 	private int length;
 	private double[] cos, sin;
 	
 	
 	
-	NaiveDft(int len) {
+	private NaiveDft(int len) {
 		if (len < 1)
 			throw new IllegalArgumentException("Length less than 1");
 		length = len;
