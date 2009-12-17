@@ -7,82 +7,6 @@ package p79068.math;
  */
 public final class IntegerMath {
 	
-	// Modular arithmetic functions
-	
-	/**
-	 * Returns <code>x</code> modulo <code>y</code>. The result either has the same sign as <code>y</code> or is zero. Note that this is not exactly the same as the remainder operator (<code>%</code>) provided by the language.
-	 * <p>Sample values:</p>
-	 * <ul>
-	 *  <li><code>mod( 4, &nbsp;3) = &nbsp;1</code></li>
-	 *  <li><code>mod(-4, &nbsp;3) = &nbsp;2</code></li>
-	 *  <li><code>mod( 4, -3) = -2</code></li>
-	 *  <li><code>mod(-4, -3) = -1</code></li>
-	 * </ul>
-	 * @param x the integer to reduce
-	 * @param y the modulus
-	 * @return <code>x</code> mod <code>y</code>
-	 * @throws ArithmeticException if <code>y</code> is zero
-	 */
-	public static int mod(int x, int y) {
-		x %= y;  // x is now in (-y, y)
-		if (y > 0 && x < 0 || y < 0 && x > 0)
-			x += y;
-		return x;
-	}
-	
-	
-	/**
-	 * Returns the integer <code>y</code> such that <code>(x * y) mod m == 1</code> (when there is no overflow).
-	 * @param x the integer to reciprocate
-	 * @param m the modulus
-	 * @throws IllegalArgumentException if <code>x == 0</code> or if a reciprocal does no exist
-	 */
-	public static int reciprocalMod(int x, int m) {
-		if (x == 0)
-			throw new IllegalArgumentException("Division by zero");
-		if (m < 2)
-			throw new IllegalArgumentException("Reciprocal does not exist");
-		int y = x;
-		x = m;
-		int a = 0, b = 1;
-		while (true) {  // Extended Euclidean algorithm
-			int z = x % y;
-			if (z == 0) {
-				if (y == 1)
-					return mod(b, m);  // GCD is 1; reciprocal exists
-				else
-					throw new IllegalArgumentException("Reciprocal does not exist");
-			}
-			int c = a - x / y * b;
-			x = y;
-			y = z;
-			a = b;
-			b = c;
-		}
-	}
-	
-	
-	/**
-	 * Returns <code>x</code> to the power of <code>y</code>, modulo <code>m</code>.
-	 * @param x the base of the power
-	 * @param y the exponent of the power
-	 * @param m the modulus
-	 * @return <code>x</code><sup><code>y</code></sup> mod <code>m</code>
-	 * @throws IllegalArgumentException if <code>y &lt; 0</code> and <code>x</code> has no reciprocal
-	 */
-	public static int powMod(int x, int y, int m) {
-		if (y < 0)
-			return powMod(reciprocalMod(x, m), -y, m);
-		int z = 1;
-		for (; y != 0; y >>>= 1, x = x * x % m) {
-			if ((y & 1) != 0)
-				z = z * x % m;
-		}
-		return z;
-	}
-	
-	
-	
 	// Elementary functions
 	
 	/**
@@ -165,10 +89,10 @@ public final class IntegerMath {
 	 * @throws IllegalArgumentException if <code>x &lt; 0</code>
 	 * @throws ArithmeticOverflowException if <code>x &gt; 20</code>
 	 */
-	public static long factorial(int x) {
+	public static int factorial(int x) {
 		if (x < 0)
 			throw new IllegalArgumentException("Factorial of negative integer");
-		if (x > 20)
+		if (x > 12)
 			throw new ArithmeticOverflowException(String.format("factorial(%d)", x));
 		int p = 1;
 		for (; x >= 2; x--)
@@ -184,9 +108,88 @@ public final class IntegerMath {
 	 */
 	public static int permutation(int n, int k) {
 		int p = 1;
-		for (; k >= 1; n--, k--)
+		for (; k >= 1; n--, k--) {
+			if (Integer.MAX_VALUE / p < n)
+				throw new ArithmeticOverflowException(String.format("permutation(%d, %d)", n, k));
 			p *= n;
+		}
 		return p;
+	}
+	
+	
+	
+	// Modular arithmetic functions
+	
+	/**
+	 * Returns <code>x</code> modulo <code>y</code>. The result either has the same sign as <code>y</code> or is zero. Note that this is not exactly the same as the remainder operator (<code>%</code>) provided by the language.
+	 * <p>Sample values:</p>
+	 * <ul>
+	 *  <li><code>mod( 4, &nbsp;3) = &nbsp;1</code></li>
+	 *  <li><code>mod(-4, &nbsp;3) = &nbsp;2</code></li>
+	 *  <li><code>mod( 4, -3) = -2</code></li>
+	 *  <li><code>mod(-4, -3) = -1</code></li>
+	 * </ul>
+	 * @param x the integer to reduce
+	 * @param y the modulus
+	 * @return <code>x</code> mod <code>y</code>
+	 * @throws ArithmeticException if <code>y</code> is zero
+	 */
+	public static int mod(int x, int y) {
+		x %= y;  // x is now in (-abs(y), abs(y))
+		if (y > 0 && x < 0 || y < 0 && x > 0)
+			x += y;
+		return x;
+	}
+	
+	
+	/**
+	 * Returns the integer <code>y</code> such that <code>(x * y) mod m == 1</code> (when there is no overflow).
+	 * @param x the integer to reciprocate
+	 * @param m the modulus
+	 * @throws IllegalArgumentException if <code>x == 0</code> or if a reciprocal does no exist
+	 */
+	public static int reciprocalMod(int x, int m) {
+		if (x == 0)
+			throw new IllegalArgumentException("Division by zero");
+		if (m < 2)
+			throw new IllegalArgumentException("Reciprocal does not exist");
+		int y = x;
+		x = m;
+		int a = 0, b = 1;
+		while (true) {  // Extended Euclidean algorithm
+			int z = x % y;
+			if (z == 0) {
+				if (y == 1)
+					return mod(b, m);  // GCD is 1; reciprocal exists
+				else
+					throw new IllegalArgumentException("Reciprocal does not exist");
+			}
+			int c = a - x / y * b;
+			x = y;
+			y = z;
+			a = b;
+			b = c;
+		}
+	}
+	
+	
+	/**
+	 * Returns <code>x</code> to the power of <code>y</code>, modulo <code>m</code>.
+	 * @param x the base of the power
+	 * @param y the exponent of the power
+	 * @param m the modulus
+	 * @return <code>x</code><sup><code>y</code></sup> mod <code>m</code>
+	 * @throws IllegalArgumentException if <code>y &lt; 0</code> and <code>x</code> has no reciprocal
+	 */
+	public static int powMod(int x, int y, int m) {
+		if (y < 0)
+			return powMod(reciprocalMod(x, m), -y, m);
+		int z = 1;
+		for (; y != 0; y >>>= 1, x = x * x % m) {
+			if ((y & 1) != 0)
+				z = z * x % m;
+		}
+		return z;
 	}
 	
 	
@@ -220,11 +223,11 @@ public final class IntegerMath {
 	 * @throws IllegalArgumentException if <code>x &lt;= 0</code>
 	 */
 	public static int totient(int x) {
-		if (x < 1)
-			throw new IllegalArgumentException("Totient of negative integer");
+		if (x <= 0)
+			throw new IllegalArgumentException("Totient of non-positive integer");
 		int p = 1;
-		for (int i = 2, end = sqrt(x); i <= end; i++) {
-			if (x % i == 0) {
+		for (int i = 2, end = sqrt(x); i <= end; i++) {  // Trial division
+			if (x % i == 0) {  // Found a factor
 				p *= i - 1;
 				x /= i;
 				while (x % i == 0) {
@@ -256,7 +259,7 @@ public final class IntegerMath {
 		else if (x % 2 == 0)
 			return false;
 		else {
-			for (int i = 3, end = sqrt(x); i <= end; i += 2) {
+			for (int i = 3, end = sqrt(x); i <= end; i += 2) {  // Trial division
 				if (x % i == 0)
 					return false;
 			}
@@ -308,7 +311,7 @@ public final class IntegerMath {
 	// Miscellaneous functions
 	
 	/**
-	 * Returns the integer in the specified range (inclusive) closest to the specified integer. In other words, if <code>x &lt; min</code> then <code>min</code> is returned; if <code>x &gt; max</code> then <code>max</code> is returned; otherwise <code>x</code> is returned.
+	 * Returns the integer in the specified range (inclusive) nearest to the specified integer. In other words, if <code>x &lt; min</code> then <code>min</code> is returned; if <code>x &gt; max</code> then <code>max</code> is returned; otherwise <code>x</code> is returned. This function is equivalent to <code>Math.max(Math.min(x, max), min)</code>.
 	 * @param x the integer to clamp
 	 * @param min the lower limit (inclusive)
 	 * @param max the upper limit (inclusive)

@@ -118,6 +118,36 @@ public class IntegerMathTest {
 	
 	
 	@Test
+	public void testFactorial() {
+		assertEquals(1, IntegerMath.factorial(0));
+		assertEquals(1, IntegerMath.factorial(1));
+		assertEquals(2, IntegerMath.factorial(2));
+		assertEquals(6, IntegerMath.factorial(3));
+		assertEquals(24, IntegerMath.factorial(4));
+		assertEquals(40320, IntegerMath.factorial(8));
+		assertEquals(479001600, IntegerMath.factorial(12));
+	}
+	
+	
+	@Test
+	public void testTotient() {
+		assertEquals(1, IntegerMath.totient(1));
+		assertEquals(1, IntegerMath.totient(2));
+		assertEquals(2, IntegerMath.totient(3));
+		assertEquals(2, IntegerMath.totient(4));
+		assertEquals(4, IntegerMath.totient(5));
+		assertEquals(2, IntegerMath.totient(6));
+		assertEquals(6, IntegerMath.totient(9));
+		assertEquals(4, IntegerMath.totient(12));
+		assertEquals(12, IntegerMath.totient(21));
+		assertEquals(18, IntegerMath.totient(27));
+		assertEquals(12, IntegerMath.totient(36));
+		assertEquals(534600000, IntegerMath.totient(2147483646));
+		assertEquals(2147483646, IntegerMath.totient(2147483647));
+	}
+	
+	
+	@Test
 	public void testIsPrime() {
 		assertFalse(IntegerMath.isPrime( 0));
 		assertFalse(IntegerMath.isPrime( 1));
@@ -133,6 +163,7 @@ public class IntegerMathTest {
 		assertTrue(IntegerMath.isPrime(11));
 		assertFalse(IntegerMath.isPrime(12));
 		assertTrue(IntegerMath.isPrime(13));
+		assertTrue(IntegerMath.isPrime(Integer.MAX_VALUE));
 	}
 	
 	
@@ -152,6 +183,7 @@ public class IntegerMathTest {
 		assertFalse(IntegerMath.isComposite(11));
 		assertTrue(IntegerMath.isComposite(12));
 		assertFalse(IntegerMath.isComposite(13));
+		assertFalse(IntegerMath.isComposite(Integer.MAX_VALUE));
 	}
 	
 	
