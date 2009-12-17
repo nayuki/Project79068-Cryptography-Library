@@ -60,7 +60,7 @@ public class DoubleBitMath {
 	
 	
 	/**
-	 * Returns the exponent of the specified number. For finite numbers, this relation holds: <code>x</code> = <code>getSign(x)</code> × (<code>getMantissa(x)</code> / 2<sup>52</sup>) × 2<sup><code>getExponent(x)</code></sup>. Infinities and NaN are invalid inputs. The result is in the range [-1022, 1023].
+	 * Returns the exponent of the specified number. For finite numbers, this relation holds: <code>x</code> = <code>getSign(x)</code> × (<code>getMantissa(x)</code> / 2<sup>52</sup>) × 2<sup><code>getExponent(x)</code></sup>. Zero yields the exponent 0. Infinities and NaN are invalid inputs. The result is in the range [-1022, 1023].
 	 * @param x the double-precision number
 	 * @return the exponent
 	 * @throws IllegalArgumentException if x is infinite or NaN
@@ -69,10 +69,14 @@ public class DoubleBitMath {
 		int exp = getRawExponent(x);
 		if (exp == 2047)
 			throw new IllegalArgumentException("Not a finite floating-point number");
-		else if (exp == 0)  // Subnormal
-			return exp - 1022;
-		else
+		else if (exp > 0)
 			return exp - 1023;
+		else {  // Subnormal
+			if (x == 0)
+				return 0;
+			else
+				return exp - 1022;
+		}
 	}
 	
 	
@@ -111,26 +115,6 @@ public class DoubleBitMath {
 	// Tests
 	
 	/**
-	 * Tests whether the specified number is NaN (not a number). All numbers are valid inputs.
-	 * @param x the double-precision number
-	 * @return whether the specified number is NaN
-	 */
-	public static boolean isNaN(double x) {
-		return x != x;
-	}
-	
-	
-	/**
-	 * Tests whether the specified number is infinite. All numbers are valid inputs.
-	 * @param x the double-precision number
-	 * @return whether the specified number is infinite
-	 */
-	public static boolean isInfinite(double x) {
-		return x == Double.POSITIVE_INFINITY || x == Double.NEGATIVE_INFINITY;
-	}
-	
-	
-	/**
 	 * Tests whether the specified number is normal. Zeros, infinities, and NaN are not normal. All numbers are valid inputs.
 	 * @param x the double-precision number
 	 * @return whether the specified number is normal
@@ -154,12 +138,32 @@ public class DoubleBitMath {
 	
 	
 	/**
-	 * Tests whether the specified number is finite. NaNs and infinities are not finite; all other numbers are. All numbers are valid inputs.
+	 * Tests whether the specified number is finite. Infinities and NaN are not finite; all other numbers are. All numbers are valid inputs.
 	 * @param x the double-precision number
 	 * @return whether the specified number is finite
 	 */
 	public static boolean isFinite(double x) {
 		return !isNaN(x) && !isInfinite(x);
+	}
+	
+	
+	/**
+	 * Tests whether the specified number is infinite. All numbers are valid inputs.
+	 * @param x the double-precision number
+	 * @return whether the specified number is infinite
+	 */
+	public static boolean isInfinite(double x) {
+		return x == Double.POSITIVE_INFINITY || x == Double.NEGATIVE_INFINITY;
+	}
+	
+	
+	/**
+	 * Tests whether the specified number is NaN (not a number). All numbers are valid inputs.
+	 * @param x the double-precision number
+	 * @return whether the specified number is NaN
+	 */
+	public static boolean isNaN(double x) {
+		return x != x;
 	}
 	
 	
