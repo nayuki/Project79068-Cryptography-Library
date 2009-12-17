@@ -20,6 +20,7 @@ public final class KeyedIntener<K,V> {
 	
 	public KeyedIntener() {
 		cache = new HashMap<K,WeakReference<V>>();
+		inverseMap = new HashMap<WeakReference<V>,K>();
 		queue = new ReferenceQueue<V>();
 	}
 	
