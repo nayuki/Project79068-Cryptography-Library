@@ -34,8 +34,8 @@ public class IntegerMathTest {
 	
 	@Test
 	public void testReciprocalModRandom() {
-		for (int i = 0; i < 1000; i++) {
-			int m = random.randomInt(46341) + 1;
+		for (int i = 0; i < 100000; i++) {
+			int m = random.randomInt(46340) + 2;
 			int x = random.randomInt(m - 1) + 1;
 			if (IntegerMath.gcd(x, m) != 1)
 				continue;
@@ -57,6 +57,16 @@ public class IntegerMathTest {
 		assertEquals(46339, IntegerMath.sqrt(2147395599));
 		assertEquals(46340, IntegerMath.sqrt(2147395600));
 		assertEquals(46340, IntegerMath.sqrt(2147483647));
+	}
+	
+	
+	@Test
+	public void testSqrtRandom() {
+		for (int i = 0; i < 1000; i++) {
+			int x = random.randomInt() & 0x7FFFFFFF;
+			int y = IntegerMath.sqrt(x);
+			assertTrue(y * y <= x);
+		}
 	}
 	
 	
@@ -90,6 +100,19 @@ public class IntegerMathTest {
 	
 	
 	@Test
+	public void testCbrtRandom() {
+		for (int i = 0; i < 1000; i++) {
+			int x = random.randomInt();
+			int y = IntegerMath.cbrt(x);
+			if (x >= 0)
+				assertTrue(y * y * y <= x);
+			else
+				assertTrue(y * y * y >= x);
+		}
+	}
+	
+	
+	@Test
 	public void testLog2Floor() {
 		assertEquals(0, IntegerMath.log2Floor(1));
 		assertEquals(1, IntegerMath.log2Floor(2));
@@ -104,6 +127,16 @@ public class IntegerMathTest {
 	
 	
 	@Test
+	public void testLog2FloorRandom() {
+		for (int i = 0; i < 1000; i++) {
+			int x = random.randomInt(Integer.MAX_VALUE - 1) + 1;
+			int y = IntegerMath.log2Floor(x);
+			assertTrue((1 << y) <= x);
+		}
+	}
+	
+	
+	@Test
 	public void testLog2Ceiling() {
 		assertEquals(0, IntegerMath.log2Ceiling(1));
 		assertEquals(1, IntegerMath.log2Ceiling(2));
@@ -114,6 +147,16 @@ public class IntegerMathTest {
 		assertEquals(3, IntegerMath.log2Ceiling(8));
 		assertEquals(4, IntegerMath.log2Ceiling(9));
 		assertEquals(31, IntegerMath.log2Ceiling(Integer.MAX_VALUE));
+	}
+	
+	
+	@Test
+	public void testLog2CeilingRandom() {
+		for (int i = 0; i < 1000; i++) {
+			int x = random.randomInt(0x3FFFFFFF) + 1;
+			int y = IntegerMath.log2Ceiling(x);
+			assertTrue((1 << y) >= x);
+		}
 	}
 	
 	
@@ -258,6 +301,17 @@ public class IntegerMathTest {
 	
 	
 	@Test
+	public void testFloorToPowerOf2Random() {
+		for (int i = 0; i < 1000; i++) {
+			int x = random.randomInt(Integer.MAX_VALUE - 1) + 1;
+			int y = IntegerMath.floorToPowerOf2(x);
+			assertTrue(IntegerMath.isPowerOf2(y));
+			assertTrue(y <= x);
+		}
+	}
+	
+	
+	@Test
 	public void testCeilingToPowerOf2() {
 		assertEquals(1, IntegerMath.ceilingToPowerOf2(1));
 		assertEquals(2, IntegerMath.ceilingToPowerOf2(2));
@@ -273,8 +327,21 @@ public class IntegerMathTest {
 	
 	
 	@Test
+	public void testCeilingToPowerOf2Random() {
+		for (int i = 0; i < 1000; i++) {
+			int x = random.randomInt(0x3FFFFFFF) + 1;
+			int y = IntegerMath.ceilingToPowerOf2(x);
+			assertTrue(IntegerMath.isPowerOf2(y));
+			assertTrue(y >= x);
+		}
+	}
+	
+	
+	@Test
 	public void testCompareUnsigned() {
 		assertTrue(IntegerMath.compareUnsigned(13, 72) < 0);
+		assertTrue(IntegerMath.compareUnsigned(0xBEEF0000, 0xDEAD0000) < 0);
+		assertTrue(IntegerMath.compareUnsigned(0xCAFE0000, 0xCAFE0000) == 0);
 		assertTrue(IntegerMath.compareUnsigned(0xFFFFFFFF, 0x00000000) > 0);
 		assertTrue(IntegerMath.compareUnsigned(0xFFFFFFFF, 0x80000000) > 0);
 		assertTrue(IntegerMath.compareUnsigned(0x00000000, 0x80000000) < 0);

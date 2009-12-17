@@ -143,10 +143,10 @@ public final class IntegerMath {
 	
 	
 	/**
-	 * Returns the integer <code>y</code> such that <code>(x * y) mod m == 1</code> (when there is no overflow).
+	 * Returns the integer <code>y</code> such that <code>(x * y) mod m == 1</code> (assuming the calculation does not overflow). <code>y</code> exists if and only if <code>gcd(x, m) == 1</code>. If <code>y</code> exists, then <code>y</code> is in [0, <code>m</code>).
 	 * @param x the integer to reciprocate
 	 * @param m the modulus
-	 * @throws IllegalArgumentException if <code>x == 0</code> or if a reciprocal does no exist
+	 * @throws IllegalArgumentException if a reciprocal does no exist, because <code>x == 0</code> or <code>gcd(x, m) != 1</code>
 	 */
 	public static int reciprocalMod(int x, int m) {
 		if (x == 0)
@@ -155,12 +155,13 @@ public final class IntegerMath {
 			throw new IllegalArgumentException("Reciprocal does not exist");
 		int y = x;
 		x = m;
-		int a = 0, b = 1;
+		int a = 0;
+		int b = 1;
 		while (true) {  // Extended Euclidean algorithm
 			int z = x % y;
 			if (z == 0) {
-				if (y == 1)
-					return mod(b, m);  // GCD is 1; reciprocal exists
+				if (y == 1)  // GCD is 1; reciprocal exists
+					return mod(b, m);
 				else
 					throw new IllegalArgumentException("Reciprocal does not exist");
 			}
