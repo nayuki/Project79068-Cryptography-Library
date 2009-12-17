@@ -106,7 +106,7 @@ public class DoubleBitMath {
 	public static int getZeroSign(double x) {
 		long bits = Double.doubleToRawLongBits(x);
 		if ((bits << 1) != 0)
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("Number is not zero");
 		return (int)(1 - (bits >>> 63) * 2);
 	}
 	

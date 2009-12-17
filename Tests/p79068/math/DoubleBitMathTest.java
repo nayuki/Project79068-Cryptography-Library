@@ -38,8 +38,8 @@ public class DoubleBitMathTest {
 		assertEquals(2, DoubleBitMath.getExponent(4));
 		assertEquals(-1022, DoubleBitMath.getExponent(Double.MIN_VALUE));
 		assertEquals(1023, DoubleBitMath.getExponent(Double.MAX_VALUE));
-		assertEquals(1, DoubleBitMath.getExponent(Math.PI));
-		assertEquals(1, DoubleBitMath.getExponent(Math.E));
+		assertEquals(1, DoubleBitMath.getExponent(-Math.PI));
+		assertEquals(1, DoubleBitMath.getExponent(-Math.E));
 	}
 	
 	
@@ -50,8 +50,8 @@ public class DoubleBitMathTest {
 		assertEquals(0x10000000000000L, DoubleBitMath.getMantissa(1));
 		assertEquals(0x10000000000000L, DoubleBitMath.getMantissa(2));
 		assertEquals(0x18000000000000L, DoubleBitMath.getMantissa(3));
-		assertEquals(0x14000000000000L, DoubleBitMath.getMantissa(5));
-		assertEquals(1, DoubleBitMath.getMantissa(Double.MIN_VALUE));
+		assertEquals(0x14000000000000L, DoubleBitMath.getMantissa(-5));
+		assertEquals(1, DoubleBitMath.getMantissa(-Double.MIN_VALUE));
 		assertEquals(0x1FFFFFFFFFFFFFL, DoubleBitMath.getMantissa(Double.MAX_VALUE));
 	}
 	
