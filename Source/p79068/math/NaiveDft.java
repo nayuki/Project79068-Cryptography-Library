@@ -26,24 +26,24 @@ final class NaiveDft extends Dft {
 	
 	
 	// All arrays must be at least as long as length.
-	public void transform(double[] inre, double[] inim, double[] outre, double[] outim) {
+	public void transform(double[] inreal, double[] inimag, double[] outreal, double[] outimag) {
 		for (int i = 0; i < length; i++) {
 			double sumre = 0;
 			double sumim = 0;
 			if (length <= 46340) {
 				for (int j = 0; j < length; j++) {
 					// Caching i*j%length, this.length, or accesses to cos[], sin[], inre[], or inim[] doesn't seem to make execution faster.
-					sumre += inre[j] * cos[i * j % length] + inim[j] * sin[i * j % length];
-					sumim += -inre[j] * sin[i * j % length] + inim[j] * cos[i * j % length];
+					sumre += inreal[j] * cos[i * j % length] + inimag[j] * sin[i * j % length];
+					sumim += -inreal[j] * sin[i * j % length] + inimag[j] * cos[i * j % length];
 				}
 			} else {
 				for (int j = 0; j < length; j++) {
-					sumre += inre[j] * cos[(int)((long)i * j % length)] + inim[j] * sin[(int)((long)i * j % length)];
-					sumim += -inre[j] * sin[(int)((long)i * j % length)] + inim[j] * cos[(int)((long)i * j % length)];
+					sumre += inreal[j] * cos[(int)((long)i * j % length)] + inimag[j] * sin[(int)((long)i * j % length)];
+					sumim += -inreal[j] * sin[(int)((long)i * j % length)] + inimag[j] * cos[(int)((long)i * j % length)];
 				}
 			}
-			outre[i] = sumre;
-			outim[i] = sumim;
+			outreal[i] = sumre;
+			outimag[i] = sumim;
 		}
 	}
 	
