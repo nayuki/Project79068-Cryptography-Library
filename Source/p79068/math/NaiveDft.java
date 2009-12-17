@@ -1,5 +1,7 @@
 package p79068.math;
 
+import p79068.lang.NullChecker;
+
 
 /**
  * Computes the discrete Fourier transform/inverse transform of a complex vector using the naive O(n^2) algorithm.
@@ -26,9 +28,10 @@ final class NaiveDft extends Dft {
 	
 	
 	public void transform(double[] inreal, double[] inimag, double[] outreal, double[] outimag) {
+		NullChecker.check(inreal, inimag, outreal, outimag);
 		if (inreal.length != length || inimag.length != length || outreal.length != length || outimag.length != length)
 			throw new IllegalArgumentException();
-		if (inreal == outreal || inimag == outimag || inreal == outimag || inimag == outreal)
+		if (inreal == outreal || inimag == outimag || inreal == outimag || inimag == outreal || outreal == outimag)
 			throw new IllegalArgumentException();
 		
 		for (int i = 0; i < length; i++) {

@@ -1,5 +1,7 @@
 package p79068.math;
 
+import p79068.lang.NullChecker;
+
 
 /**
  * Computes the discrete Fourier transform/inverse transform of a complex vector using the radix-2 decimation in time (O(n log n)) algorithm.
@@ -29,7 +31,7 @@ final class Fft extends Dft {
 			sin[i] = Math.sin(i * 2 * Math.PI / length);
 		}
 		
-		int levels = IntegerMath.log2(length);
+		int levels = IntegerMath.log2Floor(length);  // 1 <= levels <= 31
 		permutation = new int[length];
 		for (int i = 0; i < length; i++)
 			permutation[i] = IntegerBitMath.reverseBits(i) >>> (32 - levels);
@@ -38,6 +40,12 @@ final class Fft extends Dft {
 	
 	
 	public void transform(double[] inreal, double[] inimag, double[] outreal, double[] outimag) {
+		NullChecker.check(inreal, inimag, outreal, outimag);
+		if (inreal == outreal || inimag == outimag || inreal == outimag || inimag == outreal || outreal == outimag)
+			throw new IllegalArgumentException();
+		if (inreal.length != length || inimag.length != length || outreal.length != length || outimag.length != length)
+			throw new IllegalArgumentException();
+		
 		// Permute input array onto output array
 		for (int i = 0; i < length; i++) {
 			outreal[i] = inreal[permutation[i]];
@@ -50,6 +58,10 @@ final class Fft extends Dft {
 	
 	
 	public void transform(double[] real, double[] imag) {
+		NullChecker.check(real, imag);
+		if (real.length != length || imag.length != length)
+			throw new IllegalArgumentException();
+		
 		// Do the permutation in-place. This is possible because the permutation is self-inverting.
 		for (int i = 0; i < length; i++) {
 			if (permutation[i] > i) {

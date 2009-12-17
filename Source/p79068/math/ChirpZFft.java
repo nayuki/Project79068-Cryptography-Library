@@ -1,5 +1,7 @@
 package p79068.math;
 
+import p79068.lang.NullChecker;
+
 
 /**
  * Computes the discrete Fourier transform/inverse transform of a complex vector using Bluestein's/chirp-z algorithm.
@@ -13,7 +15,7 @@ final class ChirpZFft extends Dft {
 	private int convolutionLength;  // The smallest power of 2 such that convlen >= len * 2 - 1 .
 	private Dft fft;
 	private double[] cos, sin;
-	private double[] convre, convim;
+	private double[] convreal, convimag;
 	
 	
 	
@@ -24,7 +26,7 @@ final class ChirpZFft extends Dft {
 			throw new IllegalArgumentException("Length too large");
 		
 		this.length = length;
-		for (convolutionLength = 1; convolutionLength < length * 2 - 1; convolutionLength *= 2);
+		convolutionLength = IntegerMath.ceilingToPowerOf2(length * 2 - 1);
 		
 		cos = new double[length];
 		sin = new double[length];
@@ -33,43 +35,48 @@ final class ChirpZFft extends Dft {
 			sin[i] = Math.sin((long)i * i % (length * 2) * Math.PI / length);
 		}
 		
-		convre = new double[convolutionLength];
-		convim = new double[convolutionLength];
-		convre[0] = cos[0] / convolutionLength;
-		convim[0] = sin[0] / convolutionLength;
+		convreal = new double[convolutionLength];
+		convimag = new double[convolutionLength];
+		convreal[0] = cos[0] / convolutionLength;
+		convimag[0] = sin[0] / convolutionLength;
 		for (int i = 1; i < length; i++) {
-			convre[i] = cos[i] / convolutionLength;
-			convim[i] = convim[convolutionLength - i] = sin[i] / convolutionLength;
-			convre[convolutionLength - i] = convre[i];
-			convim[convolutionLength - i] = convim[i];
+			convreal[i] = cos[i] / convolutionLength;
+			convimag[i] = convimag[convolutionLength - i] = sin[i] / convolutionLength;
+			convreal[convolutionLength - i] = convreal[i];
+			convimag[convolutionLength - i] = convimag[i];
 		}
 		
 		fft = new Fft(convolutionLength);
-		fft.transform(convre, convim);
+		fft.transform(convreal, convimag);
 	}
 	
 	
 	
 	public void transform(double[] inreal, double[] inimag, double[] outreal, double[] outimag) {
+		NullChecker.check(inreal, inimag, outreal, outimag);
+		if (outreal == outimag)
+			throw new IllegalArgumentException();
+		
 		double[] tpre = new double[convolutionLength];
 		double[] tpim = new double[convolutionLength];
 		for (int i = 0; i < length; i++) {
-			tpre[i] = inreal[i] * cos[i] + inimag[i] * sin[i];
+			tpre[i] =  inreal[i] * cos[i] + inimag[i] * sin[i];
 			tpim[i] = -inreal[i] * sin[i] + inimag[i] * cos[i];
 		}
 		
 		fft.transform(tpre, tpim);
 		
 		for (int i = 0; i < convolutionLength; i++) {
-			double re = tpre[i] * convre[i] - tpim[i] * convim[i];
-			tpim[i] = tpre[i] * convim[i] + tpim[i] * convre[i];
+			double re = tpre[i] * convreal[i] - tpim[i] * convimag[i];
+			double im = tpre[i] * convimag[i] + tpim[i] * convreal[i];
 			tpre[i] = re;
+			tpim[i] = im;
 		}
 		
 		fft.inverseTransform(tpre, tpim);
 		
 		for (int i = 0; i < length; i++) {
-			outreal[i] = tpre[i] * cos[i] + tpim[i] * sin[i];
+			outreal[i] =  tpre[i] * cos[i] + tpim[i] * sin[i];
 			outimag[i] = -tpre[i] * sin[i] + tpim[i] * cos[i];
 		}
 	}

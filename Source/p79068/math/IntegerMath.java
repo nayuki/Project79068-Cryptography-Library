@@ -134,14 +134,15 @@ public final class IntegerMath {
 	}
 	
 	
-	public static int log2(int x) {
+	public static int log2Floor(int x) {
 		if (x <= 0)
 			throw new IllegalArgumentException("Argument must be positive");
-		for (int i = 0; i < 32; i++) {
-			if ((x >>> i) == 1)
-				return i;
-		}
-		throw new AssertionError();  // Unreachable
+		x |= x >>>  1;
+		x |= x >>>  2;
+		x |= x >>>  4;
+		x |= x >>>  8;
+		x |= x >>> 16;
+		return IntegerBitMath.countOnes(x) - 1;
 	}
 	
 	
@@ -399,10 +400,10 @@ public final class IntegerMath {
 	public static int floorToPowerOf2(int x) {
 		if (x <= 0)
 			throw new IllegalArgumentException("Non-positive argument");
-		x |= x >>> 1;
-		x |= x >>> 2;
-		x |= x >>> 4;
-		x |= x >>> 8;
+		x |= x >>>  1;
+		x |= x >>>  2;
+		x |= x >>>  4;
+		x |= x >>>  8;
 		x |= x >>> 16;
 		return x ^ (x >>> 1);
 	}
@@ -421,10 +422,10 @@ public final class IntegerMath {
 		if (x > 1073741824)
 			throw new ArithmeticOverflowException(String.format("ceilingToPowerOf2(%d)", x));
 		x--;
-		x |= x >>> 1;
-		x |= x >>> 2;
-		x |= x >>> 4;
-		x |= x >>> 8;
+		x |= x >>>  1;
+		x |= x >>>  2;
+		x |= x >>>  4;
+		x |= x >>>  8;
 		x |= x >>> 16;
 		return x + 1;
 	}
