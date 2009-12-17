@@ -260,10 +260,10 @@ public class DateTest {
 	// new Date(y,m,d), because it requires a conversion to epoch days and then back to calendar date.
 	@Test
 	public void testNewDate() {
-		int y = -2000;
+		int y = -500;
 		int m = 1;
 		int d = 1;
-		while (y <= 6000) {
+		while (y <= 2500) {
 			Date date = new Date(y, m, d);
 			assertEquals(date.getYear(), y);
 			assertEquals(date.getMonth(), m);
@@ -300,14 +300,14 @@ public class DateTest {
 	@Test
 	public void testNewDateOverflow() {
 		int[][] cases = {
-				{-5877611, 6, 21},
-				{-5877611, 5, 30},
-				{5881610, 7, 12},
-				{5881610, 8, 1},
-				{0, Integer.MIN_VALUE, 0},
-				{0, Integer.MAX_VALUE, 0},
-				{Integer.MIN_VALUE, 0, 0},
-				{Integer.MAX_VALUE, 0, 0},
+			{-5877611, 6, 21},
+			{-5877611, 5, 30},
+			{5881610, 7, 12},
+			{5881610, 8, 1},
+			{0, Integer.MIN_VALUE, 0},
+			{0, Integer.MAX_VALUE, 0},
+			{Integer.MIN_VALUE, 0, 0},
+			{Integer.MAX_VALUE, 0, 0},
 		};
 		
 		for (int[] thecase : cases) {
