@@ -6,21 +6,20 @@ import p79068.math.IntegerBitMath;
 import p79068.util.hash.HashValue;
 
 
-final class Md5Hasher extends BlockHasher {
+final class Md5Hasher extends BlockHasherCore {
 	
 	private int[] state;
 	
 	
 	
-	Md5Hasher(Md5 hashFunc) {
-		super(hashFunc);
+	Md5Hasher() {
 		state = new int[]{0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476};
 	}
 	
 	
 	
 	public Md5Hasher clone() {
-		if (hashFunction == null)
+		if (state == null)
 			throw new IllegalStateException("Already zeroized");
 		Md5Hasher result = (Md5Hasher)super.clone();
 		result.state = result.state.clone();
@@ -29,11 +28,10 @@ final class Md5Hasher extends BlockHasher {
 	
 	
 	public void zeroize() {
-		if (hashFunction == null)
+		if (state == null)
 			throw new IllegalStateException("Already zeroized");
 		Zeroizer.clear(state);
 		state = null;
-		super.zeroize();
 	}
 	
 	
@@ -67,7 +65,7 @@ final class Md5Hasher extends BlockHasher {
 	
 	
 	
-	protected void compress(byte[] message, int off, int len) {
+	public void compress(byte[] message, int off, int len) {
 		BoundsChecker.check(message.length, off, len);
 		if (len % 64 != 0)
 			throw new AssertionError();
@@ -130,19 +128,19 @@ final class Md5Hasher extends BlockHasher {
 	}
 	
 	
-	protected HashValue getHashDestructively() {
+	public HashValue getHashDestructively(byte[] block, int blockLength, long length) {
 		block[blockLength] = (byte)0x80;
 		for (int i = blockLength + 1; i < block.length; i++)
 			block[i] = 0x00;
 		if (blockLength + 1 > block.length - 8) {
-			compress();
+			compress(block);
 			for (int i = 0; i < block.length; i++)
 				block[i] = 0x00;
 		}
 		for (int i = 0; i < 8; i++)
 			block[block.length - 8 + i] = (byte)((length * 8) >>> (i * 8));
-		compress();
-		return createHash(IntegerBitMath.toBytesLittleEndian(state));
+		compress(block);
+		return new HashValue(IntegerBitMath.toBytesLittleEndian(state));
 	}
 	
 }

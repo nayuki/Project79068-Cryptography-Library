@@ -5,15 +5,14 @@ import p79068.lang.BoundsChecker;
 import p79068.util.hash.HashValue;
 
 
-final class Md2Hasher extends BlockHasher {
+final class Md2Hasher extends BlockHasherCore {
 	
 	private int[] state;
 	private int[] checksum;
 	
 	
 	
-	Md2Hasher(Md2 hashFunc) {
-		super(hashFunc);
+	Md2Hasher() {
 		state = new int[48];
 		checksum = new int[16];
 	}
@@ -21,7 +20,7 @@ final class Md2Hasher extends BlockHasher {
 	
 	
 	public Md2Hasher clone() {
-		if (hashFunction == null)
+		if (state == null)
 			throw new IllegalStateException("Already zeroized");
 		Md2Hasher result = (Md2Hasher)super.clone();
 		result.state = result.state.clone();
@@ -31,13 +30,12 @@ final class Md2Hasher extends BlockHasher {
 	
 	
 	public void zeroize() {
-		if (hashFunction == null)
+		if (state == null)
 			throw new IllegalStateException("Already zeroized");
 		Zeroizer.clear(state);
 		Zeroizer.clear(checksum);
 		state = null;
 		checksum = null;
-		super.zeroize();
 	}
 	
 	
@@ -64,7 +62,7 @@ final class Md2Hasher extends BlockHasher {
 	
 	
 	
-	protected void compress(byte[] message, int off, int len) {
+	public void compress(byte[] message, int off, int len) {
 		BoundsChecker.check(message.length, off, len);
 		if (len % 16 != 0)
 			throw new AssertionError();
@@ -101,19 +99,19 @@ final class Md2Hasher extends BlockHasher {
 	}
 	
 	
-	protected HashValue getHashDestructively() {
+	public HashValue getHashDestructively(byte[] block, int blockLength, long length) {
 		for (int i = blockLength; i < block.length; i++)
 			block[i] = (byte)(16 - blockLength);
-		compress();
+		compress(block);
 		
 		for (int i = 0; i < 16; i++)
 			block[i] = (byte)checksum[i];
-		compress();
+		compress(block);
 		
 		byte[] hash = new byte[16];
 		for (int i = 0; i < 16; i++)
 			hash[i] = (byte)state[i];
-		return createHash(hash);
+		return new HashValue(hash);
 	}
 	
 }

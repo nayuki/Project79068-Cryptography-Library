@@ -24,7 +24,7 @@ public final class Sha512 extends BlockHashFunction {
 	 * @return a new hasher of this hash function
 	 */
 	public Hasher newHasher() {
-		return new Sha512Hasher(this);
+		return new BlockHasher(this, new Sha512Hasher(true));
 	}
 	
 	

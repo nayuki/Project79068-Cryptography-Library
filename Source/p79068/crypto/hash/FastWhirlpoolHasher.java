@@ -9,7 +9,7 @@ import p79068.math.LongBitMath;
 import p79068.util.hash.HashValue;
 
 
-final class FastWhirlpoolHasher extends BlockHasher {
+final class FastWhirlpoolHasher extends BlockHasherCore {
 	
 	private final long[][] rcon;
 	
@@ -21,8 +21,6 @@ final class FastWhirlpoolHasher extends BlockHasher {
 	
 	
 	FastWhirlpoolHasher(AbstractWhirlpool hashFunc) {
-		super(hashFunc);
-		
 		if (!tablesByFunction.containsKey(hashFunc)) {
 			mul = makeMultiplicationTable(hashFunc.getSbox(), hashFunc.getC());
 			rcon = makeRoundConstants(hashFunc.getRounds(), hashFunc.getSbox());
@@ -39,7 +37,7 @@ final class FastWhirlpoolHasher extends BlockHasher {
 	
 	
 	public FastWhirlpoolHasher clone() {
-		if (hashFunction == null)
+		if (state == null)
 			throw new IllegalStateException("Already zeroized");
 		FastWhirlpoolHasher result = (FastWhirlpoolHasher)super.clone();
 		result.state = result.state.clone();
@@ -48,16 +46,15 @@ final class FastWhirlpoolHasher extends BlockHasher {
 	
 	
 	public void zeroize() {
-		if (hashFunction == null)
+		if (state == null)
 			throw new IllegalStateException("Already zeroized");
 		Zeroizer.clear(state);
 		state = null;
-		super.zeroize();
 	}
 	
 	
 	
-	protected void compress(byte[] message, int off, int len) {
+	public void compress(byte[] message, int off, int len) {
 		BoundsChecker.check(message.length, off, len);
 		if (len % 64 != 0)
 			throw new AssertionError();
@@ -91,19 +88,19 @@ final class FastWhirlpoolHasher extends BlockHasher {
 	}
 	
 	
-	protected HashValue getHashDestructively() {
+	public HashValue getHashDestructively(byte[] block, int blockLength, long length) {
 		block[blockLength] = (byte)0x80;
 		for (int i = blockLength + 1; i < block.length; i++)
 			block[i] = 0x00;
 		if (blockLength + 1 > block.length - 32) {
-			compress();
+			compress(block);
 			for (int i = 0; i < block.length; i++)
 				block[i] = 0x00;
 		}
 		for (int i = 0; i < 8; i++)
 			block[block.length - 1 - i] = (byte)((length * 8) >>> (i * 8));  // Whirlpool supports lengths just less than 2^256 bits (2^253 bytes), but this implementation only counts to just less than 2^64 bytes.
-		compress();
-		return createHash(LongBitMath.toBytesBigEndian(state));
+		compress(block);
+		return new HashValue(LongBitMath.toBytesBigEndian(state));
 	}
 	
 	

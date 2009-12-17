@@ -1,42 +1,39 @@
 package p79068.crypto.hash;
 
+import java.util.Arrays;
 import p79068.crypto.Zeroizer;
 import p79068.lang.BoundsChecker;
 import p79068.math.IntegerBitMath;
 import p79068.util.hash.HashValue;
 
 
-final class Sha256Hasher extends BlockHasher {
+final class Sha256Hasher extends BlockHasherCore {
 	
-	private boolean sha224Mode;
+	private boolean sha256Mode;
 	
 	private int[] state;
 	
 	
 	
-	Sha256Hasher(Sha256 hashFunc) {
-		super(hashFunc);
-		sha224Mode = false;
-		state = new int[] {
+	Sha256Hasher(boolean sha256Mode) {
+		this.sha256Mode = sha256Mode;
+		if (sha256Mode) {
+			state = new int[] {
 				0x6A09E667, 0xBB67AE85, 0x3C6EF372, 0xA54FF53A,
 				0x510E527F, 0x9B05688C, 0x1F83D9AB, 0x5BE0CD19
-		};
-	}
-	
-	
-	Sha256Hasher(Sha224 hashFunc) {
-		super(hashFunc);
-		sha224Mode = true;
-		state = new int[] {  // Different from above
+			};
+		} else {
+			state = new int[] {
 				0xC1059ED8, 0x367CD507, 0x3070DD17, 0xF70E5939,
 				0xFFC00B31, 0x68581511, 0x64F98FA7, 0xBEFA4FA4
-		};
+			};
+		}
 	}
 	
 	
 	
 	public Sha256Hasher clone() {
-		if (hashFunction == null)
+		if (state == null)
 			throw new IllegalStateException("Already zeroized");
 		Sha256Hasher result = (Sha256Hasher)super.clone();
 		result.state = result.state.clone();
@@ -45,11 +42,10 @@ final class Sha256Hasher extends BlockHasher {
 	
 	
 	public void zeroize() {
-		if (hashFunction == null)
+		if (state == null)
 			throw new IllegalStateException("Already zeroized");
 		Zeroizer.clear(state);
 		state = null;
-		super.zeroize();
 	}
 	
 	
@@ -74,7 +70,7 @@ final class Sha256Hasher extends BlockHasher {
 	};
 	
 	
-	protected void compress(byte[] message, int off, int len) {
+	public void compress(byte[] message, int off, int len) {
 		BoundsChecker.check(message.length, off, len);
 		if (len % 64 != 0)
 			throw new AssertionError();
@@ -138,24 +134,21 @@ final class Sha256Hasher extends BlockHasher {
 	}
 	
 	
-	protected HashValue getHashDestructively() {
+	public HashValue getHashDestructively(byte[] block, int blockLength, long length) {
 		block[blockLength] = (byte)0x80;
 		for (int i = blockLength + 1; i < block.length; i++)
 			block[i] = 0x00;
 		if (blockLength + 1 > block.length - 8) {
-			compress();
+			compress(block);
 			for (int i = 0; i < block.length; i++)
 				block[i] = 0x00;
 		}
 		for (int i = 0; i < 8; i++)
 			block[block.length - 1 - i] = (byte)((length * 8) >>> (i * 8));
-		compress();
-		if (sha224Mode) {
-			int[] truncstate = new int[7];  // state, truncated from 8 to 7 elements
-			System.arraycopy(state, 0, truncstate, 0, truncstate.length);
-			state = truncstate;
-		}
-		return createHash(IntegerBitMath.toBytesBigEndian(state));
+		compress(block);
+		if (!sha256Mode)  // If SHA-224, truncate the state
+			state = Arrays.copyOf(state, 7);
+		return new HashValue(IntegerBitMath.toBytesBigEndian(state));
 	}
 	
 }

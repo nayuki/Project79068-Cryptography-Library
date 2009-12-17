@@ -6,21 +6,20 @@ import p79068.math.IntegerBitMath;
 import p79068.util.hash.HashValue;
 
 
-final class FastMd4Hasher extends BlockHasher {
+final class FastMd4Hasher extends BlockHasherCore {
 	
 	private int[] state;
 	
 	
 	
-	FastMd4Hasher(Md4 hashFunc) {
-		super(hashFunc);
+	FastMd4Hasher() {
 		state = new int[] { 0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476 };
 	}
 	
 	
 	
 	public FastMd4Hasher clone() {
-		if (hashFunction == null)
+		if (state == null)
 			throw new IllegalStateException("Already zeroized");
 		FastMd4Hasher result = (FastMd4Hasher)super.clone();
 		result.state = result.state.clone();
@@ -29,16 +28,15 @@ final class FastMd4Hasher extends BlockHasher {
 	
 	
 	public void zeroize() {
-		if (hashFunction == null)
+		if (state == null)
 			throw new IllegalStateException("Already zeroized");
 		Zeroizer.clear(state);
 		state = null;
-		super.zeroize();
 	}
 	
 	
 	
-	protected void compress(byte[] message, int off, int len) {
+	public void compress(byte[] message, int off, int len) {
 		BoundsChecker.check(message.length, off, len);
 		if (len % 64 != 0)
 			throw new AssertionError();
@@ -128,19 +126,19 @@ final class FastMd4Hasher extends BlockHasher {
 	}
 	
 	
-	protected HashValue getHashDestructively() {
+	public HashValue getHashDestructively(byte[] block, int blockLength, long length) {
 		block[blockLength] = (byte)0x80;
 		for (int i = blockLength + 1; i < block.length; i++)
 			block[i] = 0x00;
 		if (blockLength + 1 > block.length - 8) {
-			compress();
+			compress(block);
 			for (int i = 0; i < block.length; i++)
 				block[i] = 0x00;
 		}
 		for (int i = 0; i < 8; i++)
 			block[block.length - 8 + i] = (byte)((length * 8) >>> (i * 8));
-		compress();
-		return createHash(IntegerBitMath.toBytesLittleEndian(state));
+		compress(block);
+		return new HashValue(IntegerBitMath.toBytesLittleEndian(state));
 	}
 	
 }

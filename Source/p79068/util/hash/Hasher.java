@@ -104,7 +104,7 @@ public abstract class Hasher implements Cloneable {
 	 * @return a HashValue set to this algorithm and the hash value hashVal
 	 */
 	protected final HashValue createHash(byte[] hashVal) {
-		return new HashValue(getHashFunction(), hashVal);
+		return new HashValue(hashVal);
 	}
 	
 }

@@ -8,7 +8,7 @@ import p79068.lang.BoundsChecker;
 import p79068.util.hash.HashValue;
 
 
-final class WhirlpoolHasher extends BlockHasher {
+final class WhirlpoolHasher extends BlockHasherCore {
 	
 	private final byte[] sub;
 	private final byte[][] mul;
@@ -19,8 +19,6 @@ final class WhirlpoolHasher extends BlockHasher {
 	
 	
 	WhirlpoolHasher(AbstractWhirlpool hashFunc) {
-		super(hashFunc);
-		
 		sub = hashFunc.getSbox();
 		
 		if (!tablesByFunction.containsKey(hashFunc)) {
@@ -39,7 +37,7 @@ final class WhirlpoolHasher extends BlockHasher {
 	
 	
 	public WhirlpoolHasher clone() {
-		if (hashFunction == null)
+		if (state == null)
 			throw new IllegalStateException("Already zeroized");
 		WhirlpoolHasher result = (WhirlpoolHasher)super.clone();
 		result.state = result.state.clone();
@@ -48,17 +46,16 @@ final class WhirlpoolHasher extends BlockHasher {
 	
 	
 	public void zeroize() {
-		if (hashFunction == null)
+		if (state == null)
 			throw new IllegalStateException("Already zeroized");
 		Zeroizer.clear(state);
 		state = null;
-		super.zeroize();
 	}
 	
 	
 	
 	// Uses Miyaguchi-Preneel construction: next state = encrypt(msg: message block, key: state) XOR state XOR message block
-	protected void compress(byte[] message, int off, int len) {
+	public void compress(byte[] message, int off, int len) {
 		BoundsChecker.check(message.length, off, len);
 		if (len % 64 != 0)
 			throw new AssertionError();
@@ -80,19 +77,19 @@ final class WhirlpoolHasher extends BlockHasher {
 	}
 	
 	
-	protected HashValue getHashDestructively() {
+	public HashValue getHashDestructively(byte[] block, int blockLength, long length) {
 		block[blockLength] = (byte)0x80;
 		for (int i = blockLength + 1; i < block.length; i++)
 			block[i] = 0x00;
 		if (blockLength + 1 > block.length - 32) {
-			compress();
+			compress(block);
 			for (int i = 0; i < block.length; i++)
 				block[i] = 0x00;
 		}
 		for (int i = 0; i < 8; i++)
 			block[block.length - 1 - i] = (byte)((length * 8) >>> (i * 8));  // Whirlpool supports lengths just less than 2^256 bits (2^253 bytes), but this implementation only counts to just less than 2^64 bytes.
-		compress();
-		return createHash(state);
+		compress(block);
+		return new HashValue(state);
 	}
 	
 	

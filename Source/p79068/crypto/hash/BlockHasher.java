@@ -11,33 +11,37 @@ import p79068.util.hash.HashValue;
  * A hasher that only applies the compression function after each block.
  * <p>The instance returned by a BlockHashFunction is not necessarily a BlockHasher.</p>
  */
-public abstract class BlockHasher extends Hasher implements Zeroizable {
+public final class BlockHasher extends Hasher implements Zeroizable {
 	
 	/**
 	 * The total length of the message, in bytes. Warning: It overflows silently.
 	 */
-	protected long length;
+	private long length;
 	
 	/**
 	 * The data of the current block.
 	 */
-	protected byte[] block;
+	private byte[] block;
 	
 	/**
 	 * The number of bytes filled in the current block. It is in the range [<code>0, <code>block.length</code>) initially and after each <code>update()</code> operation.
 	 */
-	protected int blockLength;
+	private int blockLength;
+	
+	
+	private BlockHasherCore core;
 	
 	
 	
 	/**
 	 * Constructs a new instance with the specified hash algorithm and block length.
 	 */
-	protected BlockHasher(BlockHashFunction hashFunc) {
-		super(hashFunc);
+	public BlockHasher(BlockHashFunction func, BlockHasherCore core) {
+		super(func);
 		length = 0;
-		block = new byte[hashFunc.getBlockLength()];
+		block = new byte[func.getBlockLength()];
 		blockLength = 0;
+		this.core = core;
 	}
 	
 	
@@ -52,7 +56,7 @@ public abstract class BlockHasher extends Hasher implements Zeroizable {
 		block[blockLength] = b;
 		blockLength++;
 		if (blockLength == block.length) {
-			compress();
+			core.compress(block);
 			blockLength = 0;
 		}
 		length++;
@@ -78,14 +82,14 @@ public abstract class BlockHasher extends Hasher implements Zeroizable {
 			len -= temp;
 			blockLength += temp;
 			if (blockLength == block.length) {
-				compress();
+				core.compress(block);
 				blockLength = 0;
 			}
 		}
 		
 		// If the current block was not completely filled and cleared, then len is now 0; there are no more remaining bytes to process.
 		int temp = len / block.length * block.length;  // 0 <= temp <= len, and temp is a multiple of block.length
-		compress(b, off, temp);
+		core.compress(b, off, temp);
 		off += temp;
 		len -= temp;
 		
@@ -101,7 +105,7 @@ public abstract class BlockHasher extends Hasher implements Zeroizable {
 	public HashValue getHash() {
 		if (hashFunction == null)
 			throw new IllegalStateException("Already zeroized");
-		return clone().getHashDestructively();
+		return core.clone().getHashDestructively(block.clone(), blockLength, length);
 	}
 	
 	
@@ -114,7 +118,8 @@ public abstract class BlockHasher extends Hasher implements Zeroizable {
 		if (hashFunction == null)
 			throw new IllegalStateException("Already zeroized");
 		BlockHasher result = (BlockHasher)super.clone();
-		result.block = block.clone();
+		result.block = result.block.clone();
+		result.core = result.core.clone();
 		return result;
 	}
 	
@@ -127,31 +132,7 @@ public abstract class BlockHasher extends Hasher implements Zeroizable {
 		Zeroizer.clear(block);
 		block = null;
 		hashFunction = null;
+		core.zeroize();
 	}
-	
-	
-	
-	/**
-	 * Applies the compression function to combine the current message block into the hasher's internal state. This calls <code>compress(this.block, 0, this.block.length)</code>.
-	 */
-	protected void compress() {
-		compress(block, 0, block.length);
-	}
-	
-	
-	/**
-	 * Applies the compression function to combine the specified message blocks into the hasher's internal state.
-	 * @param message the byte array to compress
-	 * @param off the offset into array <code>message</code>
-	 * @param len the number of bytes to process, which is always a multiple of the block size
-	 */
-	protected abstract void compress(byte[] message, int off, int len);
-	
-	
-	/**
-	 * Returns the hash value, possibly changing this hasher's internal state.
-	 * @return the hash value
-	 */
-	protected abstract HashValue getHashDestructively();
 	
 }

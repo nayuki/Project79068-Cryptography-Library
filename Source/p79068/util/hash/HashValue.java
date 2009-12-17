@@ -1,25 +1,23 @@
 package p79068.util.hash;
 
 import java.util.Arrays;
+import p79068.lang.NullChecker;
 
 
 /**
  * Represents a hash value produced by a hash function.
- * <p>Mutability: <em>Immutable</em><br>
- *  Instantiability: Via <code>{@link HashFunction}.getHash()</code> or <code>{@link Hasher#getHash()}</code></p>
+ * <p>Mutability: <em>Immutable</em></p>
  * @see HashFunction
  * @see Hasher
  */
 public final class HashValue implements Comparable<HashValue> {
 	
-	private final HashFunction hashFunction;
 	private final byte[] hashValue;
 	
 	
-	HashValue(HashFunction hashFunc, byte[] hashVal) {
-		if (hashFunc == null || hashVal == null || hashVal.length != hashFunc.getHashLength())
-			throw new AssertionError();
-		hashFunction = hashFunc;
+	
+	public HashValue(byte[] hashVal) {
+		NullChecker.check(hashVal);
 		hashValue = hashVal.clone();
 	}
 	
@@ -45,14 +43,6 @@ public final class HashValue implements Comparable<HashValue> {
 	
 	
 	/**
-	 * Returns the hash function that produced this hash value.
-	 */
-	public HashFunction getHashFunction() {
-		return hashFunction;
-	}
-	
-	
-	/**
 	 * Returns the length of this hash value, in bytes. This is equivalent to <code>getHashFunction().getHashLength()</code>.
 	 */
 	public int getLength() {
@@ -64,15 +54,13 @@ public final class HashValue implements Comparable<HashValue> {
 		if (!(o instanceof HashValue))
 			return false;
 		HashValue hash = (HashValue)o;
-		return hashFunction.equals(hash.hashFunction) && Arrays.equals(hashValue, hash.hashValue);
+		return Arrays.equals(hashValue, hash.hashValue);
 	}
 	
 	
 	public int compareTo(HashValue hv) {
-		if (!hashFunction.equals(hv.hashFunction))
-			throw new IllegalArgumentException("Hash functions are different");
 		if (hashValue.length != hv.hashValue.length)
-			throw new AssertionError("Hash lengths are different");
+			throw new IllegalArgumentException("Hash lengths are different");
 		for (int i = 0; i < hashValue.length && i < hv.hashValue.length; i++) {
 			if (hashValue[i] != hv.hashValue[i])
 				return (hashValue[i] & 0xFF) - (hv.hashValue[i] & 0xFF);
@@ -94,11 +82,11 @@ public final class HashValue implements Comparable<HashValue> {
 	
 	
 	/**
-	 * Returns a string representation of this hash value. Currently, the hash function's name and the hash value are returned. This is subjected to change.
+	 * Returns a string representation of this hash value. Currently, the hexadecimal hash value is returned. This is subjected to change.
 	 * @return a string representation of this hash value
 	 */
 	public String toString() {
-		return String.format("%s: %s", hashFunction.getName(), toHexString());
+		return toHexString();
 	}
 	
 	

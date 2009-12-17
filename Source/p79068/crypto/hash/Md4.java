@@ -24,7 +24,7 @@ public final class Md4 extends BlockHashFunction {
 	 * @return a new hasher of this hash function
 	 */
 	public Hasher newHasher() {
-		return new FastMd4Hasher(this);
+		return new BlockHasher(this, new FastMd4Hasher());
 	}
 	
 	

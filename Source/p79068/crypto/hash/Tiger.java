@@ -24,7 +24,7 @@ public final class Tiger extends BlockHashFunction {
 	 * @return a new hasher of this hash function
 	 */
 	public Hasher newHasher() {
-		return new TigerHasher(this);
+		return new BlockHasher(this, new TigerHasher(false));
 	}
 	
 	

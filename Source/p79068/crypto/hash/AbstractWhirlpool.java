@@ -14,7 +14,7 @@ abstract class AbstractWhirlpool extends BlockHashFunction {
 	 * @return a new hasher of this hash function
 	 */
 	public Hasher newHasher() {
-		return new FastWhirlpoolHasher(this);
+		return new BlockHasher(this, new FastWhirlpoolHasher(this));
 	}
 	
 	

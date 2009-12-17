@@ -6,7 +6,7 @@ import p79068.math.LongBitMath;
 import p79068.util.hash.HashValue;
 
 
-final class TigerHasher extends BlockHasher {
+final class TigerHasher extends BlockHasherCore {
 	
 	private boolean tiger2Mode;
 	
@@ -14,23 +14,16 @@ final class TigerHasher extends BlockHasher {
 	
 	
 	
-	TigerHasher(Tiger hashFunc) {
-		super(hashFunc);
+	TigerHasher(boolean tiger2Mode) {
+		this.tiger2Mode = tiger2Mode;
 		tiger2Mode = false;
 		state = new long[] { 0x0123456789ABCDEFL, 0xFEDCBA9876543210L, 0xF096A5B4C3B2E187L };
 	}
 	
 	
-	TigerHasher(Tiger2 hashFunc) {
-		super(hashFunc);
-		tiger2Mode = true;
-		state = new long[] { 0x0123456789ABCDEFL, 0xFEDCBA9876543210L, 0xF096A5B4C3B2E187L };  // Same as above
-	}
-	
-	
 	
 	public TigerHasher clone() {
-		if (hashFunction == null)
+		if (state == null)
 			throw new IllegalStateException("Already zeroized");
 		TigerHasher result = (TigerHasher)super.clone();
 		result.state = result.state.clone();
@@ -39,11 +32,10 @@ final class TigerHasher extends BlockHasher {
 	
 	
 	public void zeroize() {
-		if (hashFunction == null)
+		if (state == null)
 			throw new IllegalStateException("Already zeroized");
 		Zeroizer.clear(state);
 		state = null;
-		super.zeroize();
 	}
 	
 	
@@ -321,7 +313,7 @@ final class TigerHasher extends BlockHasher {
 	
 	
 	
-	protected void compress(byte[] message, int off, int len) {
+	public void compress(byte[] message, int off, int len) {
 		BoundsChecker.check(message.length, off, len);
 		if (len % 64 != 0)
 			throw new AssertionError();
@@ -411,7 +403,7 @@ final class TigerHasher extends BlockHasher {
 	}
 	
 	
-	protected HashValue getHashDestructively() {
+	public HashValue getHashDestructively(byte[] block, int blockLength, long length) {
 		if (!tiger2Mode)
 			block[blockLength] = 0x01;
 		else
@@ -419,14 +411,14 @@ final class TigerHasher extends BlockHasher {
 		for (int i = blockLength + 1; i < block.length; i++)
 			block[i] = 0x00;
 		if (blockLength + 1 > block.length - 8) {
-			compress();
+			compress(block);
 			for (int i = 0; i < block.length; i++)
 				block[i] = 0x00;
 		}
 		for (int i = 0; i < 8; i++)
 			block[block.length - 8 + i] = (byte)((length * 8) >>> (i * 8));
-		compress();
-		return createHash(LongBitMath.toBytesLittleEndian(state));
+		compress(block);
+		return new HashValue(LongBitMath.toBytesLittleEndian(state));
 	}
 	
 }

@@ -1,42 +1,39 @@
 package p79068.crypto.hash;
 
+import java.util.Arrays;
 import p79068.crypto.Zeroizer;
 import p79068.lang.BoundsChecker;
 import p79068.math.LongBitMath;
 import p79068.util.hash.HashValue;
 
 
-final class Sha512Hasher extends BlockHasher {
+final class Sha512Hasher extends BlockHasherCore {
 	
-	private boolean sha384Mode;
+	private boolean sha512Mode;
 	
 	private long[] state;
 	
 	
 	
-	Sha512Hasher(Sha512 hashFunc) {
-		super(hashFunc);
-		sha384Mode = false;
-		state = new long[] {
+	Sha512Hasher(boolean sha512Mode) {
+		this.sha512Mode = sha512Mode;
+		if (sha512Mode) {
+			state = new long[] {
 				0x6A09E667F3BCC908L, 0xBB67AE8584CAA73BL, 0x3C6EF372FE94F82BL, 0xA54FF53A5F1D36F1L,
 				0x510E527FADE682D1L, 0x9B05688C2B3E6C1FL, 0x1F83D9ABFB41BD6BL, 0x5BE0CD19137E2179L
-		};
-	}
-	
-	
-	Sha512Hasher(Sha384 hashFunc) {
-		super(hashFunc);
-		sha384Mode = true;
-		state = new long[] {  // Different from above
+			};
+		} else {
+			state = new long[] {
 				0xCBBB9D5DC1059ED8L, 0x629A292A367CD507L, 0x9159015A3070DD17L, 0x152FECD8F70E5939L,
 				0x67332667FFC00B31L, 0x8EB44A8768581511L, 0xDB0C2E0D64F98FA7L, 0x47B5481DBEFA4FA4L
-		};
+			};
+		}
 	}
 	
 	
 	
 	public Sha512Hasher clone() {
-		if (hashFunction == null)
+		if (state == null)
 			throw new IllegalStateException("Already zeroized");
 		Sha512Hasher result = (Sha512Hasher)super.clone();
 		result.state = result.state.clone();
@@ -45,11 +42,10 @@ final class Sha512Hasher extends BlockHasher {
 	
 	
 	public void zeroize() {
-		if (hashFunction == null)
+		if (state == null)
 			throw new IllegalStateException("Already zeroized");
 		Zeroizer.clear(state);
 		state = null;
-		super.zeroize();
 	}
 	
 	
@@ -78,7 +74,7 @@ final class Sha512Hasher extends BlockHasher {
 	};
 	
 	
-	protected void compress(byte[] message, int off, int len) {
+	public void compress(byte[] message, int off, int len) {
 		BoundsChecker.check(message.length, off, len);
 		if (len % 128 != 0)
 			throw new AssertionError();
@@ -146,24 +142,21 @@ final class Sha512Hasher extends BlockHasher {
 	}
 	
 	
-	protected HashValue getHashDestructively() {
+	public HashValue getHashDestructively(byte[] block, int blockLength, long length) {
 		block[blockLength] = (byte)0x80;
 		for (int i = blockLength + 1; i < block.length; i++)
 			block[i] = 0x00;
 		if (blockLength + 1 > block.length - 16) {
-			compress();
+			compress(block);
 			for (int i = 0; i < block.length; i++)
 				block[i] = 0x00;
 		}
 		for (int i = 0; i < 8; i++)
 			block[block.length - 1 - i] = (byte)((length * 8) >>> (i * 8));  // SHA-512 and SHA-384 support lengths just less than 2^128 bits (2^125 bytes), but this implementation only counts to just less than 2^64 bytes.
-		compress();
-		if (sha384Mode) {
-			long[] truncstate = new long[6];  // state, truncated from 8 to 6 elements
-			System.arraycopy(state, 0, truncstate, 0, truncstate.length);
-			state = truncstate;
-		}
-		return createHash(LongBitMath.toBytesBigEndian(state));
+		compress(block);
+		if (!sha512Mode)  // SHA-384, truncate the state
+			state = Arrays.copyOf(state, 6);
+		return new HashValue(LongBitMath.toBytesBigEndian(state));
 	}
 	
 }

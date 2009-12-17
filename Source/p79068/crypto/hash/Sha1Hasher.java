@@ -6,7 +6,7 @@ import p79068.math.IntegerBitMath;
 import p79068.util.hash.HashValue;
 
 
-final class Sha1Hasher extends BlockHasher {
+final class Sha1Hasher extends BlockHasherCore {
 	
 	private boolean sha1Mode;
 	
@@ -14,22 +14,15 @@ final class Sha1Hasher extends BlockHasher {
 	
 	
 	
-	Sha1Hasher(Sha1 hashFunc) {
-		super(hashFunc);
-		sha1Mode = true;
+	public Sha1Hasher(boolean sha1Mode) {
+		this.sha1Mode = sha1Mode;
 		state = new int[] { 0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476, 0xC3D2E1F0 };
 	}
 	
-	Sha1Hasher(Sha hashFunc) {
-		super(hashFunc);
-		sha1Mode = false;
-		state = new int[] { 0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476, 0xC3D2E1F0 };  // Same as above
-	}
 	
 	
-
 	public Sha1Hasher clone() {
-		if (hashFunction == null)
+		if (state == null)
 			throw new IllegalStateException("Already zeroized");
 		Sha1Hasher result = (Sha1Hasher)super.clone();
 		result.state = result.state.clone();
@@ -38,18 +31,18 @@ final class Sha1Hasher extends BlockHasher {
 	
 	
 	public void zeroize() {
-		if (hashFunction == null)
+		if (state == null)
 			throw new IllegalStateException("Already zeroized");
 		Zeroizer.clear(state);
 		state = null;
-		super.zeroize();
 	}
+	
 	
 	
 	private static final int[] k = { 0x5A827999, 0x6ED9EBA1, 0x8F1BBCDC, 0xCA62C1D6 };
 	
 	
-	protected void compress(byte[] message, int off, int len) {
+	public void compress(byte[] message, int off, int len) {
 		BoundsChecker.check(message.length, off, len);
 		if (len % 64 != 0)
 			throw new AssertionError();
@@ -117,19 +110,19 @@ final class Sha1Hasher extends BlockHasher {
 	}
 	
 	
-	protected HashValue getHashDestructively() {
+	public HashValue getHashDestructively(byte[] block, int blockLength, long length) {
 		block[blockLength] = (byte)0x80;
 		for (int i = blockLength + 1; i < block.length; i++)
 			block[i] = 0x00;
 		if (blockLength + 1 > block.length - 8) {
-			compress();
+			compress(block);
 			for (int i = 0; i < block.length; i++)
 				block[i] = 0x00;
 		}
 		for (int i = 0; i < 8; i++)
 			block[block.length - 1 - i] = (byte)((length * 8) >>> (i * 8));
-		compress();
-		return createHash(IntegerBitMath.toBytesBigEndian(state));
+		compress(block);
+		return new HashValue(IntegerBitMath.toBytesBigEndian(state));
 	}
 	
 }
