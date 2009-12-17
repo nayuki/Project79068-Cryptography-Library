@@ -86,7 +86,7 @@ public final class LongBitMath {
 	}
 	
 	
-	public static long swapEndian(long x) {
+	public static long swapByteEndian(long x) {
 		x = (x & 0x00FF00FF00FF00FFL) << 8 | (x & 0xFF00FF00FF00FF00L) >>> 8;
 		x = (x & 0x0000FFFF0000FFFFL) << 16 | (x & 0xFFFF0000FFFF0000L) >>> 16;
 		x = (x & 0x00000000FFFFFFFFL) << 32 | (x & 0xFFFFFFFF00000000L) >>> 32;

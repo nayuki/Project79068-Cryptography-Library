@@ -85,7 +85,7 @@ public final class IntegerBitMath {
 	}
 	
 	
-	public static int swapEndian(int x) {
+	public static int swapByteEndian(int x) {
 		x = (x & 0x00FF00FF) << 8 | (x & 0xFF00FF00) >>> 8;
 		x = (x & 0x0000FFFF) << 16 | (x & 0xFFFF0000) >>> 16;
 		return x;
