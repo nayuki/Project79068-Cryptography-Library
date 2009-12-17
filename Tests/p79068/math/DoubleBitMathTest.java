@@ -15,7 +15,7 @@ public class DoubleBitMathTest {
 	
 	
 	@Test
-	public void getSign() {
+	public void testGetSign() {
 		assertEquals( 0, DoubleBitMath.getSign(POSITIVE_ZERO));
 		assertEquals( 0, DoubleBitMath.getSign(NEGATIVE_ZERO));
 		assertEquals(+1, DoubleBitMath.getSign(+1));
@@ -29,7 +29,7 @@ public class DoubleBitMathTest {
 	
 	
 	@Test
-	public void getExponent() {
+	public void testGetExponent() {
 		assertEquals(0, DoubleBitMath.getExponent(0));
 		assertEquals(-1, DoubleBitMath.getExponent(0.5));
 		assertEquals(0, DoubleBitMath.getExponent(1));
@@ -44,7 +44,7 @@ public class DoubleBitMathTest {
 	
 	
 	@Test
-	public void getMantissa() {
+	public void testGetMantissa() {
 		assertEquals(0, DoubleBitMath.getMantissa(0));
 		assertEquals(0x10000000000000L, DoubleBitMath.getMantissa(0.5));
 		assertEquals(0x10000000000000L, DoubleBitMath.getMantissa(1));
@@ -57,21 +57,21 @@ public class DoubleBitMathTest {
 	
 	
 	@Test
-	public void sgnManExpRelation() {
-		assertTrue(testRelation(POSITIVE_ZERO));
-		assertTrue(testRelation(NEGATIVE_ZERO));
-		assertTrue(testRelation(+1));
-		assertTrue(testRelation(-1));
-		assertTrue(testRelation(+Double.MIN_VALUE));
-		assertTrue(testRelation(+Double.MAX_VALUE));
-		assertTrue(testRelation(-Double.MIN_VALUE));
-		assertTrue(testRelation(-Double.MAX_VALUE));
-		assertTrue(testRelation(+Math.PI));
-		assertTrue(testRelation(+Math.E));
-		assertTrue(testRelation(-Math.PI));
-		assertTrue(testRelation(-Math.E));
+	public void testSgnManExpRelation() {
+		assertTrue(checkRelation(POSITIVE_ZERO));
+		assertTrue(checkRelation(NEGATIVE_ZERO));
+		assertTrue(checkRelation(+1));
+		assertTrue(checkRelation(-1));
+		assertTrue(checkRelation(+Double.MIN_VALUE));
+		assertTrue(checkRelation(+Double.MAX_VALUE));
+		assertTrue(checkRelation(-Double.MIN_VALUE));
+		assertTrue(checkRelation(-Double.MAX_VALUE));
+		assertTrue(checkRelation(+Math.PI));
+		assertTrue(checkRelation(+Math.E));
+		assertTrue(checkRelation(-Math.PI));
+		assertTrue(checkRelation(-Math.E));
 		for (int i = 0; i < 1000; i++)
-			assertTrue(testRelation(Random.DEFAULT.randomDouble()));
+			assertTrue(checkRelation(Random.DEFAULT.randomDouble()));
 	}
 	
 	
@@ -101,7 +101,7 @@ public class DoubleBitMathTest {
 	
 	
 	@Test
-	public void isNormal() {
+	public void testIsNormal() {
 		assertFalse(DoubleBitMath.isNormal(Double.MIN_VALUE));
 		assertFalse(DoubleBitMath.isNormal(Double.MIN_VALUE * 5));
 		assertFalse(DoubleBitMath.isNormal(0));
@@ -115,7 +115,7 @@ public class DoubleBitMathTest {
 	
 	
 	@Test
-	public void isSubnormal() {
+	public void testIsSubnormal() {
 		assertTrue(DoubleBitMath.isSubnormal(Double.MIN_VALUE));
 		assertTrue(DoubleBitMath.isSubnormal(Double.MIN_VALUE * 3));
 		assertFalse(DoubleBitMath.isSubnormal(0));
@@ -129,7 +129,7 @@ public class DoubleBitMathTest {
 	
 	
 	@Test
-	public void isFinite() {
+	public void testIsFinite() {
 		assertTrue(DoubleBitMath.isFinite(Double.MIN_VALUE));
 		assertTrue(DoubleBitMath.isFinite(0));
 		assertTrue(DoubleBitMath.isFinite(1));
@@ -142,7 +142,7 @@ public class DoubleBitMathTest {
 	
 	
 	@Test
-	public void isInfinite() {
+	public void testIsInfinite() {
 		assertFalse(DoubleBitMath.isInfinite(Double.MIN_VALUE));
 		assertFalse(DoubleBitMath.isInfinite(0));
 		assertFalse(DoubleBitMath.isInfinite(1));
@@ -155,7 +155,7 @@ public class DoubleBitMathTest {
 	
 	
 	@Test
-	public void isNaN() {
+	public void testIsNaN() {
 		assertFalse(DoubleBitMath.isNaN(Double.MIN_VALUE));
 		assertFalse(DoubleBitMath.isNaN(0));
 		assertFalse(DoubleBitMath.isNaN(1));
@@ -168,7 +168,7 @@ public class DoubleBitMathTest {
 	
 	
 	
-	private static boolean testRelation(double x) {
+	private static boolean checkRelation(double x) {
 		int sgn = DoubleBitMath.getSign(x);
 		long man = DoubleBitMath.getMantissa(x);
 		int exp = DoubleBitMath.getExponent(x);
