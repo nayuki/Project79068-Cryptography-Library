@@ -40,10 +40,10 @@ public final class LongBitMath {
 	 * @return the reverse of <code>x</code>
 	 */
 	public static long reverse(long x) {
-		x = (x & 0x5555555555555555L) << 1 | (x & 0xAAAAAAAAAAAAAAAAL) >>> 1;
-		x = (x & 0x3333333333333333L) << 2 | (x & 0xCCCCCCCCCCCCCCCCL) >>> 2;
-		x = (x & 0x0F0F0F0F0F0F0F0FL) << 4 | (x & 0xF0F0F0F0F0F0F0F0L) >>> 4;
-		x = (x & 0x00FF00FF00FF00FFL) << 8 | (x & 0xFF00FF00FF00FF00L) >>> 8;
+		x = (x & 0x5555555555555555L) <<  1 | (x & 0xAAAAAAAAAAAAAAAAL) >>>  1;
+		x = (x & 0x3333333333333333L) <<  2 | (x & 0xCCCCCCCCCCCCCCCCL) >>>  2;
+		x = (x & 0x0F0F0F0F0F0F0F0FL) <<  4 | (x & 0xF0F0F0F0F0F0F0F0L) >>>  4;
+		x = (x & 0x00FF00FF00FF00FFL) <<  8 | (x & 0xFF00FF00FF00FF00L) >>>  8;
 		x = (x & 0x0000FFFF0000FFFFL) << 16 | (x & 0xFFFF0000FFFF0000L) >>> 16;
 		x = (x & 0x00000000FFFFFFFFL) << 32 | (x & 0xFFFFFFFF00000000L) >>> 32;
 		return x;
@@ -55,10 +55,10 @@ public final class LongBitMath {
 	 * @return the number of bits set to <code>1</code>, between <code>0</code> (inclusive) and <code>64</code> (inclusive)
 	 */
 	public static int countOnes(long x) {
-		x = ((x & 0xAAAAAAAAAAAAAAAAL) >>> 1) + (x & 0x5555555555555555L);
-		x = ((x & 0xCCCCCCCCCCCCCCCCL) >>> 2) + (x & 0x3333333333333333L);
-		x = ((x & 0xF0F0F0F0F0F0F0F0L) >>> 4) + (x & 0x0F0F0F0F0F0F0F0FL);
-		x = ((x & 0xFF00FF00FF00FF00L) >>> 8) + (x & 0x00FF00FF00FF00FFL);
+		x = ((x & 0xAAAAAAAAAAAAAAAAL) >>>  1) + (x & 0x5555555555555555L);
+		x = ((x & 0xCCCCCCCCCCCCCCCCL) >>>  2) + (x & 0x3333333333333333L);
+		x = ((x & 0xF0F0F0F0F0F0F0F0L) >>>  4) + (x & 0x0F0F0F0F0F0F0F0FL);
+		x = ((x & 0xFF00FF00FF00FF00L) >>>  8) + (x & 0x00FF00FF00FF00FFL);
 		x = ((x & 0xFFFF0000FFFF0000L) >>> 16) + (x & 0x0000FFFF0000FFFFL);
 		x = ((x & 0xFFFFFFFF00000000L) >>> 32) + (x & 0x00000000FFFFFFFFL);
 		return (int)x;
@@ -87,7 +87,7 @@ public final class LongBitMath {
 	
 	
 	public static long swapByteEndian(long x) {
-		x = (x & 0x00FF00FF00FF00FFL) << 8 | (x & 0xFF00FF00FF00FF00L) >>> 8;
+		x = (x & 0x00FF00FF00FF00FFL) <<  8 | (x & 0xFF00FF00FF00FF00L) >>>  8;
 		x = (x & 0x0000FFFF0000FFFFL) << 16 | (x & 0xFFFF0000FFFF0000L) >>> 16;
 		x = (x & 0x00000000FFFFFFFFL) << 32 | (x & 0xFFFFFFFF00000000L) >>> 32;
 		return x;
