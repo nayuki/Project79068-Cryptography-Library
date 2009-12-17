@@ -23,9 +23,9 @@ public abstract class Dft {
 		if (length < 1)
 			throw new IllegalArgumentException();
 		if (IntegerMath.isPowerOf2(length))
-			return new Fft(length);
+			return Fft.getInstance(length);
 		else
-			return new ChirpZFft(length);
+			return ChirpZFft.getInstance(length);
 	}
 	
 	

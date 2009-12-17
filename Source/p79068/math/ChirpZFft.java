@@ -1,6 +1,7 @@
 package p79068.math;
 
 import p79068.lang.NullChecker;
+import p79068.util.KeyedIntener;
 
 
 /**
@@ -11,6 +12,25 @@ import p79068.lang.NullChecker;
  */
 final class ChirpZFft extends Dft {
 	
+	private static KeyedIntener<Integer,ChirpZFft> cache = new KeyedIntener<Integer,ChirpZFft>();
+	
+	
+	public static synchronized ChirpZFft getInstance(int length) {
+		if (length <= 0)
+			throw new IllegalArgumentException();
+		if (!IntegerMath.isPowerOf2(length))
+			throw new IllegalArgumentException();
+		
+		ChirpZFft dft = cache.get(length);
+		if (dft == null) {
+			dft = new ChirpZFft(length);
+			cache.put(length, dft);
+		}
+		return dft;
+	}
+	
+	
+	
 	private int length;
 	private int convolutionLength;  // The smallest power of 2 such that convlen >= len * 2 - 1 .
 	private Dft fft;
@@ -19,7 +39,7 @@ final class ChirpZFft extends Dft {
 	
 	
 	
-	ChirpZFft(int length) {
+	private ChirpZFft(int length) {
 		if (length < 1)
 			throw new IllegalArgumentException("Length must be positive");
 		if (length > (1 << 29))
@@ -46,7 +66,7 @@ final class ChirpZFft extends Dft {
 			convimag[convolutionLength - i] = convimag[i];
 		}
 		
-		fft = new Fft(convolutionLength);
+		fft = Fft.getInstance(convolutionLength);
 		fft.transform(convreal, convimag);
 	}
 	

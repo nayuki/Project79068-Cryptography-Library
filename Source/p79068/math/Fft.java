@@ -1,6 +1,7 @@
 package p79068.math;
 
 import p79068.lang.NullChecker;
+import p79068.util.KeyedIntener;
 
 
 /**
@@ -8,7 +9,26 @@ import p79068.lang.NullChecker;
  * 
  * Multi-thread safe.
  */
-final class Fft extends Dft {
+public final class Fft extends Dft {
+	
+	private static KeyedIntener<Integer,Fft> cache = new KeyedIntener<Integer,Fft>();
+	
+	
+	public static synchronized Fft getInstance(int length) {
+		if (length <= 0)
+			throw new IllegalArgumentException();
+		if (!IntegerMath.isPowerOf2(length))
+			throw new IllegalArgumentException();
+		
+		Fft dft = cache.get(length);
+		if (dft == null) {
+			dft = new Fft(length);
+			cache.put(length, dft);
+		}
+		return dft;
+	}
+	
+	
 	
 	private int length;
 	private int[] permutation;  // Bit-reversed addressing
@@ -16,7 +36,7 @@ final class Fft extends Dft {
 	
 	
 	
-	public Fft(int length) {
+	private Fft(int length) {
 		if (length < 1)
 			throw new IllegalArgumentException("Length must be positive");
 		if (!IntegerMath.isPowerOf2(length))
