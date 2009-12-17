@@ -1,4 +1,4 @@
-package p79068.math;
+package p79068.math.fourier;
 
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;

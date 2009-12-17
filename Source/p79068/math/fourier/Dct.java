@@ -1,4 +1,4 @@
-package p79068.math;
+package p79068.math.fourier;
 
 
 /**

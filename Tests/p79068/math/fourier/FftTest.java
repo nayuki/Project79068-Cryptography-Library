@@ -1,4 +1,6 @@
-package p79068.math;
+package p79068.math.fourier;
+
+import p79068.math.IntegerMath;
 
 
 public class FftTest extends DftTest {
