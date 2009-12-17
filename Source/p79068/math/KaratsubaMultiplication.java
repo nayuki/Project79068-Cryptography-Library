@@ -40,4 +40,11 @@ public final class KaratsubaMultiplication {
 		}
 	}
 	
+	
+	
+	/**
+	 * Not instantiable.
+	 */
+	private KaratsubaMultiplication() {}
+	
 }
