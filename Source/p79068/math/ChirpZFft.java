@@ -15,7 +15,7 @@ final class ChirpZFft extends Dft {
 	private static KeyedIntener<Integer,ChirpZFft> cache = new KeyedIntener<Integer,ChirpZFft>();
 	
 	
-	public static synchronized ChirpZFft getInstance(int length) {
+	public static ChirpZFft getInstance(int length) {
 		if (length <= 0)
 			throw new IllegalArgumentException();
 		if (!IntegerMath.isPowerOf2(length))

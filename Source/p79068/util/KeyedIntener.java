@@ -25,7 +25,7 @@ public final class KeyedIntener<K,V> {
 	
 	
 	
-	public V get(K key) {
+	public synchronized V get(K key) {
 		NullChecker.check(key);
 		cleanup();
 		if (cache.containsKey(key))
@@ -35,7 +35,7 @@ public final class KeyedIntener<K,V> {
 	}
 	
 	
-	public void put(K key, V value) {
+	public synchronized void put(K key, V value) {
 		NullChecker.check(key);
 		NullChecker.check(value);
 		if (!cache.containsKey(key) || cache.get(key).get() == null) {

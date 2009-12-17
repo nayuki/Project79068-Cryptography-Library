@@ -14,7 +14,7 @@ public final class Fft extends Dft {
 	private static KeyedIntener<Integer,Fft> cache = new KeyedIntener<Integer,Fft>();
 	
 	
-	public static synchronized Fft getInstance(int length) {
+	public static Fft getInstance(int length) {
 		if (length <= 0)
 			throw new IllegalArgumentException();
 		if (!IntegerMath.isPowerOf2(length))
