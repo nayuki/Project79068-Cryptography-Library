@@ -1,5 +1,7 @@
 package p79068.math;
 
+import p79068.lang.NullChecker;
+
 
 /**
  * Computes the DCT by hijacking an FFT algorithm.
@@ -28,6 +30,11 @@ final class FastDct extends Dct {
 	
 	
 	public void transform(double[] in, double[] out) {
+		NullChecker.check(in);
+		NullChecker.check(out);
+		if (in.length != length || out.length != length)
+			throw new IllegalArgumentException();
+		
 		double[] tpre = new double[length * 2];
 		double[] tpim = new double[length * 2];
 		for (int i = 0; i < length; i++)
@@ -39,7 +46,12 @@ final class FastDct extends Dct {
 	}
 	
 	
-	public void transformInverse(double[] in, double[] out) {
+	public void inverseTransform(double[] in, double[] out) {
+		NullChecker.check(in);
+		NullChecker.check(out);
+		if (in.length != length || out.length != length)
+			throw new IllegalArgumentException();
+		
 		double[] tpre = new double[length * 2];
 		double[] tpim = new double[length * 2];
 		for (int i = 0; i < length; i++) {

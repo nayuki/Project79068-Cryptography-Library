@@ -34,6 +34,6 @@ public abstract class Dct {
 	/**
 	 * Computes the inverse transform of the specified real vector.
 	 */
-	public abstract void transformInverse(double[] in, double[] out);
+	public abstract void inverseTransform(double[] in, double[] out);
 	
 }

@@ -1,5 +1,7 @@
 package p79068.math;
 
+import p79068.lang.NullChecker;
+
 
 /**
  * Computes the DCT by using the naive direct algorithm.
@@ -23,6 +25,13 @@ final class NaiveDct extends Dct {
 	
 	
 	public void transform(double[] in, double[] out) {
+		NullChecker.check(in);
+		NullChecker.check(out);
+		if (in.length != length || out.length != length)
+			throw new IllegalArgumentException();
+		if (in == out)
+			throw new IllegalArgumentException();
+		
 		for (int i = 0; i < length; i++) {
 			double sum = 0;
 			for (int j = 0; j < length; j++)
@@ -33,7 +42,14 @@ final class NaiveDct extends Dct {
 	}
 	
 	
-	public void transformInverse(double[] in, double[] out) {
+	public void inverseTransform(double[] in, double[] out) {
+		NullChecker.check(in);
+		NullChecker.check(out);
+		if (in.length != length || out.length != length)
+			throw new IllegalArgumentException();
+		if (in == out)
+			throw new IllegalArgumentException();
+		
 		for (int i = 0; i < length; i++) {
 			double sum = 0;
 			for (int j = 0; j < length; j++)
