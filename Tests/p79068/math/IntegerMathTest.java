@@ -90,6 +90,34 @@ public class IntegerMathTest {
 	
 	
 	@Test
+	public void testLog2Floor() {
+		assertEquals(0, IntegerMath.log2Floor(1));
+		assertEquals(1, IntegerMath.log2Floor(2));
+		assertEquals(1, IntegerMath.log2Floor(3));
+		assertEquals(2, IntegerMath.log2Floor(4));
+		assertEquals(2, IntegerMath.log2Floor(5));
+		assertEquals(2, IntegerMath.log2Floor(7));
+		assertEquals(3, IntegerMath.log2Floor(8));
+		assertEquals(3, IntegerMath.log2Floor(9));
+		assertEquals(30, IntegerMath.log2Floor(Integer.MAX_VALUE));
+	}
+	
+	
+	@Test
+	public void testLog2Ceiling() {
+		assertEquals(0, IntegerMath.log2Ceiling(1));
+		assertEquals(1, IntegerMath.log2Ceiling(2));
+		assertEquals(2, IntegerMath.log2Ceiling(3));
+		assertEquals(2, IntegerMath.log2Ceiling(4));
+		assertEquals(3, IntegerMath.log2Ceiling(5));
+		assertEquals(3, IntegerMath.log2Ceiling(7));
+		assertEquals(3, IntegerMath.log2Ceiling(8));
+		assertEquals(4, IntegerMath.log2Ceiling(9));
+		assertEquals(31, IntegerMath.log2Ceiling(Integer.MAX_VALUE));
+	}
+	
+	
+	@Test
 	public void testIsPrime() {
 		assertFalse(IntegerMath.isPrime( 0));
 		assertFalse(IntegerMath.isPrime( 1));

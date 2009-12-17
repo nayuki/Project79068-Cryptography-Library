@@ -144,6 +144,19 @@ public final class IntegerMath {
 	}
 	
 	
+	public static int log2Ceiling(int x) {
+		if (x <= 0)
+			throw new IllegalArgumentException("Argument must be positive");
+		x--;
+		x |= x >>>  1;
+		x |= x >>>  2;
+		x |= x >>>  4;
+		x |= x >>>  8;
+		x |= x >>> 16;
+		return IntegerBitMath.countOnes(x);
+	}
+	
+	
 	
 	// Combinatorics functions
 	
