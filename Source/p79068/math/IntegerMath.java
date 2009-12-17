@@ -134,6 +134,17 @@ public final class IntegerMath {
 	}
 	
 	
+	public static int log2(int x) {
+		if (x <= 0)
+			throw new IllegalArgumentException("Argument must be positive");
+		for (int i = 0; i < 32; i++) {
+			if ((x >>> i) == 1)
+				return i;
+		}
+		throw new AssertionError();  // Unreachable
+	}
+	
+	
 	
 	// Combinatorics functions
 	

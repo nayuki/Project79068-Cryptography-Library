@@ -29,7 +29,7 @@ final class Fft extends Dft {
 			sin[i] = Math.sin(i * 2 * Math.PI / length);
 		}
 		
-		int levels = log2(length);
+		int levels = IntegerMath.log2(length);
 		permutation = new int[length];
 		for (int i = 0; i < length; i++)
 			permutation[i] = IntegerBitMath.reverseBits(i) >>> (32 - levels);
@@ -129,17 +129,6 @@ final class Fft extends Dft {
 				}
 			}
 		}
-	}
-	
-	
-	private static int log2(int x) {
-		if (x <= 0)
-			throw new IllegalArgumentException("Argument must be positive");
-		for (int i = 0; i < 32; i++) {
-			if ((x >>> i) == 1)
-				return i;
-		}
-		throw new AssertionError();
 	}
 	
 }
