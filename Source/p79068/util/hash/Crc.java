@@ -28,10 +28,10 @@ public class Crc extends HashFunction {
 	private String name;
 	private int degree;
 	private long polynomial;
-	private boolean reversein;
-	private boolean reverseout;
-	private long xorin;
-	private long xorout;
+	private boolean reverseInputBits;
+	private boolean reverseOutputBits;
+	private long xorInput;
+	private long xorOutput;
 	
 	
 	
@@ -62,10 +62,10 @@ public class Crc extends HashFunction {
 		this.name = name;
 		this.degree = deg;
 		this.polynomial = poly;
-		this.reversein = revin;
-		this.reverseout = revout;
-		this.xorin = xorin;
-		this.xorout = xorout;
+		this.reverseInputBits = revin;
+		this.reverseOutputBits = revout;
+		this.xorInput = xorin;
+		this.xorOutput = xorout;
 	}
 	
 	
@@ -77,7 +77,7 @@ public class Crc extends HashFunction {
 	public Hasher newHasher() {
 		if (equals(CRC32_FUNCTION))
 			return new Crc32Hasher(this);
-		return new CrcHasher(this, degree, polynomial, reversein, reverseout, xorin, xorout);
+		return new CrcHasher(this, degree, polynomial, reverseInputBits, reverseOutputBits, xorInput, xorOutput);
 	}
 	
 	
@@ -108,7 +108,7 @@ public class Crc extends HashFunction {
 		if (!(obj instanceof Crc))
 			return false;
 		Crc hashfunc = (Crc)obj;
-		return name.equals(hashfunc.name) && degree == hashfunc.degree && polynomial == hashfunc.polynomial && reversein == hashfunc.reversein && reverseout == hashfunc.reverseout && xorin == hashfunc.xorin && xorout == hashfunc.xorout;
+		return name.equals(hashfunc.name) && degree == hashfunc.degree && polynomial == hashfunc.polynomial && reverseInputBits == hashfunc.reverseInputBits && reverseOutputBits == hashfunc.reverseOutputBits && xorInput == hashfunc.xorInput && xorOutput == hashfunc.xorOutput;
 	}
 	
 	
@@ -117,10 +117,10 @@ public class Crc extends HashFunction {
 		h.add(name);
 		h.add(degree);
 		h.add(polynomial);
-		h.add(reversein);
-		h.add(reverseout);
-		h.add(xorin);
-		h.add(xorout);
+		h.add(reverseInputBits);
+		h.add(reverseOutputBits);
+		h.add(xorInput);
+		h.add(xorOutput);
 		return h.getHashCode();
 	}
 	

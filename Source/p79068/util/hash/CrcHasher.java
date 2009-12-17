@@ -27,33 +27,33 @@ import p79068.math.LongBitMath;
 final class CrcHasher extends Hasher {
 	
 	private int degree;
-	private boolean revin;
-	private boolean revout;
-	private long xorout;
+	private boolean reverseInputBits;
+	private boolean reverseOutputBits;
+	private long xorOutput;
 	
-	private long[] xortable;
+	private long[] xorTable;
 	
-	private long register;
+	private long state;  // State of the shift register
 	
 	
 	
-	CrcHasher(Crc hashFunc, int degree, long poly, boolean revin, boolean revout, long xorin, long xorout) {
+	CrcHasher(Crc hashFunc, int degree, long poly, boolean revIn, boolean revOut, long xorIn, long xorOut) {
 		super(hashFunc);
 		if (degree < 1 || degree > 64)
 			throw new IllegalArgumentException("Invalid degree");
 		if (degree < 64 && (poly >>> degree) != 1)
 			throw new IllegalArgumentException("Illegal polynomial");
-		if (degree < 64 && (xorin >>> degree) != 0)
+		if (degree < 64 && (xorIn >>> degree) != 0)
 			throw new IllegalArgumentException("Invalid initial XOR constant");
-		if (degree < 64 && (xorout >>> degree) != 0)
+		if (degree < 64 && (xorOut >>> degree) != 0)
 			throw new IllegalArgumentException("Invalid final XOR constant");
 		this.degree = degree;
-		this.revin = revin;
-		this.revout = revout;
-		this.xorout = xorout;
+		this.reverseInputBits = revIn;
+		this.reverseOutputBits = revOut;
+		this.xorOutput = xorOut;
 		poly <<= 64 - degree;
-		xortable = new long[256];
-		if (!revin) {  // Use the left-shift algorithm
+		xorTable = new long[256];
+		if (!revIn) {  // Use the left-shift algorithm
 			for (int i = 0; i < 256; i++) {
 				long reg = (long)i << 56;
 				for (int j = 0; j < 8; j++) {
@@ -62,9 +62,9 @@ final class CrcHasher extends Hasher {
 					else
 						reg <<= 1;
 				}
-				xortable[i] = reg;
+				xorTable[i] = reg;
 			}
-			register = xorin << (64 - degree);
+			state = xorIn << (64 - degree);
 		} else {  // Use the right-shift algorithm
 			poly = LongBitMath.reverse(poly);
 			for (int i = 0; i < 256; i++) {
@@ -75,40 +75,40 @@ final class CrcHasher extends Hasher {
 					else
 						reg >>>= 1;
 				}
-				xortable[i] = reg;
+				xorTable[i] = reg;
 			}
-			register = xorin;
+			state = xorIn;
 		}
 	}
 	
 	
 	
 	public void update(byte b) {
-		if (!revin)
-			register = (register << 8) ^ xortable[(int)(register >>> 56) ^ (b & 0xFF)];
+		if (!reverseInputBits)
+			state = (state << 8) ^ xorTable[(int)(state >>> 56) ^ (b & 0xFF)];
 		else
-			register = (register >>> 8) ^ xortable[((int)register ^ b) & 0xFF];
+			state = (state >>> 8) ^ xorTable[((int)state ^ b) & 0xFF];
 	}
 	
 	
 	public void update(byte[] b, int off, int len) {
 		BoundsChecker.check(b.length, off, len);
-		if (!revin) {
+		if (!reverseInputBits) {
 			for (int i = off, end = off + len; i < end; i++)
-				register = (register << 8) ^ xortable[(int)(register >>> 56) ^ (b[i] & 0xFF)];
+				state = (state << 8) ^ xorTable[(int)(state >>> 56) ^ (b[i] & 0xFF)];
 		} else {
 			for (int i = off, end = off + len; i < end; i++)
-				register = (register >>> 8) ^ xortable[((int)register ^ b[i]) & 0xFF];
+				state = (state >>> 8) ^ xorTable[((int)state ^ b[i]) & 0xFF];
 		}
 	}
 	
 	
 	public HashValue getHash() {
 		long temp;
-		if (!revin) temp = register >>> (64 - degree);
-		else temp = LongBitMath.reverse(register) >>> (64 - degree);
-		temp ^= xorout;
-		if (revout)
+		if (!reverseInputBits) temp = state >>> (64 - degree);
+		else temp = LongBitMath.reverse(state) >>> (64 - degree);
+		temp ^= xorOutput;
+		if (reverseOutputBits)
 			temp = LongBitMath.reverse(temp) >>> (64 - degree);
 		byte[] b = new byte[getHashFunction().getHashLength()];
 		for (int i = 0; i < b.length; i++)
