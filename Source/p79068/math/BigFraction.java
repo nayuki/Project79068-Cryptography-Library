@@ -54,6 +54,17 @@ public final class BigFraction implements Comparable<BigFraction> {
 	
 	
 	
+	public BigInteger getNumerator() {
+		return numerator;
+	}
+	
+	
+	public BigInteger getDenominator() {
+		return denominator;
+	}
+	
+	
+	
 	public BigFraction add(BigFraction other) {
 		BigInteger num = numerator.multiply(other.denominator).add(other.numerator.multiply(denominator));
 		BigInteger den = denominator.multiply(other.denominator);
@@ -94,6 +105,7 @@ public final class BigFraction implements Comparable<BigFraction> {
 			throw new ArithmeticException("Division by zero");
 		return new BigFraction(denominator, numerator);
 	}
+	
 	
 	
 	public boolean equals(Object obj) {
