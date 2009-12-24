@@ -18,11 +18,11 @@ public final class KaratsubaMultiplication {
 	public static BigInteger multiply(BigInteger x, BigInteger y) {
 		NullChecker.check(x, y);
 		if (x.signum() < 0 && y.signum() < 0) {
-			return multiply(x.negate(), y.negate());
+			return privateMultiply(x.negate(), y.negate());
 		} else if (x.signum() < 0 && y.signum() >= 0) {
-			return multiply(x.negate(), y).negate();
+			return privateMultiply(x.negate(), y).negate();
 		} else if (x.signum() >= 0 && y.signum() < 0) {
-			return multiply(x, y.negate()).negate();
+			return privateMultiply(x, y.negate()).negate();
 		} else {  // Main case. x >= 0, y >= 0.
 			return privateMultiply(x, y);
 		}
@@ -41,9 +41,9 @@ public final class KaratsubaMultiplication {
 			BigInteger ylow = y.and(mask);
 			BigInteger xhigh = x.shiftRight(half);
 			BigInteger yhigh = y.shiftRight(half);
-			BigInteger a = multiply(xhigh, yhigh);
-			BigInteger b = multiply(xlow.add(xhigh), ylow.add(yhigh));
-			BigInteger c = multiply(xlow, ylow);
+			BigInteger a = privateMultiply(xhigh, yhigh);
+			BigInteger b = privateMultiply(xlow.add(xhigh), ylow.add(yhigh));
+			BigInteger c = privateMultiply(xlow, ylow);
 			BigInteger d = b.subtract(a).subtract(c);
 			return c.add(d.shiftLeft(half)).add(a.shiftLeft(half * 2));
 		}
