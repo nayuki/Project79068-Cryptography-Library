@@ -140,15 +140,15 @@ public abstract class Random {
 	
 	/**
 	 * Returns a random <code>double</code> with a Gaussian (<q>normal</q>) distribution of mean 0.0 and standard deviation 1.0.
-	 * <p>To obtain a Gaussian-distributed value with mean <code>m</code> and standard deviation <code>s</code>, use this expression: <code>random.randomGaussian()*s + m</code></p>
+	 * <p>To obtain a Gaussian-distributed value with mean <code>m</code> and standard deviation <code>s</code>, use this expression: <code>randomGaussian()*s + m</code></p>
 	 * <p>Note that the probability of producing a number outside of [&minus;10,10] is 10<sup>&minus;23</sup>; the probability of producing a number outside of [&minus;15,15] is 10<sup>&minus;50</sup> (i.e., practically impossible). (Assuming that the underlying random number generator is unbiased.)</p>
 	 * @return a <code>double</code> with a Gaussian distribution of mean 0.0 and standard deviation 1.0
 	 */
 	public double randomGaussian() {  // Uses the Box-Muller transform
 		if (!hasNextGaussian) {
-			double x;
-			double y;
+			double x, y;
 			double magsqr;
+			// Use rejection sampling to pick a point uniformly distributed in the unit circle
 			do {
 				x = randomDouble() * 2 - 1;
 				y = randomDouble() * 2 - 1;
@@ -162,6 +162,16 @@ public abstract class Random {
 			hasNextGaussian = false;
 			return nextGaussian;
 		}
+	}
+	
+	
+	/**
+	 * Returns a random <code>double</code> with an exponential distribution of mean 1.
+	 * <p>To obtain a exponentially distributed value with mean <code>lambda</code>, use this expression: <code>randomExponential() / lambda</code></p>
+	 * @return a <code>double</code> with an exponential distribution of mean 1.
+	 */
+	public double randomExponential() {
+		return -Math.log(randomDouble());
 	}
 	
 	
