@@ -343,7 +343,7 @@ public final class IntegerMath {
 	 * Returns the floor of the quotient of the specified integers.
 	 */
 	public static int divideAndFloor(int x, int y) {
-		if (x == -2147483648 && y == -1)
+		if (x == Integer.MIN_VALUE && y == -1)  // The one and only overflow case
 			throw new ArithmeticOverflowException(String.format("divideAndFloor(%d, %d)", x, y));
 		else if ((x >= 0) == (y >= 0))
 			return x / y;  // If they have the same sign
