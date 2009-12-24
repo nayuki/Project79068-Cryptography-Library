@@ -1,6 +1,7 @@
 package p79068.math;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 
@@ -26,6 +27,16 @@ public class BigFractionTest {
 	}
 	
 	
+	@Test
+	public void testMultiply() {
+		assertEquals(BigFraction.ZERO, BigFraction.ZERO.multiply(BigFraction.ONE));
+		assertEquals(BigFraction.ONE, BigFraction.ONE.multiply(BigFraction.ONE));
+		assertEquals(new BigFraction(15), new BigFraction(3).multiply(new BigFraction(5)));
+		assertEquals(new BigFraction(35, 6), new BigFraction(5, 3).multiply(new BigFraction(7, 2)));
+		assertEquals(new BigFraction(-4, 3), new BigFraction(-1, 18).multiply(new BigFraction(24, 1)));
+	}
+	
+	
 	@Test(expected=ArithmeticException.class)
 	public void testDivideInvalid() {
 		BigFraction.ONE.divide(BigFraction.ZERO);
@@ -44,6 +55,19 @@ public class BigFractionTest {
 	@Test(expected=ArithmeticException.class)
 	public void testReciprocalInvalid() {
 		BigFraction.ZERO.reciprocal();
+	}
+	
+	
+	@Test
+	public void testCompareTo() {
+		assertTrue(new BigFraction(0).compareTo(new BigFraction(0)) == 0);
+		assertTrue(new BigFraction(1, 2).compareTo(new BigFraction(1, 2)) == 0);
+		assertTrue(new BigFraction(4, 4).compareTo(new BigFraction(1, 1)) == 0);
+		assertTrue(new BigFraction(2, 3).compareTo(new BigFraction(3, 2)) < 0);
+		assertTrue(new BigFraction(5, 2).compareTo(new BigFraction(1, 5)) > 0);
+		assertTrue(new BigFraction(-1, 2).compareTo(new BigFraction(1, 2)) < 0);
+		assertTrue(new BigFraction(-4, 3).compareTo(new BigFraction(1, 2)) < 0);
+		assertTrue(new BigFraction(-2, 3).compareTo(new BigFraction(-7, 5)) > 0);
 	}
 	
 }
