@@ -9,6 +9,32 @@ public final class IntegerMath {
 	
 	// Elementary functions
 	
+	public static int safeAdd(int x, int y) {
+		int z = x + y;
+		if (y > 0 && z < x || y < 0 && z > x)
+			throw new ArithmeticOverflowException(String.format("%d + %d", x, y));
+		else
+			return z;
+	}
+	
+	
+	public static int safeMultiply(int x, int y) {
+		long z = (long)x * y;
+		if (z >= Integer.MIN_VALUE && z <= Integer.MAX_VALUE)
+			return x * y;
+		else
+			throw new ArithmeticOverflowException(String.format("%d * %d", x, y));
+	}
+	
+	
+	public static int safeDivide(int x, int y) {
+		if (x == Integer.MIN_VALUE && y == -1)
+			throw new ArithmeticOverflowException(String.format("%d / %d", x, y));
+		else
+			return x / y;
+	}
+	
+	
 	/**
 	 * Returns the square root of the specified integer, rounded down to the nearest integer.
 	 * <p>Sample values:</p>
@@ -201,12 +227,24 @@ public final class IntegerMath {
 	 * Returns the greatest common divisor (GCD) of the specified integers. If <var>z</var> is the GCD of <var>x</var> and <var>y</var>, then <var>z</var> is the largest number such that <var>x</var>/<var>z</var> and <var>y</var>/<var>z</var> are integers.
 	 */
 	public static int gcd(int x, int y) {
-		while (y != 0) {
-			int z = x % y;
-			x = y;
-			y = z;
+		if (x == Integer.MIN_VALUE && y == Integer.MIN_VALUE)
+			throw new ArithmeticOverflowException(String.format("gcd(%d, %d)", x, y));
+		else {
+			if (x == Integer.MIN_VALUE)
+				x /= 2;
+			else if (y == Integer.MIN_VALUE)
+				y /= 2;
+			if (x < 0)
+				x = -x;
+			if (y < 0)
+				y = -y;
+			while (y != 0) {
+				int z = x % y;
+				x = y;
+				y = z;
+			}
+			return x;
 		}
-		return x;
 	}
 	
 	
@@ -215,7 +253,11 @@ public final class IntegerMath {
 	 * @throws ArithmeticOverflowException if the result cannot be represented as a 32-bit integer
 	 */
 	public static int lcm(int x, int y) {
-		return x / gcd(x, y) * y;
+		try {
+			return safeMultiply(x / gcd(x, y), y);
+		} catch (ArithmeticOverflowException e) {
+			throw new ArithmeticOverflowException(String.format("lcm(%d, %d)", x, y));
+		}
 	}
 	
 	
