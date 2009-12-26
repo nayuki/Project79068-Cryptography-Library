@@ -116,6 +116,7 @@ public final class LinkedListQueue<E> implements Queue<E> {
 	 * Creates and returns a copy of this queue. The queue's data structures are cloned, but the objects stored are not cloned.
 	 * @return a copy of this queue
 	 */
+	@Override
 	@SuppressWarnings("unchecked")
 	public LinkedListQueue<E> clone() {
 		LinkedListQueue<E> result;
@@ -139,6 +140,7 @@ public final class LinkedListQueue<E> implements Queue<E> {
 	 * Returns a string representation of this queue. The format is <code>Queue [<var>head</var>, ..., <var>tail</var>]</code>. This is subjected to change.
 	 * @return a string representation of this queue
 	 */
+	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("Queue [");

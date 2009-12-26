@@ -28,6 +28,7 @@ final class IgeModeCipherer extends Cipherer {
 	
 	
 	
+	@Override
 	public void encrypt(byte[] b, int off, int len) {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
@@ -50,6 +51,7 @@ final class IgeModeCipherer extends Cipherer {
 	}
 	
 	
+	@Override
 	public void decrypt(byte[] b, int off, int len) {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
@@ -70,6 +72,7 @@ final class IgeModeCipherer extends Cipherer {
 	}
 	
 	
+	@Override
 	public IgeModeCipherer clone() {
 		IgeModeCipherer result = (IgeModeCipherer)super.clone();
 		result.prevPlaintext = result.prevPlaintext.clone();
@@ -78,6 +81,7 @@ final class IgeModeCipherer extends Cipherer {
 	}
 	
 	
+	@Override
 	public void zeroize() {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");

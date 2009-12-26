@@ -34,6 +34,7 @@ public final class OfbModeStreamCipher extends StreamCipher implements Zeroizabl
 	
 	
 	
+	@Override
 	public StreamCipherer newCipherer(byte[] initVector) {
 		if (blockCipher == null)
 			throw new IllegalStateException("Already zeroized");
@@ -43,6 +44,7 @@ public final class OfbModeStreamCipher extends StreamCipher implements Zeroizabl
 	}
 	
 	
+	@Override
 	public String getName() {
 		if (blockCipher == null)
 			throw new IllegalStateException("Already zeroized");
@@ -50,6 +52,7 @@ public final class OfbModeStreamCipher extends StreamCipher implements Zeroizabl
 	}
 	
 	
+	@Override
 	public int getKeyLength() {
 		if (blockCipher == null)
 			throw new IllegalStateException("Already zeroized");
@@ -68,6 +71,7 @@ public final class OfbModeStreamCipher extends StreamCipher implements Zeroizabl
 	}
 	
 	
+	@Override
 	public boolean equals(Object obj) {
 		return obj instanceof OfbModeStreamCipher && blockCipher.equals(((OfbModeStreamCipher)obj).blockCipher);
 	}

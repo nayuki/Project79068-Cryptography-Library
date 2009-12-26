@@ -97,6 +97,7 @@ public final class LinkedListStack<E> implements Stack<E> {
 	 * Creates and returns a copy of this stack. The stack's data structures are cloned, but the objects stored are not cloned.
 	 * @return a copy of this stack
 	 */
+	@Override
 	@SuppressWarnings("unchecked")
 	public LinkedListStack<E> clone() {
 		LinkedListStack<E> result;
@@ -118,6 +119,7 @@ public final class LinkedListStack<E> implements Stack<E> {
 	 * Returns a string representation of this stack. The format is <code>Queue [<var>bottom</var>, ..., <var>top</var>]</code>. This is subjected to change.
 	 * @return a string representation of this stack
 	 */
+	@Override
 	public String toString() {
 		List<E> contents = new ArrayList<E>();
 		for (LinkedListNode<E> node = top; node != null; node = node.next)

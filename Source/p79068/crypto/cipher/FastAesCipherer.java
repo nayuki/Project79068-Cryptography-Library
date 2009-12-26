@@ -48,6 +48,7 @@ final class FastAesCipherer extends Cipherer {
 	
 	
 	
+	@Override
 	public void encrypt(byte[] b, int off, int len) {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
@@ -101,6 +102,7 @@ final class FastAesCipherer extends Cipherer {
 	}
 	
 	
+	@Override
 	public void decrypt(byte[] b, int off, int len) {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
@@ -154,6 +156,7 @@ final class FastAesCipherer extends Cipherer {
 	}
 	
 	
+	@Override
 	public FastAesCipherer clone() {
 		FastAesCipherer result = (FastAesCipherer)super.clone();
 		result.encKeySch = result.encKeySch.clone();
@@ -162,6 +165,7 @@ final class FastAesCipherer extends Cipherer {
 	}
 	
 	
+	@Override
 	public void zeroize() {
 		if (cipher == null)
 			return;

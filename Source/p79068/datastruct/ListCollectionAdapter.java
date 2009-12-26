@@ -117,6 +117,7 @@ public final class ListCollectionAdapter<E> implements Collection<E> {
 	}
 	
 	
+	@Override
 	public boolean equals(Object other) {
 		if (other == this)
 			return true;
@@ -129,6 +130,7 @@ public final class ListCollectionAdapter<E> implements Collection<E> {
 	}
 	
 	
+	@Override
 	public int hashCode() {
 		int hash = 0;
 		for (int i = 0; i < list.length(); i++)
@@ -137,6 +139,7 @@ public final class ListCollectionAdapter<E> implements Collection<E> {
 	}
 	
 	
+	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("Collection [");

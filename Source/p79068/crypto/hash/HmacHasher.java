@@ -21,6 +21,7 @@ final class HmacHasher extends Hasher implements Zeroizable {
 	
 	
 	
+	@Override
 	public void update(byte[] b, int off, int len) {
 		if (hashFunction == null)
 			throw new IllegalStateException("Already zeroized");
@@ -29,6 +30,7 @@ final class HmacHasher extends Hasher implements Zeroizable {
 	}
 	
 	
+	@Override
 	public HashValue getHash() {
 		if (hashFunction == null)
 			throw new IllegalStateException("Already zeroized");
@@ -38,6 +40,7 @@ final class HmacHasher extends Hasher implements Zeroizable {
 	}
 	
 	
+	@Override
 	public HmacHasher clone() {
 		if (hashFunction == null)
 			throw new IllegalStateException("Already zeroized");

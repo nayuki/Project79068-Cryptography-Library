@@ -79,6 +79,7 @@ public abstract class Hasher implements Cloneable {
 	 * <p>The general contract is that if the original and the clone are updated by the same sequence of bytes, then they must return the same hash value.</p>
 	 * @return a clone of this object
 	 */
+	@Override
 	public Hasher clone() {
 		try {
 			return (Hasher)super.clone();
@@ -92,6 +93,7 @@ public abstract class Hasher implements Cloneable {
 	 * Returns a string representation of this hasher. Currently, the hash function's name and the hash value is returned. This is subjected to change.
 	 * @return a string representation of this hasher
 	 */
+	@Override
 	public String toString() {
 		return String.format("%s: %s", getHashFunction().getName(), getHash().toHexString());
 	}

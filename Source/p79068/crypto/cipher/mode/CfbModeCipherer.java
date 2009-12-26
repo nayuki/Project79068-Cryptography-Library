@@ -26,6 +26,7 @@ final class CfbModeCipherer extends Cipherer {
 	
 	
 	
+	@Override
 	public void encrypt(byte[] b, int off, int len) {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
@@ -42,6 +43,7 @@ final class CfbModeCipherer extends Cipherer {
 	}
 	
 	
+	@Override
 	public void decrypt(byte[] b, int off, int len) {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
@@ -60,6 +62,7 @@ final class CfbModeCipherer extends Cipherer {
 	}
 	
 	
+	@Override
 	public CfbModeCipherer clone() {
 		CfbModeCipherer result = (CfbModeCipherer)super.clone();
 		result.prevCiphertext = result.prevCiphertext.clone();
@@ -67,6 +70,7 @@ final class CfbModeCipherer extends Cipherer {
 	}
 	
 	
+	@Override
 	public void zeroize() {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");

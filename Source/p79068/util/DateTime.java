@@ -198,6 +198,7 @@ public final class DateTime implements Comparable<DateTime> {
 	/**
 	 * Tests for equality with the specified object.
 	 */
+	@Override
 	public boolean equals(Object obj) {
 		return obj instanceof DateTime && microsSinceEpoch == ((DateTime)obj).microsSinceEpoch;
 	}
@@ -214,6 +215,7 @@ public final class DateTime implements Comparable<DateTime> {
 	/**
 	 * Returns the hash code for this date-time.
 	 */
+	@Override
 	public int hashCode() {
 		return HashCoder.newInstance().add(microsSinceEpoch).getHashCode();
 	}
@@ -244,6 +246,7 @@ public final class DateTime implements Comparable<DateTime> {
 	/**
 	 * Returns this date as a string: e.g., <code><var>yyyy</var>-<var>mm</var>-<var>dd</var> <var>HH</var>:<var>MM</var>:<var>SS</var>.<var>SSSSSS</var> UTC</code>. This format is subject to change.
 	 */
+	@Override
 	public String toString() {
 		return String.format("%04d-%02d-%02d %02d:%02d:%02d.%06d UTC", year, month, day, hour, minute, second, microsecond);
 	}

@@ -17,6 +17,7 @@ class StreamCiphererRandom extends Random {
 	
 	
 	
+	@Override
 	public int randomInt() {
 		byte[] b = new byte[4];
 		cipherer.encrypt(b, 0, b.length);
@@ -24,6 +25,7 @@ class StreamCiphererRandom extends Random {
 	}
 	
 	
+	@Override
 	public long randomLong() {
 		byte[] b = new byte[8];
 		cipherer.encrypt(b, 0, b.length);
@@ -31,11 +33,13 @@ class StreamCiphererRandom extends Random {
 	}
 	
 	
+	@Override
 	public double randomDouble() {
 		return (randomLong() & 0x1FFFFFFFFFFFFFL) * doubleScaler;
 	}
 	
 	
+	@Override
 	public void randomBytes(byte[] b, int off, int len) {
 		for (int i = off, end = off + len; i < end; i++)
 			b[i] = 0;  // This is not strictly necessary.

@@ -340,6 +340,7 @@ public final class UnsignedBigInteger implements Comparable<UnsignedBigInteger> 
 	}
 	
 
+	@Override
 	public boolean equals(Object val) {
 		if (super.equals(val))
 			return true;
@@ -367,6 +368,7 @@ public final class UnsignedBigInteger implements Comparable<UnsignedBigInteger> 
 	}
 	
 	
+	@Override
 	public String toString() {
 		StringBuffer sb = new StringBuffer("0x");
 		sb.append(Integer.toString(digit[digit.length - 1] & 0xFFFF, 16));

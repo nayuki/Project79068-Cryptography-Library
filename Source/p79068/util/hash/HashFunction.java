@@ -91,6 +91,7 @@ public abstract class HashFunction {
 	 * Returns a string representation of this hash function. Currently, it returns the name of the hash function. This is subjected to change.
 	 * @return a string representation of this hash function
 	 */
+	@Override
 	public String toString() {
 		return getName();
 	}

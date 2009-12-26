@@ -29,6 +29,7 @@ final class OfbModeStreamCipherer extends StreamCipherer {
 	
 	
 	
+	@Override
 	public void encrypt(byte[] b, int off, int len) {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
@@ -45,6 +46,7 @@ final class OfbModeStreamCipherer extends StreamCipherer {
 	}
 	
 	
+	@Override
 	public void skip(int byteCount) {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
@@ -71,6 +73,7 @@ final class OfbModeStreamCipherer extends StreamCipherer {
 	}
 	
 	
+	@Override
 	public OfbModeStreamCipherer clone() {
 		OfbModeStreamCipherer result = (OfbModeStreamCipherer)super.clone();
 		result.keyStream = result.keyStream.clone();
@@ -78,6 +81,7 @@ final class OfbModeStreamCipherer extends StreamCipherer {
 	}
 	
 
+	@Override
 	public void zeroize() {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");

@@ -40,6 +40,7 @@ final class Rc4Cipherer extends StreamCipherer {
 	
 	
 	
+	@Override
 	public void encrypt(byte[] b, int off, int len) {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
@@ -56,6 +57,7 @@ final class Rc4Cipherer extends StreamCipherer {
 	}
 	
 	
+	@Override
 	public void skip(int byteCount) {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
@@ -72,6 +74,7 @@ final class Rc4Cipherer extends StreamCipherer {
 	}
 	
 	
+	@Override
 	public Rc4Cipherer clone() {
 		Rc4Cipherer result = (Rc4Cipherer)super.clone();
 		result.s = result.s.clone();
@@ -79,6 +82,7 @@ final class Rc4Cipherer extends StreamCipherer {
 	}
 	
 	
+	@Override
 	public void zeroize() {
 		if (cipher == null)
 			return;

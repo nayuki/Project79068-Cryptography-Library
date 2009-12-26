@@ -63,6 +63,7 @@ public abstract class Cipherer implements Cloneable, Zeroizable {
 	}
 	
 	
+	@Override
 	public Cipherer clone() {
 		try {
 			Cipherer result = (Cipherer)super.clone();

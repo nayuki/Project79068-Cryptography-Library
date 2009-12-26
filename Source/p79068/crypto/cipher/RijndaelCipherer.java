@@ -41,6 +41,7 @@ class RijndaelCipherer extends Cipherer {
 	
 	
 	
+	@Override
 	public void encrypt(byte[] b, int off, int len) {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
@@ -58,6 +59,7 @@ class RijndaelCipherer extends Cipherer {
 	}
 	
 	
+	@Override
 	public void decrypt(byte[] b, int off, int len) {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
@@ -75,6 +77,7 @@ class RijndaelCipherer extends Cipherer {
 	}
 	
 	
+	@Override
 	public RijndaelCipherer clone() {
 		RijndaelCipherer result = (RijndaelCipherer)super.clone();
 		result.keySchedule = result.keySchedule.clone();
@@ -82,6 +85,7 @@ class RijndaelCipherer extends Cipherer {
 	}
 	
 	
+	@Override
 	public void zeroize() {
 		if (cipher == null)
 			return;

@@ -47,6 +47,7 @@ public final class Hmac extends HashFunction implements Zeroizable {
 	 * Insert description here.
 	 * @throws IllegalStateException if this object has been zeroized
 	 */
+	@Override
 	public Hasher newHasher() {
 		if (outer == null)
 			throw new IllegalStateException("Already zeroized");
@@ -58,6 +59,7 @@ public final class Hmac extends HashFunction implements Zeroizable {
 	 * Returns the name of this hash function.
 	 * @throws IllegalStateException if this object has been zeroized
 	 */
+	@Override
 	public String getName() {
 		if (outer == null)
 			throw new IllegalStateException("Already zeroized");
@@ -69,6 +71,7 @@ public final class Hmac extends HashFunction implements Zeroizable {
 	 * Returns the length of hash values produced by this hash function: the length produced by the underlying hash function.
 	 * @throws IllegalStateException if this object has been zeroized
 	 */
+	@Override
 	public int getHashLength() {
 		if (outer == null)
 			throw new IllegalStateException("Already zeroized");

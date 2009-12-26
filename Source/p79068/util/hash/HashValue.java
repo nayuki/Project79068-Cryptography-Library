@@ -50,6 +50,7 @@ public final class HashValue implements Comparable<HashValue> {
 	}
 	
 	
+	@Override
 	public boolean equals(Object o) {
 		if (!(o instanceof HashValue))
 			return false;
@@ -73,6 +74,7 @@ public final class HashValue implements Comparable<HashValue> {
 	 * Returns the hash code for this hash value.
 	 * @return the hash code for this hash value
 	 */
+	@Override
 	public int hashCode() {
 		int result = 0;
 		for (int i = 0; i < Math.min(hashValue.length, 4); i++)
@@ -85,6 +87,7 @@ public final class HashValue implements Comparable<HashValue> {
 	 * Returns a string representation of this hash value. Currently, the hexadecimal hash value is returned. This is subjected to change.
 	 * @return a string representation of this hash value
 	 */
+	@Override
 	public String toString() {
 		return toHexString();
 	}

@@ -26,6 +26,7 @@ final class AesCipherer extends RijndaelCipherer {
 	
 	
 	
+	@Override
 	public void encrypt(byte[] b, int off, int len) {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
@@ -43,6 +44,7 @@ final class AesCipherer extends RijndaelCipherer {
 	}
 	
 	
+	@Override
 	public void decrypt(byte[] b, int off, int len) {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
@@ -61,12 +63,14 @@ final class AesCipherer extends RijndaelCipherer {
 	
 	
 	
+	@Override
 	protected void subBytes(byte[] block) {
 		for (int i = 0; i < 16; i++)
 			block[i] = RijndaelUtils.sub[block[i] & 0xFF];
 	}
 	
 	
+	@Override
 	protected void shiftRows(byte[] blockin, byte[] blockout) {
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 4; j++)
@@ -75,6 +79,7 @@ final class AesCipherer extends RijndaelCipherer {
 	}
 	
 	
+	@Override
 	protected void mixColumns(byte[] blockin, byte[] blockout) {
 		for (int i = 0; i < 16; i += 4) {
 			for (int j = 0; j < 4; j++)
@@ -88,18 +93,21 @@ final class AesCipherer extends RijndaelCipherer {
 	
 	
 	// Self-inverting
+	@Override
 	protected void addRoundKey(byte[] block, byte[] key) {
 		for (int i = 0; i < 16; i++)
 			block[i] ^= key[i];
 	}
 	
 	
+	@Override
 	protected void subBytesInverse(byte[] block) {
 		for (int i = 0; i < 16; i++)
 			block[i] = RijndaelUtils.subinv[block[i] & 0xFF];
 	}
 	
 	
+	@Override
 	protected void shiftRowsInverse(byte[] blockin, byte[] blockout) {
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 4; j++)
@@ -108,6 +116,7 @@ final class AesCipherer extends RijndaelCipherer {
 	}
 	
 	
+	@Override
 	protected void mixColumnsInverse(byte[] blockin, byte[] blockout) {
 		for (int i = 0; i < 16; i += 4) {
 			for (int j = 0; j < 4; j++)

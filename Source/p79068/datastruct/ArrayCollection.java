@@ -124,6 +124,7 @@ public final class ArrayCollection<E> extends AbstractDynamicArray<E> implements
 	}
 	
 	
+	@Override
 	public boolean equals(Object other) {
 		if (other == this)
 			return true;
@@ -136,6 +137,7 @@ public final class ArrayCollection<E> extends AbstractDynamicArray<E> implements
 	}
 	
 	
+	@Override
 	public int hashCode() {
 		int hash = 0;
 		for (int i = 0; i < length; i++)
@@ -144,6 +146,7 @@ public final class ArrayCollection<E> extends AbstractDynamicArray<E> implements
 	}
 	
 	
+	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("Collection [");

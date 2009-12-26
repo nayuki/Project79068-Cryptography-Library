@@ -23,6 +23,7 @@ public final class Shacal1 extends BlockCipher {
 	
 	
 	
+	@Override
 	public Cipherer newCipherer(byte[] key) {
 		if (key.length != keyLength)
 			throw new IllegalArgumentException();
@@ -33,6 +34,7 @@ public final class Shacal1 extends BlockCipher {
 	/**
 	 * Returns the name of this cipher algorithm: SHACAL-1 (<var>n</var>-bit key).
 	 */
+	@Override
 	public String getName() {
 		return String.format("SHACAL-1 (%d-bit key)", keyLength * 8);
 	}
@@ -41,6 +43,7 @@ public final class Shacal1 extends BlockCipher {
 	/**
 	 * Returns the key length of this cipher algorithm.
 	 */
+	@Override
 	public int getKeyLength() {
 		return keyLength;
 	}
@@ -50,16 +53,19 @@ public final class Shacal1 extends BlockCipher {
 	 * Returns the block length of this cipher algorithm: <samp>20</samp> bytes (160 bits).
 	 * @return <code>20</code>
 	 */
+	@Override
 	public int getBlockLength() {
 		return 20;
 	}
 	
 	
+	@Override
 	public boolean equals(Object obj) {
 		return obj instanceof Shacal1 && keyLength == ((Shacal1)obj).keyLength;
 	}
 	
 	
+	@Override
 	public int hashCode() {
 		return keyLength;
 	}

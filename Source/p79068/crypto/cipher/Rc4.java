@@ -18,6 +18,7 @@ public final class Rc4 extends StreamCipher {
 	
 	
 	
+	@Override
 	public StreamCipherer newCipherer(byte[] key) {
 		if (key.length != keyLength)
 			throw new IllegalArgumentException();
@@ -28,6 +29,7 @@ public final class Rc4 extends StreamCipher {
 	/**
 	 * Returns the name of this cipher algorithm: <samp>RC4 (<var>n</var>-bit key)</samp>.
 	 */
+	@Override
 	public String getName() {
 		return String.format("RC4 (%d-bit key)", keyLength * 8);
 	}
@@ -36,16 +38,19 @@ public final class Rc4 extends StreamCipher {
 	/**
 	 * Returns the key length of this cipher algorithm.
 	 */
+	@Override
 	public int getKeyLength() {
 		return keyLength;
 	}
 	
 	
+	@Override
 	public boolean equals(Object obj) {
 		return obj instanceof Rc4 && keyLength == ((Rc4)obj).keyLength;
 	}
 	
 	
+	@Override
 	public int hashCode() {
 		return keyLength;
 	}

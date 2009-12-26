@@ -83,6 +83,7 @@ final class CrcHasher extends Hasher {
 	
 	
 	
+	@Override
 	public void update(byte b) {
 		if (!reverseInputBits)
 			state = (state << 8) ^ xorTable[(int)(state >>> 56) ^ (b & 0xFF)];
@@ -91,6 +92,7 @@ final class CrcHasher extends Hasher {
 	}
 	
 	
+	@Override
 	public void update(byte[] b, int off, int len) {
 		BoundsChecker.check(b.length, off, len);
 		if (!reverseInputBits) {
@@ -103,6 +105,7 @@ final class CrcHasher extends Hasher {
 	}
 	
 	
+	@Override
 	public HashValue getHash() {
 		long temp;
 		if (!reverseInputBits) temp = state >>> (64 - degree);

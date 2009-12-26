@@ -34,6 +34,7 @@ public final class BcModeCipher extends Cipher implements Zeroizable {
 	
 	
 	
+	@Override
 	public Cipherer newCipherer(byte[] initVector) {
 		if (blockCipher == null)
 			throw new IllegalStateException("Already zeroized");
@@ -43,6 +44,7 @@ public final class BcModeCipher extends Cipher implements Zeroizable {
 	}
 	
 	
+	@Override
 	public String getName() {
 		if (blockCipher == null)
 			throw new IllegalStateException("Already zeroized");
@@ -50,6 +52,7 @@ public final class BcModeCipher extends Cipher implements Zeroizable {
 	}
 	
 	
+	@Override
 	public int getKeyLength() {
 		if (blockCipher == null)
 			throw new IllegalStateException("Already zeroized");
@@ -57,6 +60,7 @@ public final class BcModeCipher extends Cipher implements Zeroizable {
 	}
 	
 	
+	@Override
 	public int getBlockLength() {
 		if (blockCipher == null)
 			throw new IllegalStateException("Already zeroized");
@@ -75,6 +79,7 @@ public final class BcModeCipher extends Cipher implements Zeroizable {
 	}
 	
 	
+	@Override
 	public boolean equals(Object obj) {
 		return obj instanceof BcModeCipher && blockCipher.equals(((BcModeCipher)obj).blockCipher);
 	}

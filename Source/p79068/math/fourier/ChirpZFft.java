@@ -71,6 +71,7 @@ public final class ChirpZFft extends Dft {
 	
 	
 	
+	@Override
 	public void transform(double[] inreal, double[] inimag, double[] outreal, double[] outimag) {
 		NullChecker.check(inreal, inimag, outreal, outimag);
 		if (outreal == outimag)
@@ -101,6 +102,7 @@ public final class ChirpZFft extends Dft {
 	}
 	
 	
+	@Override
 	public void transform(double[] real, double[] imag) {
 		transform(real, imag, real, imag);
 	}

@@ -162,6 +162,7 @@ public final class Int128 implements Comparable<Int128> {
 	}
 	
 	
+	@Override
 	public boolean equals(Object obj) {
 		if (!(obj instanceof Int128))
 			return false;
@@ -177,6 +178,7 @@ public final class Int128 implements Comparable<Int128> {
 	}
 	
 	
+	@Override
 	public int hashCode() {
 		HashCoder hc = HashCoder.newInstance();
 		hc.add(high);
@@ -185,6 +187,7 @@ public final class Int128 implements Comparable<Int128> {
 	}
 	
 	
+	@Override
 	public String toString() {
 		long[] temp = new long[]{ high, low };
 		byte[] b = new byte[temp.length * 8];

@@ -42,6 +42,7 @@ public final class NaiveDct extends Dct {
 	
 	
 	
+	@Override
 	public void transform(double[] in, double[] out) {
 		NullChecker.check(in);
 		NullChecker.check(out);
@@ -60,6 +61,7 @@ public final class NaiveDct extends Dct {
 	}
 	
 	
+	@Override
 	public void inverseTransform(double[] in, double[] out) {
 		NullChecker.check(in);
 		NullChecker.check(out);

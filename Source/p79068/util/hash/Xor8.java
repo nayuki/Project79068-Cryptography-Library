@@ -19,6 +19,7 @@ public class Xor8 extends HashFunction {
 	 * Returns a new hasher of this hash function.
 	 * @return a new hasher of this hash function
 	 */
+	@Override
 	public Hasher newHasher() {
 		return new Xor8Hasher(this);
 	}
@@ -27,6 +28,7 @@ public class Xor8 extends HashFunction {
 	/**
 	 * Returns the name of this hash function: <code>XOR-8</code>.
 	 */
+	@Override
 	public String getName() {
 		return "XOR-8";
 	}
@@ -35,6 +37,7 @@ public class Xor8 extends HashFunction {
 	/**
 	 * Returns the length of hash values produced by this hash function: <code>1</code> byte.
 	 */
+	@Override
 	public int getHashLength() {
 		return 1;
 	}

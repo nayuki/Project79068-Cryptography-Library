@@ -20,6 +20,7 @@ public class ZeroFunction extends HashFunction {
 	 * Returns a new hasher of this hash function.
 	 * @return a new hasher of this hash function
 	 */
+	@Override
 	public Hasher newHasher() {
 		return new ZeroHasher(this);
 	}
@@ -28,6 +29,7 @@ public class ZeroFunction extends HashFunction {
 	/**
 	 * Returns the name of this hash function: <code>Zero</code>.
 	 */
+	@Override
 	public String getName() {
 		return "Zero";
 	}
@@ -36,6 +38,7 @@ public class ZeroFunction extends HashFunction {
 	/**
 	 * Returns the length of hash values produced by this hash function: <code>1</code> byte.
 	 */
+	@Override
 	public int getHashLength() {
 		return 1;
 	}

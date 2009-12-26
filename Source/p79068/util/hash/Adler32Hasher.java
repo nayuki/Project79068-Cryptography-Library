@@ -19,12 +19,14 @@ final class Adler32Hasher extends Hasher {
 	
 	
 	
+	@Override
 	public void update(byte b) {
 		s1 = (s1 + (b & 0xFF)) % 65521;
 		s2 = (s2 + s1) % 65521;
 	}
 	
 	
+	@Override
 	public void update(byte[] b, int off, int len) {
 		BoundsChecker.check(b.length, off, len);
 		for (int i = off, j = 0, end = off + len; i < end; i++) {
@@ -42,6 +44,7 @@ final class Adler32Hasher extends Hasher {
 	}
 	
 	
+	@Override
 	public HashValue getHash() {
 		return new HashValue(IntegerBitMath.toBytesBigEndian(new int[]{s2 << 16 | s1}));
 	}

@@ -24,6 +24,7 @@ public final class NewEdonkey2000 extends HashFunction {
 	 * Returns a new hasher of this hash function.
 	 * @return a new hasher of this hash function
 	 */
+	@Override
 	public Hasher newHasher() {
 		return new NewEdonkey2000Hasher(this);
 	}
@@ -33,6 +34,7 @@ public final class NewEdonkey2000 extends HashFunction {
 	 * Returns the name of this hash function: <code>New eDonkey2000</code>.
 	 * @return <code>"New eDonkey2000"</code>
 	 */
+	@Override
 	public String getName() {
 		return "New eDonkey2000";
 	}
@@ -42,6 +44,7 @@ public final class NewEdonkey2000 extends HashFunction {
 	 * Returns the length of hash values produced by this hash function: <code>16</code> bytes (128 bits).
 	 * @return <code>16</code>
 	 */
+	@Override
 	public int getHashLength() {
 		return Md4.FUNCTION.getHashLength();
 	}

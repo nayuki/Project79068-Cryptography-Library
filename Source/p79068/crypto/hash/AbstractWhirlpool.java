@@ -13,6 +13,7 @@ abstract class AbstractWhirlpool extends BlockHashFunction {
 	 * Returns a new hasher of this hash function.
 	 * @return a new hasher of this hash function
 	 */
+	@Override
 	public Hasher newHasher() {
 		return new BlockHasher(this, new FastWhirlpoolHasher(this));
 	}
@@ -22,6 +23,7 @@ abstract class AbstractWhirlpool extends BlockHashFunction {
 	 * Returns the length of hash values produced by this hash function: <code>64</code> bytes (512 bits).
 	 * @return <code>64</code>
 	 */
+	@Override
 	public final int getHashLength() {
 		return 64;
 	}
@@ -31,6 +33,7 @@ abstract class AbstractWhirlpool extends BlockHashFunction {
 	 * Returns the block length of this hash function: <code>64</code> bytes (512 bits).
 	 * @return <code>64</code>
 	 */
+	@Override
 	public final int getBlockLength() {
 		return 64;
 	}

@@ -19,6 +19,7 @@ public class Sum32 extends HashFunction {
 	 * Returns a new hasher of this hash function.
 	 * @return a new hasher of this hash function
 	 */
+	@Override
 	public Hasher newHasher() {
 		return new Sum32Hasher(this);
 	}
@@ -27,6 +28,7 @@ public class Sum32 extends HashFunction {
 	/**
 	 * Returns the name of this hash function: <code>Sum-32</code>.
 	 */
+	@Override
 	public String getName() {
 		return "Sum-32";
 	}
@@ -35,6 +37,7 @@ public class Sum32 extends HashFunction {
 	/**
 	 * Returns the length of hash values produced by this hash function: <code>4</code> bytes.
 	 */
+	@Override
 	public int getHashLength() {
 		return 4;
 	}

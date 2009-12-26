@@ -61,6 +61,7 @@ public final class Fft extends Dft {
 	
 	
 	
+	@Override
 	public void transform(double[] inreal, double[] inimag, double[] outreal, double[] outimag) {
 		NullChecker.check(inreal, inimag, outreal, outimag);
 		if (inreal == outreal || inimag == outimag || inreal == outimag || inimag == outreal || outreal == outimag)
@@ -79,6 +80,7 @@ public final class Fft extends Dft {
 	}
 	
 	
+	@Override
 	public void transform(double[] real, double[] imag) {
 		NullChecker.check(real, imag);
 		if (real.length != length || imag.length != length)

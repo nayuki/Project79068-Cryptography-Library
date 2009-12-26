@@ -19,6 +19,7 @@ final class Md2Hasher extends BlockHasherCore {
 	
 	
 	
+	@Override
 	public Md2Hasher clone() {
 		if (state == null)
 			throw new IllegalStateException("Already zeroized");
@@ -29,6 +30,7 @@ final class Md2Hasher extends BlockHasherCore {
 	}
 	
 	
+	@Override
 	public void zeroize() {
 		if (state == null)
 			throw new IllegalStateException("Already zeroized");
@@ -62,6 +64,7 @@ final class Md2Hasher extends BlockHasherCore {
 	
 	
 	
+	@Override
 	public void compress(byte[] message, int off, int len) {
 		BoundsChecker.check(message.length, off, len);
 		if (len % 16 != 0)
@@ -96,6 +99,7 @@ final class Md2Hasher extends BlockHasherCore {
 	}
 	
 	
+	@Override
 	public HashValue getHashDestructively(byte[] block, int blockLength, long length) {
 		for (int i = blockLength; i < block.length; i++)
 			block[i] = (byte)(16 - blockLength);

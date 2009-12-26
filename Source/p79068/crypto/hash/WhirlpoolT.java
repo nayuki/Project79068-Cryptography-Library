@@ -24,12 +24,14 @@ public final class WhirlpoolT extends AbstractWhirlpool {
 	 * Returns the name of this hash function: <code>Whirlpool-T</code>.
 	 * @return <code>"Whirlpool-T"</code>
 	 */
+	@Override
 	public String getName() {
 		return "Whirlpool-T";
 	}
 	
 	
 	
+	@Override
 	WhirlpoolParameters getParameters() {
 		return PARAMETERS;
 	}
@@ -42,21 +44,25 @@ public final class WhirlpoolT extends AbstractWhirlpool {
 	
 	static WhirlpoolParameters PARAMETERS = new WhirlpoolParameters() {
 		
+		@Override
 		public int getRounds() {
 			return 10;
 		}
 		
 		// Identical to the one in Whirlpool
+		@Override
 		public int[] getSbox() {
 			return Whirlpool.PARAMETERS.getSbox();
 		}
 		
 		// Identical to the one in Whirlpool-0
+		@Override
 		public int[] getC() {
 			return Whirlpool0.PARAMETERS.getC();
 		}
 		
 		// Identical to the one in Whirlpool-0
+		@Override
 		public int[] getCInverse() {
 			return Whirlpool0.PARAMETERS.getCInverse();
 		}

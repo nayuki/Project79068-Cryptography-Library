@@ -89,18 +89,21 @@ public final class LcgRandom extends Random {
 	
 	
 	
+	@Override
 	public boolean randomBoolean() {
 		x = x * a + b;
 		return (x & (1L << (m - 1))) != 0;  // Extract the highest bit
 	}
 	
 	
+	@Override
 	public int randomInt() {
 		x = x * a + b;
 		return (int)(x >>> shift);
 	}
 	
 	
+	@Override
 	public int randomInt(int n) {
 		if (n <= 0)
 			throw new IllegalArgumentException();

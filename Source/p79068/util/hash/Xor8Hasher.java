@@ -19,11 +19,13 @@ final class Xor8Hasher extends Hasher {
 	
 	
 	
+	@Override
 	public void update(byte b) {
 		xor ^= b;
 	}
 	
 	
+	@Override
 	public void update(byte[] b, int off, int len) {
 		BoundsChecker.check(b.length, off, len);
 		for (int i = off, end = off + len; i < end; i++)
@@ -31,6 +33,7 @@ final class Xor8Hasher extends Hasher {
 	}
 	
 	
+	@Override
 	public HashValue getHash() {
 		return new HashValue(new byte[]{(byte)xor});
 	}

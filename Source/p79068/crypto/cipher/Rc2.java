@@ -22,6 +22,7 @@ public final class Rc2 extends BlockCipher {
 	
 	
 	
+	@Override
 	public Cipherer newCipherer(byte[] key) {
 		if (key.length != keyLength)
 			throw new IllegalArgumentException();
@@ -32,6 +33,7 @@ public final class Rc2 extends BlockCipher {
 	/**
 	 * Returns the name of this cipher algorithm: <samp>RC2 (<var>m</var>-bit effective key length, <var>n</var>-bit key)</samp>.
 	 */
+	@Override
 	public String getName() {
 		return String.format("RC2 (%d-bit effective key length, %d-bit key)", effectiveKeyLength, keyLength * 8);
 	}
@@ -40,6 +42,7 @@ public final class Rc2 extends BlockCipher {
 	/**
 	 * Returns the key length of this cipher algorithm.
 	 */
+	@Override
 	public int getKeyLength() {
 		return keyLength;
 	}
@@ -49,6 +52,7 @@ public final class Rc2 extends BlockCipher {
 	 * Returns the block length of this cipher algorithm: <samp>8</samp> bytes (64 bits).
 	 * @return <code>8</code>
 	 */
+	@Override
 	public int getBlockLength() {
 		return 8;
 	}
@@ -59,6 +63,7 @@ public final class Rc2 extends BlockCipher {
 	}
 	
 	
+	@Override
 	public boolean equals(Object obj) {
 		if (!(obj instanceof Rc2))
 			return false;
@@ -67,6 +72,7 @@ public final class Rc2 extends BlockCipher {
 	}
 	
 	
+	@Override
 	public int hashCode() {
 		return effectiveKeyLength << 16 | keyLength;
 	}

@@ -21,6 +21,7 @@ final class Shacal1Cipherer extends Cipherer {
 	
 	
 	
+	@Override
 	public void encrypt(byte[] b, int off, int len) {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
@@ -45,6 +46,7 @@ final class Shacal1Cipherer extends Cipherer {
 	}
 	
 	
+	@Override
 	public void decrypt(byte[] b, int off, int len) {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
@@ -69,6 +71,7 @@ final class Shacal1Cipherer extends Cipherer {
 	}
 	
 	
+	@Override
 	public Shacal1Cipherer clone() {
 		Shacal1Cipherer result = (Shacal1Cipherer)super.clone();
 		result.keySchedule = result.keySchedule.clone();
@@ -76,6 +79,7 @@ final class Shacal1Cipherer extends Cipherer {
 	}
 	
 	
+	@Override
 	public void zeroize() {
 		if (cipher == null)
 			return;

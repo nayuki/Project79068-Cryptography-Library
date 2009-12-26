@@ -38,6 +38,7 @@ public abstract class BlockHasherCore implements Cloneable, Zeroizable {
 	
 	
 	
+	@Override
 	public BlockHasherCore clone() {
 		try {
 			return (BlockHasherCore)super.clone();

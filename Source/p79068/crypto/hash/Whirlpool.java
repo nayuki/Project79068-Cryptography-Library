@@ -30,12 +30,14 @@ public final class Whirlpool extends AbstractWhirlpool {
 	 * Returns the name of this hash function: <code>Whirlpool</code>.
 	 * @return <code>"Whirlpool"</code>
 	 */
+	@Override
 	public String getName() {
 		return "Whirlpool";
 	}
 	
 	
 	
+	@Override
 	WhirlpoolParameters getParameters() {
 		return PARAMETERS;
 	}
@@ -48,10 +50,12 @@ public final class Whirlpool extends AbstractWhirlpool {
 	
 	static WhirlpoolParameters PARAMETERS = new WhirlpoolParameters() {
 		
+		@Override
 		public int getRounds() {
 			return 10;
 		}
 		
+		@Override
 		public int[] getSbox() {
 			int[] sub = new int[256];
 			
@@ -72,10 +76,12 @@ public final class Whirlpool extends AbstractWhirlpool {
 			return sub;
 		}
 		
+		@Override
 		public int[] getC() {
 			return new int[]{0x01, 0x09, 0x02, 0x05, 0x08, 0x01, 0x04, 0x01};
 		}
 		
+		@Override
 		public int[] getCInverse() {
 			return new int[]{0x04, 0x3E, 0xCB, 0xC2, 0xC2, 0xA4, 0x0E, 0xAF};
 		}

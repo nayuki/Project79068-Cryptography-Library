@@ -197,6 +197,7 @@ public final class ArrayList<E> extends AbstractDynamicArray<E> implements List<
 	}
 	
 	
+	@Override
 	public boolean equals(Object other) {
 		if (other == this)
 			return true;
@@ -224,12 +225,14 @@ public final class ArrayList<E> extends AbstractDynamicArray<E> implements List<
 	}
 	
 	
+	@Override
 	public int hashCode() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 	
 	
+	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("List [");

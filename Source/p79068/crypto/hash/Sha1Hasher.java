@@ -21,6 +21,7 @@ final class Sha1Hasher extends BlockHasherCore {
 	
 	
 	
+	@Override
 	public Sha1Hasher clone() {
 		if (state == null)
 			throw new IllegalStateException("Already zeroized");
@@ -30,6 +31,7 @@ final class Sha1Hasher extends BlockHasherCore {
 	}
 	
 	
+	@Override
 	public void zeroize() {
 		if (state == null)
 			throw new IllegalStateException("Already zeroized");
@@ -39,6 +41,7 @@ final class Sha1Hasher extends BlockHasherCore {
 	
 	
 	
+	@Override
 	public void compress(byte[] message, int off, int len) {
 		BoundsChecker.check(message.length, off, len);
 		if (len % 64 != 0)
@@ -78,6 +81,7 @@ final class Sha1Hasher extends BlockHasherCore {
 	}
 	
 	
+	@Override
 	public HashValue getHashDestructively(byte[] block, int blockLength, long length) {
 		block[blockLength] = (byte)0x80;
 		for (int i = blockLength + 1; i < block.length; i++)

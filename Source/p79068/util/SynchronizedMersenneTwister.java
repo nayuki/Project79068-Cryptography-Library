@@ -33,6 +33,7 @@ public final class SynchronizedMersenneTwister extends Random {
 	}
 	
 	
+	@Override
 	public int randomInt() {
 		int x;
 		synchronized (lock) {

@@ -20,11 +20,13 @@ final class Sum32Hasher extends Hasher {
 	
 	
 	
+	@Override
 	public void update(byte b) {
 		sum += b & 0xFF;
 	}
 	
 	
+	@Override
 	public void update(byte[] b, int off, int len) {
 		BoundsChecker.check(b.length, off, len);
 		for (int i = off, end = off + len; i < end; i++)
@@ -32,6 +34,7 @@ final class Sum32Hasher extends Hasher {
 	}
 	
 	
+	@Override
 	public HashValue getHash() {
 		return new HashValue(IntegerBitMath.toBytesBigEndian(new int[]{sum}));
 	}

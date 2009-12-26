@@ -106,6 +106,7 @@ public final class ArrayStack<E> extends AbstractDynamicArray<E> implements Stac
 	 * Creates and returns a copy of this stack. The stack's data structures are cloned, but the objects stored are not cloned.
 	 * @return a copy of this stack
 	 */
+	@Override
 	@SuppressWarnings("unchecked")
 	public ArrayStack<E> clone() {
 		ArrayStack<E> result;
@@ -123,6 +124,7 @@ public final class ArrayStack<E> extends AbstractDynamicArray<E> implements Stac
 	 * Returns a string representation of this stack. The format is <code>Stack [<var>bottom</var>, ..., <var>top</var>]</code>. This is subjected to change.
 	 * @return a string representation of this stack
 	 */
+	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("Stack [");

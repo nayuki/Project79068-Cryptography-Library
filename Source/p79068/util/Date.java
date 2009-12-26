@@ -230,6 +230,7 @@ public final class Date implements Comparable<Date> {
 	/**
 	 * Tests for equality with the specified object.
 	 */
+	@Override
 	public boolean equals(Object other) {
 		if (other == this)
 			return true;
@@ -254,6 +255,7 @@ public final class Date implements Comparable<Date> {
 	/**
 	 * Returns the hash code for this date.
 	 */
+	@Override
 	public int hashCode() {
 		return daysSinceEpoch;
 	}
@@ -262,6 +264,7 @@ public final class Date implements Comparable<Date> {
 	/**
 	 * Returns this date as a string: e.g., <code><var>yyyy</var>-<var>mm</var>-<var>dd</var></code>. This format is subject to change.
 	 */
+	@Override
 	public String toString() {
 		return String.format("%04d-%02d-%02d", year, month, day);
 	}

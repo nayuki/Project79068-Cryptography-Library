@@ -74,6 +74,7 @@ public class Crc extends HashFunction {
 	 * Returns a new hasher of this hash function.
 	 * @return a new hasher of this hash function
 	 */
+	@Override
 	public Hasher newHasher() {
 		if (equals(CRC32_FUNCTION))
 			return new Crc32Hasher(this);
@@ -84,6 +85,7 @@ public class Crc extends HashFunction {
 	/**
 	 * Returns the name of this hash function, which is specified when it is constructed.
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -92,6 +94,7 @@ public class Crc extends HashFunction {
 	/**
 	 * Returns the length of hash values produced by this hash function: <code>ceiling(degree/8)</code> bytes.
 	 */
+	@Override
 	public int getHashLength() {
 		return (degree + 7) / 8;
 	}
@@ -102,6 +105,7 @@ public class Crc extends HashFunction {
 	 * @param obj the hash function to be compared for equality with
 	 * @return <code>true</code> if the specified hash function has the same parameters as this one
 	 */
+	@Override
 	public boolean equals(Object obj) {
 		if (super.equals(obj))
 			return true;
@@ -112,6 +116,7 @@ public class Crc extends HashFunction {
 	}
 	
 	
+	@Override
 	public int hashCode() {
 		HashCoder h = HashCoder.newInstance();
 		h.add(name);

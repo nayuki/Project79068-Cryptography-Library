@@ -18,6 +18,7 @@ final class IdeaCipherer extends Cipherer {
 	
 	
 	
+	@Override
 	public void encrypt(byte[] b, int off, int len) {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
@@ -28,6 +29,7 @@ final class IdeaCipherer extends Cipherer {
 	}
 	
 	
+	@Override
 	public void decrypt(byte[] b, int off, int len) {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
@@ -38,6 +40,7 @@ final class IdeaCipherer extends Cipherer {
 	}
 	
 	
+	@Override
 	public IdeaCipherer clone() {
 		IdeaCipherer result = (IdeaCipherer)super.clone();
 		result.encKeySch = result.encKeySch.clone();
@@ -46,6 +49,7 @@ final class IdeaCipherer extends Cipherer {
 	}
 	
 	
+	@Override
 	public void zeroize() {
 		if (cipher == null)
 			return;

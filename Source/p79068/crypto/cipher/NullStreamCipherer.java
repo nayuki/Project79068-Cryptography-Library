@@ -11,6 +11,7 @@ final class NullStreamCipherer extends StreamCipherer {
 	
 	
 	
+	@Override
 	public void encrypt(byte[] b, int off, int len) {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
@@ -18,6 +19,7 @@ final class NullStreamCipherer extends StreamCipherer {
 	}
 	
 	
+	@Override
 	public void zeroize() {
 		if (cipher == null)
 			return;

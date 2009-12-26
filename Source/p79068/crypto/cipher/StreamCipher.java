@@ -14,12 +14,14 @@ package p79068.crypto.cipher;
  */
 public abstract class StreamCipher extends Cipher {
 	
+	@Override
 	public abstract StreamCipherer newCipherer(byte[] key);
 	
 	
 	/**
 	 * Returns the block length of this cipher algorithm: <samp>1</samp> byte.
 	 */
+	@Override
 	public final int getBlockLength() {
 		return 1;
 	}

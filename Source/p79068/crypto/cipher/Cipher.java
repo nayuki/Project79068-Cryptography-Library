@@ -37,6 +37,7 @@ public abstract class Cipher {
 	/**
 	 * Returns a string representation of this cipher. The format is: <code>"<var>name</var> cipher"</code>. This is subject to change.
 	 */
+	@Override
 	public String toString() {
 		return String.format("%s cipher", getName());
 	}

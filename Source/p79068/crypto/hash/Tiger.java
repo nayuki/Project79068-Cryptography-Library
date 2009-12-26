@@ -23,6 +23,7 @@ public final class Tiger extends BlockHashFunction {
 	 * Returns a new hasher of this hash function.
 	 * @return a new hasher of this hash function
 	 */
+	@Override
 	public Hasher newHasher() {
 		return new BlockHasher(this, new TigerHasher(false));
 	}
@@ -32,6 +33,7 @@ public final class Tiger extends BlockHashFunction {
 	 * Returns the name of this hash function: <code>Tiger</code>.
 	 * @return <code>"Tiger"</code>
 	 */
+	@Override
 	public String getName() {
 		return "Tiger";
 	}
@@ -41,6 +43,7 @@ public final class Tiger extends BlockHashFunction {
 	 * Returns the length of hash values produced by this hash function: <code>24</code> bytes (192 bits).
 	 * @return <code>24</code>
 	 */
+	@Override
 	public int getHashLength() {
 		return 24;
 	}
@@ -50,6 +53,7 @@ public final class Tiger extends BlockHashFunction {
 	 * Returns the block length of this hash function: <code>64</code> bytes (512 bits).
 	 * @return <code>64</code>
 	 */
+	@Override
 	public int getBlockLength() {
 		return 64;
 	}

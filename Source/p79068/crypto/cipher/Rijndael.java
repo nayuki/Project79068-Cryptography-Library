@@ -48,6 +48,7 @@ public final class Rijndael extends BlockCipher {
 	
 	
 	
+	@Override
 	public Cipherer newCipherer(byte[] key) {
 		if (key.length != keyLength)
 			throw new IllegalArgumentException();
@@ -62,6 +63,7 @@ public final class Rijndael extends BlockCipher {
 	/**
 	 * Returns the name of this cipher algorithm: <samp>Rijndael (<var>n</var>-bit key, <var>m</var>-bit block)</samp>.
 	 */
+	@Override
 	public String getName() {
 		return String.format("Rijndael (%d-bit key, %d-bit block)", keyLength * 8, blockLength * 8);
 	}
@@ -70,6 +72,7 @@ public final class Rijndael extends BlockCipher {
 	/**
 	 * Returns the key length of this cipher algorithm.
 	 */
+	@Override
 	public int getKeyLength() {
 		return keyLength;
 	}
@@ -78,11 +81,13 @@ public final class Rijndael extends BlockCipher {
 	/**
 	 * Returns the block length of this cipher algorithm.
 	 */
+	@Override
 	public int getBlockLength() {
 		return blockLength;
 	}
 	
 	
+	@Override
 	public boolean equals(Object obj) {
 		if (!(obj instanceof Rijndael))
 			return false;
@@ -91,6 +96,7 @@ public final class Rijndael extends BlockCipher {
 	}
 	
 	
+	@Override
 	public int hashCode() {
 		return keyLength << 16 | blockLength;
 	}

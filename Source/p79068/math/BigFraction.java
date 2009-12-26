@@ -108,6 +108,7 @@ public final class BigFraction implements Comparable<BigFraction> {
 	
 	
 	
+	@Override
 	public boolean equals(Object obj) {
 		if (!(obj instanceof BigFraction))
 			return false;
@@ -123,6 +124,7 @@ public final class BigFraction implements Comparable<BigFraction> {
 	}
 	
 	
+	@Override
 	public String toString() {
 		return String.format("%d/%d", numerator, denominator);
 	}

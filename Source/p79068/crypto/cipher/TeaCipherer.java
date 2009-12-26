@@ -28,6 +28,7 @@ final class TeaCipherer extends Cipherer {
 	
 	
 	
+	@Override
 	public void encrypt(byte[] b, int off, int len) {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
@@ -72,6 +73,7 @@ final class TeaCipherer extends Cipherer {
 	}
 	
 	
+	@Override
 	public void decrypt(byte[] b, int off, int len) {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
@@ -116,6 +118,7 @@ final class TeaCipherer extends Cipherer {
 	}
 	
 	
+	@Override
 	public TeaCipherer clone() {
 		TeaCipherer result = (TeaCipherer)super.clone();
 		result.int32Key = result.int32Key.clone();
@@ -123,6 +126,7 @@ final class TeaCipherer extends Cipherer {
 	}
 	
 	
+	@Override
 	public void zeroize() {
 		if (cipher == null)
 			return;

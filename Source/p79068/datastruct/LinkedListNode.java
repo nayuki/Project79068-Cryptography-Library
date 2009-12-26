@@ -44,6 +44,7 @@ public class LinkedListNode<E> implements Cloneable {
 	 * Creates and returns a shallow copy of this node. The object stored and the next node are not cloned.
 	 * @return a copy of this node
 	 */
+	@Override
 	@SuppressWarnings("unchecked")
 	public LinkedListNode<E> clone() {
 		try {
@@ -58,6 +59,7 @@ public class LinkedListNode<E> implements Cloneable {
 	 * Returns a string representation of this node.
 	 * @return a string representation of this node
 	 */
+	@Override
 	public String toString() {
 		return String.format("LinkedListNode: %s", object);
 	}
