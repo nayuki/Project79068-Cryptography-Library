@@ -1,8 +1,3 @@
-/*
-Unsynchronized.
-*/
-
-
 package p79068.util;
 
 import java.util.Arrays;
@@ -11,6 +6,7 @@ import java.util.Arrays;
 public final class ByteBuffer {
 	
 	private byte[] buffer;
+	
 	private int length;
 	
 	
@@ -24,7 +20,7 @@ public final class ByteBuffer {
 	
 	public ByteBuffer append(byte b) {
 		if (length == buffer.length)
-			buffer = Arrays.copyOf(buffer, length * 2);
+			resize(length * 2);
 		buffer[length] = b;
 		length++;
 		return this;
@@ -33,7 +29,7 @@ public final class ByteBuffer {
 	
 	public ByteBuffer append(int b) {
 		if (length == buffer.length)
-			buffer = Arrays.copyOf(buffer, length * 2);
+			resize(length * 2);
 		buffer[length] = (byte)b;
 		length++;
 		return this;
@@ -47,10 +43,10 @@ public final class ByteBuffer {
 	
 	public ByteBuffer append(byte[] b, int off, int len) {
 		if (length + len > buffer.length) {
-			int tp = buffer.length;
-			while (tp < length + len)
-				tp *= 2;
-			buffer = Arrays.copyOf(buffer, tp);
+			int newLength = buffer.length;
+			while (newLength < length + len)
+				newLength *= 2;
+			resize(newLength);
 		}
 		System.arraycopy(b, off, buffer, length, len);
 		length += len;
@@ -70,6 +66,13 @@ public final class ByteBuffer {
 	
 	public void clear() {
 		length = 0;
+	}
+	
+	
+	private void resize(int newCapacity) {
+		if (newCapacity < length || newCapacity < 1)
+			throw new IllegalArgumentException();
+		buffer = Arrays.copyOf(buffer, newCapacity);
 	}
 	
 }
