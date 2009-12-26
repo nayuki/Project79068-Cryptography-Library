@@ -32,10 +32,6 @@ public abstract class Dft {
 	
 	
 	
-	public Dft() {}
-	
-	
-	
 	/**
 	 * Computes the forward transform of the specified complex vector, done in-place if possible.
 	 */

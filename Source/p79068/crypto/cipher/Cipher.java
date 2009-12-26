@@ -8,10 +8,6 @@ package p79068.crypto.cipher;
  */
 public abstract class Cipher {
 	
-	protected Cipher() {}
-	
-	
-	
 	/**
 	 * Returns a new cipherer, which is used to encrypt and decrypt byte blocks.
 	 */

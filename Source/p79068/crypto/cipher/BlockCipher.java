@@ -15,9 +15,6 @@ package p79068.crypto.cipher;
  */
 public abstract class BlockCipher extends Cipher {
 	
-	protected BlockCipher() {}
-	
-	
 	/**
 	 * Returns a new cipherer, which is used to encrypt and decrypt byte blocks. The cipherer returned must be immutable except for being zeroizable. In particular, its encryption and decryption functions must be pure. That means for encryption, the result must be the same each time the same message is given. The same applies for decryption.
 	 */

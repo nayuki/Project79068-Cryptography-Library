@@ -21,10 +21,6 @@ public abstract class Dct {
 	
 	
 	
-	public Dct() {}
-	
-	
-	
 	/**
 	 * Computes the forward transform of the specified real vector.
 	 */

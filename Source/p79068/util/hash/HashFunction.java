@@ -23,13 +23,6 @@ import java.io.*;
 public abstract class HashFunction {
 	
 	/**
-	 * Creates a hash function.
-	 */
-	protected HashFunction() {}
-	
-	
-	
-	/**
 	 * Computes and returns the hash value of the specified byte array.
 	 */
 	public HashValue getHash(byte[] b) {

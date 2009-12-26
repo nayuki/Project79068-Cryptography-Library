@@ -14,10 +14,6 @@ package p79068.crypto.cipher;
  */
 public abstract class StreamCipher extends Cipher {
 	
-	protected StreamCipher() {}
-	
-	
-	
 	public abstract StreamCipherer newCipherer(byte[] key);
 	
 	
