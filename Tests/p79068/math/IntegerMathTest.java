@@ -410,4 +410,27 @@ public final class IntegerMathTest {
 		assertTrue(IntegerMath.compareUnsigned(0x00000000, 0x80000000) < 0);
 	}
 	
+	
+	@Test
+	public void testFibonacci() {
+		assertEquals(-1836311903, IntegerMath.fibonacci(-46));
+		assertEquals(         -8, IntegerMath.fibonacci( -6));
+		assertEquals(          5, IntegerMath.fibonacci( -5));
+		assertEquals(         -3, IntegerMath.fibonacci( -4));
+		assertEquals(          2, IntegerMath.fibonacci( -3));
+		assertEquals(         -1, IntegerMath.fibonacci( -2));
+		assertEquals(          1, IntegerMath.fibonacci( -1));
+		assertEquals(          0, IntegerMath.fibonacci(  0));
+		assertEquals(          1, IntegerMath.fibonacci(  1));
+		assertEquals(          1, IntegerMath.fibonacci(  2));
+		assertEquals(          2, IntegerMath.fibonacci(  3));
+		assertEquals(          3, IntegerMath.fibonacci(  4));
+		assertEquals(          5, IntegerMath.fibonacci(  5));
+		assertEquals(          8, IntegerMath.fibonacci(  6));
+		assertEquals(         13, IntegerMath.fibonacci(  7));
+		assertEquals(       6765, IntegerMath.fibonacci( 20));
+		assertEquals(     832040, IntegerMath.fibonacci( 30));
+		assertEquals( 1836311903, IntegerMath.fibonacci( 46));
+	}
+	
 }
