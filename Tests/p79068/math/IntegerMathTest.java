@@ -12,6 +12,9 @@ public final class IntegerMathTest {
 	private static Random random = Random.newInstance();
 	
 	
+	
+	// Basic operations
+	
 	@Test
 	public void testSafeAdd() {
 		assertEquals(3, IntegerMath.safeAdd(1, 2));
@@ -86,26 +89,76 @@ public final class IntegerMathTest {
 	}
 	
 	
+	
+	// Simple functions
+	
 	@Test
-	public void testReciprocalMod() {
-		assertEquals(1, IntegerMath.reciprocalMod(1, 2));
-		assertEquals(1, IntegerMath.reciprocalMod(1, 5));
-		assertEquals(3, IntegerMath.reciprocalMod(2, 5));
-		assertEquals(13, IntegerMath.reciprocalMod(7, 15));
+	public void testSign() {
+		assertEquals( 0, IntegerMath.sign(0));
+		
+		assertEquals(+1, IntegerMath.sign(1));
+		assertEquals(+1, IntegerMath.sign(2));
+		assertEquals(+1, IntegerMath.sign(3));
+		assertEquals(+1, IntegerMath.sign(700));
+		assertEquals(+1, IntegerMath.sign(Integer.MAX_VALUE - 1));
+		assertEquals(+1, IntegerMath.sign(Integer.MAX_VALUE));
+		
+		assertEquals(-1, IntegerMath.sign(-1));
+		assertEquals(-1, IntegerMath.sign(-2));
+		assertEquals(-1, IntegerMath.sign(-3));
+		assertEquals(-1, IntegerMath.sign(-50));
+		assertEquals(-1, IntegerMath.sign(Integer.MIN_VALUE + 1));
+		assertEquals(-1, IntegerMath.sign(Integer.MIN_VALUE));
 	}
 	
 	
 	@Test
-	public void testReciprocalModRandom() {
-		for (int i = 0; i < 100000; i++) {
-			int m = random.randomInt(46340) + 2;
-			int x = random.randomInt(m - 1) + 1;
-			if (IntegerMath.gcd(x, m) != 1)
-				continue;
-			assertEquals(1, x * IntegerMath.reciprocalMod(x, m) % m);
-		}
+	public void testCompareUnsigned() {
+		assertTrue(IntegerMath.compareUnsigned(13, 72) < 0);
+		assertTrue(IntegerMath.compareUnsigned(0xBEEF0000, 0xDEAD0000) < 0);
+		assertTrue(IntegerMath.compareUnsigned(0xCAFE0000, 0xCAFE0000) == 0);
+		assertTrue(IntegerMath.compareUnsigned(0xFFFFFFFF, 0x00000000) > 0);
+		assertTrue(IntegerMath.compareUnsigned(0xFFFFFFFF, 0x80000000) > 0);
+		assertTrue(IntegerMath.compareUnsigned(0x00000000, 0x80000000) < 0);
 	}
 	
+	
+	@Test
+	public void testClamp() {
+		assertEquals(5, IntegerMath.clamp(5, 0, 10));
+		assertEquals(10, IntegerMath.clamp(12, 0, 10));
+		assertEquals(0, IntegerMath.clamp(-7, 0, 10));
+	}
+	
+	
+	@Test
+	public void testIsPowerOf2() {
+		assertTrue(IntegerMath.isPowerOf2(1));
+		assertTrue(IntegerMath.isPowerOf2(2));
+		assertTrue(IntegerMath.isPowerOf2(4));
+		assertTrue(IntegerMath.isPowerOf2(8));
+		assertTrue(IntegerMath.isPowerOf2(536870912));
+		assertTrue(IntegerMath.isPowerOf2(1073741824));
+		
+		assertFalse(IntegerMath.isPowerOf2(0));
+		assertFalse(IntegerMath.isPowerOf2(3));
+		assertFalse(IntegerMath.isPowerOf2(5));
+		assertFalse(IntegerMath.isPowerOf2(6));
+		assertFalse(IntegerMath.isPowerOf2(7));
+		assertFalse(IntegerMath.isPowerOf2(1073741823));
+		assertFalse(IntegerMath.isPowerOf2(1073741825));
+		assertFalse(IntegerMath.isPowerOf2(2147483647));
+		
+		assertFalse(IntegerMath.isPowerOf2(-1));
+		assertFalse(IntegerMath.isPowerOf2(-2));
+		assertFalse(IntegerMath.isPowerOf2(-3));
+		assertFalse(IntegerMath.isPowerOf2(-4));
+		assertFalse(IntegerMath.isPowerOf2(-2147483648));
+	}
+	
+	
+	
+	// Elementary functions
 	
 	@Test
 	public void testSqrt() {
@@ -224,130 +277,6 @@ public final class IntegerMathTest {
 	
 	
 	@Test
-	public void testFactorial() {
-		assertEquals(1, IntegerMath.factorial(0));
-		assertEquals(1, IntegerMath.factorial(1));
-		assertEquals(2, IntegerMath.factorial(2));
-		assertEquals(6, IntegerMath.factorial(3));
-		assertEquals(24, IntegerMath.factorial(4));
-		assertEquals(40320, IntegerMath.factorial(8));
-		assertEquals(479001600, IntegerMath.factorial(12));
-	}
-	
-	
-	@Test
-	public void testTotient() {
-		assertEquals(1, IntegerMath.totient(1));
-		assertEquals(1, IntegerMath.totient(2));
-		assertEquals(2, IntegerMath.totient(3));
-		assertEquals(2, IntegerMath.totient(4));
-		assertEquals(4, IntegerMath.totient(5));
-		assertEquals(2, IntegerMath.totient(6));
-		assertEquals(6, IntegerMath.totient(9));
-		assertEquals(4, IntegerMath.totient(12));
-		assertEquals(12, IntegerMath.totient(21));
-		assertEquals(18, IntegerMath.totient(27));
-		assertEquals(12, IntegerMath.totient(36));
-		assertEquals(534600000, IntegerMath.totient(2147483646));
-		assertEquals(2147483646, IntegerMath.totient(2147483647));
-	}
-	
-	
-	@Test
-	public void testIsPrime() {
-		assertFalse(IntegerMath.isPrime( 0));
-		assertFalse(IntegerMath.isPrime( 1));
-		assertTrue(IntegerMath.isPrime( 2));
-		assertTrue(IntegerMath.isPrime( 3));
-		assertFalse(IntegerMath.isPrime( 4));
-		assertTrue(IntegerMath.isPrime( 5));
-		assertFalse(IntegerMath.isPrime( 6));
-		assertTrue(IntegerMath.isPrime( 7));
-		assertFalse(IntegerMath.isPrime( 8));
-		assertFalse(IntegerMath.isPrime( 9));
-		assertFalse(IntegerMath.isPrime(10));
-		assertTrue(IntegerMath.isPrime(11));
-		assertFalse(IntegerMath.isPrime(12));
-		assertTrue(IntegerMath.isPrime(13));
-		assertTrue(IntegerMath.isPrime(Integer.MAX_VALUE));
-	}
-	
-	
-	@Test
-	public void testIsComposite() {
-		assertFalse(IntegerMath.isComposite( 0));
-		assertFalse(IntegerMath.isComposite( 1));
-		assertFalse(IntegerMath.isComposite( 2));
-		assertFalse(IntegerMath.isComposite( 3));
-		assertTrue(IntegerMath.isComposite( 4));
-		assertFalse(IntegerMath.isComposite( 5));
-		assertTrue(IntegerMath.isComposite( 6));
-		assertFalse(IntegerMath.isComposite( 7));
-		assertTrue(IntegerMath.isComposite( 8));
-		assertTrue(IntegerMath.isComposite( 9));
-		assertTrue(IntegerMath.isComposite(10));
-		assertFalse(IntegerMath.isComposite(11));
-		assertTrue(IntegerMath.isComposite(12));
-		assertFalse(IntegerMath.isComposite(13));
-		assertFalse(IntegerMath.isComposite(Integer.MAX_VALUE));
-	}
-	
-	
-	@Test
-	public void testClamp() {
-		assertEquals(5, IntegerMath.clamp(5, 0, 10));
-		assertEquals(10, IntegerMath.clamp(12, 0, 10));
-		assertEquals(0, IntegerMath.clamp(-7, 0, 10));
-	}
-	
-	
-	@Test
-	public void testSign() {
-		assertEquals( 0, IntegerMath.sign(0));
-		
-		assertEquals(+1, IntegerMath.sign(1));
-		assertEquals(+1, IntegerMath.sign(2));
-		assertEquals(+1, IntegerMath.sign(3));
-		assertEquals(+1, IntegerMath.sign(700));
-		assertEquals(+1, IntegerMath.sign(Integer.MAX_VALUE - 1));
-		assertEquals(+1, IntegerMath.sign(Integer.MAX_VALUE));
-		
-		assertEquals(-1, IntegerMath.sign(-1));
-		assertEquals(-1, IntegerMath.sign(-2));
-		assertEquals(-1, IntegerMath.sign(-3));
-		assertEquals(-1, IntegerMath.sign(-50));
-		assertEquals(-1, IntegerMath.sign(Integer.MIN_VALUE + 1));
-		assertEquals(-1, IntegerMath.sign(Integer.MIN_VALUE));
-	}
-	
-	
-	@Test
-	public void testIsPowerOf2() {
-		assertTrue(IntegerMath.isPowerOf2(1));
-		assertTrue(IntegerMath.isPowerOf2(2));
-		assertTrue(IntegerMath.isPowerOf2(4));
-		assertTrue(IntegerMath.isPowerOf2(8));
-		assertTrue(IntegerMath.isPowerOf2(536870912));
-		assertTrue(IntegerMath.isPowerOf2(1073741824));
-		
-		assertFalse(IntegerMath.isPowerOf2(0));
-		assertFalse(IntegerMath.isPowerOf2(3));
-		assertFalse(IntegerMath.isPowerOf2(5));
-		assertFalse(IntegerMath.isPowerOf2(6));
-		assertFalse(IntegerMath.isPowerOf2(7));
-		assertFalse(IntegerMath.isPowerOf2(1073741823));
-		assertFalse(IntegerMath.isPowerOf2(1073741825));
-		assertFalse(IntegerMath.isPowerOf2(2147483647));
-		
-		assertFalse(IntegerMath.isPowerOf2(-1));
-		assertFalse(IntegerMath.isPowerOf2(-2));
-		assertFalse(IntegerMath.isPowerOf2(-3));
-		assertFalse(IntegerMath.isPowerOf2(-4));
-		assertFalse(IntegerMath.isPowerOf2(-2147483648));
-	}
-	
-	
-	@Test
 	public void testFloorToPowerOf2() {
 		assertEquals(1, IntegerMath.floorToPowerOf2(1));
 		assertEquals(2, IntegerMath.floorToPowerOf2(2));
@@ -400,16 +329,111 @@ public final class IntegerMathTest {
 	}
 	
 	
+	
+	// Modular arithmetic functions
+	
 	@Test
-	public void testCompareUnsigned() {
-		assertTrue(IntegerMath.compareUnsigned(13, 72) < 0);
-		assertTrue(IntegerMath.compareUnsigned(0xBEEF0000, 0xDEAD0000) < 0);
-		assertTrue(IntegerMath.compareUnsigned(0xCAFE0000, 0xCAFE0000) == 0);
-		assertTrue(IntegerMath.compareUnsigned(0xFFFFFFFF, 0x00000000) > 0);
-		assertTrue(IntegerMath.compareUnsigned(0xFFFFFFFF, 0x80000000) > 0);
-		assertTrue(IntegerMath.compareUnsigned(0x00000000, 0x80000000) < 0);
+	public void testReciprocalMod() {
+		assertEquals(1, IntegerMath.reciprocalMod(1, 2));
+		assertEquals(1, IntegerMath.reciprocalMod(1, 5));
+		assertEquals(3, IntegerMath.reciprocalMod(2, 5));
+		assertEquals(13, IntegerMath.reciprocalMod(7, 15));
 	}
 	
+	
+	@Test
+	public void testReciprocalModRandom() {
+		for (int i = 0; i < 100000; i++) {
+			int m = random.randomInt(46340) + 2;
+			int x = random.randomInt(m - 1) + 1;
+			if (IntegerMath.gcd(x, m) != 1)
+				continue;
+			assertEquals(1, x * IntegerMath.reciprocalMod(x, m) % m);
+		}
+	}
+	
+	
+	
+	// Number theory functions
+	
+	@Test
+	public void testTotient() {
+		assertEquals(1, IntegerMath.totient(1));
+		assertEquals(1, IntegerMath.totient(2));
+		assertEquals(2, IntegerMath.totient(3));
+		assertEquals(2, IntegerMath.totient(4));
+		assertEquals(4, IntegerMath.totient(5));
+		assertEquals(2, IntegerMath.totient(6));
+		assertEquals(6, IntegerMath.totient(9));
+		assertEquals(4, IntegerMath.totient(12));
+		assertEquals(12, IntegerMath.totient(21));
+		assertEquals(18, IntegerMath.totient(27));
+		assertEquals(12, IntegerMath.totient(36));
+		assertEquals(534600000, IntegerMath.totient(2147483646));
+		assertEquals(2147483646, IntegerMath.totient(2147483647));
+	}
+	
+	
+	
+	// Primality functions
+	
+	@Test
+	public void testIsPrime() {
+		assertFalse(IntegerMath.isPrime( 0));
+		assertFalse(IntegerMath.isPrime( 1));
+		assertTrue(IntegerMath.isPrime( 2));
+		assertTrue(IntegerMath.isPrime( 3));
+		assertFalse(IntegerMath.isPrime( 4));
+		assertTrue(IntegerMath.isPrime( 5));
+		assertFalse(IntegerMath.isPrime( 6));
+		assertTrue(IntegerMath.isPrime( 7));
+		assertFalse(IntegerMath.isPrime( 8));
+		assertFalse(IntegerMath.isPrime( 9));
+		assertFalse(IntegerMath.isPrime(10));
+		assertTrue(IntegerMath.isPrime(11));
+		assertFalse(IntegerMath.isPrime(12));
+		assertTrue(IntegerMath.isPrime(13));
+		assertTrue(IntegerMath.isPrime(Integer.MAX_VALUE));
+	}
+	
+	
+	@Test
+	public void testIsComposite() {
+		assertFalse(IntegerMath.isComposite( 0));
+		assertFalse(IntegerMath.isComposite( 1));
+		assertFalse(IntegerMath.isComposite( 2));
+		assertFalse(IntegerMath.isComposite( 3));
+		assertTrue(IntegerMath.isComposite( 4));
+		assertFalse(IntegerMath.isComposite( 5));
+		assertTrue(IntegerMath.isComposite( 6));
+		assertFalse(IntegerMath.isComposite( 7));
+		assertTrue(IntegerMath.isComposite( 8));
+		assertTrue(IntegerMath.isComposite( 9));
+		assertTrue(IntegerMath.isComposite(10));
+		assertFalse(IntegerMath.isComposite(11));
+		assertTrue(IntegerMath.isComposite(12));
+		assertFalse(IntegerMath.isComposite(13));
+		assertFalse(IntegerMath.isComposite(Integer.MAX_VALUE));
+	}
+	
+	
+	
+	// Combinatorics functions
+	
+	@Test
+	public void testFactorial() {
+		assertEquals(1, IntegerMath.factorial(0));
+		assertEquals(1, IntegerMath.factorial(1));
+		assertEquals(2, IntegerMath.factorial(2));
+		assertEquals(6, IntegerMath.factorial(3));
+		assertEquals(24, IntegerMath.factorial(4));
+		assertEquals(40320, IntegerMath.factorial(8));
+		assertEquals(479001600, IntegerMath.factorial(12));
+	}
+	
+	
+	
+	// Miscellaneous functions
 	
 	@Test
 	public void testFibonacci() {
