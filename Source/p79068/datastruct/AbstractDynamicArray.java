@@ -57,7 +57,7 @@ public abstract class AbstractDynamicArray<E> {
 			return;  // No action required
 		if (newCapacity < length)
 			throw new IllegalArgumentException();
-		objects = Arrays.copyOf(objects, length);
+		objects = Arrays.copyOf(objects, newCapacity);
 	}
 	
 }

@@ -194,7 +194,7 @@ public final class ArrayList<E> extends AbstractDynamicArray<E> implements List<
 		if (newCapacity < length || newCapacity < 1)
 			throw new IllegalArgumentException("New capacity too small");
 		else if (newCapacity != objects.length)  // Only do something if the capacity changed
-			objects = Arrays.copyOf(objects, length);
+			objects = Arrays.copyOf(objects, newCapacity);
 	}
 	
 	
