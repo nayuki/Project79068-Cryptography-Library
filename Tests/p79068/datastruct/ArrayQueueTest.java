@@ -7,6 +7,7 @@ import org.junit.Test;
 
 public final class ArrayQueueTest extends QueueTest {
 	
+	@Override
 	protected <E> ArrayQueue<E> newQueue() {
 		return new ArrayQueue<E>();
 	}

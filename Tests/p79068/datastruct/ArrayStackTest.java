@@ -7,6 +7,7 @@ import org.junit.Test;
 
 public final class ArrayStackTest extends StackTest {
 	
+	@Override
 	protected <E> ArrayStack<E> newStack() {
 		return new ArrayStack<E>();
 	}

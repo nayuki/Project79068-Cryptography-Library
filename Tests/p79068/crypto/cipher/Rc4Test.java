@@ -6,6 +6,7 @@ import p79068.crypto.CryptoUtils;
 
 public final class Rc4Test extends StreamCipherTest {
 	
+	@Override
 	protected StreamCipher getCipher() {
 		return new Rc4(256);
 	}
