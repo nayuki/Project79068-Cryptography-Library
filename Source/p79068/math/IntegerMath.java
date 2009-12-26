@@ -7,8 +7,15 @@ package p79068.math;
  */
 public final class IntegerMath {
 	
-	// Elementary functions
+	// Basic operations
 	
+	/**
+	 * Returns the sum of the specified integers, throwing an exception if the result overflows.
+	 * @param x a summand
+	 * @param y a summand
+	 * @return <code>x</code> plus <code>y</code>
+	 * @throws ArithmeticOverflowException if the result overflows
+	 */
 	public static int safeAdd(int x, int y) {
 		int z = x + y;
 		if (y > 0 && z < x || y < 0 && z > x)
@@ -18,6 +25,13 @@ public final class IntegerMath {
 	}
 	
 	
+	/**
+	 * Returns the product of the specified integers, throwing an exception if the result overflows.
+	 * @param x a multiplicand
+	 * @param y a multiplicand
+	 * @return <code>x</code> times <code>y</code>
+	 * @throws ArithmeticOverflowException if the result overflows
+	 */
 	public static int safeMultiply(int x, int y) {
 		long z = (long)x * y;
 		if (z >= Integer.MIN_VALUE && z <= Integer.MAX_VALUE)
@@ -27,6 +41,13 @@ public final class IntegerMath {
 	}
 	
 	
+	/**
+	 * Returns the quotient of the specified integers, throwing an exception if the result overflows. The only overflow case is when <code>x</code> = &minus;2<sup>31</sup> and <code>y</code> = &minus;1.
+	 * @param x the dividend
+	 * @param y the divisor
+	 * @return <code>x</code> divided by <code>y</code>
+	 * @throws ArithmeticOverflowException if the result overflows
+	 */
 	public static int safeDivide(int x, int y) {
 		if (x == Integer.MIN_VALUE && y == -1)
 			throw new ArithmeticOverflowException(String.format("%d / %d", x, y));
@@ -36,115 +57,27 @@ public final class IntegerMath {
 	
 	
 	/**
-	 * Returns the square root of the specified integer, rounded down to the nearest integer.
-	 * <p>Sample values:</p>
-	 * <ul>
-	 *  <li><code>sqrt(4) = 2</code></li>
-	 *  <li><code>sqrt(5) = 2</code></li>
-	 *  <li><code>sqrt(9) = 3</code></li>
-	 * </ul>
-	 * @throws IllegalArgumentException if <code>x &lt; 0</code>
+	 * Returns the floor of the quotient of the specified integers.
+	 * @param x the dividend
+	 * @param y the divisor
+	 * @return the floor of <code>x</code> divided by <code>y</code>
+	 * @throws ArithmeticException if <code>y</code> is 0
+	 * @throws ArithmeticOverflowException if <code>x</code> = &minus;2<sup>31</sup> and <code>y</code> = &minus;1
 	 */
-	public static int sqrt(int x) {
-		if (x < 0)
-			throw new IllegalArgumentException("Square root of negative number");
-		int y = 0;
-		for (int i = 32768; i >= 1; i /= 2) {
-			y += i;
-			if (y > 46340 || y * y > x)
-				y -= i;
+	public static int divideAndFloor(int x, int y) {
+		if (x == Integer.MIN_VALUE && y == -1)  // The one and only overflow case
+			throw new ArithmeticOverflowException(String.format("divideAndFloor(%d, %d)", x, y));
+		else if ((x >= 0) == (y >= 0))
+			return x / y;  // If they have the same sign, then result is positive and already floored
+		else {
+			int z = x / y;
+			if (z * y == x)
+				return z;
+			else
+				return z - 1;
 		}
-		return y;
 	}
 	
-	
-	/**
-	 * Returns the cube root of the specified integer, rounded down to the nearest integer.
-	 * <p>Sample values:</p>
-	 * <ul>
-	 *  <li><code>cbrt(1) = 1</code></li>
-	 *  <li><code>cbrt(5) = 1</code></li>
-	 *  <li><code>cbrt(8) = 2</code></li>
-	 * </ul>
-	 */
-	public static int cbrt(int x) {
-		if (x == -2147483648)
-			return -1290;
-		if (x < 0)
-			return -cbrt(-x);
-		int y = 0;
-		for (int i = 1024; i >= 1; i /= 2) {
-			y += i;
-			if (y > 1290 || y * y * y > x)
-				y -= i;
-		}
-		return y;
-	}
-	
-	
-	public static int log2Floor(int x) {
-		if (x <= 0)
-			throw new IllegalArgumentException("Argument must be positive");
-		x |= x >>>  1;
-		x |= x >>>  2;
-		x |= x >>>  4;
-		x |= x >>>  8;
-		x |= x >>> 16;
-		return IntegerBitMath.countOnes(x) - 1;
-	}
-	
-	
-	public static int log2Ceiling(int x) {
-		if (x <= 0)
-			throw new IllegalArgumentException("Argument must be positive");
-		x--;
-		x |= x >>>  1;
-		x |= x >>>  2;
-		x |= x >>>  4;
-		x |= x >>>  8;
-		x |= x >>> 16;
-		return IntegerBitMath.countOnes(x);
-	}
-	
-	
-	
-	// Combinatorics functions
-	
-	/**
-	 * Returns the factorial of the specified integer.
-	 * @throws IllegalArgumentException if <code>x</code> &lt; 0
-	 * @throws ArithmeticOverflowException if <code>x</code> &gt; 20
-	 */
-	public static int factorial(int x) {
-		if (x < 0)
-			throw new IllegalArgumentException("Factorial of negative integer");
-		if (x > 12)
-			throw new ArithmeticOverflowException(String.format("factorial(%d)", x));
-		int p = 1;
-		for (; x >= 2; x--)
-			p *= x;
-		return p;
-	}
-	
-	
-	/**
-	 * Returns the number of ways of obtaining an ordered subset of <code>k</code> elements from a set of <code>n</code> (unique) elements. *plagiarism
-	 * @param n the size of the set
-	 * @param k the size of the subset to take
-	 */
-	public static int permutation(int n, int k) {
-		int p = 1;
-		for (; k >= 1; n--, k--) {
-			if (Integer.MAX_VALUE / p < n)
-				throw new ArithmeticOverflowException(String.format("permutation(%d, %d)", n, k));
-			p *= n;
-		}
-		return p;
-	}
-	
-	
-	
-	// Modular arithmetic functions
 	
 	/**
 	 * Returns <code>x</code> modulo <code>y</code>. The result either has the same sign as <code>y</code> or is zero. Note that this is not exactly the same as the remainder operator (<code>%</code>) provided by the language.
@@ -167,6 +100,203 @@ public final class IntegerMath {
 		return x;
 	}
 	
+	
+	
+	// Simple functions
+	
+	/**
+	 * Returns the sign of the specified integer, which is <samp>-1</samp>, <samp>0</samp>, or <samp>1</samp>.
+	 * @param x the integer to whose sign will be computed
+	 */
+	public static int sign(int x) {
+		return (x >> 31) | ((-x) >>> 31);
+	}
+	
+	
+	/**
+	 * Compares the specified integers.
+	 * @return <samp>-1</samp> if <code>x &lt; y</code>, <samp>0</samp> if <code>x == y</code>, or <samp>1</samp> if <code>x &gt; y</code>
+	 */
+	public static int compare(int x, int y) {
+		if (x < y)
+			return -1;
+		else if (x > y)
+			return 1;
+		else
+			return 0;
+	}
+	
+	
+	/**
+	 * Compares the specified unsigned integers.
+	 * @param x an operand, interpreted as an unsigned 32-bit integer
+	 * @param y an operand, interpreted as an unsigned 32-bit integer
+	 * @return <samp>-1</samp> if <code>x &lt; y</code>, <samp>0</samp> if <code>x == y</code>, or <samp>1</samp> if <code>x &gt; y</code>
+	 */
+	public static int compareUnsigned(int x, int y) {
+		return compare(x ^ (1 << 31), y ^ (1 << 31));  // Flip top bits
+	}
+	
+	
+	/**
+	 * Returns the integer in the specified range (inclusive) nearest to the specified integer. In other words, if <code>x &lt; min</code> then <code>min</code> is returned; if <code>x &gt; max</code> then <code>max</code> is returned; otherwise <code>x</code> is returned. This function is equivalent to <code>Math.max(Math.min(x, max), min)</code>.
+	 * @param x the integer to clamp
+	 * @param min the lower limit (inclusive)
+	 * @param max the upper limit (inclusive)
+	 * @return <code>min</code>, <code>x</code>, or <code>max</code>, whichever is closest to <code>x</code>
+	 * @throws IllegalArgumentException if <code>min &gt; max</code>
+	 */
+	public static int clamp(int x, int min, int max) {
+		if (min > max)
+			throw new IllegalArgumentException("Minimum greater than maximum");
+		else if (x < min)
+			return min;
+		else if (x > max)
+			return max;
+		else
+			return x;
+	}
+	
+	
+	/**
+	 * Tests whether the specified number is an integral power of 2. The powers of 2 are 1, 2, 4, ..., 1073741824. Zero and negative numbers are not powers of 2.
+	 * @param x the integer to test
+	 * @return <samp>true</samp> if and only if <code>x</code> is an integral power of 2
+	 */
+	public static boolean isPowerOf2(int x) {
+		return x > 0 && (x & (x - 1)) == 0;
+	}
+	
+	
+	
+	// Elementary functions
+	
+	/**
+	 * Returns the floor of the square root of the specified number.
+	 * <p>Sample values:</p>
+	 * <ul>
+	 *  <li><code>sqrt(4) = 2</code></li>
+	 *  <li><code>sqrt(5) = 2</code></li>
+	 *  <li><code>sqrt(9) = 3</code></li>
+	 * </ul>
+	 * @throws IllegalArgumentException if <code>x &lt; 0</code>
+	 */
+	public static int sqrt(int x) {
+		if (x < 0)
+			throw new IllegalArgumentException("Square root of negative number");
+		int y = 0;
+		for (int i = 32768; i >= 1; i /= 2) {
+			y += i;
+			if (y > 46340 || y * y > x)
+				y -= i;
+		}
+		return y;
+	}
+	
+	
+	/**
+	 * Returns the cube root of the specified number, rounded down towards zero.
+	 * <p>Sample values:</p>
+	 * <ul>
+	 *  <li><code>cbrt(1) = 1</code></li>
+	 *  <li><code>cbrt(5) = 1</code></li>
+	 *  <li><code>cbrt(8) = 2</code></li>
+	 * </ul>
+	 */
+	public static int cbrt(int x) {
+		if (x == -2147483648)
+			return -1290;
+		if (x < 0)
+			return -cbrt(-x);
+		int y = 0;
+		for (int i = 1024; i >= 1; i /= 2) {
+			y += i;
+			if (y > 1290 || y * y * y > x)
+				y -= i;
+		}
+		return y;
+	}
+	
+	
+	/**
+	 * Returns the floor of the base 2 logarithm of the specified number. The result is in the range [0, 30].
+	 * @param x the integer to log and floor
+	 * @return the floor of the base 2 logarithm of the number
+	 * @throws IllegalArgumentException if <code>x</code> &le; 0
+	 */
+	public static int log2Floor(int x) {
+		if (x <= 0)
+			throw new IllegalArgumentException("Argument must be positive");
+		x |= x >>>  1;
+		x |= x >>>  2;
+		x |= x >>>  4;
+		x |= x >>>  8;
+		x |= x >>> 16;
+		return IntegerBitMath.countOnes(x) - 1;
+	}
+	
+	
+	/**
+	 * Returns the ceiling of the base 2 logarithm of the specified number. The result is in the range [0, 31].
+	 * @param x the integer to log and ceiling
+	 * @return the ceiling of the base 2 logarithm of the number
+	 * @throws IllegalArgumentException if <code>x</code> &le; 0
+	 */
+	public static int log2Ceiling(int x) {
+		if (x <= 0)
+			throw new IllegalArgumentException("Argument must be positive");
+		x--;
+		x |= x >>>  1;
+		x |= x >>>  2;
+		x |= x >>>  4;
+		x |= x >>>  8;
+		x |= x >>> 16;
+		return IntegerBitMath.countOnes(x);
+	}
+	
+	
+	/**
+	 * Returns the nearest power of 2 that is less than or equal to the specified number.
+	 * @param x the integer to floor to a power of 2
+	 * @return a power of 2 less than or equal to <code>x</code>
+	 * @throws IllegalArgumentException if <code>x &lt;= 0</code>
+	 */
+	public static int floorToPowerOf2(int x) {
+		if (x <= 0)
+			throw new IllegalArgumentException("Non-positive argument");
+		x |= x >>>  1;
+		x |= x >>>  2;
+		x |= x >>>  4;
+		x |= x >>>  8;
+		x |= x >>> 16;
+		return x ^ (x >>> 1);
+	}
+	
+	
+	/**
+	 * Returns the nearest power of 2 that is greater than or equal to the specified number.
+	 * @param x the integer to ceiling to a power of 2
+	 * @return a power of 2 greater than or equal to <code>x</code>
+	 * @throws IllegalArgumentException if <code>x &lt;= 0</code>
+	 * @throws ArithmeticOverflowException if <code>x &gt; 1073741824</code>
+	 */
+	public static int ceilingToPowerOf2(int x) {
+		if (x <= 0)
+			throw new IllegalArgumentException("Non-positive argument");
+		if (x > 1073741824)
+			throw new ArithmeticOverflowException(String.format("ceilingToPowerOf2(%d)", x));
+		x--;
+		x |= x >>>  1;
+		x |= x >>>  2;
+		x |= x >>>  4;
+		x |= x >>>  8;
+		x |= x >>> 16;
+		return x + 1;
+	}
+	
+	
+	
+	// Modular arithmetic functions
 	
 	/**
 	 * Returns the integer <code>y</code> such that <code>x</code> <code>y</code> mod m = 1 (assuming the calculation does not overflow). <code>y</code> exists if and only if <code>gcd(x, m)</code> = 1. If <code>y</code> exists, then <code>y</code> is in the range [0, <code>m</code>).
@@ -252,8 +382,8 @@ public final class IntegerMath {
 	
 	
 	/**
-	 * Returns the lowest common multiple (LCM) of the specified integers. If <var>z</var> is the LCM of <var>x</var> and <var>y</var>, then <var>z</var> is the smallest non-zero number such that <var>z</var>/<var>x</var> and <var>z</var>/<var>y</var> are integers.
-	 * @throws ArithmeticOverflowException if the result cannot be represented as a 32-bit integer
+	 * Returns the least common multiple (LCM) of the specified integers. If <var>z</var> is the LCM of <var>x</var> and <var>y</var>, then <var>z</var> is the smallest non-zero number such that <var>z</var>/<var>x</var> and <var>z</var>/<var>y</var> are integers.
+	 * @throws ArithmeticOverflowException if the result overflows
 	 */
 	public static int lcm(int x, int y) {
 		try {
@@ -266,7 +396,7 @@ public final class IntegerMath {
 	
 	/**
 	 * Returns Euler's totient function of the specified integer. This is the number of integers between <code>1</code> (inclusive) and <code>x</code> (inclusive) that are coprime to <code>x</code>. Note that 1 is coprime to all integers, and <code>totient(1) == 1</code>.
-	 * @throws IllegalArgumentException if <code>x &lt;= 0</code>
+	 * @throws IllegalArgumentException if <code>x</code> &le; 0
 	 */
 	public static int totient(int x) {
 		if (x <= 0)
@@ -288,6 +418,9 @@ public final class IntegerMath {
 		return p;
 	}
 	
+	
+	
+	// Primality functions
 	
 	/**
 	 * Tests whether the specified integer is a prime number. Note that 0 and 1 are not prime.
@@ -354,59 +487,44 @@ public final class IntegerMath {
 	
 	
 	
-	// Miscellaneous functions
+	// Combinatorics functions
 	
 	/**
-	 * Returns the integer in the specified range (inclusive) nearest to the specified integer. In other words, if <code>x &lt; min</code> then <code>min</code> is returned; if <code>x &gt; max</code> then <code>max</code> is returned; otherwise <code>x</code> is returned. This function is equivalent to <code>Math.max(Math.min(x, max), min)</code>.
-	 * @param x the integer to clamp
-	 * @param min the lower limit (inclusive)
-	 * @param max the upper limit (inclusive)
-	 * @return <code>min</code>, <code>x</code>, or <code>max</code>, whichever is closest to <code>x</code>
-	 * @throws IllegalArgumentException if <code>min &gt; max</code>
+	 * Returns the factorial of the specified integer.
+	 * @throws IllegalArgumentException if <code>x</code> &lt; 0
+	 * @throws ArithmeticOverflowException if <code>x</code> &gt; 20
 	 */
-	public static int clamp(int x, int min, int max) {
-		if (min > max)
-			throw new IllegalArgumentException("Minimum greater than maximum");
-		else if (x < min)
-			return min;
-		else if (x > max)
-			return max;
-		else
-			return x;
+	public static int factorial(int x) {
+		if (x < 0)
+			throw new IllegalArgumentException("Factorial of negative integer");
+		if (x > 12)
+			throw new ArithmeticOverflowException(String.format("factorial(%d)", x));
+		int p = 1;
+		for (; x >= 2; x--)
+			p *= x;
+		return p;
 	}
 	
 	
 	/**
-	 * Returns the sign of the specified integer, which is <samp>-1</samp>, <samp>0</samp>, or <samp>1</samp>.
-	 * @param x the integer to whose sign will be computed
+	 * Returns the number of ways of obtaining an ordered subset of <code>k</code> elements from a set of <code>n</code> (unique) elements. *plagiarism
+	 * @param n the size of the set
+	 * @param k the size of the subset to take
+	 * @throws ArithmeticOverflowException if the result overflows
 	 */
-	public static int sign(int x) {
-		return (x >> 31) | ((-x) >>> 31);
-	}
-	
-	
-	/**
-	 * Returns the floor of the quotient of the specified integers.
-	 * @param x the dividend
-	 * @param y the divisor
-	 * @return the floor of <code>x</code> divided by <code>y</code>
-	 * @throws ArithmeticException if <code>y</code> is 0
-	 * @throws ArithmeticOverflowException if <code>x</code> = &minus;2<sup>31</sup> and <code>y</code> = &minus;1
-	 */
-	public static int divideAndFloor(int x, int y) {
-		if (x == Integer.MIN_VALUE && y == -1)  // The one and only overflow case
-			throw new ArithmeticOverflowException(String.format("divideAndFloor(%d, %d)", x, y));
-		else if ((x >= 0) == (y >= 0))
-			return x / y;  // If they have the same sign, then result is positive and already floored
-		else {
-			int z = x / y;
-			if (z * y == x)
-				return z;
-			else
-				return z - 1;
+	public static int permutation(int n, int k) {
+		int p = 1;
+		for (; k >= 1; n--, k--) {
+			if (Integer.MAX_VALUE / p < n)
+				throw new ArithmeticOverflowException(String.format("permutation(%d, %d)", n, k));
+			p *= n;
 		}
+		return p;
 	}
 	
+	
+	
+	// Miscellaneous functions
 	
 	/**
 	 * Returns the element of the Fibonacci sequence at the specified index.
@@ -422,103 +540,26 @@ public final class IntegerMath {
 	 *  <li><code>fibonacci( 3) == &nbsp;2</code></li>
 	 *  <li><code>fibonacci( 4) == &nbsp;3</code></li>
 	 * </ul>
-	 * @throws ArithmeticOverflowException if <code>x &lt; -46</code> or <code>x &gt; 46</code>
+	 * @throws ArithmeticOverflowException if the result overflows (because <code>x</code> &lt; &minus;46 or <code>x</code> &gt; 46)
 	 */
 	public static int fibonacci(int x) {
 		if (x < -46 || x > 46)
 			throw new ArithmeticOverflowException(String.format("fibonacci(%d)", x));
-		int a = 1;
-		int b = 0;
-		int c = 1;
 		if (x >= 0) {
-			for (; x >= 1; x--) {
+			int a = 0;
+			int b = 1;
+			for (int i = 0; i < x; i++) {
+				int c = a + b;
 				a = b;
 				b = c;
-				c = a + b;
 			}
+			return a;
 		} else {
-			for (; x < 0; x++) {
-				c = b;
-				b = a;
-				a = c - b;
-			}
+			if (x % 2 == 0)
+				return -fibonacci(-x);
+			else
+				return fibonacci(-x);
 		}
-		return b;
-	}
-	
-	
-	/**
-	 * Tests whether the specified integer is a power of 2. The powers of 2 are 1, 2, 4, ..., 1073741824.
-	 * @param x the integer to test
-	 * @return <samp>true</samp> if x is an <code>integral</code> power of 2
-	 */
-	public static boolean isPowerOf2(int x) {
-		return x > 0 && (x & (x - 1)) == 0;
-	}
-	
-	
-	/**
-	 * Returns the nearest power of 2 that is less than or equal to the specified integer.
-	 * @param x the integer to floor to a power of 2
-	 * @return a power of 2 less than or equal to <code>x</code>
-	 * @throws IllegalArgumentException if <code>x &lt;= 0</code>
-	 */
-	public static int floorToPowerOf2(int x) {
-		if (x <= 0)
-			throw new IllegalArgumentException("Non-positive argument");
-		x |= x >>>  1;
-		x |= x >>>  2;
-		x |= x >>>  4;
-		x |= x >>>  8;
-		x |= x >>> 16;
-		return x ^ (x >>> 1);
-	}
-	
-	
-	/**
-	 * Returns the nearest power of 2 that is greater than or equal to the specified integer.
-	 * @param x the integer to ceiling to a power of 2
-	 * @return a power of 2 greater than or equal to <code>x</code>
-	 * @throws IllegalArgumentException if <code>x &lt;= 0</code>
-	 * @throws ArithmeticOverflowException if <code>x &gt; 1073741824</code>
-	 */
-	public static int ceilingToPowerOf2(int x) {
-		if (x <= 0)
-			throw new IllegalArgumentException("Non-positive argument");
-		if (x > 1073741824)
-			throw new ArithmeticOverflowException(String.format("ceilingToPowerOf2(%d)", x));
-		x--;
-		x |= x >>>  1;
-		x |= x >>>  2;
-		x |= x >>>  4;
-		x |= x >>>  8;
-		x |= x >>> 16;
-		return x + 1;
-	}
-	
-	
-	/**
-	 * Compares two integers without overflowing.
-	 * @return <samp>-1</samp> if <code>x &lt; y</code>, <samp>0</samp> if <code>x == y</code>, or <samp>1</samp> if <code>x &gt; y</code>
-	 */
-	public static int compare(int x, int y) {
-		if (x < y)
-			return -1;
-		else if (x > y)
-			return 1;
-		else
-			return 0;
-	}
-	
-	
-	/**
-	 * Compares two unsigned integers without overflowing.
-	 * @param x an operand, interpreted as an unsigned 32-bit integer
-	 * @param y an operand, interpreted as an unsigned 32-bit integer
-	 * @return <samp>-1</samp> if <code>x &lt; y</code>, <samp>0</samp> if <code>x == y</code>, or <samp>1</samp> if <code>x &gt; y</code>
-	 */
-	public static int compareUnsigned(int x, int y) {
-		return compare(x ^ (1 << 31), y ^ (1 << 31));  // Flip top bits
 	}
 	
 	
