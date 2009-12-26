@@ -28,7 +28,6 @@ public final class ArrayList<E> extends AbstractDynamicArray<E> implements List<
 	 * Creates an array-based list with the specified initial capacity.
 	 * @param initCapacity the initial capacity
 	 */
-	@SuppressWarnings("unchecked")
 	public ArrayList(int initCapacity) {
 		super(initCapacity, 2);
 	}
@@ -198,7 +197,6 @@ public final class ArrayList<E> extends AbstractDynamicArray<E> implements List<
 	}
 	
 	
-	@SuppressWarnings("unchecked")
 	public boolean equals(Object other) {
 		if (other == this)
 			return true;
