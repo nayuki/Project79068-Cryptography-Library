@@ -14,7 +14,7 @@ public final class UnsignedBigInteger implements Comparable<UnsignedBigInteger> 
 			int b = r.nextInt(256);
 			
 			if (!new UnsignedBigInteger(a).GCD(new UnsignedBigInteger(b)).toString().equals("0x" + BigInteger.valueOf(a).gcd(BigInteger.valueOf(b)).toString(16)
-
+					
 			))
 				System.out.println(a + " " + b);
 			k++;
@@ -339,7 +339,7 @@ public final class UnsignedBigInteger implements Comparable<UnsignedBigInteger> 
 		}
 	}
 	
-
+	
 	@Override
 	public boolean equals(Object val) {
 		if (super.equals(val))

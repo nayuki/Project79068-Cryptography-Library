@@ -57,7 +57,7 @@ public final class KeyedIntener<K,V> {
 			assert cache.size() == inverseMap.size();
 		}
 	}
-
+	
 	
 	private void cleanup() {
 		while (true) {

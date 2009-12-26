@@ -7,7 +7,7 @@ import p79068.util.hash.Hasher;
 
 
 final class NewEdonkey2000Hasher extends Hasher implements Zeroizable {
-
+	
 	/**
 	 * The block length. After each block of this many bytes, the hash of the inner hasher is added to the outer hasher.
 	 */

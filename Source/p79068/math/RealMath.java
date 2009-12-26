@@ -2,9 +2,9 @@ package p79068.math;
 
 
 /**
-Contains methods for math functions that deal with real numbers.
-<p>Instantiability: <em>Not applicable</em></p>
-*/
+ * Contains methods for math functions that deal with real numbers.
+ * <p>Instantiability: <em>Not applicable</em></p>
+ */
 public class RealMath {
 	
 	/**

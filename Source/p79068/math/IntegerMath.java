@@ -491,7 +491,7 @@ public final class IntegerMath {
 	/**
 	 * Compares two integers without overflowing.
 	 * @return <samp>-1</samp> if <code>x &lt; y</code>, <samp>0</samp> if <code>x == y</code>, or <samp>1</samp> if <code>x &gt; y</code>
-	*/
+	 */
 	public static int compare(int x, int y) {
 		if (x < y)
 			return -1;

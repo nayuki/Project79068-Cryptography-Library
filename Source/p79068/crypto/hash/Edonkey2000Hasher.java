@@ -30,7 +30,7 @@ final class Edonkey2000Hasher extends Hasher implements Zeroizable {
 	private int currentBlockLength;
 	
 	
-
+	
 	public Edonkey2000Hasher(Edonkey2000 hashFunc) {
 		super(hashFunc);
 		outerHasher = null;

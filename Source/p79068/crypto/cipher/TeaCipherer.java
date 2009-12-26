@@ -1,6 +1,6 @@
 /*
-Operates natively on 32-bit integers. For bytes, big-endian serialization is assumed.
-*/
+ * Operates natively on 32-bit integers. For bytes, big-endian serialization is assumed.
+ */
 
 
 package p79068.crypto.cipher;

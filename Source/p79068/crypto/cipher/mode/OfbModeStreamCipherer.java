@@ -80,7 +80,7 @@ final class OfbModeStreamCipherer extends StreamCipherer {
 		return result;
 	}
 	
-
+	
 	@Override
 	public void zeroize() {
 		if (cipher == null)
