@@ -14,7 +14,7 @@ public final class LongMath {
 	 * @return <code>x</code> modulo <code>y</code>
 	 * @throws ArithmeticException if <code>y</code> is 0
 	 */
-	public static int mod(int x, int y) {
+	public static long mod(long x, long y) {
 		x %= y;  // x is now in (-abs(y), abs(y))
 		if (y > 0 && x < 0 || y < 0 && x > 0)
 			x += y;
