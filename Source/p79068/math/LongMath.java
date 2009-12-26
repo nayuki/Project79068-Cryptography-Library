@@ -8,15 +8,32 @@ package p79068.math;
 public final class LongMath {
 	
 	/**
-	 * Returns <code>x</code> modulo <code>y</code>. The result either has the same sign as <code>y</code> or is zero. This is not exactly the same as the remainder operator (<code>%</code>) provided by the language.
+	 * Returns <code>x</code> modulo <code>y</code>. The result either has the same sign as <code>y</code> or is zero. Note that this is not exactly the same as the remainder operator (<code>%</code>) provided by the language.
+	 * @param x the integer to reduce
+	 * @param y the modulus
+	 * @return <code>x</code> modulo <code>y</code>
+	 * @throws ArithmeticException if <code>y</code> is 0
 	 */
-	public static long mod(long x, long y) {
-		return (x % y + y) % y;
+	public static int mod(int x, int y) {
+		x %= y;  // x is now in (-abs(y), abs(y))
+		if (y > 0 && x < 0 || y < 0 && x > 0)
+			x += y;
+		return x;
 	}
 	
 	
+	/**
+	 * Returns the floor of the quotient of the specified integers.
+	 * @param x the dividend
+	 * @param y the divisor
+	 * @return the floor of <code>x</code> divided by <code>y</code>
+	 * @throws ArithmeticException if <code>y</code> is 0
+	 * @throws ArithmeticOverflowException if <code>x</code> = &minus;2<sup>63</sup> and <code>y</code> = &minus;1
+	 */
 	public static long divideAndFloor(long x, long y) {
-		if (!((x >= 0) ^ (y >= 0)))  // If both have the same sign
+		if (x == Long.MIN_VALUE && y == -1)  // The one and only overflow case
+			throw new ArithmeticOverflowException(String.format("divideAndFloor(%d, %d)", x, y));
+		else if ((x >= 0) == (y >= 0))  // If both have the same sign, then result is positive and already floored
 			return x / y;
 		else {
 			long z = x / y;
@@ -25,6 +42,35 @@ public final class LongMath {
 			else
 				return z - 1;
 		}
+	}
+	
+	
+	/**
+	 * Returns the sign of the specified integer, which is <samp>-1</samp>, <samp>0</samp>, or <samp>1</samp>.
+	 * @param x the integer to whose sign will be computed
+	 */
+	public static int sign(long x) {
+		return (int)(x >> 63) | (int)((-x) >>> 63);
+	}
+	
+	
+	/**
+	 * Returns the integer in the specified range (inclusive) nearest to the specified integer. In other words, if <code>x &lt; min</code> then <code>min</code> is returned; if <code>x &gt; max</code> then <code>max</code> is returned; otherwise <code>x</code> is returned. This function is equivalent to <code>Math.max(Math.min(x, max), min)</code>.
+	 * @param x the integer to clamp
+	 * @param min the lower limit (inclusive)
+	 * @param max the upper limit (inclusive)
+	 * @return <code>min</code>, <code>x</code>, or <code>max</code>, whichever is closest to <code>x</code>
+	 * @throws IllegalArgumentException if <code>min &gt; max</code>
+	 */
+	public static long clamp(long x, long min, long max) {
+		if (min > max)
+			throw new IllegalArgumentException("Minimum greater than maximum");
+		else if (x < min)
+			return min;
+		else if (x > max)
+			return max;
+		else
+			return x;
 	}
 	
 	
