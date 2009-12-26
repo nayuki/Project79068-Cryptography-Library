@@ -55,11 +55,10 @@ public class AvlTreeSet<E extends Comparable<? super E>> {
 	
 	
 	/**
-	 * Checks the structure of this AVL tree for consistency. This method is intended to be invoked by testers, by using reflection to bypass the access protection.
+	 * Checks the structure of this AVL tree for consistency. This method is intended to be invoked by tester classes in this package.
 	 * @throws AssertionError if this tree is not a well formed AVL tree
 	 */
-	@SuppressWarnings("unused")
-	private void checkStructure() {
+	void checkStructure() {
 		if (root != null)
 			root.checkStructure(new HashSet<AvlTreeNode<E>>());
 	}

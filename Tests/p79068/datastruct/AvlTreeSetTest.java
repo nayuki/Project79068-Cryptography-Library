@@ -3,34 +3,21 @@ package p79068.datastruct;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import p79068.util.Random;
 
 
 public final class AvlTreeSetTest {
 	
-	private static Method checkStructure;
-	
-	
-	@BeforeClass
-	public static void setUp() throws NoSuchMethodException {
-		checkStructure = AvlTreeSet.class.getDeclaredMethod("checkStructure");
-		checkStructure.setAccessible(true);  // Get access to private method
-	}
-	
-	
 	@Test
 	public void testEmpty() {
-		AvlTreeSet<Integer> avlSet = new AvlTreeSet<Integer>();
-		checkStructure(avlSet);
+		AvlTreeSet<Integer> set = new AvlTreeSet<Integer>();
+		set.checkStructure();
 	}
 	
 	
@@ -44,7 +31,7 @@ public final class AvlTreeSetTest {
 		set.add(25);
 		set.add(36);
 		set.add(49);
-		checkStructure(set);
+		set.checkStructure();
 		assertEquals(7, set.size());
 		assertTrue(set.contains( 1));
 		assertTrue(set.contains( 4));
@@ -73,7 +60,7 @@ public final class AvlTreeSetTest {
 		set.add("Alice");
 		set.add("Bob");
 		set.add("Alice");
-		checkStructure(set);
+		set.checkStructure();
 		assertEquals(4, set.size());
 		assertTrue(set.contains("Alice"));
 		assertTrue(set.contains("Bob"));
@@ -91,32 +78,35 @@ public final class AvlTreeSetTest {
 	
 	@Test
 	public void testAddRandomly() {
-		AvlTreeSet<Integer> avlSet = new AvlTreeSet<Integer>();
-		Set<Integer> javaSet = new HashSet<Integer>();
-		for (int i = 0; i < 1; i++) {
-			for (int j = 0; j < 30000; j++) {
-				int x = Random.DEFAULT.randomInt();
+		for (int i = 0; i < 30; i++) {
+			AvlTreeSet<Integer> avlSet = new AvlTreeSet<Integer>();
+			Set<Integer> javaSet = new HashSet<Integer>();
+			
+			for (int j = 0; j < 300; j++) {
+				int x = Random.DEFAULT.randomInt(1000);
 				avlSet.add(x);
 				javaSet.add(x);
 			}
+			checkConsistency(avlSet, javaSet);
 		}
-		checkConsistency(avlSet, javaSet);
 	}
 	
 	
 	@Test
 	public void testRemoveRandomly() {
-		AvlTreeSet<Integer> avlSet = new AvlTreeSet<Integer>();
-		Set<Integer> javaSet = new HashSet<Integer>();
 		for (int i = 0; i < 30; i++) {
-			for (int j = 0; j < 1000; j++) {
-				int x = Random.DEFAULT.randomInt(10000);
+			AvlTreeSet<Integer> avlSet = new AvlTreeSet<Integer>();
+			Set<Integer> javaSet = new HashSet<Integer>();
+			
+			for (int j = 0; j < 300; j++) {
+				int x = Random.DEFAULT.randomInt(1000);
 				avlSet.add(x);
 				javaSet.add(x);
 			}
 			checkConsistency(avlSet, javaSet);
-			for (int j = 0; j < 1000; j++) {
-				int x = Random.DEFAULT.randomInt(10000);
+			
+			for (int j = 0; j < 100; j++) {
+				int x = Random.DEFAULT.randomInt(1000);
 				avlSet.remove(x);
 				javaSet.remove(x);
 			}
@@ -125,25 +115,8 @@ public final class AvlTreeSetTest {
 	}
 	
 	
-	
-	private static void checkStructure(AvlTreeSet<?> avlSet) {
-		try {
-			checkStructure.invoke(avlSet);
-		} catch (InvocationTargetException e) {
-			if (e.getCause() instanceof AssertionError)
-				throw (AssertionError)e.getCause();
-			else
-				throw new RuntimeException(e);
-		} catch (IllegalArgumentException e) {
-			throw new AssertionError(e);
-		} catch (IllegalAccessException e) {
-			throw new AssertionError(e);
-		}
-	}
-	
-	
 	private static <E extends Comparable<? super E>> void checkConsistency(AvlTreeSet<E> avlSet, Set<E> javaSet) {
-		checkStructure(avlSet);
+		avlSet.checkStructure();
 		List<E> list0 = avlSet.dumpInOrder();
 		List<E> list1 = new ArrayList<E>();
 		list1.addAll(javaSet);
