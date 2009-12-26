@@ -4,7 +4,7 @@ import org.junit.Test;
 import p79068.crypto.CryptoUtils;
 
 
-public class WhirlpoolTest {
+public final class WhirlpoolTest {
 	
 	private static final String msg0 = "";
 	private static final String msg1 = "The quick brown fox jumps over the lazy dog";

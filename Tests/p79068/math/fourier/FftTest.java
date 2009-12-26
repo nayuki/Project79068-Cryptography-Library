@@ -3,7 +3,7 @@ package p79068.math.fourier;
 import p79068.math.IntegerMath;
 
 
-public class FftTest extends DftTest {
+public final class FftTest extends DftTest {
 	
 	@Override
 	protected Dft getInstance(int length) {

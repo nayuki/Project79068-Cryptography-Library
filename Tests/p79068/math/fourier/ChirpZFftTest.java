@@ -1,7 +1,7 @@
 package p79068.math.fourier;
 
 
-public class ChirpZFftTest extends DftTest {
+public final class ChirpZFftTest extends DftTest {
 	
 	@Override
 	protected Dft getInstance(int length) {

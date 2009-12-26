@@ -9,7 +9,7 @@ import p79068.util.hash.HashFunction;
 import p79068.util.hash.Hasher;
 
 
-public class CryptoUtils {
+public final class CryptoUtils {
 	
 	public static void testWithAsciiMessage(HashFunction hashFunc, String message, String expectedHash) {
 		byte[] hash1 = CryptoUtils.hexToBytes(expectedHash);

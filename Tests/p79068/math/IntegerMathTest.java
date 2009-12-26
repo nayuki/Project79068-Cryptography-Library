@@ -7,7 +7,7 @@ import org.junit.Test;
 import p79068.util.Random;
 
 
-public class IntegerMathTest {
+public final class IntegerMathTest {
 	
 	private static Random random = Random.newInstance();
 	

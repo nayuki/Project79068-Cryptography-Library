@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 
-public class Int128Test {
+public final class Int128Test {
 	
 	@Test
 	public void testInitSignExtension() {

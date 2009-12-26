@@ -4,7 +4,7 @@ import org.junit.Test;
 import p79068.crypto.CryptoUtils;
 
 
-public class ShaTest {
+public final class ShaTest {
 	
 	private static String msg0 = "";
 	private static String msg1 = "a";

@@ -5,7 +5,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 
-public class BigFractionTest {
+public final class BigFractionTest {
 	
 	@Test
 	public void testEquals() {

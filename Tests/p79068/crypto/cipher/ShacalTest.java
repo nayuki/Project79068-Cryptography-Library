@@ -4,7 +4,7 @@ import org.junit.Test;
 import p79068.crypto.CryptoUtils;
 
 
-public class ShacalTest {
+public final class ShacalTest {
 	
 	@Test
 	public void testShacal1() {

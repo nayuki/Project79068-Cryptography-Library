@@ -4,7 +4,7 @@ import org.junit.Test;
 import p79068.crypto.CryptoUtils;
 
 
-public class TigerTest {
+public final class TigerTest {
 	
 	private static String msg0 = "";
 	private static String msg1 = "a";

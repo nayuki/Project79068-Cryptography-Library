@@ -15,7 +15,7 @@ import org.junit.Test;
 import p79068.util.Random;
 
 
-public class AvlTreeSetTest {
+public final class AvlTreeSetTest {
 	
 	private static Method checkStructure;
 	

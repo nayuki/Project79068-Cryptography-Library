@@ -4,7 +4,7 @@ import org.junit.Test;
 import p79068.crypto.CryptoUtils;
 
 
-public class IdeaTest {
+public final class IdeaTest {
 	
 	@Test
 	public void testIdea() {

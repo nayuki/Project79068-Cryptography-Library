@@ -8,7 +8,7 @@ import org.junit.Test;
 import p79068.math.ArithmeticOverflowException;
 
 
-public class DateTest {
+public final class DateTest {
 	
 	private static int[] monthLength = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};  // In a non-leap year
 	

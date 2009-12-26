@@ -4,7 +4,7 @@ import org.junit.Test;
 import p79068.crypto.CryptoUtils;
 
 
-public class TeaTest {
+public final class TeaTest {
 	
 	@Test
 	public void testTea() {

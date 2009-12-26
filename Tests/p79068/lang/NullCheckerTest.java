@@ -4,7 +4,7 @@ import static org.junit.Assert.fail;
 import org.junit.Test;
 
 
-public class NullCheckerTest {
+public final class NullCheckerTest {
 	
 	@Test
 	public void testCheckNotNull() {

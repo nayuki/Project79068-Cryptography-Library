@@ -5,7 +5,7 @@ import static org.junit.Assert.fail;
 import org.junit.Test;
 
 
-public class ArrayStackTest extends StackTest {
+public final class ArrayStackTest extends StackTest {
 	
 	protected <E> ArrayStack<E> newStack() {
 		return new ArrayStack<E>();

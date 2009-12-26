@@ -10,7 +10,7 @@ import p79068.crypto.cipher.mode.OfbModeStreamCipher;
 import p79068.crypto.cipher.mode.PcbcModeCipher;
 
 
-public class CipherTest {
+public final class CipherTest {
 	
 	private static Cipher[] blockCiphers = {
 		Rijndael.AES128_CIPHER,

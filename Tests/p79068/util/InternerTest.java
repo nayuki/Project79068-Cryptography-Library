@@ -6,7 +6,7 @@ import static org.junit.Assert.assertSame;
 import org.junit.Test;
 
 
-public class InternerTest {
+public final class InternerTest {
 	
 	@Test
 	public void testIntern() {

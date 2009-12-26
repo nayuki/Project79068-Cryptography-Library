@@ -4,11 +4,12 @@ import org.junit.Test;
 import p79068.crypto.CryptoUtils;
 
 
-public class Rc4Test extends StreamCipherTest {
+public final class Rc4Test extends StreamCipherTest {
 	
 	protected StreamCipher getCipher() {
 		return new Rc4(256);
 	}
+	
 	
 	
 	@Test

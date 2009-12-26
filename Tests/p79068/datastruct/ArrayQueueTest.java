@@ -5,7 +5,7 @@ import static org.junit.Assert.fail;
 import org.junit.Test;
 
 
-public class ArrayQueueTest extends QueueTest {
+public final class ArrayQueueTest extends QueueTest {
 	
 	protected <E> ArrayQueue<E> newQueue() {
 		return new ArrayQueue<E>();

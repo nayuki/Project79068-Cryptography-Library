@@ -4,7 +4,7 @@ import org.junit.Test;
 import p79068.crypto.CryptoUtils;
 
 
-public class CrcTest {
+public final class CrcTest {
 	
 	@Test
 	public void testCrc32() {

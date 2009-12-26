@@ -4,9 +4,9 @@ import org.junit.Test;
 import p79068.crypto.CryptoUtils;
 
 
-public class Sum32Test {
+public final class Sum32Test {
 	
-	static String millionAs;
+	private static String millionAs;
 	
 	
 	static {

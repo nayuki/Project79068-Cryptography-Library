@@ -7,7 +7,7 @@ import p79068.crypto.cipher.mode.CbcModeCipher;
 import p79068.util.Random;
 
 
-public class AesTest {
+public final class AesTest {
 	
 	@Test
 	public void testBasic() {

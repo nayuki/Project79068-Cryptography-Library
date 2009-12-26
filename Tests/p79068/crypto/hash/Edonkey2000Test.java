@@ -8,7 +8,7 @@ import p79068.util.hash.HashValue;
 import p79068.util.hash.Hasher;
 
 
-public class Edonkey2000Test {
+public final class Edonkey2000Test {
 	
 	private static final int BLOCK_LENGTH = 9728000;
 	

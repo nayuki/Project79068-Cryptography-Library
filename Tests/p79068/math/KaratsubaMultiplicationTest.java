@@ -6,7 +6,7 @@ import java.util.Random;
 import org.junit.Test;
 
 
-public class KaratsubaMultiplicationTest {
+public final class KaratsubaMultiplicationTest {
 	
 	private static Random random = new Random();
 	

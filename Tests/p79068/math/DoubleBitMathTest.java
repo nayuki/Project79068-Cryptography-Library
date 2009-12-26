@@ -7,7 +7,7 @@ import org.junit.Test;
 import p79068.util.Random;
 
 
-public class DoubleBitMathTest {
+public final class DoubleBitMathTest {
 	
 	private static final double POSITIVE_ZERO = +0.0;
 	private static final double NEGATIVE_ZERO = -0.0;

@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 
-public class MersenneTwisterTest {
+public final class MersenneTwisterTest {
 	
 	private static long[] output = {
 		1067595299L,  955945823L,  477289528L, 4107218783L, 4228976476L, 3344332714L, 3355579695L,  227628506L,  810200273L, 2591290167L,

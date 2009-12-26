@@ -7,7 +7,7 @@ import p79068.util.hash.HashValue;
 import p79068.util.hash.Hasher;
 
 
-public class BlockHasherTest {
+public final class BlockHasherTest {
 	
 	@Test
 	public void testMultipleOfBlockSize() {

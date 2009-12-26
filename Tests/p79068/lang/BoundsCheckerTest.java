@@ -4,7 +4,7 @@ import static org.junit.Assert.fail;
 import org.junit.Test;
 
 
-public class BoundsCheckerTest {
+public final class BoundsCheckerTest {
 	
 	@Test
 	public void testCheckIndexValid() {
