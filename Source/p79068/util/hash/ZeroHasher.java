@@ -3,9 +3,9 @@ package p79068.util.hash;
 import p79068.lang.BoundsChecker;
 
 
-final class NullHasher extends Hasher {
+final class ZeroHasher extends Hasher {
 	
-	NullHasher(NullFunction hashFunc) {
+	ZeroHasher(ZeroFunction hashFunc) {
 		super(hashFunc);
 	}
 	

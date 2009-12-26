@@ -2,17 +2,17 @@ package p79068.util.hash;
 
 
 /**
- * The null hash function, always returning 8 bits of zeros.
+ * The zero hash function, always returning 8 bits of zeros.
  * <p>Mutability: <em>Immutable</em><br>
  *  Instantiability: <em>Singleton</em></p>
  * @see HashFunction
  */
-public class NullFunction extends HashFunction {
+public class ZeroFunction extends HashFunction {
 	
 	/**
-	 * The singleton instance of the null hash function.
+	 * The singleton instance of the zero hash function.
 	 */
-	public final static NullFunction FUNCTION = new NullFunction();
+	public final static ZeroFunction FUNCTION = new ZeroFunction();
 	
 	
 	
@@ -21,15 +21,15 @@ public class NullFunction extends HashFunction {
 	 * @return a new hasher of this hash function
 	 */
 	public Hasher newHasher() {
-		return new NullHasher(this);
+		return new ZeroHasher(this);
 	}
 	
 	
 	/**
-	 * Returns the name of this hash function: <code>Null</code>.
+	 * Returns the name of this hash function: <code>Zero</code>.
 	 */
 	public String getName() {
-		return "Null";
+		return "Zero";
 	}
 	
 	
@@ -42,6 +42,6 @@ public class NullFunction extends HashFunction {
 	
 	
 	
-	private NullFunction() {}
+	private ZeroFunction() {}
 	
 }
