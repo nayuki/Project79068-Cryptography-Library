@@ -112,8 +112,8 @@ public final class IntegerMath {
 	
 	/**
 	 * Returns the factorial of the specified integer.
-	 * @throws IllegalArgumentException if <code>x &lt; 0</code>
-	 * @throws ArithmeticOverflowException if <code>x &gt; 20</code>
+	 * @throws IllegalArgumentException if <code>x</code> &lt; 0
+	 * @throws ArithmeticOverflowException if <code>x</code> &gt; 20
 	 */
 	public static int factorial(int x) {
 		if (x < 0)
@@ -150,15 +150,15 @@ public final class IntegerMath {
 	 * Returns <code>x</code> modulo <code>y</code>. The result either has the same sign as <code>y</code> or is zero. Note that this is not exactly the same as the remainder operator (<code>%</code>) provided by the language.
 	 * <p>Sample values:</p>
 	 * <ul>
-	 *  <li><code>mod( 4, &nbsp;3) = &nbsp;1</code></li>
-	 *  <li><code>mod(-4, &nbsp;3) = &nbsp;2</code></li>
-	 *  <li><code>mod( 4, -3) = -2</code></li>
-	 *  <li><code>mod(-4, -3) = -1</code></li>
+	 *   <li><code>mod( 4, &nbsp;3) = &nbsp;1</code></li>
+	 *   <li><code>mod(-4, &nbsp;3) = &nbsp;2</code></li>
+	 *   <li><code>mod( 4, -3) = -2</code></li>
+	 *   <li><code>mod(-4, -3) = -1</code></li>
 	 * </ul>
 	 * @param x the integer to reduce
 	 * @param y the modulus
-	 * @return <code>x</code> mod <code>y</code>
-	 * @throws ArithmeticException if <code>y</code> is zero
+	 * @return <code>x</code> modulo <code>y</code>
+	 * @throws ArithmeticException if <code>y</code> is 0
 	 */
 	public static int mod(int x, int y) {
 		x %= y;  // x is now in (-abs(y), abs(y))
@@ -169,16 +169,18 @@ public final class IntegerMath {
 	
 	
 	/**
-	 * Returns the integer <code>y</code> such that <code>(x * y) mod m == 1</code> (assuming the calculation does not overflow). <code>y</code> exists if and only if <code>gcd(x, m) == 1</code>. If <code>y</code> exists, then <code>y</code> is in [0, <code>m</code>).
+	 * Returns the integer <code>y</code> such that <code>x</code> <code>y</code> mod m = 1 (assuming the calculation does not overflow). <code>y</code> exists if and only if <code>gcd(x, m)</code> = 1. If <code>y</code> exists, then <code>y</code> is in the range [0, <code>m</code>).
 	 * @param x the integer to reciprocate
 	 * @param m the modulus
-	 * @throws IllegalArgumentException if a reciprocal does no exist, because <code>x == 0</code> or <code>gcd(x, m) != 1</code>
+	 * @throws ArithmeticException if <code>x</code> = 0
+	 * @throws IllegalArgumentException if <code>m</code> &lt; 1
+	 * @throws IllegalArgumentException if a reciprocal does no exist (because <code>gcd(x, m)</code> &ne; 1)
 	 */
 	public static int reciprocalMod(int x, int m) {
 		if (x == 0)
-			throw new IllegalArgumentException("Division by zero");
-		if (m < 2)
-			throw new IllegalArgumentException("Reciprocal does not exist");
+			throw new ArithmeticException("Division by zero");
+		if (m < 1)
+			throw new IllegalArgumentException("Invalid modulus");
 		int y = x;
 		x = m;
 		int a = 0;
@@ -206,7 +208,8 @@ public final class IntegerMath {
 	 * @param y the exponent of the power
 	 * @param m the modulus
 	 * @return <code>x</code><sup><code>y</code></sup> mod <code>m</code>
-	 * @throws IllegalArgumentException if <code>y &lt; 0</code> and <code>x</code> has no reciprocal
+	 * @throws IllegalArgumentException if <code>y</code> &lt; 0
+	 * @throws IllegalArgumentException if <code>x</code> has no reciprocal modulo <code>m</code>
 	 */
 	public static int powMod(int x, int y, int m) {
 		if (y < 0)
@@ -375,6 +378,7 @@ public final class IntegerMath {
 	
 	/**
 	 * Returns the sign of the specified integer, which is <samp>-1</samp>, <samp>0</samp>, or <samp>1</samp>.
+	 * @param x the integer to whose sign will be computed
 	 */
 	public static int sign(int x) {
 		return (x >> 31) | ((-x) >>> 31);
@@ -383,12 +387,17 @@ public final class IntegerMath {
 	
 	/**
 	 * Returns the floor of the quotient of the specified integers.
+	 * @param x the dividend
+	 * @param y the divisor
+	 * @return the floor of <code>x</code> divided by <code>y</code>
+	 * @throws ArithmeticException if <code>y</code> is 0
+	 * @throws ArithmeticOverflowException if <code>x</code> = &minus;2<sup>31</sup> and <code>y</code> = &minus;1
 	 */
 	public static int divideAndFloor(int x, int y) {
 		if (x == Integer.MIN_VALUE && y == -1)  // The one and only overflow case
 			throw new ArithmeticOverflowException(String.format("divideAndFloor(%d, %d)", x, y));
 		else if ((x >= 0) == (y >= 0))
-			return x / y;  // If they have the same sign
+			return x / y;  // If they have the same sign, then result is positive and already floored
 		else {
 			int z = x / y;
 			if (z * y == x)
