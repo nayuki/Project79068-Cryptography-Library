@@ -3,7 +3,7 @@ package p79068.io;
 import java.io.*;
 
 
-public class FileIO {
+public class FileIo {
 	
 	public static byte[] readAll(File file) throws IOException {
 		if (file.length() > Integer.MAX_VALUE)
