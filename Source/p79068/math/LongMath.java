@@ -4,23 +4,11 @@ package p79068.math;
 /**
  * Contains methods for math functions that deal with long integers.
  * <p>Instantiability: <em>Not applicable</em></p>
+ * @see IntegerMath
  */
 public final class LongMath {
 	
-	/**
-	 * Returns <code>x</code> modulo <code>y</code>. The result either has the same sign as <code>y</code> or is zero. Note that this is not exactly the same as the remainder operator (<code>%</code>) provided by the language.
-	 * @param x the integer to reduce
-	 * @param y the modulus
-	 * @return <code>x</code> modulo <code>y</code>
-	 * @throws ArithmeticException if <code>y</code> is 0
-	 */
-	public static long mod(long x, long y) {
-		x %= y;  // x is now in (-abs(y), abs(y))
-		if (y > 0 && x < 0 || y < 0 && x > 0)
-			x += y;
-		return x;
-	}
-	
+	// Basic operations
 	
 	/**
 	 * Returns the floor of the quotient of the specified integers.
@@ -46,11 +34,54 @@ public final class LongMath {
 	
 	
 	/**
+	 * Returns <code>x</code> modulo <code>y</code>. The result either has the same sign as <code>y</code> or is zero. Note that this is not exactly the same as the remainder operator (<code>%</code>) provided by the language.
+	 * @param x the integer to reduce
+	 * @param y the modulus
+	 * @return <code>x</code> modulo <code>y</code>
+	 * @throws ArithmeticException if <code>y</code> is 0
+	 */
+	public static long mod(long x, long y) {
+		x %= y;  // x is now in (-abs(y), abs(y))
+		if (y > 0 && x < 0 || y < 0 && x > 0)
+			x += y;
+		return x;
+	}
+	
+	
+	
+	// Simple functions
+	
+	/**
 	 * Returns the sign of the specified integer, which is <samp>-1</samp>, <samp>0</samp>, or <samp>1</samp>.
 	 * @param x the integer to whose sign will be computed
 	 */
 	public static int sign(long x) {
 		return (int)(x >> 63) | (int)((-x) >>> 63);
+	}
+	
+	
+	/**
+	 * Compares two integers without overflowing.
+	 * @return <samp>-1</samp> if <code>x &lt; y</code>, <samp>0</samp> if <code>x == y</code>, or <samp>1</samp> if <code>x &gt; y</code>
+	 */
+	public static int compare(long x, long y) {
+		if (x < y)
+			return -1;
+		else if (x > y)
+			return 1;
+		else
+			return 0;
+	}
+	
+	
+	/**
+	 * Compares two unsigned integers without overflowing.
+	 * @param x an operand, interpreted as an unsigned 64-bit integer
+	 * @param y an operand, interpreted as an unsigned 64-bit integer
+	 * @return <samp>-1</samp> if <code>x &lt; y</code>, <samp>0</samp> if <code>x == y</code>, or <samp>1</samp> if <code>x &gt; y</code>
+	 */
+	public static int compareUnsigned(long x, long y) {
+		return compare(x ^ (1L << 63), y ^ (1L << 63));  // Flip top bits
 	}
 	
 	
@@ -83,31 +114,6 @@ public final class LongMath {
 	 */
 	public static boolean isPowerOf2(long x) {
 		return x > 0 && (x & (x - 1)) == 0;
-	}
-	
-	
-	/**
-	 * Compares two integers without overflowing.
-	 * @return <samp>-1</samp> if <code>x &lt; y</code>, <samp>0</samp> if <code>x == y</code>, or <samp>1</samp> if <code>x &gt; y</code>
-	 */
-	public static int compare(long x, long y) {
-		if (x < y)
-			return -1;
-		else if (x > y)
-			return 1;
-		else
-			return 0;
-	}
-	
-	
-	/**
-	 * Compares two unsigned integers without overflowing.
-	 * @param x an operand, interpreted as an unsigned 64-bit integer
-	 * @param y an operand, interpreted as an unsigned 64-bit integer
-	 * @return <samp>-1</samp> if <code>x &lt; y</code>, <samp>0</samp> if <code>x == y</code>, or <samp>1</samp> if <code>x &gt; y</code>
-	 */
-	public static int compareUnsigned(long x, long y) {
-		return compare(x ^ (1L << 63), y ^ (1L << 63));  // Flip top bits
 	}
 	
 	
