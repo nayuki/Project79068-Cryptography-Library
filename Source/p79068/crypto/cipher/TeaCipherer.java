@@ -6,7 +6,7 @@ Operates natively on 32-bit integers. For bytes, big-endian serialization is ass
 package p79068.crypto.cipher;
 
 import p79068.crypto.Zeroizer;
-import p79068.lang.*;
+import p79068.lang.BoundsChecker;
 
 
 final class TeaCipherer extends Cipherer {

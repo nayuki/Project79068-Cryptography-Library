@@ -6,7 +6,7 @@
 package p79068.crypto.cipher;
 
 import p79068.crypto.Zeroizer;
-import p79068.lang.*;
+import p79068.lang.BoundsChecker;
 
 
 final class FastWhirlpoolCipherer extends Cipherer {

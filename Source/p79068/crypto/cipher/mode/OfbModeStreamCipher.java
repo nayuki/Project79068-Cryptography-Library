@@ -3,8 +3,8 @@ package p79068.crypto.cipher.mode;
 import p79068.crypto.Zeroizable;
 import p79068.crypto.Zeroizer;
 import p79068.crypto.cipher.BlockCipher;
-import p79068.crypto.cipher.StreamCipherer;
 import p79068.crypto.cipher.StreamCipher;
+import p79068.crypto.cipher.StreamCipherer;
 
 
 /**

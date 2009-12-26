@@ -1,9 +1,9 @@
 package p79068.crypto.hash;
 
 import p79068.crypto.Zeroizable;
-import p79068.lang.*;
-import p79068.util.hash.Hasher;
+import p79068.lang.BoundsChecker;
 import p79068.util.hash.HashValue;
+import p79068.util.hash.Hasher;
 
 
 final class HmacHasher extends Hasher implements Zeroizable {

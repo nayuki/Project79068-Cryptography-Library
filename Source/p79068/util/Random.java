@@ -1,6 +1,6 @@
 package p79068.util;
 
-import p79068.lang.*;
+import p79068.lang.BoundsChecker;
 import p79068.math.IntegerMath;
 
 
