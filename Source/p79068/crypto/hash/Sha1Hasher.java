@@ -39,20 +39,12 @@ final class Sha1Hasher extends BlockHasherCore {
 	
 	
 	
-	private static final int[] k = { 0x5A827999, 0x6ED9EBA1, 0x8F1BBCDC, 0xCA62C1D6 };
-	
-	
 	public void compress(byte[] message, int off, int len) {
 		BoundsChecker.check(message.length, off, len);
 		if (len % 64 != 0)
 			throw new AssertionError();
 		
 		int[] schedule = new int[80];
-		int a = state[0];
-		int b = state[1];
-		int c = state[2];
-		int d = state[3];
-		int e = state[4];
 		
 		// For each block of 64 bytes
 		for (int end = off + len; off < end;) {
@@ -74,38 +66,14 @@ final class Sha1Hasher extends BlockHasherCore {
 				schedule[i] = temp;
 			}
 			
-			// The 80 rounds
-			for (int i = 0; i < 80; i++) {
-				int f;
-				if (0 <= i && i < 20)
-					f = d ^ (b & (c ^ d));  // Same as (b & c) | (~b & d)
-				else if (20 <= i && i < 40)
-					f = b ^ c ^ d;
-				else if (40 <= i && i < 60)
-					f = (b & (c | d)) | (c & d);  // Same as (b & c) | (c & d) | (d & b)
-				else if (60 <= i && i < 80)
-					f = b ^ c ^ d;
-				else
-					throw new AssertionError();
-				
-				int temp = (a << 5 | a >>> 27) + f + e + k[i / 20] + schedule[i];
-				e = d;
-				d = c;
-				c = b << 30 | b >>> 2;
-				b = a;
-				a = temp;
-			}
+			int[] tempState = state.clone();
+			encrypt(schedule, tempState);
 			
-			state[0] += a;
-			state[1] += b;
-			state[2] += c;
-			state[3] += d;
-			state[4] += e;
-			a = state[0];
-			b = state[1];
-			c = state[2];
-			d = state[3];
-			e = state[4];
+			state[0] += tempState[0];
+			state[1] += tempState[1];
+			state[2] += tempState[2];
+			state[3] += tempState[3];
+			state[4] += tempState[4];
 		}
 	}
 	
@@ -123,6 +91,106 @@ final class Sha1Hasher extends BlockHasherCore {
 			block[block.length - 1 - i] = (byte)((length * 8) >>> (i * 8));
 		compress(block);
 		return new HashValue(IntegerBitMath.toBytesBigEndian(state));
+	}
+	
+	
+	
+	private static final int[] k = {0x5A827999, 0x6ED9EBA1, 0x8F1BBCDC, 0xCA62C1D6};
+	
+	
+	/*
+	 * Each round performs a transform of this form:
+	 *  a' = e + f(a,b,c,d)
+	 *  b' = a
+	 *  c' = b ROTLEFT 30
+	 *  d' = c
+	 *  e' = d
+	 * The primed variables represent the output.
+	 * The actual implementation is an in-place version of this description.
+	 */
+	static void encrypt(int[] keySchedule, int[] message) {
+		int a = message[0];
+		int b = message[1];
+		int c = message[2];
+		int d = message[3];
+		int e = message[4];
+		
+		// The 80 rounds
+		for (int i = 0; i < 80; i++) {
+			int f;
+			if (0 <= i && i < 20)
+				f = d ^ (b & (c ^ d));  // Same as (b & c) | (~b & d)
+			else if (20 <= i && i < 40)
+				f = b ^ c ^ d;
+			else if (40 <= i && i < 60)
+				f = (b & (c | d)) | (c & d);  // Same as (b & c) | (c & d) | (d & b)
+			else if (60 <= i && i < 80)
+				f = b ^ c ^ d;
+			else
+				throw new AssertionError();
+			
+			int temp = (a << 5 | a >>> 27) + f + e + k[i / 20] + keySchedule[i];
+			e = d;
+			d = c;
+			c = b << 30 | b >>> 2;
+			b = a;
+			a = temp;
+		}
+		
+		message[0] = a;
+		message[1] = b;
+		message[2] = c;
+		message[3] = d;
+		message[4] = e;
+	}
+	
+	
+	/*
+	 * Each round performs a transform of this form:
+	 *  a = b'
+	 *  b = c' ROTLEFT 2
+	 *  c = d'
+	 *  d = e'
+	 *  e = a' - f(a,b,c,d)
+	 * The primed variables represent the input.
+	 * Therefore, equivalently: e = a' - f(b', c' ROTLEFT 2, d', e')
+	 * The actual implementation is an in-place version of this description.
+	 */
+	static void decrypt(int[] keySchedule, int[] message) {
+		int a = message[0];
+		int b = message[1];
+		int c = message[2];
+		int d = message[3];
+		int e = message[4];
+		
+		// The 80 rounds
+		for (int i = 79; i >= 0; i--) {
+			int temp = a;
+			a = b;
+			b = c << 2 | c >>> 30;
+			c = d;
+			d = e;
+			
+			int f;
+			if (0 <= i && i < 20)
+				f = d ^ (b & (c ^ d));
+			else if (20 <= i && i < 40)
+				f = b ^ c ^ d;
+			else if (40 <= i && i < 60)
+				f = (b & (c | d)) | (c & d);
+			else if (60 <= i && i < 80)
+				f = b ^ c ^ d;
+			else
+				throw new AssertionError();
+			
+			e = temp - ((a << 5 | a >>> 27) + f + k[i / 20] + keySchedule[i]);
+		}
+		
+		message[0] = a;
+		message[1] = b;
+		message[2] = c;
+		message[3] = d;
+		message[4] = e;
 	}
 	
 }

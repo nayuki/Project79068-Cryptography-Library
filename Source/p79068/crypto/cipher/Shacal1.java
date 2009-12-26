@@ -1,5 +1,7 @@
 package p79068.crypto.cipher;
 
+import p79068.crypto.hash.Sha1;
+
 
 /**
  * The SHACAL-1 block cipher, based on the SHA-1 hash function.
@@ -24,7 +26,7 @@ public final class Shacal1 extends BlockCipher {
 	public Cipherer newCipherer(byte[] key) {
 		if (key.length != keyLength)
 			throw new IllegalArgumentException();
-		return new Shacal1Cipherer(this, key);
+		return Sha1.FUNCTION.newCipherer(this, key);
 	}
 	
 	

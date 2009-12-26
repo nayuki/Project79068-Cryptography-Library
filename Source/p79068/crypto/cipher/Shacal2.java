@@ -1,5 +1,7 @@
 package p79068.crypto.cipher;
 
+import p79068.crypto.hash.Sha256;
+
 
 /**
  * The SHACAL-2 block cipher, based on the SHA-256 hash function.
@@ -24,7 +26,7 @@ public final class Shacal2 extends BlockCipher {
 	public Cipherer newCipherer(byte[] key) {
 		if (key.length != keyLength)
 			throw new IllegalArgumentException();
-		return new Shacal2Cipherer(this, key);
+		return Sha256.FUNCTION.newCipherer(this, key);
 	}
 	
 	

@@ -1,5 +1,7 @@
 package p79068.crypto.hash;
 
+import p79068.crypto.cipher.Cipherer;
+import p79068.crypto.cipher.Shacal1;
 import p79068.util.hash.HashFunction;
 import p79068.util.hash.Hasher;
 
@@ -52,6 +54,12 @@ public final class Sha1 extends BlockHashFunction {
 	 */
 	public int getBlockLength() {
 		return 64;
+	}
+	
+	
+	
+	public Cipherer newCipherer(Shacal1 cipher, byte[] key) {
+		return new Shacal1Cipherer(cipher, key);
 	}
 	
 	

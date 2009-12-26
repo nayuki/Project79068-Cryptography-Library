@@ -1,7 +1,9 @@
 package p79068.crypto.hash;
 
-import p79068.util.hash.Hasher;
+import p79068.crypto.cipher.Cipherer;
+import p79068.crypto.cipher.Shacal2;
 import p79068.util.hash.HashFunction;
+import p79068.util.hash.Hasher;
 
 
 /**
@@ -52,6 +54,11 @@ public final class Sha256 extends BlockHashFunction {
 	 */
 	public int getBlockLength() {
 		return 64;
+	}
+	
+	
+	public Cipherer newCipherer(Shacal2 cipher, byte[] key) {
+		return new Shacal2Cipherer(cipher, key);
 	}
 	
 	
