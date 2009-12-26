@@ -5,7 +5,7 @@ import p79068.util.hash.Hasher;
 
 abstract class AbstractWhirlpool extends BlockHashFunction {
 	
-	protected AbstractWhirlpool() {}
+	public AbstractWhirlpool() {}
 	
 	
 	
@@ -37,12 +37,6 @@ abstract class AbstractWhirlpool extends BlockHashFunction {
 	
 	
 	
-	abstract int getRounds();
-	
-	
-	abstract byte[] getSbox();
-	
-	
-	abstract int[] getC();
+	abstract WhirlpoolParameters getParameters();
 	
 }

@@ -1,8 +1,5 @@
 package p79068.crypto.hash;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 import p79068.crypto.Zeroizer;
 import p79068.lang.BoundsChecker;
 import p79068.math.LongBitMath;
@@ -20,17 +17,10 @@ final class FastWhirlpoolHasher extends BlockHasherCore {
 	
 	
 	
-	FastWhirlpoolHasher(AbstractWhirlpool hashFunc) {
-		if (!tablesByFunction.containsKey(hashFunc)) {
-			mul = makeMultiplicationTable(hashFunc.getSbox(), hashFunc.getC());
-			rcon = makeRoundConstants(hashFunc.getRounds(), hashFunc.getSbox());
-			tablesByFunction.put(hashFunc, new Tables(mul, rcon));
-		} else {
-			Tables tables = tablesByFunction.get(hashFunc);
-			mul = tables.multiply;
-			rcon = tables.roundConstants;
-		}
-		
+	public FastWhirlpoolHasher(AbstractWhirlpool hashFunc) {
+		WhirlpoolParameters params = hashFunc.getParameters();
+		mul = makeMultiplicationTable(params.getSbox(), params.getC());
+		rcon = makeRoundConstants(params.getRounds(), params.getSbox());
 		state = new long[8];
 	}
 	
@@ -138,39 +128,13 @@ final class FastWhirlpoolHasher extends BlockHasherCore {
 	
 	
 	
-	private static Map<AbstractWhirlpool,Tables> tablesByFunction;
-	
-	static {
-		tablesByFunction = new HashMap<AbstractWhirlpool,Tables>();
-		tablesByFunction = Collections.synchronizedMap(tablesByFunction);
-	}
-	
-	
-	
-	private static class Tables {
-		
-		public final long[][] multiply;
-		
-		public final long[][] roundConstants;
-		
-		
-		
-		public Tables(long[][] multiply, long[][] roundConstants) {
-			this.multiply = multiply;
-			this.roundConstants = roundConstants;
-		}
-		
-	}
-	
-	
-	
-	private static long[][] makeMultiplicationTable(byte[] sub, int[] c) {
+	private static long[][] makeMultiplicationTable(int[] sub, int[] c) {
 		c = pseudoReverse(c);
 		long[][] result = new long[8][256];
 		for (int i = 0; i < 256; i++) {
 			long vector = 0;
 			for (int j = 0; j < 8; j++)
-				vector |= (long)WhirlpoolUtils.multiply(sub[i] & 0xFF, c[j]) << ((7 - j) * 8);
+				vector |= (long)WhirlpoolUtils.multiply(sub[i], c[j]) << ((7 - j) * 8);
 			for (int j = 0; j < 8; j++)
 				result[j][i] = LongBitMath.rotateRight(vector, j * 8);
 		}
@@ -178,11 +142,11 @@ final class FastWhirlpoolHasher extends BlockHasherCore {
 	}
 	
 	
-	private static long[][] makeRoundConstants(int rounds, byte[] sub) {
+	private static long[][] makeRoundConstants(int rounds, int[] sub) {
 		long[][] result = new long[rounds][8];
 		for (int i = 0; i < result.length; i++) {
 			for (int j = 0; j < 8; j++)
-				result[i][0] |= (long)(sub[8 * i + j] & 0xFF) << ((7 - j) * 8);
+				result[i][0] |= (long)sub[8 * i + j] << ((7 - j) * 8);
 			for (int j = 1; j < 8; j++)
 				result[i][j] = 0;
 		}

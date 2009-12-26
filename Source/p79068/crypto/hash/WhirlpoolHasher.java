@@ -1,8 +1,5 @@
 package p79068.crypto.hash;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 import p79068.crypto.Zeroizer;
 import p79068.lang.BoundsChecker;
 import p79068.util.hash.HashValue;
@@ -19,18 +16,10 @@ final class WhirlpoolHasher extends BlockHasherCore {
 	
 	
 	public WhirlpoolHasher(AbstractWhirlpool hashFunc) {
-		sub = hashFunc.getSbox();
-		
-		if (!tablesByFunction.containsKey(hashFunc)) {
-			mul = makeMultiplicationTable(hashFunc.getC());
-			rcon = makeRoundConstants(hashFunc.getRounds(), sub);
-			tablesByFunction.put(hashFunc, new Tables(mul, rcon));
-		} else {
-			Tables tables = tablesByFunction.get(hashFunc);
-			mul = tables.multiply;
-			rcon = tables.roundConstants;
-		}
-		
+		WhirlpoolParameters params = hashFunc.getParameters();
+		sub = makeSbox(params.getSbox());
+		mul = makeMultiplicationTable(params.getC());
+		rcon = makeRoundConstants(params.getRounds(), sub);
 		state = new byte[64];
 	}
 	
@@ -149,30 +138,12 @@ final class WhirlpoolHasher extends BlockHasherCore {
 	
 	
 	
-	private static Map<AbstractWhirlpool,Tables> tablesByFunction;
-	
-	static {
-		tablesByFunction = new HashMap<AbstractWhirlpool,Tables>();
-		tablesByFunction = Collections.synchronizedMap(tablesByFunction);
+	private static byte[] makeSbox(int[] sbox) {
+		byte[] result = new byte[256];
+		for (int i = 0; i < result.length; i++)
+			result[i] = (byte)sbox[i];
+		return result;
 	}
-	
-	
-	
-	private static class Tables {
-		
-		public final byte[][] multiply;
-		
-		public final byte[][] roundConstants;
-		
-		
-		
-		public Tables(byte[][] multiply, byte[][] roundConstants) {
-			this.multiply = multiply;
-			this.roundConstants = roundConstants;
-		}
-		
-	}
-	
 	
 	
 	private static byte[][] makeRoundConstants(int rounds, byte[] sub) {
