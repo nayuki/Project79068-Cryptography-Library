@@ -6,6 +6,7 @@ import p79068.lang.BoundsChecker;
 /**
  * Contains methods for math functions that deal with bits in long integers.
  * <p>Instantiability: <em>Not applicable</em></p>
+ * @see IntegerBitMath
  */
 public final class LongBitMath {
 	
