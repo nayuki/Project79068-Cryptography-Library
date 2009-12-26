@@ -7,8 +7,8 @@ import p79068.util.hash.HashValue;
 
 final class Md2Hasher extends BlockHasherCore {
 	
-	private int[] state;
-	private int[] checksum;
+	private int[] state;  // Every element is in [0, 255]
+	private int[] checksum;  // Every element is in [0, 255]
 	
 	
 	
@@ -40,8 +40,8 @@ final class Md2Hasher extends BlockHasherCore {
 	
 	
 	
-	// Substitution table derived from pi. This is a permutation.
-	private static final int[] s = {
+	// Substitution table derived from pi. This is a permutation of [0, 255].
+	private static final int[] sbox = {
 		0x29, 0x2E, 0x43, 0xC9, 0xA2, 0xD8, 0x7C, 0x01, 0x3D, 0x36, 0x54, 0xA1, 0xEC, 0xF0, 0x06, 0x13,
 		0x62, 0xA7, 0x05, 0xF3, 0xC0, 0xC7, 0x73, 0x8C, 0x98, 0x93, 0x2B, 0xD9, 0xBC, 0x4C, 0x82, 0xCA,
 		0x1E, 0x9B, 0x57, 0x3C, 0xFD, 0xD4, 0xE0, 0x16, 0x67, 0x42, 0x6F, 0x18, 0x8A, 0x17, 0xE5, 0x12,
@@ -68,31 +68,28 @@ final class Md2Hasher extends BlockHasherCore {
 			throw new AssertionError();
 		
 		// For each block of 16 bytes
-		for (int end = off + len; off < end; off += 16) {
+		for (int i = off, end = off + len; i < end; i += 16) {
 			
 			// Copy the block into state
-			for (int i = 0; i < 16; i++) {
-				state[i + 16] = message[off + i] & 0xFF;
-				state[i + 32] = state[i + 16] ^ state[i];
+			for (int j = 0; j < 16; j++) {
+				state[j + 16] = message[i + j] & 0xFF;
+				state[j + 32] = (message[i + j] & 0xFF) ^ state[j];
 			}
 			
 			// Do 18 rounds
 			int t = 0;
-			for (int i = 0; i < 18; i++) {
-				for (int j = 0; j < 48; j++) {
-					int temp = state[j] ^ s[t];
-					state[j] = temp;
-					t = temp;
-				}
-				t = (t + i) & 0xFF;
+			for (int j = 0; j < 18; j++) {
+				for (int k = 0; k < 48; k++)
+					t = state[k] ^= sbox[t];
+				t = (t + j) & 0xFF;
 			}
 			
 			// Checksum the block
 			int l = checksum[15];
-			for (int i = 0; i < 16; i++) {
-				int c = message[off + i] & 0xFF;
-				int temp = checksum[i] ^ s[c ^ l];
-				checksum[i] = temp;
+			for (int j = 0; j < 16; j++) {
+				int c = message[i + j] & 0xFF;
+				int temp = checksum[j] ^ sbox[c ^ l];
+				checksum[j] = temp;
 				l = temp;
 			}
 		}
