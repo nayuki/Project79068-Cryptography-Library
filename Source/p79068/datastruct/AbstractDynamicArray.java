@@ -1,5 +1,7 @@
 package p79068.datastruct;
 
+import java.util.Arrays;
+
 
 public abstract class AbstractDynamicArray<E> {
 	
@@ -55,9 +57,7 @@ public abstract class AbstractDynamicArray<E> {
 			return;  // No action required
 		if (newCapacity < length)
 			throw new IllegalArgumentException();
-		Object[] newobjects = new Object[newCapacity];
-		System.arraycopy(objects, 0, newobjects, 0, length);
-		objects = newobjects;
+		objects = Arrays.copyOf(objects, length);
 	}
 	
 }

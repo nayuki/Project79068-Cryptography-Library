@@ -1,5 +1,6 @@
 package p79068.crypto.cipher;
 
+import java.util.Arrays;
 import p79068.crypto.Zeroizer;
 import p79068.lang.*;
 
@@ -189,7 +190,7 @@ final class Shacal1Cipherer extends Cipherer {
 	
 	
 	private void setKey(byte[] key) {
-		key = ensureKeyLength(key);
+		key = Arrays.copyOf(key, 64);  // Truncates or zero-pads the key to 64 bytes
 
 		// Pack bytes into int32s in big endian
 		for (int i = 0; i < 16; i++) {
@@ -204,14 +205,6 @@ final class Shacal1Cipherer extends Cipherer {
 			int temp = keySchedule[i - 3] ^ keySchedule[i - 8] ^ keySchedule[i - 14] ^ keySchedule[i - 16];
 			keySchedule[i] = temp << 1 | temp >>> 31;
 		}
-	}
-	
-	
-	// If the key is shorter than 64 bytes, then zeros are appended. If the key is longer, then it is truncated.
-	private static byte[] ensureKeyLength(byte[] key) {
-		byte[] result = new byte[64];
-		System.arraycopy(key, 0, result, 0, Math.min(key.length, result.length));
-		return result;
 	}
 	
 }

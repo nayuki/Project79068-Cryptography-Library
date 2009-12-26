@@ -1,5 +1,6 @@
 package p79068.datastruct;
 
+import java.util.Arrays;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -192,11 +193,8 @@ public final class ArrayList<E> extends AbstractDynamicArray<E> implements List<
 	public void setCapacity(int newCapacity) {
 		if (newCapacity < length || newCapacity < 1)
 			throw new IllegalArgumentException("New capacity too small");
-		else if (newCapacity != objects.length) {  // Only do something if the capacity changed
-			Object[] newdata = new Object[newCapacity];
-			System.arraycopy(objects, 0, newdata, 0, length);
-			objects = newdata;
-		}
+		else if (newCapacity != objects.length)  // Only do something if the capacity changed
+			objects = Arrays.copyOf(objects, length);
 	}
 	
 	
