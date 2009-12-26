@@ -36,7 +36,6 @@ public final class ArrayStack<E> extends AbstractDynamicArray<E> implements Stac
 	 * @param initCapacity the initial capacity, which must be at least 1
 	 * @throws IllegalArgumentException if <code>initCapacity &lt; 1</code>
 	 */
-	@SuppressWarnings("unchecked")
 	public ArrayStack(int initCapacity) {
 		super(initCapacity, 2);
 	}
