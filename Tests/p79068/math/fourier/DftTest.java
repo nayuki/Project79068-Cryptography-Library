@@ -61,7 +61,7 @@ public abstract class DftTest {
 	
 	
 	@Test
-	public void testInvertibilityRandom() {
+	public void testInvertibilityRandomly() {
 		for (int i = 0; i < 30; i++) {
 			int length = random.randomInt(100) + 1;
 			double[][] temp = newRandomVector(length);
@@ -84,7 +84,7 @@ public abstract class DftTest {
 	
 	
 	@Test
-	public void testEnergyConservationRandom() {
+	public void testEnergyConservationRandomly() {
 		for (int i = 0; i < 30; i++) {
 			int length = random.randomInt(100) + 1;
 			double[][] temp = newRandomVector(length);
@@ -107,7 +107,7 @@ public abstract class DftTest {
 	
 	
 	@Test
-	public void testLinearityRandom() {
+	public void testLinearityRandomly() {
 		for (int i = 0; i < 30; i++) {
 			int length = random.randomInt(100) + 1;
 			double[][] temp0 = newRandomVector(length);

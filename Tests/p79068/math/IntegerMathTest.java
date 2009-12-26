@@ -177,7 +177,7 @@ public final class IntegerMathTest {
 	
 	
 	@Test
-	public void testSqrtRandom() {
+	public void testSqrtRandomly() {
 		for (int i = 0; i < 1000; i++) {
 			int x = random.randomInt() & 0x7FFFFFFF;
 			int y = IntegerMath.sqrt(x);
@@ -216,7 +216,7 @@ public final class IntegerMathTest {
 	
 	
 	@Test
-	public void testCbrtRandom() {
+	public void testCbrtRandomly() {
 		for (int i = 0; i < 1000; i++) {
 			int x = random.randomInt();
 			int y = IntegerMath.cbrt(x);
@@ -243,7 +243,7 @@ public final class IntegerMathTest {
 	
 	
 	@Test
-	public void testLog2FloorRandom() {
+	public void testLog2FloorRandomly() {
 		for (int i = 0; i < 1000; i++) {
 			int x = random.randomInt(Integer.MAX_VALUE - 1) + 1;
 			int y = IntegerMath.log2Floor(x);
@@ -267,7 +267,7 @@ public final class IntegerMathTest {
 	
 	
 	@Test
-	public void testLog2CeilingRandom() {
+	public void testLog2CeilingRandomly() {
 		for (int i = 0; i < 1000; i++) {
 			int x = random.randomInt(0x3FFFFFFF) + 1;
 			int y = IntegerMath.log2Ceiling(x);
@@ -293,7 +293,7 @@ public final class IntegerMathTest {
 	
 	
 	@Test
-	public void testFloorToPowerOf2Random() {
+	public void testFloorToPowerOf2Randomly() {
 		for (int i = 0; i < 1000; i++) {
 			int x = random.randomInt(Integer.MAX_VALUE - 1) + 1;
 			int y = IntegerMath.floorToPowerOf2(x);
@@ -319,7 +319,7 @@ public final class IntegerMathTest {
 	
 	
 	@Test
-	public void testCeilingToPowerOf2Random() {
+	public void testCeilingToPowerOf2Randomly() {
 		for (int i = 0; i < 1000; i++) {
 			int x = random.randomInt(0x3FFFFFFF) + 1;
 			int y = IntegerMath.ceilingToPowerOf2(x);
@@ -342,7 +342,7 @@ public final class IntegerMathTest {
 	
 	
 	@Test
-	public void testReciprocalModRandom() {
+	public void testReciprocalModRandomly() {
 		for (int i = 0; i < 100000; i++) {
 			int m = random.randomInt(46340) + 2;
 			int x = random.randomInt(m - 1) + 1;
