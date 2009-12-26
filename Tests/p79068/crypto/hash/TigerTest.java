@@ -14,15 +14,7 @@ public final class TigerTest {
 	private static String msg5 = "abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq";
 	private static String msg6 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 	private static String msg7 = "12345678901234567890123456789012345678901234567890123456789012345678901234567890";
-	private static String msg8;
-	
-	
-	static {
-		StringBuffer sb = new StringBuffer();
-		for (int i = 0; i < 1000000; i++)
-			sb.append('a');
-		msg8 = sb.toString();
-	}
+	private static String msg8 = getMillionAs();
 	
 	
 	
@@ -58,6 +50,15 @@ public final class TigerTest {
 	public void testZeroize() {
 		CryptoUtils.testZeroization(Tiger.FUNCTION);
 		CryptoUtils.testZeroization(Tiger2.FUNCTION);
+	}
+	
+	
+	
+	private static String getMillionAs() {
+		StringBuffer sb = new StringBuffer();
+		for (int i = 0; i < 1000000; i++)
+			sb.append('a');
+		return sb.toString();
 	}
 	
 }

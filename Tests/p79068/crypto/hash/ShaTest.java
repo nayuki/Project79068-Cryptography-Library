@@ -13,15 +13,7 @@ public final class ShaTest {
 	private static String msg4 = "abcdefghijklmnopqrstuvwxyz";
 	private static String msg5 = "abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq";
 	private static String msg6 = "abcdefghbcdefghicdefghijdefghijkefghijklfghijklmghijklmnhijklmnoijklmnopjklmnopqklmnopqrlmnopqrsmnopqrstnopqrstu";
-	private static String msg7;
-	
-	
-	static {
-		StringBuffer sb = new StringBuffer();
-		for (int i = 0; i < 1000000; i++)
-			sb.append('a');
-		msg7 = sb.toString();
-	}
+	private static String msg7 = getMillionAs();
 	
 	
 	
@@ -101,6 +93,15 @@ public final class ShaTest {
 		CryptoUtils.testZeroization(Sha256.FUNCTION);
 		CryptoUtils.testZeroization(Sha384.FUNCTION);
 		CryptoUtils.testZeroization(Sha512.FUNCTION);
+	}
+	
+	
+	
+	private static String getMillionAs() {
+		StringBuffer sb = new StringBuffer();
+		for (int i = 0; i < 1000000; i++)
+			sb.append('a');
+		return sb.toString();
 	}
 	
 }
