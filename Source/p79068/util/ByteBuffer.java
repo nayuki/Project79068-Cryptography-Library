@@ -11,10 +11,13 @@ public final class ByteBuffer {
 	private byte[] buffer;
 	private int length;
 	
+	
+	
 	public ByteBuffer() {
 		buffer = new byte[1];
 		length = 0;
 	}
+	
 	
 	
 	public ByteBuffer append(byte b) {
@@ -25,6 +28,7 @@ public final class ByteBuffer {
 		return this;
 	}
 	
+	
 	public ByteBuffer append(int b) {
 		if (length == buffer.length)
 			buffer = resize(buffer, length * 2);
@@ -33,9 +37,11 @@ public final class ByteBuffer {
 		return this;
 	}
 	
+	
 	public ByteBuffer append(byte[] b) {
 		return append(b, 0, b.length);
 	}
+	
 	
 	public ByteBuffer append(byte[] b, int off, int len) {
 		if (length + len > buffer.length) {
@@ -54,11 +60,13 @@ public final class ByteBuffer {
 		return length;
 	}
 	
+	
 	public byte[] toByteArray() {
 		byte[] b = new byte[length];
 		System.arraycopy(buffer, 0, b, 0, length);
 		return b;
 	}
+	
 	
 	public void clear() {
 		length = 0;
@@ -70,4 +78,5 @@ public final class ByteBuffer {
 		System.arraycopy(ain, 0, aout, 0, Math.min(len, ain.length));
 		return aout;
 	}
+	
 }
