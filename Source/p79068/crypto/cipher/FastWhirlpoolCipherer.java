@@ -1,6 +1,6 @@
 /*
-Each int64 represents a row of state.
-*/
+ * Each int64 represents a row of state.
+ */
 
 
 package p79068.crypto.cipher;
@@ -18,7 +18,7 @@ final class FastWhirlpoolCipherer extends Cipherer {
 	
 	
 	
-	FastWhirlpoolCipherer(WhirlpoolCipher cipher, byte[] key) {
+	public FastWhirlpoolCipherer(WhirlpoolCipher cipher, byte[] key) {
 		super(cipher, key);
 		rcon = RCON;
 		mul = MUL;
@@ -95,14 +95,17 @@ final class FastWhirlpoolCipherer extends Cipherer {
 	}
 	
 	
-	private void w(long[] block, long[] temp) { // The internal block cipher. Overwrites block and temp.
+	// The internal block cipher. Overwrites block and temp.
+	private void w(long[] block, long[] temp) {
 		for (int i = 0; i < 8; i++)
-			block[i] ^= keySchedule[0][i]; // Sigma
+			block[i] ^= keySchedule[0][i];  // Sigma
 		for (int i = 0; i < rcon.length; i++)
 			rho(block, keySchedule[i], temp);
 	}
 	
-	private void rho(long[] block, long[] key, long[] temp) { // The round function. Overwrites block and temp.
+	
+	// The round function. Overwrites block and temp.
+	private void rho(long[] block, long[] key, long[] temp) {
 		for (int i = 0; i < 8; i++)
 			temp[i] = 0;
 		for (int i = 0; i < 8; i++) {
@@ -110,8 +113,8 @@ final class FastWhirlpoolCipherer extends Cipherer {
 				temp[(i + j) & 7] ^= mul[j][(int)(block[i] >>> ((j ^ 7) << 3)) & 0xFF];
 		}
 		for (int i = 0; i < 8; i++)
-			block[i] = temp[i] ^ key[i];
-	} // Sigma
+			block[i] = temp[i] ^ key[i];  // Sigma
+	}
 	
 	
 	private static void toInt64sBigEndian(byte[] in, int off, long[] out) {
@@ -137,8 +140,8 @@ final class FastWhirlpoolCipherer extends Cipherer {
 	
 	private static final int ROUNDS = 10;
 	
-	private static int[] exp; // exp[i] = pow(0x02,i) in GF(2^8)/0x11D.
-	private static int[] log; // These are only used in class initialization.
+	private static int[] exp;  // exp[i] = pow(0x02,i) in GF(2^8)/0x11D.
+	private static int[] log;  // These are only used in class initialization.
 	
 	private static int[] SUB;
 	private static long[][] MUL;
@@ -171,9 +174,11 @@ final class FastWhirlpoolCipherer extends Cipherer {
 	private static void initSBox() {
 		int[] e = {0x1, 0xB, 0x9, 0xC, 0xD, 0x6, 0xF, 0x3, 0xE, 0x8, 0x7, 0x4, 0xA, 0x2, 0x5, 0x0};  // The E mini-box
 		int[] r = {0x7, 0xC, 0xB, 0xD, 0xE, 0x4, 0x9, 0xF, 0x6, 0x3, 0x8, 0xA, 0x2, 0x5, 0x1, 0x0};  // The R mini-box
-		int[] einv = new int[16]; // The inverse of E
+		
+		int[] einv = new int[16];  // The inverse of E
 		for (int i = 0; i < e.length; i++)
 			einv[e[i]] = i;
+		
 		SUB = new int[256];
 		for (int i = 0; i < SUB.length; i++) {
 			int left = e[i >>> 4];
