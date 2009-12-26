@@ -56,6 +56,11 @@ public final class WhirlpoolT extends AbstractWhirlpool {
 			return Whirlpool0.PARAMETERS.getC();
 		}
 		
+		// Identical to the one in Whirlpool-0
+		public int[] getCInverse() {
+			return Whirlpool0.PARAMETERS.getCInverse();
+		}
+		
 	};
 	
 }

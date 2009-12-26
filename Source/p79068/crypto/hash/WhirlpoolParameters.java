@@ -15,4 +15,7 @@ abstract class WhirlpoolParameters {
 	
 	public abstract int[] getC();
 	
+	
+	public abstract int[] getCInverse();
+	
 }
