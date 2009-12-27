@@ -6,7 +6,7 @@ import p79068.lang.BoundsChecker;
 final class Xor8Hasher extends Hasher {
 	
 	/**
-	 * The running XOR of all the bytes seen. Note that the top 24 bits are irrelevant.
+	 * The running XOR of all the bytes seen. The top 24 bits are ignored. (They are either 0x000000 or 0xFFFFFF.)
 	 */
 	private int xor;
 	
