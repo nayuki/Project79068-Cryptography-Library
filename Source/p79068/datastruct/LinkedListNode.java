@@ -30,7 +30,7 @@ public class LinkedListNode<E> implements Cloneable {
 	
 	/**
 	 * Creates a linked list node that stores the specified object and points to the specified next node.
-	 * @param val the object to store
+	 * @param obj the object to store
 	 * @param next the next node to point to
 	 */
 	public LinkedListNode(E obj, LinkedListNode<E> next) {
