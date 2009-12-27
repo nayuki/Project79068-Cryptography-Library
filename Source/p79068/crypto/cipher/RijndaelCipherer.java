@@ -11,6 +11,11 @@ import p79068.lang.BoundsChecker;
 
 class RijndaelCipherer extends Cipherer {
 	
+	protected static byte[] SBOX = RijndaelUtils.getSbox();
+	protected static byte[] SBOX_INVERSE = RijndaelUtils.getSboxInverse();
+	
+	
+	
 	/**
 	 * Key schedule, containing the round keys. The number of rounds is equal to <code>keySchedule.length - 1</code>.
 	 */
@@ -25,7 +30,7 @@ class RijndaelCipherer extends Cipherer {
 	
 	
 	
-	RijndaelCipherer(Rijndael cipher, byte[] key) {
+	public RijndaelCipherer(Rijndael cipher, byte[] key) {
 		super(cipher, key);
 		blockLength = cipher.getBlockLength();
 		switch (blockLength) {
@@ -142,7 +147,7 @@ class RijndaelCipherer extends Cipherer {
 	
 	protected void subBytes(byte[] block) {
 		for (int i = 0; i < blockLength; i++)
-			block[i] = RijndaelUtils.sub[block[i] & 0xFF];
+			block[i] = SBOX[block[i] & 0xFF];
 	}
 	
 	
@@ -178,7 +183,7 @@ class RijndaelCipherer extends Cipherer {
 	
 	protected void subBytesInverse(byte[] block) {
 		for (int i = 0; i < blockLength; i++)
-			block[i] = RijndaelUtils.subinv[block[i] & 0xFF];
+			block[i] = SBOX_INVERSE[block[i] & 0xFF];
 	}
 	
 	

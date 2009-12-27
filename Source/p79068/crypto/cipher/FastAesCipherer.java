@@ -29,6 +29,7 @@ final class FastAesCipherer extends Cipherer {
 		if (key.length % 4 != 0 || key.length == 0)
 			throw new IllegalArgumentException("Invalid key length");
 		
+		// Set the key
 		int nk = key.length / 4;  // Number of 32-bit blocks in the key
 		roundCount = Math.max(nk, 4) + 6;
 		
@@ -40,7 +41,11 @@ final class FastAesCipherer extends Cipherer {
 				System.arraycopy(encKeySch, (roundCount - i) * 4, decKeySch, i * 4, 4);
 			else {
 				for (int j = 0; j < 4; j++) {
-					decKeySch[i * 4 + j] = mulinv0[RijndaelUtils.sub[encKeySch[(roundCount - i) * 4 + j] >>> 24 & 0xFF] & 0xFF] ^ mulinv1[RijndaelUtils.sub[encKeySch[(roundCount - i) * 4 + j] >>> 16 & 0xFF] & 0xFF] ^ mulinv2[RijndaelUtils.sub[encKeySch[(roundCount - i) * 4 + j] >>> 8 & 0xFF] & 0xFF] ^ mulinv3[RijndaelUtils.sub[encKeySch[(roundCount - i) * 4 + j] >>> 0 & 0xFF] & 0xFF];
+					decKeySch[i * 4 + j] =
+						  mulinv0[SBOX[encKeySch[(roundCount - i) * 4 + j] >>> 24 & 0xFF] & 0xFF]
+					    ^ mulinv1[SBOX[encKeySch[(roundCount - i) * 4 + j] >>> 16 & 0xFF] & 0xFF]
+					    ^ mulinv2[SBOX[encKeySch[(roundCount - i) * 4 + j] >>>  8 & 0xFF] & 0xFF]
+					    ^ mulinv3[SBOX[encKeySch[(roundCount - i) * 4 + j] >>>  0 & 0xFF] & 0xFF];
 				}
 			}
 		}
@@ -178,34 +183,38 @@ final class FastAesCipherer extends Cipherer {
 	
 	
 	
+	private static byte[] SBOX = RijndaelUtils.getSbox();
+	
 	private static int[] bigsub, bigsubinv;  // Substitutes 2 bytes in parallel.
 	private static int[] mul0, mul1, mul2, mul3;
 	private static int[] mulinv0, mulinv1, mulinv2, mulinv3;
 	
 	
 	static {
-		initBigSBox();
-		initMultiplyTable();
+		byte[] sbox = RijndaelUtils.getSbox();
+		byte[] sboxinv = RijndaelUtils.getSboxInverse();
+		initBigSBox(sbox, sboxinv);
+		initMultiplyTable(sbox, sboxinv);
 	}
 	
 	
-	private static void initBigSBox() {
+	private static void initBigSBox(byte[] sbox, byte[] sboxinv) {
 		bigsub = new int[65536];
 		bigsubinv = new int[65536];
 		for (int i = 0; i < 65536; i++) {
-			bigsub[i] = (RijndaelUtils.sub[i >>> 8] & 0xFF) << 8 | (RijndaelUtils.sub[i & 0xFF] & 0xFF);
-			bigsubinv[i] = (RijndaelUtils.subinv[i >>> 8] & 0xFF) << 8 | (RijndaelUtils.subinv[i & 0xFF] & 0xFF);
+			bigsub[i] = (sbox[i >>> 8] & 0xFF) << 8 | (sbox[i & 0xFF] & 0xFF);
+			bigsubinv[i] = (sboxinv[i >>> 8] & 0xFF) << 8 | (sboxinv[i & 0xFF] & 0xFF);
 		}
 	}
 	
 	
-	private static void initMultiplyTable() {
+	private static void initMultiplyTable(byte[] sbox, byte[] sboxinv) {
 		mul0 = new int[256];
 		mul1 = new int[256];
 		mul2 = new int[256];
 		mul3 = new int[256];
 		for (int i = 0; i < 256; i++) {
-			int j = RijndaelUtils.sub[i] & 0xFF;
+			int j = sbox[i] & 0xFF;
 			int temp = RijndaelUtils.multiply(j, 0x02) << 24
 			         | RijndaelUtils.multiply(j, 0x01) << 16
 			         | RijndaelUtils.multiply(j, 0x01) <<  8
@@ -221,7 +230,7 @@ final class FastAesCipherer extends Cipherer {
 		mulinv2 = new int[256];
 		mulinv3 = new int[256];
 		for (int i = 0; i < 256; i++) {
-			int j = RijndaelUtils.subinv[i] & 0xFF;
+			int j = sboxinv[i] & 0xFF;
 			int temp = RijndaelUtils.multiply(j, 0x0E) << 24
 			         | RijndaelUtils.multiply(j, 0x09) << 16
 			         | RijndaelUtils.multiply(j, 0x0D) <<  8

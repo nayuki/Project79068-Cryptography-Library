@@ -3,8 +3,8 @@ package p79068.crypto.cipher;
 
 final class RijndaelUtils {
 	
-	static final byte[] sub;
-	static final byte[] subinv;
+	private static final byte[] SBOX;
+	private static final byte[] SBOX_INVERSE;
 	
 	private static final int[] exp;
 	private static final int[] log;
@@ -15,37 +15,46 @@ final class RijndaelUtils {
 		exp = new int[255];
 		log = new int[256];
 		initExpLogTables();
-		sub = new byte[256];
-		subinv = new byte[256];
-		initSBoxes();
+		
+		SBOX = new byte[256];
+		SBOX_INVERSE = new byte[256];
+		initSboxes();
 	}
 	
 	
+	/**
+	 * Initializes the exponentiation and logarithm tables.
+	 */
 	private static void initExpLogTables() {
-		exp[0] = 1;
-		log[0] = Integer.MIN_VALUE;
-		log[1] = 0;
-		for (int i = 1; i < exp.length; i++) {
-			exp[i] = (exp[i - 1] << 1) ^ (exp[i - 1]);  // Multiply by 0x03, which is a generator
-			if (exp[i] >= 0x100)
-				exp[i] ^= 0x11B;  // Modulo by 0x11B in GF(2)
-			log[exp[i]] = i;
+		// Initialize exponentiation (exp) table
+		int product = 1;
+		for (int i = 0; i < exp.length; i++) {
+			exp[i] = product;
+			product ^= product << 1;  // Multiply by 0x03, which is a generator
+			if ((product & 0x100) != 0)
+				product ^= 0x11B;  // Modulo by 0x11B in GF(2)
 		}
+		
+		// Initialize logarithm (log) table
+		log[0] = Integer.MIN_VALUE;  // Log of 0 is invalid
+		for (int i = 1; i < exp.length; i++)
+			log[exp[i]] = i;
 	}
 	
 	
-	private static void initSBoxes() {
+	private static void initSboxes() {
 		for (int i = 0; i < 256; i++) {
 			int temp = reciprocal(i);
-			sub[i] = (byte)(temp ^ (temp << 4 | temp >>> 4) ^ (temp << 3 | temp >>> 5) ^ (temp << 2 | temp >>> 6) ^ (temp << 1 | temp >>> 7) ^ 0x63);
-			subinv[sub[i] & 0xFF] = (byte)i;
+			int s = ((temp ^ (temp << 4 | temp >>> 4) ^ (temp << 3 | temp >>> 5) ^ (temp << 2 | temp >>> 6) ^ (temp << 1 | temp >>> 7) ^ 0x63)) & 0xFF;
+			SBOX[i] = (byte)s;
+			SBOX_INVERSE[s] = (byte)i;
 		}
 	}
 	
 	
 	
 	public static int multiply(int x, int y) {
-		if ((x & ~0xFF) != 0 || (y & ~0xFF) != 0)
+		if ((x & 0xFF) != x || (y & 0xFF) != y)
 			throw new IllegalArgumentException("Input out of range");
 		else if (x == 0 || y == 0)
 			return 0;
@@ -55,7 +64,7 @@ final class RijndaelUtils {
 	
 	
 	public static int reciprocal(int x) {
-		if ((x & ~0xFF) != 0)
+		if ((x & 0xFF) != x)
 			throw new IllegalArgumentException("Input out of range");
 		else if (x != 0)
 			return exp[(255 - log[x]) % 255];
@@ -64,13 +73,13 @@ final class RijndaelUtils {
 	}
 	
 	
-	public static byte[] getSBox() {
-		return sub.clone();
+	public static byte[] getSbox() {
+		return SBOX.clone();
 	}
 	
 	
-	public static byte[] getSBoxInverse() {
-		return subinv.clone();
+	public static byte[] getSboxInverse() {
+		return SBOX_INVERSE.clone();
 	}
 	
 	
@@ -95,12 +104,18 @@ final class RijndaelUtils {
 	
 	
 	private static int subInt32Bytes(int x) {  // Apply S-box to each byte in the 32-bit integer.
-		return sub[x >>> 24] << 24 | (sub[x >>> 16 & 0xFF] & 0xFF) << 16 | (sub[x >>> 8 & 0xFF] & 0xFF) << 8 | (sub[x & 0xFF] & 0xFF);
+		return (SBOX[x >>> 24 & 0xFF] & 0xFF) << 24
+		     | (SBOX[x >>> 16 & 0xFF] & 0xFF) << 16
+		     | (SBOX[x >>>  8 & 0xFF] & 0xFF) <<  8
+		     | (SBOX[x >>>  0 & 0xFF] & 0xFF) <<  0;
 	}
 	
 	
 	private static int toInt32(byte[] b, int off) {
-		return b[off] << 24 | (b[off + 1] & 0xFF) << 16 | (b[off + 2] & 0xFF) << 8 | (b[off + 3] & 0xFF);
+		return (b[off + 0] & 0xFF) << 24
+		     | (b[off + 1] & 0xFF) << 16
+		     | (b[off + 2] & 0xFF) <<  8
+		     | (b[off + 3] & 0xFF) <<  0;
 	}
 	
 }
