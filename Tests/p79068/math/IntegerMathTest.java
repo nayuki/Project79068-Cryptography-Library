@@ -9,7 +9,7 @@ import p79068.util.Random;
 
 public final class IntegerMathTest {
 	
-	private static Random random = Random.newInstance();
+	private static Random RANDOM = Random.DEFAULT;
 	
 	
 	
@@ -179,7 +179,7 @@ public final class IntegerMathTest {
 	@Test
 	public void testSqrtRandomly() {
 		for (int i = 0; i < 1000; i++) {
-			int x = random.randomInt() & 0x7FFFFFFF;
+			int x = RANDOM.randomInt() & 0x7FFFFFFF;
 			int y = IntegerMath.sqrt(x);
 			assertTrue(y * y <= x);
 		}
@@ -218,7 +218,7 @@ public final class IntegerMathTest {
 	@Test
 	public void testCbrtRandomly() {
 		for (int i = 0; i < 1000; i++) {
-			int x = random.randomInt();
+			int x = RANDOM.randomInt();
 			int y = IntegerMath.cbrt(x);
 			if (x >= 0)
 				assertTrue(y * y * y <= x);
@@ -245,7 +245,7 @@ public final class IntegerMathTest {
 	@Test
 	public void testLog2FloorRandomly() {
 		for (int i = 0; i < 1000; i++) {
-			int x = random.randomInt(Integer.MAX_VALUE - 1) + 1;
+			int x = RANDOM.randomInt(Integer.MAX_VALUE - 1) + 1;
 			int y = IntegerMath.log2Floor(x);
 			assertTrue((1 << y) <= x);
 		}
@@ -269,7 +269,7 @@ public final class IntegerMathTest {
 	@Test
 	public void testLog2CeilingRandomly() {
 		for (int i = 0; i < 1000; i++) {
-			int x = random.randomInt(0x3FFFFFFF) + 1;
+			int x = RANDOM.randomInt(0x3FFFFFFF) + 1;
 			int y = IntegerMath.log2Ceiling(x);
 			assertTrue((1 << y) >= x);
 		}
@@ -295,7 +295,7 @@ public final class IntegerMathTest {
 	@Test
 	public void testFloorToPowerOf2Randomly() {
 		for (int i = 0; i < 1000; i++) {
-			int x = random.randomInt(Integer.MAX_VALUE - 1) + 1;
+			int x = RANDOM.randomInt(Integer.MAX_VALUE - 1) + 1;
 			int y = IntegerMath.floorToPowerOf2(x);
 			assertTrue(IntegerMath.isPowerOf2(y));
 			assertTrue(y <= x);
@@ -321,7 +321,7 @@ public final class IntegerMathTest {
 	@Test
 	public void testCeilingToPowerOf2Randomly() {
 		for (int i = 0; i < 1000; i++) {
-			int x = random.randomInt(0x3FFFFFFF) + 1;
+			int x = RANDOM.randomInt(0x3FFFFFFF) + 1;
 			int y = IntegerMath.ceilingToPowerOf2(x);
 			assertTrue(IntegerMath.isPowerOf2(y));
 			assertTrue(y >= x);
@@ -344,8 +344,8 @@ public final class IntegerMathTest {
 	@Test
 	public void testReciprocalModRandomly() {
 		for (int i = 0; i < 100000; i++) {
-			int m = random.randomInt(46340) + 2;
-			int x = random.randomInt(m - 1) + 1;
+			int m = RANDOM.randomInt(46340) + 2;
+			int x = RANDOM.randomInt(m - 1) + 1;
 			if (IntegerMath.gcd(x, m) != 1)
 				continue;
 			assertEquals(1, x * IntegerMath.reciprocalMod(x, m) % m);

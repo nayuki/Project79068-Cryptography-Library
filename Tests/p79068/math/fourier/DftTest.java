@@ -7,9 +7,6 @@ import p79068.util.Random;
 
 public abstract class DftTest {
 	
-	private static Random random = Random.newInstance();
-	
-	
 	protected abstract Dft getInstance(int length);
 	
 	
@@ -63,7 +60,7 @@ public abstract class DftTest {
 	@Test
 	public void testInvertibilityRandomly() {
 		for (int i = 0; i < 30; i++) {
-			int length = random.randomInt(100) + 1;
+			int length = Random.DEFAULT.randomInt(100) + 1;
 			double[][] temp = newRandomVector(length);
 			double[] real = temp[0], imag = temp[1];
 			double[] refreal = real.clone();
@@ -86,7 +83,7 @@ public abstract class DftTest {
 	@Test
 	public void testEnergyConservationRandomly() {
 		for (int i = 0; i < 30; i++) {
-			int length = random.randomInt(100) + 1;
+			int length = Random.DEFAULT.randomInt(100) + 1;
 			double[][] temp = newRandomVector(length);
 			double[] real = temp[0], imag = temp[1];
 			
@@ -109,7 +106,7 @@ public abstract class DftTest {
 	@Test
 	public void testLinearityRandomly() {
 		for (int i = 0; i < 30; i++) {
-			int length = random.randomInt(100) + 1;
+			int length = Random.DEFAULT.randomInt(100) + 1;
 			double[][] temp0 = newRandomVector(length);
 			double[][] temp1 = newRandomVector(length);
 			double[] real0 = temp0[0], imag0 = temp0[1];
@@ -142,8 +139,8 @@ public abstract class DftTest {
 		double[] real = new double[length];
 		double[] imag = new double[length];
 		for (int j = 0; j < length; j++) {
-			real[j] = random.randomDouble() * 2 - 1;
-			imag[j] = random.randomDouble() * 2 - 1;
+			real[j] = Random.DEFAULT.randomDouble() * 2 - 1;
+			imag[j] = Random.DEFAULT.randomDouble() * 2 - 1;
 		}
 		return new double[][]{real, imag};
 	}
