@@ -1,5 +1,7 @@
 package p79068.crypto.cipher;
 
+import p79068.lang.NullChecker;
+
 
 /**
  * The TEA (Tiny Encryption Algorithm) block cipher.
@@ -19,6 +21,7 @@ public final class Tea extends BlockCipher {
 	
 	@Override
 	public Cipherer newCipherer(byte[] key) {
+		NullChecker.check(key);
 		if (key.length != 16)
 			throw new IllegalArgumentException();
 		return new TeaCipherer(this, key);

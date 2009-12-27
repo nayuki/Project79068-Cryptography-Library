@@ -1,5 +1,7 @@
 package p79068.crypto.cipher;
 
+import p79068.lang.NullChecker;
+
 
 /**
  * The RC4 stream cipher.
@@ -20,6 +22,7 @@ public final class Rc4 extends StreamCipher {
 	
 	@Override
 	public StreamCipherer newCipherer(byte[] key) {
+		NullChecker.check(key);
 		if (key.length != keyLength)
 			throw new IllegalArgumentException();
 		return new Rc4Cipherer(this, key);

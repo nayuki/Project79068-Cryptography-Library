@@ -1,5 +1,7 @@
 package p79068.crypto.cipher;
 
+import p79068.lang.NullChecker;
+
 
 /**
  * The null (identity) cipher. Encryption and decryption both do not change the message.
@@ -16,6 +18,7 @@ public final class NullCipher extends BlockCipher {
 	
 	@Override
 	public Cipherer newCipherer(byte[] key) {
+		NullChecker.check(key);
 		if (key.length != 0)
 			throw new IllegalArgumentException();
 		return new NullCipherer(this, key);

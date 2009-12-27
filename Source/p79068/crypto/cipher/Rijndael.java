@@ -1,5 +1,7 @@
 package p79068.crypto.cipher;
 
+import p79068.lang.NullChecker;
+
 
 /**
  * The Rijndael/AES (Advanced Encryption Standard) block cipher.
@@ -50,8 +52,10 @@ public final class Rijndael extends BlockCipher {
 	
 	@Override
 	public Cipherer newCipherer(byte[] key) {
+		NullChecker.check(key);
 		if (key.length != keyLength)
 			throw new IllegalArgumentException();
+		
 		if (blockLength == 16)
 			return new FastAesCipherer(this, key);
 		else

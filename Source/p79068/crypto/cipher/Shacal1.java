@@ -1,6 +1,7 @@
 package p79068.crypto.cipher;
 
 import p79068.crypto.hash.Sha1;
+import p79068.lang.NullChecker;
 
 
 /**
@@ -25,6 +26,7 @@ public final class Shacal1 extends BlockCipher {
 	
 	@Override
 	public Cipherer newCipherer(byte[] key) {
+		NullChecker.check(key);
 		if (key.length != keyLength)
 			throw new IllegalArgumentException();
 		return Sha1.FUNCTION.newCipherer(this, key);

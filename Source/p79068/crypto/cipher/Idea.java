@@ -1,5 +1,7 @@
 package p79068.crypto.cipher;
 
+import p79068.lang.NullChecker;
+
 
 /**
  * The IDEA (International Data Encryption Algorithm) block cipher. This cipher is patented.
@@ -16,6 +18,7 @@ public final class Idea extends BlockCipher {
 	
 	@Override
 	public Cipherer newCipherer(byte[] key) {
+		NullChecker.check(key);
 		if (key.length != 16)
 			throw new IllegalArgumentException();
 		return new IdeaCipherer(this, key);

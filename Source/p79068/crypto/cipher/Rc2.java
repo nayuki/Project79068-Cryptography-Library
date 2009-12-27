@@ -1,5 +1,7 @@
 package p79068.crypto.cipher;
 
+import p79068.lang.NullChecker;
+
 
 /**
  * The RC2 block cipher. It is described in RFC 2268.
@@ -24,6 +26,7 @@ public final class Rc2 extends BlockCipher {
 	
 	@Override
 	public Cipherer newCipherer(byte[] key) {
+		NullChecker.check(key);
 		if (key.length != keyLength)
 			throw new IllegalArgumentException();
 		return new Rc2Cipherer(this, key);
