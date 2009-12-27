@@ -1,15 +1,18 @@
 /*
-Allows reading and writing HTTP requests and responses.
-Not multithread-safe.
-*/
+ * Allows reading and writing HTTP requests and responses.
+ * Not multithread-safe.
+ */
 
 
 package p79068.net;
 
-import java.io.*;
-import java.net.*;
-import p79068.io.*;
-import p79068.util.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.Socket;
+import p79068.io.LineInputStream;
+import p79068.util.ByteBuffer;
+import p79068.util.StringMap;
 
 
 public class HTTPConnection {
@@ -20,9 +23,11 @@ public class HTTPConnection {
 	public OutputStream out;
 	
 	
+	
 	public HTTPConnection(String host, int port) throws IOException {
 		this(new Socket(host, port));
 	}
+	
 	
 	public HTTPConnection(Socket sock) throws IOException {
 		socket = sock;
@@ -30,6 +35,7 @@ public class HTTPConnection {
 		in = new LineInputStream(in0);
 		out = sock.getOutputStream();
 	}
+	
 	
 	
 	public Object[] readRequest() throws IOException {
@@ -123,6 +129,7 @@ public class HTTPConnection {
 		}
 	}
 	
+	
 	public void writeResponse(String version, int status, String reason, StringMap header, byte[] entity) throws IOException {
 		ByteBuffer b = new ByteBuffer();
 		b.append(toASCII(version + " " + status + " " + reason + "\r\n"));
@@ -173,6 +180,7 @@ public class HTTPConnection {
 		return str;
 	}
 	
+	
 	private static void parseHeader(LineInputStream in, StringMap header) throws IOException {
 		ByteBuffer b = new ByteBuffer();
 		while (true) {
@@ -208,6 +216,7 @@ public class HTTPConnection {
 		return sout;
 	}
 	
+	
 	private static byte[] toASCII(String sin) {
 		byte[] sout = new byte[sin.length()];
 		for (int i = 0; i < sin.length(); i++) {
@@ -219,10 +228,12 @@ public class HTTPConnection {
 		return sout;
 	}
 	
+	
 	private static String toString(byte[] sin) {
 		char[] sout = new char[sin.length];
 		for (int i = 0; i < sout.length; i++)
 			sout[i] = (char)(sin[i] & 0xFF);
 		return new String(sout);
 	}
+	
 }

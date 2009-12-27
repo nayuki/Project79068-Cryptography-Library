@@ -1,6 +1,9 @@
 package p79068.net;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 public class HttpResponse {
@@ -12,6 +15,7 @@ public class HttpResponse {
 	protected byte[] message;
 	
 	
+	
 	HttpResponse() {
 		httpVersion = null;
 		statusCode = -1;
@@ -20,9 +24,11 @@ public class HttpResponse {
 		message = null;
 	}
 	
+	
 	public HttpResponse(int status, String reason) {
 		this(status, reason, null);
 	}
+	
 	
 	public HttpResponse(int status, String reason, byte[] message) {
 		setStatusCode(status);
@@ -33,21 +39,27 @@ public class HttpResponse {
 	}
 	
 	
+	
 	public String getHttpVersion() {
 		return httpVersion;
 	}
+	
 	
 	public int getStatusCode() {
 		return statusCode;
 	}
 	
+	
 	public String getReason() {
 		return reason;
 	}
 	
+	
+	@SuppressWarnings("unchecked")
 	public Map<String, List<String>> getHeaders() {
 		return (Map<String, List<String>>)((HashMap)headers).clone();
 	}
+	
 	
 	public byte[] getMessage() {
 		return (byte[])message.clone();
@@ -60,15 +72,18 @@ public class HttpResponse {
 		httpVersion = version;
 	}
 	
+	
 	public void setStatusCode(int status) {
 		if (status < 0 || status >= 1000)
 			throw new IllegalArgumentException();
 		statusCode = status;
 	}
 	
+	
 	public void setReasonPhrase(String reason) {
 		this.reason = reason;
 	}
+	
 	
 	public void addHeader(String name, String value) {
 		if (!isToken(name))
@@ -78,6 +93,7 @@ public class HttpResponse {
 		if (value != null)
 			headers.get(name).add(value);
 	}
+	
 	
 	public void setMessage(byte[] message) {
 		if (message != null)
@@ -95,4 +111,5 @@ public class HttpResponse {
 		}
 		return true;
 	}
+	
 }

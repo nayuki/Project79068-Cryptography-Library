@@ -9,9 +9,11 @@ public class HttpWriter {
 	protected OutputStream out;
 	
 	
+	
 	public HttpWriter(OutputStream out) {
 		this.out = out;
 	}
+	
 	
 	
 	public void writeRequest(HttpRequest request) throws IOException {
@@ -28,6 +30,7 @@ public class HttpWriter {
 		out.write(toBytes("\r\n"));
 		out.flush();
 	}
+	
 	
 	public void writeResponse(HttpResponse response) throws IOException {
 		out.write(toBytes(String.format("%s %03d %s\r\n", response.httpVersion, response.statusCode, response.reason)));
@@ -56,4 +59,5 @@ public class HttpWriter {
 		}
 		return b;
 	}
+	
 }

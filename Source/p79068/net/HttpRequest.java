@@ -1,6 +1,9 @@
 package p79068.net;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 public class HttpRequest {
@@ -12,6 +15,7 @@ public class HttpRequest {
 	protected byte[] message;
 	
 	
+	
 	HttpRequest() {
 		method = null;
 		uri = null;
@@ -20,9 +24,11 @@ public class HttpRequest {
 		message = null;
 	}
 	
+	
 	public HttpRequest(String method, String uri) {
 		this(method, uri, null);
 	}
+	
 	
 	public HttpRequest(String method, String uri, byte[] message) {
 		setMethod(method);
@@ -33,21 +39,27 @@ public class HttpRequest {
 	}
 	
 	
+	
 	public String getMethod() {
 		return method;
 	}
+	
 	
 	public String getUri() {
 		return uri;
 	}
 	
+	
 	public String getHttpVersion() {
 		return httpVersion;
 	}
 	
+	
+	@SuppressWarnings("unchecked")
 	public Map<String, List<String>> getHeaders() {
 		return (Map<String, List<String>>)((HashMap)headers).clone();
 	}
+	
 	
 	public byte[] getMessage() {
 		return (byte[])message.clone();
@@ -60,13 +72,16 @@ public class HttpRequest {
 		this.method = method;
 	}
 	
+	
 	public void setUri(String uri) {
 		this.uri = uri;
 	}
 	
+	
 	public void setHttpVersion(String version) {
 		httpVersion = version;
 	}
+	
 	
 	public void addHeader(String name, String value) {
 		if (!isToken(name))
@@ -76,6 +91,7 @@ public class HttpRequest {
 		if (value != null)
 			headers.get(name).add(value);
 	}
+	
 	
 	public void setMessage(byte[] message) {
 		if (message != null)
@@ -93,4 +109,5 @@ public class HttpRequest {
 		}
 		return true;
 	}
+	
 }

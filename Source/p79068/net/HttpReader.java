@@ -1,7 +1,7 @@
 package p79068.net;
 
-import java.io.*;
-import java.util.*;
+import java.io.IOException;
+import java.io.InputStream;
 
 
 public class HttpReader {
@@ -9,9 +9,11 @@ public class HttpReader {
 	protected InputStream in;
 	
 	
+	
 	public HttpReader(InputStream in) {
 		this.in = in;
 	}
+	
 	
 	
 	public HttpRequest readRequest() throws IOException {
@@ -36,9 +38,11 @@ public class HttpReader {
 		return request;
 	}
 	
+	
 	public HttpResponse readResponse() throws IOException {
 		return readResponse(true);
 	}
+	
 	
 	public HttpResponse readHeadResponse() throws IOException {
 		return readResponse(false);
@@ -86,6 +90,7 @@ public class HttpReader {
 		return result;
 	}
 	
+	
 	protected String[] splitHeaderLine(String str) {
 		if (str.indexOf(':') == -1)
 			return new String[]{str};
@@ -100,6 +105,7 @@ public class HttpReader {
 			return result;
 		}
 	}
+	
 	
 	protected String readLine() throws IOException {
 		StringBuilder sb = new StringBuilder();
@@ -119,4 +125,5 @@ public class HttpReader {
 		}
 		return sb.toString();
 	}
+	
 }
