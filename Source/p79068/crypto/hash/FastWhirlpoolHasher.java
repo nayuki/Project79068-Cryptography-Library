@@ -52,30 +52,30 @@ final class FastWhirlpoolHasher extends BlockHasherCore {
 			throw new AssertionError();
 		
 		long[] block = new long[8];
-		long[] tempblock = new long[8];
-		long[] tempstate = new long[8];
-		long[] temp = new long[8];
+		long[] tempblock = new long[8];  // Overwritten at each iteration
+		long[] tempstate = new long[8];  // Overwritten at each iteration
+		long[] temp = new long[8];  // Overwritten at each iteration
 		
 		// For each block of 64 bytes
-		for (int end = off + len; off < end;) {
+		for (int i = off, end = off + len; i < end;) {
 			
 			// Pack bytes into int64s in big endian
-			for (int i = 0; i < 8; i++, off += 8) {
-				block[i] = (message[off + 0] & 0xFFL) << 56
-				         | (message[off + 1] & 0xFFL) << 48
-				         | (message[off + 2] & 0xFFL) << 40
-				         | (message[off + 3] & 0xFFL) << 32
-				         | (message[off + 4] & 0xFFL) << 24
-				         | (message[off + 5] & 0xFFL) << 16
-				         | (message[off + 6] & 0xFFL) <<  8
-				         | (message[off + 7] & 0xFFL) <<  0;
-				tempblock[i] = block[i];
+			for (int j = 0; j < 8; j++, i += 8) {
+				block[j] = (message[i + 0] & 0xFFL) << 56
+				         | (message[i + 1] & 0xFFL) << 48
+				         | (message[i + 2] & 0xFFL) << 40
+				         | (message[i + 3] & 0xFFL) << 32
+				         | (message[i + 4] & 0xFFL) << 24
+				         | (message[i + 5] & 0xFFL) << 16
+				         | (message[i + 6] & 0xFFL) <<  8
+				         | (message[i + 7] & 0xFFL) <<  0;
+				tempblock[j] = block[j];
 			}
 			
 			System.arraycopy(state, 0, tempstate, 0, 8);
-			w(tempblock, tempstate, temp);
-			for (int i = 0; i < 8; i++)
-				state[i] ^= tempblock[i] ^ block[i];
+			encrypt(tempblock, tempstate, temp);
+			for (int j = 0; j < 8; j++)
+				state[j] ^= tempblock[j] ^ block[j];
 		}
 	}
 	
@@ -98,22 +98,22 @@ final class FastWhirlpoolHasher extends BlockHasherCore {
 	
 	
 	
-	// The internal block cipher. Encrypts block in place. Overwrites key and temp.
-	private void w(long[] block, long[] key, long[] temp) {
+	// The internal block cipher (W). Encrypts the message in place. Overwrites key and temp.
+	private void encrypt(long[] message, long[] key, long[] temp) {
 		// Sigma
 		for (int i = 0; i < 8; i++)
-			block[i] ^= key[i];
+			message[i] ^= key[i];
 		
 		// Do the rounds
 		for (int i = 0; i < rcon.length; i++) {
-			rho(key, rcon[i], temp);
-			rho(block, key, temp);
+			round(key, rcon[i], temp);
+			round(message, key, temp);
 		}
 	}
 	
 	
-	// The round function. Encrypts block in place. Overwrites block and temp.
-	private void rho(long[] block, long[] key, long[] temp) {
+	// The round function (rho). Encrypts the message in place. Also overwrites temp. Preserves key.
+	private void round(long[] message, long[] key, long[] temp) {
 		// Clear temp
 		for (int i = 0; i < 8; i++)
 			temp[i] = 0;
@@ -121,12 +121,12 @@ final class FastWhirlpoolHasher extends BlockHasherCore {
 		// Do the combined gamma, pi, and theta
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++)
-				temp[(i + j) & 7] ^= mul[j][(int)(block[i] >>> ((j ^ 7) << 3)) & 0xFF];
+				temp[(i + j) & 7] ^= mul[j][(int)(message[i] >>> ((j ^ 7) << 3)) & 0xFF];
 		}
 		
 		// Sigma
 		for (int i = 0; i < 8; i++)
-			block[i] = temp[i] ^ key[i];
+			message[i] = temp[i] ^ key[i];
 	}
 	
 	
