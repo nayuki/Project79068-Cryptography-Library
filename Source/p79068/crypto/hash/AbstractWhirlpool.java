@@ -46,7 +46,7 @@ abstract class AbstractWhirlpool extends BlockHashFunction {
 	
 	
 	public Cipherer newCipherer(BlockCipher cipher, byte[] key) {
-		return new WhirlpoolCipherer(cipher, key, getParameters());
+		return new FastWhirlpoolCipherer(cipher, key, getParameters());
 	}
 	
 }

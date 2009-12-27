@@ -99,7 +99,7 @@ final class FastWhirlpoolHasher extends BlockHasherCore {
 	
 	
 	// The internal block cipher (W). Encrypts the message in place. Overwrites key and temp.
-	private void encrypt(long[] message, long[] key, long[] temp) {
+	void encrypt(long[] message, long[] key, long[] temp) {
 		// Sigma
 		for (int i = 0; i < 8; i++)
 			message[i] ^= key[i];
@@ -127,6 +127,18 @@ final class FastWhirlpoolHasher extends BlockHasherCore {
 		// Sigma
 		for (int i = 0; i < 8; i++)
 			message[i] = temp[i] ^ key[i];
+	}
+	
+	
+	// The internal block cipher inverse (W inverse). Decrypts the message in place. Overwrites key and temp.
+	void decrypt(long[] message, long[] key, long[] temp) {
+		throw new AssertionError("Not implemented yet");
+	}
+	
+	
+	// The inverse round function (rho inverse). Decrypts the message in place. Also overwrites temp. Preserves key.
+	void roundInverse(long[] message, long[] key, long[] temp) {
+		throw new AssertionError("Not implemented yet");
 	}
 	
 	

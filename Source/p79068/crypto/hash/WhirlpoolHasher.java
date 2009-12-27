@@ -91,7 +91,7 @@ final class WhirlpoolHasher extends BlockHasherCore {
 	
 	// High level cipher functions
 	
-	// The internal block cipher (W). Encrypts message in place. Overwrites key and temp.
+	// The internal block cipher (W). Encrypts the message in place. Overwrites key and temp.
 	void encrypt(byte[] message, byte[] key, byte[] temp) {
 		addRoundKey(message, key);
 		for (int i = 0; i < rcon.length; i++) {  // rcon.length is the number of rounds
@@ -101,7 +101,7 @@ final class WhirlpoolHasher extends BlockHasherCore {
 	}
 	
 	
-	// The internal block cipher inverse (W inverse). Decrypts message in place. Overwrites key and temp.
+	// The internal block cipher inverse (W inverse). Decrypts the message in place. Overwrites key and temp.
 	void decrypt(byte[] message, byte[] key, byte[] temp) {
 		for (int i = 0; i < rcon.length; i++)
 			round(key, rcon[i], temp);
@@ -116,7 +116,7 @@ final class WhirlpoolHasher extends BlockHasherCore {
 	
 	// Middle level cipher functions
 	
-	// The round function (rho). Encrypts block in place. Overwrites temp. Does not overwrite key.
+	// The round function (rho). Encrypts block in place. Also overwrites temp. Preserves key.
 	private void round(byte[] block, byte[] key, byte[] temp) {
 		subBytes(block);
 		shiftColumns(block, temp);
@@ -125,7 +125,7 @@ final class WhirlpoolHasher extends BlockHasherCore {
 	}
 	
 	
-	// The inverse round function (rho inverse). Decrypts block in place. Overwrites temp. Does not overwrite key.
+	// The inverse round function (rho inverse). Decrypts block in place. Also overwrites temp. Preserves key.
 	private void roundInverse(byte[] block, byte[] key, byte[] temp) {
 		addRoundKey(block, key);
 		mixRowsInverse(block, temp);
