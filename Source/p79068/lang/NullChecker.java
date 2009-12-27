@@ -13,16 +13,17 @@ public final class NullChecker {
 	 */
 	public static void check(Object obj) {
 		if (obj == null)
-			throw new NullPointerException();
+			throw new NullPointerException("Non-null object expected");
 	}
 	
 	
 	public static void check(Object... obj) {
 		for (Object o : obj) {
 			if (o == null)
-				throw new NullPointerException();
+				throw new NullPointerException("Non-null object expected");
 		}
 	}
+	
 	
 	
 	/**
