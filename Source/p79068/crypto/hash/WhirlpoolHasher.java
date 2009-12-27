@@ -2,6 +2,7 @@ package p79068.crypto.hash;
 
 import p79068.crypto.Zeroizer;
 import p79068.lang.BoundsChecker;
+import p79068.lang.NullChecker;
 import p79068.util.hash.HashValue;
 
 
@@ -18,6 +19,7 @@ final class WhirlpoolHasher extends BlockHasherCore {
 	
 	
 	public WhirlpoolHasher(WhirlpoolParameters params) {
+		NullChecker.check(params);
 		sub = makeSbox(params.getSbox());
 		subinv = makeSboxInverse(params.getSbox());
 		mul = makeMultiplicationTable(params.getC());

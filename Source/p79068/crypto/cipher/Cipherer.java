@@ -2,6 +2,7 @@ package p79068.crypto.cipher;
 
 import p79068.crypto.Zeroizable;
 import p79068.crypto.Zeroizer;
+import p79068.lang.NullChecker;
 
 
 /**
@@ -14,13 +15,15 @@ import p79068.crypto.Zeroizer;
 public abstract class Cipherer implements Cloneable, Zeroizable {
 	
 	protected Cipher cipher;
+	
 	protected byte[] key;
 	
 	
 	
 	protected Cipherer(Cipher cipher, byte[] key) {
+		NullChecker.check(cipher, key);
 		if (key.length != cipher.getKeyLength())
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("Key length does not match cipher's key length");
 		this.cipher = cipher;
 		this.key = key.clone();
 	}
@@ -31,6 +34,7 @@ public abstract class Cipherer implements Cloneable, Zeroizable {
 	 * Encrypts the specified byte array.
 	 */
 	public void encrypt(byte[] b) {
+		NullChecker.check(b);
 		encrypt(b, 0, b.length);
 	}
 	
@@ -45,6 +49,7 @@ public abstract class Cipherer implements Cloneable, Zeroizable {
 	 * Decrypts the specified byte array.
 	 */
 	public void decrypt(byte[] b) {
+		NullChecker.check(b);
 		decrypt(b, 0, b.length);
 	}
 	

@@ -9,6 +9,7 @@ import p79068.crypto.Zeroizer;
 import p79068.crypto.cipher.BlockCipher;
 import p79068.crypto.cipher.Cipherer;
 import p79068.lang.BoundsChecker;
+import p79068.lang.NullChecker;
 import p79068.math.LongBitMath;
 
 
@@ -22,6 +23,7 @@ final class FastWhirlpoolCipherer extends Cipherer {
 	
 	public FastWhirlpoolCipherer(BlockCipher cipher, byte[] key, WhirlpoolParameters params) {
 		super(cipher, key);
+		NullChecker.check(params);
 		hasher = new FastWhirlpoolHasher(params);
 		setKey(key);
 	}
@@ -38,10 +40,10 @@ final class FastWhirlpoolCipherer extends Cipherer {
 		
 		long[] tempmsg = new long[8];
 		long[] temp = new long[8];
-		for (len += off; off < len; off += 64) {
-			toInt64sBigEndian(b, off, tempmsg);
+		for (int i = off, end = off + len; i < end; i += 64) {
+			toInt64sBigEndian(b, i, tempmsg);
 			hasher.encrypt(tempmsg, key, temp);
-			toBytesBigEndian(tempmsg, b, off);
+			toBytesBigEndian(tempmsg, b, i);
 		}
 	}
 	
@@ -56,10 +58,10 @@ final class FastWhirlpoolCipherer extends Cipherer {
 		
 		long[] tempmsg = new long[8];
 		long[] temp = new long[8];
-		for (len += off; off < len; off += 64) {
-			toInt64sBigEndian(b, off, tempmsg);
+		for (int i = off, end = off + len; i < end; i += 64) {
+			toInt64sBigEndian(b, i, tempmsg);
 			hasher.decrypt(tempmsg, key, temp);
-			toBytesBigEndian(tempmsg, b, off);
+			toBytesBigEndian(tempmsg, b, i);
 		}
 	}
 	

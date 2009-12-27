@@ -1,6 +1,7 @@
 package p79068.crypto.hash;
 
 import p79068.crypto.Zeroizable;
+import p79068.lang.NullChecker;
 import p79068.util.hash.HashValue;
 
 
@@ -9,14 +10,11 @@ import p79068.util.hash.HashValue;
  */
 public abstract class BlockHasherCore implements Cloneable, Zeroizable {
 	
-	public BlockHasherCore() {}
-	
-	
-	
 	/**
 	 * Applies the compression function to combine the current message block into the hasher's internal state. This calls <code>compress(this.block, 0, this.block.length)</code>.
 	 */
 	public void compress(byte[] message) {
+		NullChecker.check(message);
 		compress(message, 0, message.length);
 	}
 	

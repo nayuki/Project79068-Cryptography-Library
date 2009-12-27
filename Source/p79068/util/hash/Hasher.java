@@ -1,5 +1,7 @@
 package p79068.util.hash;
 
+import p79068.lang.NullChecker;
+
 
 /**
  * Incrementally computes the hash value of a byte sequence.
@@ -28,9 +30,8 @@ public abstract class Hasher implements Cloneable {
 	/**
 	 * Creates a hasher set to the specified hash function.
 	 */
-	protected Hasher(HashFunction hashFunc) {
-		if (hashFunc == null)
-			throw new IllegalArgumentException();
+	public Hasher(HashFunction hashFunc) {
+		NullChecker.check(hashFunc);
 		hashFunction = hashFunc;
 	}
 	
@@ -48,6 +49,7 @@ public abstract class Hasher implements Cloneable {
 	 * Updates the current state with the specified byte array.
 	 */
 	public void update(byte[] b) {
+		NullChecker.check(b);
 		update(b, 0, b.length);
 	}
 	

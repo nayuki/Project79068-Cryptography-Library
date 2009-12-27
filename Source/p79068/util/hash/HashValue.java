@@ -16,9 +16,9 @@ public final class HashValue implements Comparable<HashValue> {
 	
 	
 	
-	public HashValue(byte[] hashVal) {
-		NullChecker.check(hashVal);
-		hashValue = hashVal.clone();
+	public HashValue(byte[] hash) {
+		NullChecker.check(hash);
+		hashValue = hash.clone();
 	}
 	
 	
@@ -59,12 +59,13 @@ public final class HashValue implements Comparable<HashValue> {
 	}
 	
 	
-	public int compareTo(HashValue hv) {
-		if (hashValue.length != hv.hashValue.length)
+	public int compareTo(HashValue other) {
+		NullChecker.check(other);
+		if (hashValue.length != other.hashValue.length)
 			throw new IllegalArgumentException("Hash lengths are different");
-		for (int i = 0; i < hashValue.length && i < hv.hashValue.length; i++) {
-			if (hashValue[i] != hv.hashValue[i])
-				return (hashValue[i] & 0xFF) - (hv.hashValue[i] & 0xFF);
+		for (int i = 0; i < hashValue.length && i < other.hashValue.length; i++) {
+			if (hashValue[i] != other.hashValue[i])
+				return (hashValue[i] & 0xFF) - (other.hashValue[i] & 0xFF);
 		}
 		return 0;
 	}

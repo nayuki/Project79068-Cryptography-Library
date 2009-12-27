@@ -1,6 +1,9 @@
 package p79068.crypto.hash;
 
 
+/**
+ * Contains utility methods for performing arithmetic in Whirlpool's field. The field is GF(2<sup>8</sup>)/0x11D.
+ */
 final class WhirlpoolUtils {
 	
 	/**
@@ -74,5 +77,12 @@ final class WhirlpoolUtils {
 		else
 			return exp[(log[x] + log[y]) % 255];
 	}
+	
+	
+	
+	/**
+	 * Not instantiable.
+	 */
+	private WhirlpoolUtils() {}
 	
 }

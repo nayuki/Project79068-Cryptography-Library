@@ -118,4 +118,11 @@ final class RijndaelUtils {
 		     | (b[off + 3] & 0xFF) <<  0;
 	}
 	
+	
+	
+	/**
+	 * Not instantiable.
+	 */
+	private RijndaelUtils() {}
+	
 }

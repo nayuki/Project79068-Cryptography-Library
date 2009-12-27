@@ -3,6 +3,7 @@ package p79068.crypto.hash;
 import p79068.crypto.Zeroizable;
 import p79068.crypto.Zeroizer;
 import p79068.lang.BoundsChecker;
+import p79068.lang.NullChecker;
 import p79068.util.hash.HashValue;
 import p79068.util.hash.Hasher;
 
@@ -14,11 +15,6 @@ import p79068.util.hash.Hasher;
 public final class BlockHasher extends Hasher implements Zeroizable {
 	
 	/**
-	 * The total length of the message, in bytes. Warning: It overflows silently.
-	 */
-	private long length;
-	
-	/**
 	 * The data of the current block.
 	 */
 	private byte[] block;
@@ -27,6 +23,11 @@ public final class BlockHasher extends Hasher implements Zeroizable {
 	 * The number of bytes filled in the current block. It is in the range [<code>0, <code>block.length</code>) initially and after each <code>update()</code> operation.
 	 */
 	private int blockLength;
+	
+	/**
+	 * The total length of the message, in bytes. Warning: It overflows silently.
+	 */
+	private long length;
 	
 	
 	private BlockHasherCore core;
@@ -38,9 +39,10 @@ public final class BlockHasher extends Hasher implements Zeroizable {
 	 */
 	public BlockHasher(BlockHashFunction func, BlockHasherCore core) {
 		super(func);
-		length = 0;
+		NullChecker.check(core);
 		block = new byte[func.getBlockLength()];
 		blockLength = 0;
+		length = 0;
 		this.core = core;
 	}
 	
