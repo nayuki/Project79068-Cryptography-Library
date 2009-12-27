@@ -204,7 +204,12 @@ final class IdeaCipherer extends Cipherer {
 	
 	// Returns 16 consecutive bits from b starting at bitOffset (measured in bits), which is modulo the number of bits in b.
 	private static int getInt16(byte[] b, int bitOffset) {
-		int result = ((b[(bitOffset / 8 + 0) % b.length] << (8 + bitOffset % 8)) | ((b[(bitOffset / 8 + 1) % b.length] & 0xFF) << (bitOffset % 8)) | ((b[(bitOffset / 8 + 2) % b.length] & 0xFF) >>> (8 - bitOffset % 8)));
+		if (bitOffset < 0)
+			throw new IllegalArgumentException();
+		int headByte = bitOffset / 8;
+		int result = ((b[(headByte + 0) % b.length] & 0xFF) << (8 + bitOffset % 8))
+				   | ((b[(headByte + 1) % b.length] & 0xFF) << (bitOffset % 8))
+				   | ((b[(headByte + 2) % b.length] & 0xFF) >>> (8 - bitOffset % 8));
 		return result & 0xFFFF;
 	}
 	
