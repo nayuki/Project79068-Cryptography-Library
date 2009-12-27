@@ -183,7 +183,7 @@ final class IdeaCipherer extends Cipherer {
 			throw new IllegalArgumentException();
 		
 		if (y == 0)
-			y = 0x10000;
+			return 0;
 		int x = 0x10001;
 		int a = 0;
 		int b = 1;
