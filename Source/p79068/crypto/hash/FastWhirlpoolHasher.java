@@ -17,8 +17,7 @@ final class FastWhirlpoolHasher extends BlockHasherCore {
 	
 	
 	
-	public FastWhirlpoolHasher(AbstractWhirlpool hashFunc) {
-		WhirlpoolParameters params = hashFunc.getParameters();
+	public FastWhirlpoolHasher(WhirlpoolParameters params) {
 		mul = makeMultiplicationTable(params.getSbox(), params.getC());
 		rcon = makeRoundConstants(params.getRounds(), params.getSbox());
 		state = new long[8];

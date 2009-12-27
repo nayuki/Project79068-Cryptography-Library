@@ -8,17 +8,20 @@ import p79068.util.hash.HashValue;
 final class WhirlpoolHasher extends BlockHasherCore {
 	
 	private final byte[] sub;
+	private final byte[] subinv;
 	private final byte[][] mul;
+	private final byte[][] mulinv;
 	private final byte[][] rcon;
 	
 	private byte[] state;
 	
 	
 	
-	public WhirlpoolHasher(AbstractWhirlpool hashFunc) {
-		WhirlpoolParameters params = hashFunc.getParameters();
+	public WhirlpoolHasher(WhirlpoolParameters params) {
 		sub = makeSbox(params.getSbox());
+		subinv = makeSboxInverse(params.getSbox());
 		mul = makeMultiplicationTable(params.getC());
+		mulinv = makeMultiplicationTable(params.getCInverse());
 		rcon = makeRoundConstants(params.getRounds(), sub);
 		state = new byte[64];
 	}
@@ -62,7 +65,7 @@ final class WhirlpoolHasher extends BlockHasherCore {
 		for (int end = off + len; off < end; off += 64) {
 			System.arraycopy(message, off, tempmsg, 0, 64);
 			System.arraycopy(state, 0, tempstate, 0, 64);
-			w(tempmsg, tempstate, temp);
+			encrypt(tempmsg, tempstate, temp);
 			for (int i = 0; i < 64; i++)
 				state[i] ^= tempmsg[i] ^ message[off + i];
 		}
@@ -86,34 +89,62 @@ final class WhirlpoolHasher extends BlockHasherCore {
 	}
 	
 	
-	// The internal block cipher. Encrypts message in place. Overwrites key and temp.
-	private void w(byte[] message, byte[] key, byte[] temp) {
-		sigma(message, key);
+	// High level cipher functions
+	
+	// The internal block cipher (W). Encrypts message in place. Overwrites key and temp.
+	void encrypt(byte[] message, byte[] key, byte[] temp) {
+		addRoundKey(message, key);
 		for (int i = 0; i < rcon.length; i++) {  // rcon.length is the number of rounds
-			rho(key, rcon[i], temp);
-			rho(message, key, temp);
+			round(key, rcon[i], temp);
+			round(message, key, temp);
 		}
 	}
 	
 	
-	// The round function. Encrypts block in place. Overwrites temp. Does not overwrite key.
-	private void rho(byte[] block, byte[] key, byte[] temp) {
-		gamma(sub, block);
-		pi(block, temp);
-		theta(mul, temp, block);
-		sigma(block, key);
+	// The internal block cipher inverse (W inverse). Decrypts message in place. Overwrites key and temp.
+	void decrypt(byte[] message, byte[] key, byte[] temp) {
+		for (int i = 0; i < rcon.length; i++)
+			round(key, rcon[i], temp);
+		
+		for (int i = rcon.length - 1; i >= 0; i--) {
+			roundInverse(message, key, temp);
+			roundInverse(key, rcon[i], temp);
+		}
+		addRoundKey(message, key);
 	}
 	
 	
-	// The non-linear layer
-	private static void gamma(byte[] sub, byte[] block) {
+	// Middle level cipher functions
+	
+	// The round function (rho). Encrypts block in place. Overwrites temp. Does not overwrite key.
+	private void round(byte[] block, byte[] key, byte[] temp) {
+		subBytes(block);
+		shiftColumns(block, temp);
+		mixRows(temp, block);
+		addRoundKey(block, key);
+	}
+	
+	
+	// The inverse round function (rho inverse). Decrypts block in place. Overwrites temp. Does not overwrite key.
+	private void roundInverse(byte[] block, byte[] key, byte[] temp) {
+		addRoundKey(block, key);
+		mixRowsInverse(block, temp);
+		shiftColumnsInverse(temp, block);
+		subBytesInverse(block);
+	}
+	
+	
+	// Low level cipher functions
+	
+	// The non-linear layer (gamma)
+	private void subBytes(byte[] block) {
 		for (int i = 0; i < 64; i++)
 			block[i] = sub[block[i] & 0xFF];
 	}
 	
 	
-	// The cyclical permutation
-	private static void pi(byte[] blockin, byte[] blockout) {
+	// The cyclical permutation (pi)
+	private static void shiftColumns(byte[] blockin, byte[] blockout) {
 		for (int j = 0; j < 8; j++) {
 			for (int i = 0; i < 8; i++)
 				blockout[((i + j) & 7) << 3 | j] = blockin[i << 3 | j];
@@ -121,8 +152,8 @@ final class WhirlpoolHasher extends BlockHasherCore {
 	}
 	
 	
-	// The linear diffusion layer
-	private static void theta(byte[][] mul, byte[] blockin, byte[] blockout) {
+	// The linear diffusion layer (theta)
+	private void mixRows(byte[] blockin, byte[] blockout) {
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
 				int sum = 0;
@@ -134,10 +165,39 @@ final class WhirlpoolHasher extends BlockHasherCore {
 	}
 	
 	
-	// The key addition
-	private static void sigma(byte[] block, byte[] key) {
+	// The key addition (sigma) (self-inverting)
+	private static void addRoundKey(byte[] block, byte[] key) {
 		for (int i = 0; i < 64; i++)
 			block[i] ^= key[i];
+	}
+	
+	
+	// The inverse non-linear layer (gamma inverse)
+	private void subBytesInverse(byte[] block) {
+		for (int i = 0; i < 64; i++)
+			block[i] = subinv[block[i] & 0xFF];
+	}
+	
+	
+	// The inverse cyclical permutation (pi inverse)
+	private static void shiftColumnsInverse(byte[] blockin, byte[] blockout) {
+		for (int j = 0; j < 8; j++) {
+			for (int i = 0; i < 8; i++)
+				blockout[i << 3 | j] = blockin[((i + j) & 7) << 3 | j];
+		}
+	}
+	
+	
+	// The inverse linear diffusion layer (theta inverse)
+	private void mixRowsInverse(byte[] blockin, byte[] blockout) {
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 8; j++) {
+				int sum = 0;
+				for (int k = 0; k < 8; k++)
+					sum ^= mulinv[k][blockin[i << 3 | (j + k) & 7] & 0xFF];
+				blockout[i << 3 | j] = (byte)sum;
+			}
+		}
 	}
 	
 	
@@ -146,6 +206,14 @@ final class WhirlpoolHasher extends BlockHasherCore {
 		byte[] result = new byte[256];
 		for (int i = 0; i < result.length; i++)
 			result[i] = (byte)sbox[i];
+		return result;
+	}
+	
+	
+	private static byte[] makeSboxInverse(int[] sbox) {
+		byte[] result = new byte[256];
+		for (int i = 0; i < result.length; i++)
+			result[sbox[i]] = (byte)i;
 		return result;
 	}
 	
