@@ -1,3 +1,8 @@
+/*
+ * Addition takes place in the group of integers modulo 65536.
+ * Multiplication takes place in the group of non-zero integers modulo 65537, with element 65536 being represented by the bit pattern 0x0000.
+ */
+
 package p79068.crypto.cipher;
 
 import p79068.crypto.Zeroizer;
@@ -6,12 +11,19 @@ import p79068.lang.BoundsChecker;
 
 final class IdeaCipherer extends Cipherer {
 	
-	private int[] encKeySch;  // Encryption key schedule
-	private int[] decKeySch;  // Decryption key schedule
+	/**
+	 * The encryption key schedule.
+	 */
+	private int[] encKeySch;
+	
+	/**
+	 * The decryption key schedule.
+	 */
+	private int[] decKeySch;
 	
 	
 	
-	IdeaCipherer(Idea cipher, byte[] key) {
+	public IdeaCipherer(Idea cipher, byte[] key) {
 		super(cipher, key);
 		setKey(key);
 	}
@@ -89,7 +101,7 @@ final class IdeaCipherer extends Cipherer {
 	}
 	
 	
-	private static void crypt(byte[] b, int off, int len, int[] keysch) {
+	private static void crypt(byte[] b, int off, int len, int[] keySch) {
 		// For each block of 8 bytes
 		for (int end = off + len; off < end; off += 8) {
 			
@@ -101,12 +113,12 @@ final class IdeaCipherer extends Cipherer {
 			
 			// 8 rounds. i represents the offset in the key schedule.
 			for (int i = 0; i < 48; i += 6) {
-				w = multiply(w, keysch[i + 0]);
-				x = (x + keysch[i + 1]) & 0xFFFF;
-				y = (y + keysch[i + 2]) & 0xFFFF;
-				z = multiply(z, keysch[i + 3]);
-				int u = multiply(w ^ y, keysch[i + 4]);
-				int v = multiply(((x ^ z) + u) & 0xFFFF, keysch[i + 5]);
+				w = multiply(w, keySch[i + 0]);
+				x = (x + keySch[i + 1]) & 0xFFFF;
+				y = (y + keySch[i + 2]) & 0xFFFF;
+				z = multiply(z, keySch[i + 3]);
+				int u = multiply(w ^ y, keySch[i + 4]);
+				int v = multiply(((x ^ z) + u) & 0xFFFF, keySch[i + 5]);
 				u = (u + v) & 0xFFFF;
 				w ^= v;
 				x ^= u;
@@ -116,11 +128,11 @@ final class IdeaCipherer extends Cipherer {
 				x = y;
 				y = tp;
 			}
-			w = multiply(w, keysch[48]);
-			int tp = (x + keysch[50]) & 0xFFFF;
-			x = (y + keysch[49]) & 0xFFFF;
+			w = multiply(w, keySch[48]);
+			int tp = (x + keySch[50]) & 0xFFFF;
+			x = (y + keySch[49]) & 0xFFFF;
 			y = tp;
-			z = multiply(z, keysch[51]);
+			z = multiply(z, keySch[51]);
 			
 			// Unpack uint16s into bytes in big endian
 			b[off + 0] = (byte)(w >>> 8);
@@ -138,7 +150,7 @@ final class IdeaCipherer extends Cipherer {
 	
 	// This has been verified by brute force. But it can be proven mathematically too.
 	private static int multiply(int x, int y) {
-		if ((x & ~0xFFFF) != 0 || (y & ~0xFFFF) != 0)
+		if ((x & 0xFFFF) != x || (y & 0xFFFF) != y)
 			throw new IllegalArgumentException();
 		
 		if (x == 0)
@@ -156,20 +168,22 @@ final class IdeaCipherer extends Cipherer {
 	
 	
 	private static int negate(int x) {
-		if ((x & ~0xFFFF) != 0)
+		if ((x & 0xFFFF) != x)
 			throw new IllegalArgumentException();
-		else
-			return 0x10000 - x;
+		return (0x10000 - x) & 0xFFFF;
 	}
 	
 	
-	// Returns the multiplicative inverse of x modulo 65537 using the extended Euclidean algorithm. Verified by brute force.
+	/**
+	 * Returns the reciprocal (multiplicative inverse) of the specified element modulo 65537.
+	 * @return the reciprocal of the specified element
+	 */
 	private static int reciprocal(int y) {
-		if ((y & ~0xFFFF) != 0)
+		if ((y & 0xFFFF) != y)
 			throw new IllegalArgumentException();
 		
 		if (y == 0)
-			return 0;
+			y = 0x10000;
 		int x = 0x10001;
 		int a = 0;
 		int b = 1;
