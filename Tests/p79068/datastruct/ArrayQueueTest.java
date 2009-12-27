@@ -27,13 +27,33 @@ public final class ArrayQueueTest extends QueueTest {
 	}
 	
 	
-	@Test
-	public void testInvalidInitialization() {
-		try { new ArrayQueue<String>( 1); fail(); }  catch (IllegalArgumentException e) {}
-		try { new ArrayQueue<String>( 0); fail(); }  catch (IllegalArgumentException e) {}
-		try { new ArrayQueue<String>(-1); fail(); }  catch (IllegalArgumentException e) {}
-		try { new ArrayQueue<String>(-7); fail(); }  catch (IllegalArgumentException e) {}
-		try { new ArrayQueue<String>(Integer.MIN_VALUE); fail(); }  catch (IllegalArgumentException e) {}
+	@Test(expected=IllegalArgumentException.class)
+	public void testInvalidInitialization0() {
+		new ArrayQueue<String>(1);
+	}
+	
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void testInvalidInitialization1() {
+		new ArrayQueue<String>(0);
+	}
+	
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void testInvalidInitialization2() {
+		new ArrayQueue<String>(-1);
+	}
+	
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void testInvalidInitialization3() {
+		new ArrayQueue<String>(-7);
+	}
+	
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void testInvalidInitialization4() {
+		new ArrayQueue<String>(Integer.MIN_VALUE);
 	}
 	
 	

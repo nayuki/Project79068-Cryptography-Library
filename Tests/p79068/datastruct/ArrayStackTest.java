@@ -27,12 +27,27 @@ public final class ArrayStackTest extends StackTest {
 	}
 	
 	
-	@Test
-	public void testInvalidInitialization() {
-		try { new ArrayStack<String>(  0); fail(); }  catch (IllegalArgumentException e) {}
-		try { new ArrayStack<String>(- 1); fail(); }  catch (IllegalArgumentException e) {}
-		try { new ArrayStack<String>(-47); fail(); }  catch (IllegalArgumentException e) {}
-		try { new ArrayStack<String>(Integer.MIN_VALUE); fail(); }  catch (IllegalArgumentException e) {}
+	@Test(expected=IllegalArgumentException.class)
+	public void testInvalidInitialization0() {
+		new ArrayStack<String>(0);
+	}
+	
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void testInvalidInitialization1() {
+		new ArrayStack<String>(-1);
+	}
+	
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void testInvalidInitialization2() {
+		new ArrayStack<String>(-47);
+	}
+	
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void testInvalidInitialization3() {
+		new ArrayStack<String>(Integer.MIN_VALUE);
 	}
 	
 	
