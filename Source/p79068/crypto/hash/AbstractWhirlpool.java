@@ -7,10 +7,6 @@ import p79068.util.hash.Hasher;
 
 abstract class AbstractWhirlpool extends BlockHashFunction {
 	
-	public AbstractWhirlpool() {}
-	
-	
-	
 	/**
 	 * Returns a new hasher of this hash function.
 	 * @return a new hasher of this hash function

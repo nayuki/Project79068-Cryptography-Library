@@ -7,9 +7,11 @@ final class JavaRandomAdapter extends java.util.Random {
 	private Random random;
 	
 	
+	
 	public JavaRandomAdapter(Random rand) {
 		random = rand;
 	}
+	
 	
 	
 	@Override

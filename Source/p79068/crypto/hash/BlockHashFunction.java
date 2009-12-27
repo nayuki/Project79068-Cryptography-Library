@@ -8,11 +8,6 @@ import p79068.util.hash.HashFunction;
  */
 public abstract class BlockHashFunction extends HashFunction {
 	
-	protected BlockHashFunction() {
-		super();
-	}
-	
-	
 	/**
 	 * Returns the block length of this hash function. This property is required for the HMAC hash function.
 	 * @return the block length of this hash function

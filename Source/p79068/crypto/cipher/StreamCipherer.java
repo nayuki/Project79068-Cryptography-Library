@@ -13,7 +13,7 @@ import p79068.util.Random;
  */
 public abstract class StreamCipherer extends Cipherer {
 	
-	protected StreamCipherer(StreamCipher cipher, byte[] key) {
+	public StreamCipherer(StreamCipher cipher, byte[] key) {
 		super(cipher, key);
 	}
 	

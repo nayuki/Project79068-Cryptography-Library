@@ -20,7 +20,7 @@ public abstract class Cipherer implements Cloneable, Zeroizable {
 	
 	
 	
-	protected Cipherer(Cipher cipher, byte[] key) {
+	public Cipherer(Cipher cipher, byte[] key) {
 		NullChecker.check(cipher, key);
 		if (key.length != cipher.getKeyLength())
 			throw new IllegalArgumentException("Key length does not match cipher's key length");

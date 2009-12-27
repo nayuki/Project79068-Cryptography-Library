@@ -13,12 +13,12 @@ public abstract class AbstractDynamicArray<E> {
 	
 	
 	
-	protected AbstractDynamicArray(int initCapacity) {
+	public AbstractDynamicArray(int initCapacity) {
 		this(initCapacity, 2);
 	}
 	
 	
-	protected AbstractDynamicArray(int initCapacity, double ratio) {
+	public AbstractDynamicArray(int initCapacity, double ratio) {
 		if (initCapacity < 1)
 			throw new IllegalArgumentException();
 		if (ratio <= 1 || ratio > Integer.MAX_VALUE || Double.isNaN(ratio))

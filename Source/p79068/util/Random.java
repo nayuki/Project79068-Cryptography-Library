@@ -30,11 +30,12 @@ public abstract class Random {
 	
 	
 	private double nextGaussian;
+	
 	private boolean hasNextGaussian;
 	
 	
 	
-	protected Random() {
+	public Random() {
 		nextGaussian = Double.NaN;
 		hasNextGaussian = false;
 	}
