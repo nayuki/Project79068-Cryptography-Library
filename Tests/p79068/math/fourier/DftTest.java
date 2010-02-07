@@ -29,7 +29,7 @@ public abstract class DftTest {
 		Dft dft = getInstance(length);
 		dft.transform(real, imag);
 		
-		double error = Math.max(getMaxAbsoluteError(real, refreal), getMaxAbsoluteError(imag, refimag)) / length;
+		double error = getRelativeError(refreal, real, refimag, imag, length);
 		assertEquals(0, error, 1e-15);
 	}
 	
@@ -52,7 +52,7 @@ public abstract class DftTest {
 		Dft dft = getInstance(length);
 		dft.transform(real, imag);
 		
-		double error = Math.max(getMaxAbsoluteError(real, refreal), getMaxAbsoluteError(imag, refimag)) / length;
+		double error = getRelativeError(refreal, real, refimag, imag, length);
 		assertEquals(0, error, 1e-14);
 	}
 	
@@ -129,9 +129,15 @@ public abstract class DftTest {
 				imag0[j] += imag1[j];
 			}
 			
-			double error = Math.max(getMaxAbsoluteError(real0, real2), getMaxAbsoluteError(imag0, imag2)) / length;
+			double error = getRelativeError(real2, real0, imag2, imag0, length);
 			assertEquals(0, error, 1e-14);
 		}
+	}
+	
+	
+	
+	private static double getRelativeError(double[] refreal, double[] real, double[] refimag, double[] imag, int length) {
+		return Math.max(getMaxAbsoluteError(real, refreal), getMaxAbsoluteError(imag, refimag)) / length;
 	}
 	
 	
