@@ -47,6 +47,16 @@ public final class Fft extends Dft {
 		
 		this.length = length;
 		
+		// Compute bit-reversed addressing
+		int levels = IntegerMath.log2Floor(length);  // 1 <= levels <= 31
+		permutation = new int[length];
+		for (int i = 0; i < length; i++)
+			permutation[i] = IntegerBitMath.reverseBits(i) >>> (32 - levels);
+		
+		// Do not initialize trigonometric tables if length == 1
+		if (length == 1)
+			return;
+		
 		int quarter = length / 4;
 		// Initialize sine table
 		sin = new double[length / 2];
@@ -62,11 +72,6 @@ public final class Fft extends Dft {
 			cos[i] = sin[quarter - i];
 		for (int i = 1; i < quarter; i++)
 			cos[quarter + i] = -cos[quarter - i];
-		
-		int levels = IntegerMath.log2Floor(length);  // 1 <= levels <= 31
-		permutation = new int[length];
-		for (int i = 0; i < length; i++)
-			permutation[i] = IntegerBitMath.reverseBits(i) >>> (32 - levels);
 	}
 	
 	
