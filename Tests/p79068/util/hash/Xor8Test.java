@@ -4,7 +4,7 @@ import org.junit.Test;
 import p79068.crypto.CryptoUtils;
 
 
-public class Xor8Test {
+public final class Xor8Test {
 	
 	@Test
 	public void testXor8() {

@@ -4,7 +4,7 @@ import org.junit.Test;
 import p79068.crypto.CryptoUtils;
 
 
-public class Adler32Test {
+public final class Adler32Test {
 	
 	@Test
 	public void testAdler32() {
