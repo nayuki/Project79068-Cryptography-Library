@@ -6,12 +6,8 @@ import p79068.lang.NullChecker;
 
 public final class KaratsubaMultiplication {
 	
+	// Requirement: CUTOFF >= 64, or else there will be infinite recursion.
 	private static final int CUTOFF = 2048;
-	
-	static {
-		if (CUTOFF < 64)
-			throw new AssertionError();
-	}
 	
 	
 	
