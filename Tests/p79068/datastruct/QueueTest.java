@@ -158,7 +158,7 @@ public abstract class QueueTest {
 				enqueued++;
 			} else {
 				if (!queue.isEmpty()) {
-					assertEquals(dequeued, queue.dequeue());
+					assertEquals(dequeued, (int)queue.dequeue());
 					dequeued++;
 				}
 			}

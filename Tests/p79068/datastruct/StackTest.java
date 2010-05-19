@@ -159,7 +159,7 @@ public abstract class StackTest {
 					height++;
 				} else {
 					if (height > 0) {
-						assertEquals(height - 1, stack.pop());
+						assertEquals(height - 1, (int)stack.pop());
 						height--;
 					}
 				}

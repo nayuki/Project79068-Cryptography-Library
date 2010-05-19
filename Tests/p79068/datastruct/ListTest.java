@@ -208,68 +208,68 @@ public abstract class ListTest {
 			assertEquals(str.length(), list.length());
 		}
 		
-		assertEquals('e', list.removeAt( 2));
-		assertEquals('u', list.removeAt( 4));
-		assertEquals('q', list.removeAt( 3));
-		assertEquals(' ', list.removeAt( 2));
+		assertEquals('e', (char)list.removeAt( 2));
+		assertEquals('u', (char)list.removeAt( 4));
+		assertEquals('q', (char)list.removeAt( 3));
+		assertEquals(' ', (char)list.removeAt( 2));
 		
-		assertEquals('f', list.removeAt(12));
-		assertEquals(' ', list.removeAt(11));
-		assertEquals('n', list.removeAt(10));
-		assertEquals('w', list.removeAt( 9));
+		assertEquals('f', (char)list.removeAt(12));
+		assertEquals(' ', (char)list.removeAt(11));
+		assertEquals('n', (char)list.removeAt(10));
+		assertEquals('w', (char)list.removeAt( 9));
 		
-		assertEquals(' ', list.removeAt(11));
-		assertEquals('j', list.removeAt(11));
-		assertEquals('u', list.removeAt(11));
-		assertEquals('x', list.removeAt(10));
+		assertEquals(' ', (char)list.removeAt(11));
+		assertEquals('j', (char)list.removeAt(11));
+		assertEquals('u', (char)list.removeAt(11));
+		assertEquals('x', (char)list.removeAt(10));
 		
-		assertEquals('p', list.removeAt(11));
-		assertEquals('d', list.removeAt(12));
-		assertEquals('e', list.removeAt(11));
+		assertEquals('p', (char)list.removeAt(11));
+		assertEquals('d', (char)list.removeAt(12));
+		assertEquals('e', (char)list.removeAt(11));
 		
-		assertEquals('v', list.removeAt(13));
-		assertEquals('e', list.removeAt(13));
+		assertEquals('v', (char)list.removeAt(13));
+		assertEquals('e', (char)list.removeAt(13));
 		
-		assertEquals('l', list.removeAt(19));
-		assertEquals('z', list.removeAt(20));
-		assertEquals('a', list.removeAt(19));
-		assertEquals(' ', list.removeAt(18));
+		assertEquals('l', (char)list.removeAt(19));
+		assertEquals('z', (char)list.removeAt(20));
+		assertEquals('a', (char)list.removeAt(19));
+		assertEquals(' ', (char)list.removeAt(18));
 		
-		assertEquals('g', list.removeAt(22));
+		assertEquals('g', (char)list.removeAt(22));
 		
 		{
 			String str = "thick broom or they do";
 			assertEquals(str.length(), list.length());
 			for (int i = 0; i < str.length(); i++)
-				assertEquals(str.charAt(i), list.getAt(i));
+				assertEquals((char)str.charAt(i), (char)list.getAt(i));
 		}
 		
-		assertEquals('t', list.removeAt( 0));
+		assertEquals('t', (char)list.removeAt( 0));
 		
-		assertEquals('c', list.removeAt(2));
-		assertEquals('k', list.removeAt(2));
-		assertEquals(' ', list.removeAt(2));
-		assertEquals('b', list.removeAt(2));
-		assertEquals('r', list.removeAt(2));
-		assertEquals('o', list.removeAt(2));
-		assertEquals('o', list.removeAt(2));
+		assertEquals('c', (char)list.removeAt(2));
+		assertEquals('k', (char)list.removeAt(2));
+		assertEquals(' ', (char)list.removeAt(2));
+		assertEquals('b', (char)list.removeAt(2));
+		assertEquals('r', (char)list.removeAt(2));
+		assertEquals('o', (char)list.removeAt(2));
+		assertEquals('o', (char)list.removeAt(2));
 		
-		assertEquals('o', list.removeAt(4));
+		assertEquals('o', (char)list.removeAt(4));
 		
-		assertEquals('h', list.removeAt(7));
-		assertEquals(' ', list.removeAt(5));
-		assertEquals('t', list.removeAt(5));
+		assertEquals('h', (char)list.removeAt(7));
+		assertEquals(' ', (char)list.removeAt(5));
+		assertEquals('t', (char)list.removeAt(5));
 		
-		assertEquals('o', list.removeAt(9));
+		assertEquals('o', (char)list.removeAt(9));
 		
-		assertEquals(' ', list.removeAt(7));
-		assertEquals('y', list.removeAt(6));
+		assertEquals(' ', (char)list.removeAt(7));
+		assertEquals('y', (char)list.removeAt(6));
 		
 		{
 			String str = "him red";
 			assertEquals(str.length(), list.length());
 			for (int i = 0; i < str.length(); i++)
-				assertEquals(str.charAt(i), list.getAt(i));
+				assertEquals((char)str.charAt(i), (char)list.getAt(i));
 		}
 	}
 	
@@ -287,9 +287,9 @@ public abstract class ListTest {
 		list.append(- 8);
 		list.append(-27);
 		assertEquals(3, list.length());
-		assertEquals(- 1, list.getAt(0));
-		assertEquals(- 8, list.getAt(1));
-		assertEquals(-27, list.getAt(2));
+		assertEquals(- 1, (int)list.getAt(0));
+		assertEquals(- 8, (int)list.getAt(1));
+		assertEquals(-27, (int)list.getAt(2));
 	}
 	
 	
@@ -302,7 +302,7 @@ public abstract class ListTest {
 		Iterator<Integer> iter = list.iterator();
 		for (int i = 0; i < 50; i++) {
 			assertTrue(iter.hasNext());
-			assertEquals(i * i, iter.next());
+			assertEquals(i * i, (int)iter.next());
 		}
 		assertFalse(iter.hasNext());
 	}
