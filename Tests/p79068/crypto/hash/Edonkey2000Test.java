@@ -41,8 +41,8 @@ public final class Edonkey2000Test {
 	
 	@Test
 	public void testZeroize() {
-		CryptoUtils.testZeroization(Edonkey2000.FUNCTION);
-		CryptoUtils.testZeroization(NewEdonkey2000.FUNCTION);
+		HashUtils.testZeroization(Edonkey2000.FUNCTION);
+		HashUtils.testZeroization(NewEdonkey2000.FUNCTION);
 	}
 	
 	
