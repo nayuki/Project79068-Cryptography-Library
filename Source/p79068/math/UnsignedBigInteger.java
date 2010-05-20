@@ -10,7 +10,11 @@ public final class UnsignedBigInteger implements Comparable<UnsignedBigInteger> 
 	public static final UnsignedBigInteger ONE = new UnsignedBigInteger(1);
 	
 	
-	protected short[] digit;  // In little-endian. length >= 1. The last element is not zero unless it violates the length property.
+	
+	/**
+	 * The sequence of digits representing this number, in little endian. length >= 1. The last element is not zero unless it violates the length property.
+	 */
+	protected short[] digit;
 	
 	
 	
