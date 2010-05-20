@@ -10,8 +10,10 @@ public final class Int128Test {
 	public void testInitSignExtension() {
 		assertEquals(new Int128(0L, 0L), new Int128(0L));
 		assertEquals(new Int128(0L, 3L), new Int128(3L));
+		assertEquals(new Int128(0L, (1L << 63) - 1), new Int128((1L << 63) - 1));
 		assertEquals(new Int128(-1L, -1L), new Int128(-1L));
 		assertEquals(new Int128(-1L, -5L), new Int128(-5L));
+		assertEquals(new Int128(-1L, 1L << 63), new Int128(1L << 63));
 	}
 	
 	
@@ -40,6 +42,16 @@ public final class Int128Test {
 		assertEquals(new Int128(0L, 979L), new Int128(0L, 731L).add(new Int128(0L, 248L)));
 		assertEquals(new Int128(1L, 0L), new Int128(0L, 0xFFFFFFFFFFFFFFFFL).add(new Int128(0L, 0x0000000000000001L)));
 		assertEquals(new Int128(0L, 0L), new Int128(0x8000000000000000L, 0L).add(new Int128(0x8000000000000000L, 0L)));
+	}
+	
+	
+	@Test
+	public void testNegate() {
+		assertEquals(new Int128(0), new Int128(0).negate());
+		assertEquals(new Int128(-1), new Int128(1).negate());
+		assertEquals(new Int128(23), new Int128(-23).negate());
+		assertEquals(new Int128(-1, 0), new Int128(1, 0).negate());
+		assertEquals(new Int128(-3, -5), new Int128(2, 5).negate());
 	}
 	
 	
