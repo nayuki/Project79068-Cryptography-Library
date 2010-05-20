@@ -25,7 +25,7 @@ public final class Int128 implements Comparable<Int128> {
 	 * Constructs an int128 representing the specified number, performing sign extension.
 	 */
 	public Int128(long low) {
-		this(-(low >>> 63), low);
+		this(low >> 63, low);
 	}
 	
 	
