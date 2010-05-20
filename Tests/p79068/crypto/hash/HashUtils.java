@@ -10,7 +10,13 @@ import p79068.util.hash.Hasher;
 
 public final class HashUtils {
 	
-	public static void testWithAsciiMessage(HashFunction hashFunc, String message, String expectedHash) {
+	/**
+	 * Tests the specified hash function with the specified message and expected hash. The message is a byte sequence expressed in ASCII. Non-ASCII characters are disallowed. The expected hash is a byte sequence expressed in hexadecimal.
+	 * @param hashFunc the hash function to test
+	 * @param message the message, in ASCII
+	 * @param expectedHash the expected hash, in hexadecimal
+	 */
+	public static void testAscii(HashFunction hashFunc, String message, String expectedHash) {
 		byte[] hash1 = CryptoUtils.hexToBytes(expectedHash);
 		byte[] msg = CryptoUtils.asciiToBytes(message);
 		byte[] hash0 = hashFunc.getHash(msg).toBytes();
@@ -18,7 +24,13 @@ public final class HashUtils {
 	}
 	
 	
-	public static void testWithHexMessage(HashFunction hashFunc, String message, String expectedHash) {
+	/**
+	 * Tests the specified hash function with the specified message and expected hash. The message is a byte sequence expressed in hexadecimal. The expected hash is also a byte sequence expressed in hexadecimal.
+	 * @param hashFunc the hash function to test
+	 * @param message the message, in hexadecimal
+	 * @param expectedHash the expected hash, in hexadecimal
+	 */
+	public static void testHex(HashFunction hashFunc, String message, String expectedHash) {
 		byte[] hash1 = CryptoUtils.hexToBytes(expectedHash);
 		byte[] msg = CryptoUtils.hexToBytes(message);
 		byte[] hash0 = hashFunc.getHash(msg).toBytes();

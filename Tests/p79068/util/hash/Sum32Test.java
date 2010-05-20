@@ -8,13 +8,13 @@ public final class Sum32Test {
 	
 	@Test
 	public void testSum32() {
-		HashUtils.testWithAsciiMessage(Sum32.FUNCTION, "", "00000000");
-		HashUtils.testWithAsciiMessage(Sum32.FUNCTION, "abcdef", "00000255");
-		HashUtils.testWithAsciiMessage(Sum32.FUNCTION, "fbdcea", "00000255");
-		HashUtils.testWithAsciiMessage(Sum32.FUNCTION, "555", "0000009F");
-		HashUtils.testWithAsciiMessage(Sum32.FUNCTION, "456", "0000009F");
-		HashUtils.testWithAsciiMessage(Sum32.FUNCTION, "348", "0000009F");
-		HashUtils.testWithAsciiMessage(Sum32.FUNCTION, getMillionAs(), "03DFD240");
+		HashUtils.testAscii(Sum32.FUNCTION, "", "00000000");
+		HashUtils.testAscii(Sum32.FUNCTION, "abcdef", "00000255");
+		HashUtils.testAscii(Sum32.FUNCTION, "fbdcea", "00000255");
+		HashUtils.testAscii(Sum32.FUNCTION, "555", "0000009F");
+		HashUtils.testAscii(Sum32.FUNCTION, "456", "0000009F");
+		HashUtils.testAscii(Sum32.FUNCTION, "348", "0000009F");
+		HashUtils.testAscii(Sum32.FUNCTION, getMillionAs(), "03DFD240");
 	}
 	
 	
