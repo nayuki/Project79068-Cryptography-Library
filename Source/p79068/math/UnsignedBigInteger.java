@@ -1,79 +1,9 @@
 package p79068.math;
 
-import java.math.BigInteger;
 import p79068.util.Random;
 
 
 public final class UnsignedBigInteger implements Comparable<UnsignedBigInteger> {
-	
-	public static void main(String[] arg) {
-		int k = 0;
-		java.util.Random r = new java.util.Random();
-		while (true) {
-			int a = r.nextInt(256);
-			int b = r.nextInt(256);
-			
-			if (!new UnsignedBigInteger(a).GCD(new UnsignedBigInteger(b)).toString().equals("0x" + BigInteger.valueOf(a).gcd(BigInteger.valueOf(b)).toString(16)
-					
-			))
-				System.out.println(a + " " + b);
-			k++;
-			if (k % 10000 == 0)
-				System.out.print("\r" + k);
-			if (false)
-				break;
-		}
-		
-		if (true)
-			return;
-		
-		int tp = r.nextInt();
-		UnsignedBigInteger a = new UnsignedBigInteger(tp);
-		BigInteger b = BigInteger.valueOf(tp & 0xFFFFFFFFL);
-		while (true) {
-			tp = r.nextInt();
-			UnsignedBigInteger c = new UnsignedBigInteger(tp);
-			BigInteger d = BigInteger.valueOf(tp & 0xFFFFFFFFL);
-			tp = r.nextInt(421);
-			if (tp < 100) {
-				a = a.add(c);
-				b = b.add(d);
-			} else if (tp < 200) {
-				a = a.multiply(c);
-				b = b.multiply(d);
-			} else if (tp < 300) {
-				a = a.or(c);
-				b = b.or(d);
-			} else if (tp < 350) {
-				a = a.xor(c);
-				b = b.xor(d);
-			} else if (tp < 400) {
-				if (a.subtract(c) != null) {
-					a = a.subtract(c);
-					b = b.subtract(d);
-				}
-			} else if (tp < 410) {
-				int tp1 = r.nextInt(64);
-				a = a.shiftLeft(tp1);
-				b = b.shiftLeft(tp1);
-			} else if (tp < 420) {
-				int tp1 = r.nextInt(64);
-				a = a.shiftRight(tp1);
-				b = b.shiftRight(tp1);
-			} else if (tp < 421) {
-				a = a.and(c);
-				b = b.and(d);
-			} else
-				throw new RuntimeException();
-			if (!a.toString().equals("0x" + b.toString(16))) {
-				System.out.println(a);
-				System.out.println("0x" + b.toString(16));
-				break;
-			}
-			System.out.print("\r" + a.digit.length);
-		}
-	}
-	
 	
 	public static final UnsignedBigInteger ZERO = new UnsignedBigInteger(0);
 	
