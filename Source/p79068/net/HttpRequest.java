@@ -62,7 +62,7 @@ public class HttpRequest {
 	
 	
 	public byte[] getMessage() {
-		return (byte[])message.clone();
+		return message.clone();
 	}
 	
 	
@@ -95,7 +95,7 @@ public class HttpRequest {
 	
 	public void setMessage(byte[] message) {
 		if (message != null)
-			this.message = (byte[])message.clone();
+			this.message = message.clone();
 		else
 			this.message = null;
 	}
