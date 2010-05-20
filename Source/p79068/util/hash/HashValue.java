@@ -5,13 +5,15 @@ import p79068.lang.NullChecker;
 
 
 /**
- * Represents a hash value produced by a hash function.
- * <p>Mutability: <em>Immutable</em></p>
+ * Represents a hash value produced by a hash function. Immutable.
  * @see HashFunction
  * @see Hasher
  */
 public final class HashValue implements Comparable<HashValue> {
 	
+	/**
+	 * The hash value as a sequence of bytes.
+	 */
 	private final byte[] hashValue;
 	
 	
@@ -37,13 +39,14 @@ public final class HashValue implements Comparable<HashValue> {
 	public String toHexString() {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < hashValue.length; i++)
-			sb.append(hexDigits[hashValue[i] >>> 4 & 0xF]).append(hexDigits[hashValue[i] & 0xF]);
+			sb.append(hexDigits[hashValue[i] >>> 4 & 0xF])
+			  .append(hexDigits[hashValue[i] >>> 0 & 0xF]);
 		return sb.toString();
 	}
 	
 	
 	/**
-	 * Returns the length of this hash value, in bytes. This is equivalent to <code>getHashFunction().getHashLength()</code>.
+	 * Returns the length of this hash value, in bytes.
 	 */
 	public int getLength() {
 		return hashValue.length;
@@ -63,6 +66,7 @@ public final class HashValue implements Comparable<HashValue> {
 		NullChecker.check(other);
 		if (hashValue.length != other.hashValue.length)
 			throw new IllegalArgumentException("Hash lengths are different");
+		
 		for (int i = 0; i < hashValue.length && i < other.hashValue.length; i++) {
 			if (hashValue[i] != other.hashValue[i])
 				return (hashValue[i] & 0xFF) - (other.hashValue[i] & 0xFF);
@@ -77,6 +81,7 @@ public final class HashValue implements Comparable<HashValue> {
 	 */
 	@Override
 	public int hashCode() {
+		// Directly uses the leading 4 (or fewer) bytes as the result
 		int result = 0;
 		for (int i = 0; i < Math.min(hashValue.length, 4); i++)
 			result = result << 8 | (hashValue[i] & 0xFF);
