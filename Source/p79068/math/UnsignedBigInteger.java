@@ -1,5 +1,7 @@
 package p79068.math;
 
+import java.util.Arrays;
+
 import p79068.util.Random;
 
 
@@ -314,16 +316,18 @@ public final class UnsignedBigInteger implements Comparable<UnsignedBigInteger> 
 	
 	private static char[] hexdigit = "0123456789ABCDEF".toCharArray();
 	
+	
 	private static short[] trim(short[] ain) {
 		if (ain.length == 0)
 			return new short[]{0};
+		
 		int i;
 		for (i = ain.length - 1; i >= 1 && ain[i] == 0; i--);
+		
 		if (i == ain.length - 1)
 			return ain;
-		short[] aout = new short[i + 1];
-		System.arraycopy(ain, 0, aout, 0, aout.length);
-		return aout;
+		else
+			return Arrays.copyOf(ain, i + 1);
 	}
 	
 }
