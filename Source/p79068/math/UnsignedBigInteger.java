@@ -305,6 +305,17 @@ public final class UnsignedBigInteger implements Comparable<UnsignedBigInteger> 
 	
 	
 	@Override
+	public int hashCode() {
+		int result = 0;
+		for (int x : digits) {
+			result = result * 1158148907 + x;  // Uses some prime number
+			result = result << 11 | result >>> 21;
+		}
+		return result;
+	}
+	
+	
+	@Override
 	public String toString() {
 		StringBuffer sb = new StringBuffer("0x");
 		sb.append(Integer.toString(digits[digits.length - 1] & 0xFFFF, 16));
