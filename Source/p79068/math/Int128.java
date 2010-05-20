@@ -136,6 +136,40 @@ public final class Int128 implements Comparable<Int128> {
 	
 	
 	/**
+	 * Returns <code>this % num</code>.
+	 */
+	public Int128 remainder(Int128 num) {
+		if (num.equals(ZERO))
+			throw new ArithmeticException("Division by zero");
+		
+		boolean neg = this.compareTo(ZERO) < 0;
+		Int128 x = this;
+		Int128 y = num;
+		if (x.compareTo(ZERO) > 0)  // Make x non-positive
+			x = x.negate();
+		if (y.compareTo(ZERO) > 0)  // Make y non-positive
+			y = y.negate();
+		
+		int i = 0;
+		while (y.compareTo(x) > 0 && y.shiftLeft(1).shiftRight(1).equals(y)) {
+			i++;
+			y = y.shiftLeft(1);
+		}
+		
+		for (; i >= 0; i--) {
+			if (y.compareTo(x) >= 0)
+				x = x.subtract(y);
+			y = y.shiftRight(1);
+		}
+		
+		if (neg)
+			return x;
+		else
+			return x.negate();
+	}
+	
+	
+	/**
 	 * Returns <code>-this</code>.
 	 */
 	public Int128 negate() {
@@ -236,7 +270,8 @@ public final class Int128 implements Comparable<Int128> {
 	public int compareTo(Int128 num) {
 		if (high != num.high)
 			return LongMath.compare(high, num.high);
-		return LongMath.compareUnsigned(low, num.low);
+		else
+			return LongMath.compareUnsigned(low, num.low);
 	}
 	
 	
@@ -251,11 +286,28 @@ public final class Int128 implements Comparable<Int128> {
 	
 	@Override
 	public String toString() {
-		long[] temp = new long[]{ high, low };
-		byte[] b = new byte[temp.length * 8];
-		for (int i = 0; i < b.length; i++)
-			b[i] = (byte)(temp[i / 8] >>> ((7 - i % 8) * 8));
-		return new BigInteger(b).toString();
+		StringBuilder sb = new StringBuilder();
+		
+		Int128 temp = this;
+		int comp = temp.compareTo(ZERO);
+		if (comp == 0)
+			return "0";
+		
+		boolean neg = comp < 0;
+		if (comp > 0)
+			temp = temp.negate();
+		
+		Int128 BASE = new Int128(10);
+		while (!temp.equals(ZERO)) {
+			int digit = (int)temp.remainder(BASE).low;
+			sb.append((char)('0' - digit));
+			temp = temp.divide(BASE);
+		}
+		
+		if (neg)
+			sb.append("-");
+		
+		return sb.reverse().toString();
 	}
 	
 }
