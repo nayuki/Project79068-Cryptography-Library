@@ -10,6 +10,19 @@ import p79068.util.HashCoder;
 public final class Int128 implements Comparable<Int128> {
 	
 	/**
+	 * The number zero, which has high = 0 and low = 0.
+	 */
+	public static final Int128 ZERO = new Int128(0);
+	
+	
+	/**
+	 * The number one, which has high = 0 and low = 1.
+	 */
+	public static final Int128 ONE = new Int128(1);
+	
+	
+	
+	/**
 	 * The most significant 64 bits of this integer.
 	 */
 	public final long high;
@@ -81,6 +94,55 @@ public final class Int128 implements Comparable<Int128> {
 			}
 		}
 		return new Int128((long)z[3] << 32 | (z[2] & 0xFFFFFFFFL), (long)z[1] << 32 | (z[0] & 0xFFFFFFFFL));
+	}
+	
+	
+	/**
+	 * Returns <code>this / num</code>.
+	 */
+	public Int128 divide(Int128 num) {
+		if (num.equals(ZERO))
+			throw new ArithmeticException("Division by zero");
+		
+		boolean neg = this.compareTo(ZERO) < 0 ^ num.compareTo(ZERO) < 0;
+		Int128 x = this;
+		Int128 y = num;
+		if (x.compareTo(ZERO) > 0)  // Make x non-positive
+			x = x.negate();
+		if (y.compareTo(ZERO) > 0)  // Make y non-positive
+			y = y.negate();
+		
+		int i = 0;
+		while (y.compareTo(x) > 0 && y.shiftLeft(1).shiftRight(1).equals(y)) {
+			i++;
+			y = y.shiftLeft(1);
+		}
+		
+		Int128 MINUS_ONE = new Int128(-1);
+		Int128 z = ZERO;
+		for (; i >= 0; i--) {
+			if (y.compareTo(x) >= 0) {
+				x = x.subtract(y);
+				z = z.add(MINUS_ONE.shiftLeft(i));
+			}
+			y = y.shiftRight(1);
+		}
+		
+		if (neg)
+			return z;
+		else
+			return z.negate();
+	}
+	
+	
+	/**
+	 * Returns <code>-this</code>.
+	 */
+	public Int128 negate() {
+		if (low == 0)
+			return new Int128(-high, 0);
+		else
+			return new Int128(-high - 1, -low);
 	}
 	
 	
