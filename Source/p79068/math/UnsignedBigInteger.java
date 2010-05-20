@@ -317,17 +317,17 @@ public final class UnsignedBigInteger implements Comparable<UnsignedBigInteger> 
 	private static char[] hexdigit = "0123456789ABCDEF".toCharArray();
 	
 	
-	private static short[] trim(short[] ain) {
-		if (ain.length == 0)
+	private static short[] trim(short[] digits) {
+		if (digits.length == 0)
 			return new short[]{0};
 		
 		int i;
-		for (i = ain.length - 1; i >= 1 && ain[i] == 0; i--);
+		for (i = digits.length - 1; i >= 1 && digits[i] == 0; i--);
 		
-		if (i == ain.length - 1)
-			return ain;
+		if (i == digits.length - 1)
+			return digits;
 		else
-			return Arrays.copyOf(ain, i + 1);
+			return Arrays.copyOf(digits, i + 1);
 	}
 	
 }
