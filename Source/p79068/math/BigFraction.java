@@ -125,6 +125,12 @@ public final class BigFraction implements Comparable<BigFraction> {
 	
 	
 	@Override
+	public int hashCode() {
+		return numerator.hashCode() ^ denominator.hashCode();
+	}
+	
+	
+	@Override
 	public String toString() {
 		return String.format("%d/%d", numerator, denominator);
 	}
