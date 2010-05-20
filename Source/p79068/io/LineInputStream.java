@@ -16,6 +16,7 @@ public final class LineInputStream extends InputStream {
 	}
 	
 	
+	@Override
 	public int read() throws IOException {
 		int tp = in.read();
 		if (discard != -2) {
@@ -26,6 +27,7 @@ public final class LineInputStream extends InputStream {
 		return tp;
 	}
 	
+	@Override
 	public int read(byte[] b, int off, int len) throws IOException {
 		if (len == 0)
 			return 0;
@@ -74,6 +76,7 @@ public final class LineInputStream extends InputStream {
 	}
 	
 	
+	@Override
 	public void close() throws IOException {
 		super.close();
 		in.close();

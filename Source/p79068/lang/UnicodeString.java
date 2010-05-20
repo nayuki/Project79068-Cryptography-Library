@@ -125,11 +125,13 @@ public final class UnicodeString implements Comparable<UnicodeString> {
 		return sb.toString();
 	}
 	
+	@Override
 	public String toString() {
 		return toJavaString();
 	}
 	
 	
+	@Override
 	public boolean equals(Object obj) {
 		if (!(obj instanceof UnicodeString))
 			return false;
@@ -143,6 +145,7 @@ public final class UnicodeString implements Comparable<UnicodeString> {
 		return true;
 	}
 	
+	@Override
 	public int hashCode() {
 		HashCoder h = HashCoder.newInstance();
 		for (int i = 0; i < chars.length; i++)

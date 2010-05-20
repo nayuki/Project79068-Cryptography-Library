@@ -17,6 +17,7 @@ public class Channel<E> {
 			Thread.sleep(200);
 		}
 		
+		@Override
 		public void run() {
 			put(value);
 			System.out.println("Put: " + value);
@@ -30,6 +31,7 @@ public class Channel<E> {
 			Thread.sleep(200);
 		}
 		
+		@Override
 		public void run() {
 			System.out.println("Get: " + get());
 		}
