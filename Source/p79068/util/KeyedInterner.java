@@ -24,7 +24,7 @@ public final class KeyedInterner<K,V> {
 		queue = new ReferenceQueue<V>();
 	}
 	
-	boolean x;
+	
 	
 	public synchronized V get(K key) {
 		NullChecker.check(key);
