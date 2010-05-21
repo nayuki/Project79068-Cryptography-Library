@@ -52,7 +52,7 @@ public final class Int128 implements Comparable<Int128> {
 	
 	
 	/**
-	 * Returns <code>this + num</code>.
+	 * Returns {@code this + num}.
 	 */
 	public Int128 add(Int128 num) {
 		long newlow = low + num.low;
@@ -64,7 +64,7 @@ public final class Int128 implements Comparable<Int128> {
 	
 	
 	/**
-	 * Returns <code>this - num</code>.
+	 * Returns {@code this - num}.
 	 */
 	public Int128 subtract(Int128 num) {
 		long newlow = low - num.low;
@@ -76,7 +76,7 @@ public final class Int128 implements Comparable<Int128> {
 	
 	
 	/**
-	 * Returns <code>this * num</code>.
+	 * Returns {@code this * num}.
 	 */
 	public Int128 multiply(Int128 num) {
 		int[] x = {(int)low, (int)(low >>> 32), (int)high, (int)(high >>> 32)};  // All in little-endian
@@ -97,7 +97,7 @@ public final class Int128 implements Comparable<Int128> {
 	
 	
 	/**
-	 * Returns <code>this / num</code>.
+	 * Returns {@code this / num}.
 	 */
 	public Int128 divide(Int128 num) {
 		if (num.equals(ZERO))
@@ -135,7 +135,7 @@ public final class Int128 implements Comparable<Int128> {
 	
 	
 	/**
-	 * Returns <code>this % num</code>.
+	 * Returns {@code this % num}.
 	 */
 	public Int128 remainder(Int128 num) {
 		if (num.equals(ZERO))
@@ -169,7 +169,7 @@ public final class Int128 implements Comparable<Int128> {
 	
 	
 	/**
-	 * Returns <code>-this</code>.
+	 * Returns {@code -this}.
 	 */
 	public Int128 negate() {
 		if (low == 0)
@@ -180,7 +180,7 @@ public final class Int128 implements Comparable<Int128> {
 	
 	
 	/**
-	 * Returns <code>~this</code>.
+	 * Returns {@code ~this}.
 	 */
 	public Int128 not() {
 		return new Int128(~high, ~low);
@@ -188,7 +188,7 @@ public final class Int128 implements Comparable<Int128> {
 	
 	
 	/**
-	 * Returns <code>this & num</code>.
+	 * Returns {@code this & num}.
 	 */
 	public Int128 and(Int128 num) {
 		return new Int128(high & num.high, low & num.low);
@@ -196,7 +196,7 @@ public final class Int128 implements Comparable<Int128> {
 	
 	
 	/**
-	 * Returns <code>this | num</code>.
+	 * Returns {@code this | num}.
 	 */
 	public Int128 or(Int128 num) {
 		return new Int128(high | num.high, low | num.low);
@@ -204,7 +204,7 @@ public final class Int128 implements Comparable<Int128> {
 	
 	
 	/**
-	 * Returns <code>this ^ num</code>.
+	 * Returns {@code this ^ num}.
 	 */
 	public Int128 xor(Int128 num) {
 		return new Int128(high ^ num.high, low ^ num.low);
@@ -212,7 +212,7 @@ public final class Int128 implements Comparable<Int128> {
 	
 	
 	/**
-	 * Returns <code>this << shift</code>. <code>shift</code> is interpreted as its value modulo 128.
+	 * Returns {@code this << shift}. {@code shift} is interpreted as its value modulo 128.
 	 */
 	public Int128 shiftLeft(int shift) {
 		shift &= 0x7F;
@@ -226,7 +226,7 @@ public final class Int128 implements Comparable<Int128> {
 	
 	
 	/**
-	 * Returns <code>this >> shift</code>. <code>shift</code> is interpreted as its value modulo 128.
+	 * Returns {@code this >> shift}. {@code shift} is interpreted as its value modulo 128.
 	 */
 	public Int128 shiftRight(int shift) {
 		shift &= 0x7F;
@@ -244,7 +244,7 @@ public final class Int128 implements Comparable<Int128> {
 	
 	
 	/**
-	 * Returns <code>this >>> shift</code>. <code>shift</code> is interpreted as its value modulo 128.
+	 * Returns {@code this >>> shift}. {@code shift} is interpreted as its value modulo 128.
 	 */
 	public Int128 shiftRightUnsigned(int shift) {
 		shift &= 0x7F;
