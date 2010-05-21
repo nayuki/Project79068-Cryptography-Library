@@ -3,7 +3,7 @@ package p79068.math.fourier;
 import p79068.lang.NullChecker;
 import p79068.math.IntegerBitMath;
 import p79068.math.IntegerMath;
-import p79068.util.KeyedIntener;
+import p79068.util.KeyedInterner;
 
 
 /**
@@ -13,7 +13,7 @@ import p79068.util.KeyedIntener;
  */
 public final class Fft extends Dft {
 	
-	private static KeyedIntener<Integer,Fft> cache = new KeyedIntener<Integer,Fft>();
+	private static KeyedInterner<Integer,Fft> cache = new KeyedInterner<Integer,Fft>();
 	
 	
 	public static Fft getInstance(int length) {

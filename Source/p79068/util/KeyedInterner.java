@@ -8,7 +8,7 @@ import java.util.Map;
 import p79068.lang.NullChecker;
 
 
-public final class KeyedIntener<K,V> {
+public final class KeyedInterner<K,V> {
 	
 	private Map<K,WeakReference<V>> cache;
 	
@@ -18,7 +18,7 @@ public final class KeyedIntener<K,V> {
 	
 	
 	
-	public KeyedIntener() {
+	public KeyedInterner() {
 		cache = new HashMap<K,WeakReference<V>>();
 		inverseMap = new HashMap<WeakReference<V>,K>();
 		queue = new ReferenceQueue<V>();

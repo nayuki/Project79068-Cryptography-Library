@@ -2,7 +2,7 @@ package p79068.math.fourier;
 
 import p79068.lang.NullChecker;
 import p79068.math.IntegerMath;
-import p79068.util.KeyedIntener;
+import p79068.util.KeyedInterner;
 
 
 /**
@@ -13,7 +13,7 @@ import p79068.util.KeyedIntener;
  */
 public final class ChirpZFft extends Dft {
 	
-	private static KeyedIntener<Integer,ChirpZFft> cache = new KeyedIntener<Integer,ChirpZFft>();
+	private static KeyedInterner<Integer,ChirpZFft> cache = new KeyedInterner<Integer,ChirpZFft>();
 	
 	
 	public static ChirpZFft getInstance(int length) {

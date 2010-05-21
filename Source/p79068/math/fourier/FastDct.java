@@ -1,7 +1,7 @@
 package p79068.math.fourier;
 
 import p79068.lang.NullChecker;
-import p79068.util.KeyedIntener;
+import p79068.util.KeyedInterner;
 
 
 /**
@@ -9,7 +9,7 @@ import p79068.util.KeyedIntener;
  */
 public final class FastDct extends Dct {
 	
-	private static KeyedIntener<Integer,FastDct> cache = new KeyedIntener<Integer,FastDct>();
+	private static KeyedInterner<Integer,FastDct> cache = new KeyedInterner<Integer,FastDct>();
 	
 	
 	public static FastDct getInstance(int length) {
