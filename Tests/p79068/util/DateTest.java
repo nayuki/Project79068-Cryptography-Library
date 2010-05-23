@@ -10,18 +10,6 @@ import p79068.math.ArithmeticOverflowException;
 
 public final class DateTest {
 	
-	private static int[] monthLength = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};  // In a non-leap year
-	
-	
-	private static int monthLength(int y, int m) {
-		if (Date.isLeapYear(y) && m == 2)
-			return 29;  // We first assume that Date.isLeapYear() is correct
-		else
-			return monthLength[m - 1];
-	}
-	
-	
-	
 	@Test
 	public void testIsLeapYear() {
 		assertFalse(Date.isLeapYear(1998));
@@ -105,7 +93,7 @@ public final class DateTest {
 		while (y <= 2400) {
 			assertEquals(i, Date.dayOfWeek(y, m, d));
 			d++;
-			if (d > monthLength(y, m)) {
+			if (d > Date.monthLength(y, m)) {
 				m++;
 				d = 1;
 				if (m > 12) {
@@ -133,7 +121,7 @@ public final class DateTest {
 					y--;
 					m = 12;
 				}
-				d = monthLength(y, m);
+				d = Date.monthLength(y, m);
 			}
 			i = (i + 6) % 7;
 		}
@@ -170,7 +158,7 @@ public final class DateTest {
 		while (y <= 2400) {
 			assertEquals(i, Date.daysSinceEpoch(y, m, d));
 			d++;
-			if (d > monthLength(y, m)) {
+			if (d > Date.monthLength(y, m)) {
 				m++;
 				d = 1;
 				if (m > 12) {
@@ -198,7 +186,7 @@ public final class DateTest {
 					y--;
 					m = 12;
 				}
-				d = monthLength(y, m);
+				d = Date.monthLength(y, m);
 			}
 			i--;
 		}
@@ -218,7 +206,7 @@ public final class DateTest {
 			assertEquals(date.month, m);
 			assertEquals(date.day, d);
 			d++;
-			if (d > monthLength(y, m)) {
+			if (d > Date.monthLength(y, m)) {
 				m++;
 				d = 1;
 				if (m > 12) {
@@ -250,7 +238,7 @@ public final class DateTest {
 					y--;
 					m = 12;
 				}
-				d = monthLength(y, m);
+				d = Date.monthLength(y, m);
 			}
 			i--;
 		}
@@ -269,7 +257,7 @@ public final class DateTest {
 			assertEquals(date.month, m);
 			assertEquals(date.day, d);
 			d++;
-			if (d > monthLength(y, m)) {
+			if (d > Date.monthLength(y, m)) {
 				m++;
 				d = 1;
 				if (m > 12) {

@@ -40,6 +40,13 @@ import p79068.math.LongMath;
 public final class Date implements Comparable<Date> {
 	
 	/**
+	 * Number of days in the month for non-leap years. Month 0 = January, ..., month 11 = December.
+	 */
+	private static final int[] monthLength = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+	
+	
+	
+	/**
 	 * Tests whether the specified year is a leap year.
 	 * <p>A year divisible by 400 is a leap year. A year divisible by 4 but not by 100 is a leap year.</p>
 	 * @param year the year to test
@@ -47,6 +54,25 @@ public final class Date implements Comparable<Date> {
 	 */
 	public static boolean isLeapYear(int year) {
 		return (IntegerMath.mod(year, 4) == 0 && IntegerMath.mod(year, 100) != 0) || IntegerMath.mod(year, 400) == 0;
+	}
+	
+	
+	/**
+	 * Returns the number of days in the specified month of the specified year. This method returns the correct result for all arguments. For example, January has 31 days, April has 30 days, February has 28 days on a non-leap year, and February has 29 days on a leap year.
+	 * @param year the year
+	 * @param month the month
+	 * @return the number of days in the month
+	 */
+	public static int monthLength(int year, int month) {
+		year = IntegerMath.mod(year, 400);                 // Reduce year to [0, 400)
+		month = (int)LongMath.mod((long)month - 1, 4800);  // Reduce month to [0, 4800)
+		year += month / 12;                                // Reduce month into year. Year is now in [0, 799).
+		month %= 12;                                       // Reduce month to [0, 12)
+		
+		if (month != 1 || !Date.isLeapYear(year))
+			return monthLength[month];
+		else
+			return 29;
 	}
 	
 	
