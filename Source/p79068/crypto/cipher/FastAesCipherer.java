@@ -64,7 +64,7 @@ final class FastAesCipherer extends Cipherer {
 		// For each block of 16 bytes
 		for (int end = off + len; off < end; off += 16) {
 			
-			// Pack bytes into columns. Each variable represents a column.
+			// Pack bytes into columns. Each variable represents a column. Also, do AddRoundKey.
 			int x0 = (b[off +  0] << 24 | (b[off +  1] & 0xFF) << 16 | (b[off +  2] & 0xFF) << 8 | (b[off +  3] & 0xFF)) ^ encKeySch[0];
 			int x1 = (b[off +  4] << 24 | (b[off +  5] & 0xFF) << 16 | (b[off +  6] & 0xFF) << 8 | (b[off +  7] & 0xFF)) ^ encKeySch[1];
 			int x2 = (b[off +  8] << 24 | (b[off +  9] & 0xFF) << 16 | (b[off + 10] & 0xFF) << 8 | (b[off + 11] & 0xFF)) ^ encKeySch[2];
@@ -81,6 +81,7 @@ final class FastAesCipherer extends Cipherer {
 				x3 = y3 ^ encKeySch[i << 2 | 3];
 			}
 			
+			// Final SubBytes, ShiftRows, AddRoundKey
 			int y0 = (bigsub[(x0 & 0xFF000000 | x1 & 0x00FF0000) >>> 16] << 16 | bigsub[x2 & 0x0000FF00 | x3 & 0x000000FF]) ^ encKeySch[roundCount << 2 | 0];
 			int y1 = (bigsub[(x1 & 0xFF000000 | x2 & 0x00FF0000) >>> 16] << 16 | bigsub[x3 & 0x0000FF00 | x0 & 0x000000FF]) ^ encKeySch[roundCount << 2 | 1];
 			int y2 = (bigsub[(x2 & 0xFF000000 | x3 & 0x00FF0000) >>> 16] << 16 | bigsub[x0 & 0x0000FF00 | x1 & 0x000000FF]) ^ encKeySch[roundCount << 2 | 2];
@@ -118,7 +119,7 @@ final class FastAesCipherer extends Cipherer {
 		// For each block of 16 bytes
 		for (int end = off + len; off < end; off += 16) {
 			
-			// Pack bytes into columns. Each variable represents a column.
+			// Pack bytes into columns. Each variable represents a column. Also, do AddRoundKey.
 			int x0 = (b[off +  0] << 24 | (b[off +  1] & 0xFF) << 16 | (b[off +  2] & 0xFF) << 8 | (b[off +  3] & 0xFF)) ^ decKeySch[0];
 			int x1 = (b[off +  4] << 24 | (b[off +  5] & 0xFF) << 16 | (b[off +  6] & 0xFF) << 8 | (b[off +  7] & 0xFF)) ^ decKeySch[1];
 			int x2 = (b[off +  8] << 24 | (b[off +  9] & 0xFF) << 16 | (b[off + 10] & 0xFF) << 8 | (b[off + 11] & 0xFF)) ^ decKeySch[2];
@@ -135,6 +136,7 @@ final class FastAesCipherer extends Cipherer {
 				x3 = y3 ^ decKeySch[i << 2 | 3];
 			}
 			
+			// Final SubBytes, ShiftRows, AddRoundKey
 			int y0 = (bigsubinv[(x0 & 0xFF000000 | x3 & 0x00FF0000) >>> 16] << 16 | bigsubinv[x2 & 0x0000FF00 | x1 & 0x000000FF]) ^ decKeySch[roundCount << 2 | 0];
 			int y1 = (bigsubinv[(x1 & 0xFF000000 | x0 & 0x00FF0000) >>> 16] << 16 | bigsubinv[x3 & 0x0000FF00 | x2 & 0x000000FF]) ^ decKeySch[roundCount << 2 | 1];
 			int y2 = (bigsubinv[(x2 & 0xFF000000 | x1 & 0x00FF0000) >>> 16] << 16 | bigsubinv[x0 & 0x0000FF00 | x3 & 0x000000FF]) ^ decKeySch[roundCount << 2 | 2];
