@@ -100,9 +100,10 @@ public final class Date implements Comparable<Date> {
 		
 		d -= 730425;  // Convert epoch from 0000-03-01 to 2000-01-01
 		
-		if (d < Integer.MIN_VALUE || d > Integer.MAX_VALUE)
+		if (d >= Integer.MIN_VALUE && d <= Integer.MAX_VALUE)
+			return (int)d;
+		else
 			throw new ArithmeticOverflowException();
-		return (int)d;
 	}
 	
 	
@@ -189,9 +190,10 @@ public final class Date implements Comparable<Date> {
 	 */
 	public Date add(int days) {
 		long temp = (long)daysSinceEpoch + days;
-		if (temp < Integer.MIN_VALUE || temp > Integer.MAX_VALUE)
+		if (temp >= Integer.MIN_VALUE && temp <= Integer.MAX_VALUE)
+			return new Date((int)temp);
+		else
 			throw new ArithmeticOverflowException();
-		return new Date((int)temp);
 	}
 	
 	
@@ -203,9 +205,10 @@ public final class Date implements Comparable<Date> {
 	 */
 	public int subtract(Date date) {
 		long temp = (long)daysSinceEpoch - date.daysSinceEpoch;
-		if (temp < Integer.MIN_VALUE || temp > Integer.MAX_VALUE)
+		if (temp >= Integer.MIN_VALUE && temp <= Integer.MAX_VALUE)
+			return (int)temp;
+		else
 			throw new ArithmeticOverflowException();
-		return (int)temp;
 	}
 	
 	
@@ -217,15 +220,8 @@ public final class Date implements Comparable<Date> {
 	 */
 	@Override
 	public boolean equals(Object other) {
-		if (other == this)
-			return true;
-		else if (!(other instanceof Date))
-			return false;
-		else {
-			Date date = (Date)other;
-			return daysSinceEpoch == date.daysSinceEpoch;
-			// With 'daysSinceEpoch' being equal, all 4 other fields (year, month, day, dayOfWeek) are equal too.
-		}
+		return other instanceof Date && daysSinceEpoch == ((Date)other).daysSinceEpoch;
+		// With 'daysSinceEpoch' being equal, all 4 other fields (year, month, day, dayOfWeek) are equal too.
 	}
 	
 	
