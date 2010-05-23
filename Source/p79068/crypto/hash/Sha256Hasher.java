@@ -1,5 +1,6 @@
 package p79068.crypto.hash;
 
+import static p79068.math.IntegerBitMath.rotateRight;
 import java.util.Arrays;
 import p79068.crypto.Zeroizer;
 import p79068.lang.BoundsChecker;
@@ -73,11 +74,8 @@ final class Sha256Hasher extends BlockHasherCore {
 			}
 			
 			// Expand the schedule
-			for (int i = 16; i < 64; i++) {
-				int s0 = (schedule[i-15] << 25 | schedule[i-15] >>> 7) ^ (schedule[i-15] << 14 | schedule[i-15] >>> 18) ^ (schedule[i-15] >>> 3);
-				int s1 = (schedule[i-2] << 15 | schedule[i-2] >>> 17) ^ (schedule[i-2] << 13 | schedule[i-2] >>> 19) ^ (schedule[i-2] >>> 10);
-				schedule[i] = schedule[i - 16] + schedule[i - 7] + s0 + s1;
-			}
+			for (int i = 16; i < 64; i++)
+				schedule[i] = schedule[i-16] + schedule[i-7] + smallSigma0(schedule[i-15]) + smallSigma1(schedule[i-2]);
 			
 			int[] tempState = state.clone();
 			encrypt(schedule, tempState);
@@ -136,11 +134,11 @@ final class Sha256Hasher extends BlockHasherCore {
 	
 	/*
 	 * Each round performs a transform of this form:
-	 *  a' = h + F(e,f,g) + G(a,b,c)
+	 *  a' = h + Ch(e,f,g) + Maj(a,b,c)
 	 *  b' = a
 	 *  c' = b
 	 *  d' = c
-	 *  e' = d + h + F(e,f,g)
+	 *  e' = d + h + Ch(e,f,g)
 	 *  f' = e
 	 *  g' = f
 	 *  h' = g
@@ -159,12 +157,8 @@ final class Sha256Hasher extends BlockHasherCore {
 		
 		// The 64 rounds
 		for (int i = 0; i < 64; i++) {
-			int s0 = (a << 30 | a >>> 2) ^ (a << 19 | a >>> 13) ^ (a << 10 | a >>> 22);
-			int s1 = (e << 26 | e >>> 6) ^ (e << 21 | e >>> 11) ^ (e << 7 | e >>> 25);
-			int maj = (a & (b | c)) | (b & c);
-			int ch = g ^ (e & (f ^ g));
-			int t1 = h + s1 + ch + k[i] + keySchedule[i];
-			int t2 = s0 + maj;
+			int t1 = h + bigSigma1(e) + choose(e, f, g) + k[i] + keySchedule[i];
+			int t2 = bigSigma0(a) + majority(a, b, c);
 			h = g;
 			g = f;
 			f = e;
@@ -184,20 +178,19 @@ final class Sha256Hasher extends BlockHasherCore {
 		message[6] = g;
 		message[7] = h;
 	}
-	
-	
+
+
 	/*
 	 * Each round performs a transform of this form:
 	 *  a = b'
 	 *  b = c'
 	 *  c = d'
-	 *  d = e' - (h + F(e,f,g))
+	 *  d = e' - (h + Ch(e,f,g))
 	 *  e = f'
 	 *  f = g'
 	 *  g = h'
-	 *  h = a' - (F(e,f,g) + G(a,b,c))
+	 *  h = a' - (Ch(e,f,g) + Maj(a,b,c))
 	 * The primed variables represent the input.
-	 * Therefore, equivalently: e = a' - f(b', c' ROTLEFT 2, d', e')
 	 * The actual implementation is an in-place version of this description.
 	 */
 	static void decrypt(int[] keySchedule, int[] message) {
@@ -220,12 +213,8 @@ final class Sha256Hasher extends BlockHasherCore {
 			e = f;
 			f = g;
 			g = h;
-			int s0 = (a << 30 | a >>> 2) ^ (a << 19 | a >>> 13) ^ (a << 10 | a >>> 22);
-			int s1 = (e << 26 | e >>> 6) ^ (e << 21 | e >>> 11) ^ (e << 7 | e >>> 25);
-			int maj = (a & (b | c)) | (b & c);
-			int ch = g ^ (e & (f ^ g));
-			int t2 = s1 + ch + k[i] + keySchedule[i];
-			int t3 = s0 + maj;
+			int t2 = bigSigma1(e) + choose(e, f, g) + k[i] + keySchedule[i];
+			int t3 = bigSigma0(a) + majority(a, b, c);
 			h = t0 - (t2 + t3);
 			d = t1 - (h + t2);
 		}
@@ -238,6 +227,37 @@ final class Sha256Hasher extends BlockHasherCore {
 		message[5] = f;
 		message[6] = g;
 		message[7] = h;
+	}
+	
+	
+	
+	private static int smallSigma0(int x) {
+		return rotateRight(x, 7) ^ rotateRight(x, 18) ^ (x >>> 3);
+	}
+	
+	
+	private static int smallSigma1(int x) {
+		return rotateRight(x, 17) ^ rotateRight(x, 19) ^ (x >>> 10);
+	}
+	
+	
+	private static int bigSigma0(int x) {
+		return rotateRight(x, 2) ^ rotateRight(x, 13) ^ rotateRight(x, 22);
+	}
+	
+	
+	private static int bigSigma1(int x) {
+		return rotateRight(x, 6) ^ rotateRight(x, 11) ^ rotateRight(x, 25);
+	}
+	
+	
+	private static int choose(int x, int y, int z) {
+		return z ^ (x & (y ^ z));  // Equivalent to (x & y) ^ (~x & z)
+	}
+	
+	
+	private static int majority(int x, int y, int z) {
+		return (x & (y | z)) | (y & z);  // Equivalent to (x & y) ^ (x & z) ^ (y & z)
 	}
 	
 }

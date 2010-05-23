@@ -1,5 +1,6 @@
 package p79068.crypto.hash;
 
+import static p79068.math.IntegerBitMath.rotateLeft;
 import p79068.crypto.Zeroizer;
 import p79068.lang.BoundsChecker;
 import p79068.math.IntegerBitMath;
@@ -65,7 +66,7 @@ final class Sha1Hasher extends BlockHasherCore {
 			for (int i = 16; i < 80; i++) {
 				int temp = schedule[i - 3] ^ schedule[i - 8] ^ schedule[i - 14] ^ schedule[i - 16];
 				if (sha1Mode)  // This is the only difference between SHA and SHA-1
-					temp = temp << 1 | temp >>> 31;
+					temp = rotateLeft(temp, 1);
 				schedule[i] = temp;
 			}
 			
@@ -121,22 +122,10 @@ final class Sha1Hasher extends BlockHasherCore {
 		
 		// The 80 rounds
 		for (int i = 0; i < 80; i++) {
-			int f;
-			if (0 <= i && i < 20)
-				f = d ^ (b & (c ^ d));  // Same as (b & c) | (~b & d)
-			else if (20 <= i && i < 40)
-				f = b ^ c ^ d;
-			else if (40 <= i && i < 60)
-				f = (b & (c | d)) | (c & d);  // Same as (b & c) | (c & d) | (d & b)
-			else if (60 <= i && i < 80)
-				f = b ^ c ^ d;
-			else
-				throw new AssertionError();
-			
-			int temp = (a << 5 | a >>> 27) + f + e + k[i / 20] + keySchedule[i];
+			int temp = rotateLeft(a, 5) + f(i, b, c, d) + e + k[i / 20] + keySchedule[i];
 			e = d;
 			d = c;
-			c = b << 30 | b >>> 2;
+			c = rotateLeft(b, 30);
 			b = a;
 			a = temp;
 		}
@@ -171,23 +160,10 @@ final class Sha1Hasher extends BlockHasherCore {
 		for (int i = 79; i >= 0; i--) {
 			int temp = a;
 			a = b;
-			b = c << 2 | c >>> 30;
+			b = rotateLeft(c, 2);
 			c = d;
 			d = e;
-			
-			int f;
-			if (0 <= i && i < 20)
-				f = d ^ (b & (c ^ d));
-			else if (20 <= i && i < 40)
-				f = b ^ c ^ d;
-			else if (40 <= i && i < 60)
-				f = (b & (c | d)) | (c & d);
-			else if (60 <= i && i < 80)
-				f = b ^ c ^ d;
-			else
-				throw new AssertionError();
-			
-			e = temp - ((a << 5 | a >>> 27) + f + k[i / 20] + keySchedule[i]);
+			e = temp - (rotateLeft(a, 5) + f(i, b, c, d) + k[i / 20] + keySchedule[i]);
 		}
 		
 		message[0] = a;
@@ -195,6 +171,16 @@ final class Sha1Hasher extends BlockHasherCore {
 		message[2] = c;
 		message[3] = d;
 		message[4] = e;
+	}
+	
+	
+	
+	private static int f(int i, int b, int c, int d) {
+		if      ( 0 <= i && i < 20) return d ^ (b & (c ^ d));  // Same as (b & c) | (~b & d)
+		else if (20 <= i && i < 40) return b ^ c ^ d;
+		else if (40 <= i && i < 60) return (b & (c | d)) | (c & d);  // Same as (b & c) | (c & d) | (d & b)
+		else if (60 <= i && i < 80) return b ^ c ^ d;
+		else throw new AssertionError();
 	}
 	
 }

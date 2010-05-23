@@ -1,5 +1,6 @@
 package p79068.crypto.hash;
 
+import static p79068.math.LongBitMath.rotateRight;
 import java.util.Arrays;
 import p79068.crypto.Zeroizer;
 import p79068.lang.BoundsChecker;
@@ -109,20 +110,13 @@ final class Sha512Hasher extends BlockHasherCore {
 			}
 			
 			// Expand the schedule
-			for (int i = 16; i < 80; i++) {
-				long s0 = (schedule[i-15] << 63 | schedule[i-15] >>> 1) ^ (schedule[i-15] << 56 | schedule[i-15] >>> 8) ^ (schedule[i-15] >>> 7);
-				long s1 = (schedule[i-2] << 45 | schedule[i-2] >>> 19) ^ (schedule[i-2] << 3 | schedule[i-2] >>> 61) ^ (schedule[i-2] >>> 6);
-				schedule[i] = schedule[i - 16] + schedule[i - 7] + s0 + s1;
-			}
+			for (int i = 16; i < 80; i++)
+				schedule[i] = schedule[i-16] + schedule[i-7] + smallSigma0(schedule[i-15]) + smallSigma1(schedule[i-2]);
 			
 			// The 80 rounds
 			for (int i = 0; i < 80; i++) {
-				long s0 = (a << 36 | a >>> 28) ^ (a << 30 | a >>> 34) ^ (a << 25 | a >>> 39);
-				long s1 = (e << 50 | e >>> 14) ^ (e << 46 | e >>> 18) ^ (e << 23 | e >>> 41);
-				long ch = g ^ (e & (f ^ g));  // Same as (e & f) | (~e & g)
-				long maj = (a & (b | c)) | (b & c);  // Same as (a & b) | (b & c) | (c & a)
-				long t1 = h + s1 + ch + k[i] + schedule[i];
-				long t2 = s0 + maj;
+				long t1 = h + bigSigma1(e) + choose(e, f, g) + k[i] + schedule[i];
+				long t2 = bigSigma0(a) + majority(a, b, c);
 				h = g;
 				g = f;
 				f = e;
@@ -161,6 +155,37 @@ final class Sha512Hasher extends BlockHasherCore {
 		if (!sha512Mode)  // SHA-384, truncate the state
 			state = Arrays.copyOf(state, 6);
 		return new HashValue(LongBitMath.toBytesBigEndian(state));
+	}
+	
+	
+	
+	private static long smallSigma0(long x) {
+		return rotateRight(x, 1) ^ rotateRight(x, 8) ^ (x >>> 7);
+	}
+	
+	
+	private static long smallSigma1(long x) {
+		return rotateRight(x, 19) ^ rotateRight(x, 61) ^ (x >>> 6);
+	}
+	
+	
+	private static long bigSigma0(long x) {
+		return rotateRight(x, 28) ^ rotateRight(x, 34) ^ rotateRight(x, 39);
+	}
+	
+	
+	private static long bigSigma1(long x) {
+		return rotateRight(x, 14) ^ rotateRight(x, 18) ^ rotateRight(x, 41);
+	}
+	
+	
+	private static long choose(long x, long y, long z) {
+		return z ^ (x & (y ^ z));  // Equivalent to (x & y) ^ (~x & z)
+	}
+	
+	
+	private static long majority(long x, long y, long z) {
+		return (x & (y | z)) | (y & z);  // Equivalent to (x & y) ^ (x & z) ^ (y & z)
 	}
 	
 }
