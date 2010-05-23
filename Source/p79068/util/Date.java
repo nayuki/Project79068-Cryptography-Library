@@ -40,9 +40,15 @@ import p79068.math.LongMath;
 public final class Date implements Comparable<Date> {
 	
 	/**
-	 * Number of days in the month for non-leap years. Month 0 = January, ..., month 11 = December.
+	 * The number of days in the month for non-leap years. Month 0 = January, ..., month 11 = December.
 	 */
 	private static final int[] monthLength = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+	
+	
+	/**
+	 * The cumulative number of days since March 1st. 0 = March 1st, 1 = April 1st, ..., 11 = February 1st of next year.
+	 */
+	private static final int[] cumulativeDays = {0, 31, 61, 92, 122, 153, 184, 214, 245, 275, 306, 337};
 	
 	
 	
@@ -277,11 +283,5 @@ public final class Date implements Comparable<Date> {
 	public String toString() {
 		return String.format("%04d-%02d-%02d", year, month, day);
 	}
-	
-	
-	
-	// The cumulative number of days since March 1st.
-	// 0 = March 1st, 1 = April 1st, ..., 11 = February 1st of next year
-	private static final int[] cumulativeDays = {0, 31, 61, 92, 122, 153, 184, 214, 245, 275, 306, 337};
 	
 }
