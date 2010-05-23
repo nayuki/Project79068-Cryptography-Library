@@ -11,7 +11,9 @@ final class FastWhirlpoolHasher extends BlockHasherCore {
 	
 	private final long[][] rcon;
 	
+	private final int[] subInv;
 	private final long[][] mul;
+	private final long[][] mulInv;
 	
 	
 	private long[] state;
@@ -20,7 +22,9 @@ final class FastWhirlpoolHasher extends BlockHasherCore {
 	
 	public FastWhirlpoolHasher(WhirlpoolParameters params) {
 		NullChecker.check(params);
+		subInv = invertSbox(params.getSbox());
 		mul = makeMultiplicationTable(params.getSbox(), params.getC());
+		mulInv = makeInverseMultiplicationTable(params.getCInverse());
 		rcon = makeRoundConstants(params.getRounds(), params.getSbox());
 		state = new long[8];
 	}
@@ -134,13 +138,48 @@ final class FastWhirlpoolHasher extends BlockHasherCore {
 	
 	// The internal block cipher inverse (W inverse). Decrypts the message in place. Overwrites key and temp.
 	void decrypt(long[] message, long[] key, long[] temp) {
-		throw new AssertionError("Not implemented yet");
+		// Make key schedule
+		long[][] keySch = new long[rcon.length + 1][8];
+		System.arraycopy(key, 0, keySch[0], 0, 8);
+		for (int i = 0; i < rcon.length; i++) {
+			round(key, rcon[i], temp);
+			System.arraycopy(key, 0, keySch[i + 1], 0, 8);
+		}
+		
+		// Do the rounds
+		for (int i = keySch.length - 1; i >= 1; i--)
+			roundInverse(message, keySch[i], temp);
+		
+		// Sigma
+		for (int i = 0; i < 8; i++)
+			message[i] ^= keySch[0][i];
 	}
 	
 	
 	// The inverse round function (rho inverse). Decrypts the message in place. Also overwrites temp. Preserves key.
 	void roundInverse(long[] message, long[] key, long[] temp) {
-		throw new AssertionError("Not implemented yet");
+		// Sigma
+		for (int i = 0; i < 8; i++)
+			temp[i] = message[i] ^ key[i];
+		
+		
+		// Inverse theta
+		for (int i = 0; i < 8; i++) {
+			message[i] = 0;
+			for (int j = 0; j < 8; j++)
+				message[i] ^= mulInv[j][(int)(temp[i] >>> ((j ^ 7) << 3)) & 0xFF];
+		}
+		
+		// Do the combined inverse gamma and inverse pi
+		for (int i = 0; i < 8; i++) {
+			temp[i] = 0;
+			for (int j = 0; j < 8; j++) {
+				int shift = (j ^ 7) << 3;
+				temp[i] |= (long)subInv[(int)(message[(i + j) & 7] >>> shift) & 0xFF] << shift;
+			}
+		}
+		
+		System.arraycopy(temp, 0, message, 0, 8);
 	}
 	
 	
@@ -159,6 +198,20 @@ final class FastWhirlpoolHasher extends BlockHasherCore {
 	}
 	
 	
+	private static long[][] makeInverseMultiplicationTable(int[] cInv) {
+		cInv = pseudoReverse(cInv);
+		long[][] result = new long[8][256];
+		for (int i = 0; i < 256; i++) {
+			long vector = 0;
+			for (int j = 0; j < 8; j++)
+				vector |= (long)WhirlpoolUtils.multiply(i, cInv[j]) << ((7 - j) * 8);
+			for (int j = 0; j < 8; j++)
+				result[j][i] = LongBitMath.rotateRight(vector, j * 8);
+		}
+		return result;
+	}
+	
+	
 	private static long[][] makeRoundConstants(int rounds, int[] sub) {
 		long[][] result = new long[rounds][8];
 		for (int i = 0; i < result.length; i++) {
@@ -168,6 +221,14 @@ final class FastWhirlpoolHasher extends BlockHasherCore {
 				result[i][j] = 0;
 		}
 		return result;
+	}
+	
+	
+	private static int[] invertSbox(int[] sub) {
+		int[] subInv = new int[256];
+		for (int i = 0; i < sub.length; i++)
+			subInv[sub[i]] = i;
+		return subInv;
 	}
 	
 	
