@@ -43,6 +43,38 @@ public final class Zeroizer {
 	}
 	
 	
+	public static void clear(byte[][] array) {
+		for (int i = 0; i < array.length; i++) {
+			clear(array[i]);
+			array[i] = null;
+		}
+	}
+	
+	
+	public static void clear(short[][] array) {
+		for (int i = 0; i < array.length; i++) {
+			clear(array[i]);
+			array[i] = null;
+		}
+	}
+	
+	
+	public static void clear(int[][] array) {
+		for (int i = 0; i < array.length; i++) {
+			clear(array[i]);
+			array[i] = null;
+		}
+	}
+	
+	
+	public static void clear(long[][] array) {
+		for (int i = 0; i < array.length; i++) {
+			clear(array[i]);
+			array[i] = null;
+		}
+	}
+	
+	
 	
 	/**
 	 * Not instantiable.

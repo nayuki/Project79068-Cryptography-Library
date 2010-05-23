@@ -94,10 +94,7 @@ class RijndaelCipherer extends Cipherer {
 	public void zeroize() {
 		if (cipher == null)
 			return;
-		for (int i = 0; i < keySchedule.length; i++) {
-			Zeroizer.clear(keySchedule[i]);
-			keySchedule[i] = null;
-		}
+		Zeroizer.clear(keySchedule);
 		keySchedule = null;
 		super.zeroize();
 	}
