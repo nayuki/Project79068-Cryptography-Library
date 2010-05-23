@@ -159,7 +159,7 @@ final class WhirlpoolCipherer extends Cipherer {
 	private void pi(byte[] blockin, byte[] blockout) {
 		for (int j = 0; j < 8; j++) {
 			for (int i = 0; i < 8; i++)
-				blockout[((i + j) & 7) << 3 | j] = blockin[i << 3 | j];
+				blockout[(i + j) % 8 * 8 + j] = blockin[i * 8 + j];
 		}
 	}
 	
@@ -170,8 +170,8 @@ final class WhirlpoolCipherer extends Cipherer {
 			for (int j = 0; j < 8; j++) {
 				int sum = 0;
 				for (int k = 0; k < 8; k++)
-					sum ^= mul[k][blockin[i << 3 | (j + k) & 7] & 0xFF];
-				blockout[i << 3 | j] = (byte)sum;
+					sum ^= mul[k][blockin[i * 8 + (j + k) % 8] & 0xFF];
+				blockout[i * 8 + j] = (byte)sum;
 			}
 		}
 	}
@@ -193,7 +193,7 @@ final class WhirlpoolCipherer extends Cipherer {
 	private void piInverse(byte[] blockin, byte[] blockout) {
 		for (int j = 0; j < 8; j++) {
 			for (int i = 0; i < 8; i++)
-				blockout[i << 3 | j] = blockin[((i + j) & 7) << 3 | j];
+				blockout[i * 8 + j] = blockin[(i + j) % 8 * 8 + j];
 		}
 	}
 	
@@ -203,8 +203,8 @@ final class WhirlpoolCipherer extends Cipherer {
 			for (int j = 0; j < 8; j++) {
 				int sum = 0;
 				for (int k = 0; k < 8; k++)
-					sum ^= mulinv[k][blockin[i << 3 | (j + k) & 7] & 0xFF];
-				blockout[i << 3 | j] = (byte)sum;
+					sum ^= mulinv[k][blockin[i * 8 + (j + k) % 8] & 0xFF];
+				blockout[i * 8 + j] = (byte)sum;
 			}
 		}
 	}
