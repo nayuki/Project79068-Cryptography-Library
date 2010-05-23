@@ -11,6 +11,53 @@ public final class LongMath {
 	// Basic operations
 	
 	/**
+	 * Returns the sum of the specified integers, throwing an exception if the result overflows.
+	 * @param x a summand
+	 * @param y a summand
+	 * @return <code>x</code> plus <code>y</code>
+	 * @throws ArithmeticOverflowException if the result overflows
+	 */
+	public static long safeAdd(long x, long y) {
+		long z = x + y;
+		if (y > 0 && z < x || y < 0 && z > x)
+			throw new ArithmeticOverflowException(String.format("%d + %d", x, y));
+		else
+			return z;
+	}
+	
+	
+	/**
+	 * Returns the product of the specified integers, throwing an exception if the result overflows.
+	 * @param x a multiplicand
+	 * @param y a multiplicand
+	 * @return <code>x</code> times <code>y</code>
+	 * @throws ArithmeticOverflowException if the result overflows
+	 */
+	public static long safeMultiply(long x, long y) {
+		Int128 z = new Int128(x).multiply(new Int128(y));
+		if (z.high == z.low >> 63)  // Equivalent to z >= Long.MIN_VALUE && z <= Long.MAX_VALUE
+			return z.low;
+		else
+			throw new ArithmeticOverflowException(String.format("%d * %d", x, y));
+	}
+	
+	
+	/**
+	 * Returns the quotient of the specified integers, throwing an exception if the result overflows. The only overflow case is when <code>x</code> = &minus;2<sup>31</sup> and <code>y</code> = &minus;1.
+	 * @param x the dividend
+	 * @param y the divisor
+	 * @return <code>x</code> divided by <code>y</code>
+	 * @throws ArithmeticOverflowException if the result overflows
+	 */
+	public static long safeDivide(long x, long y) {
+		if (x == Long.MIN_VALUE && y == -1)
+			throw new ArithmeticOverflowException(String.format("%d / %d", x, y));
+		else
+			return x / y;
+	}
+	
+	
+	/**
 	 * Returns the floor of the quotient of the specified integers.
 	 * @param x the dividend
 	 * @param y the divisor
