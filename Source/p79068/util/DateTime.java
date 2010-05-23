@@ -64,6 +64,28 @@ public final class DateTime implements Comparable<DateTime> {
 	
 	
 	/**
+	 * Constructs a date-time object representing the specified date and time.
+	 */
+	public DateTime(long microsSinceEpoch) {
+		this.microsSinceEpoch = microsSinceEpoch;
+		long temp = microsSinceEpoch;
+		microsecond = (int)LongMath.mod(temp, 1000000);
+		temp = LongMath.divideAndFloor(temp, 1000000);
+		second = (int)LongMath.mod(temp, 60);
+		temp = LongMath.divideAndFloor(temp, 60);
+		minute = (int)LongMath.mod(temp, 60);
+		temp = LongMath.divideAndFloor(temp, 60);
+		hour = (int)LongMath.mod(temp, 24);
+		temp = LongMath.divideAndFloor(temp, 24);
+		Date tempdate = new Date((int)temp);  // temp is now equal to the number of days since the epoch. It is in [106751992,106751992).
+		year = tempdate.getYear();
+		month = tempdate.getMonth();
+		day = tempdate.getDay();
+		dayOfWeek = tempdate.getDayOfWeek();
+	}
+	
+	
+	/**
 	 * Constructs a date-time initialized to the current date and time.
 	 */
 	public DateTime() {
@@ -100,28 +122,6 @@ public final class DateTime implements Comparable<DateTime> {
 	 */
 	public DateTime(int year, int month, int day, int hour, int minute, int second, int microsecond) {
 		this(microsSinceEpoch(year, month, day, hour, minute, second, microsecond));
-	}
-	
-	
-	/**
-	 * Constructs a date-time object representing the specified date and time.
-	 */
-	public DateTime(long microsSinceEpoch) {
-		this.microsSinceEpoch = microsSinceEpoch;
-		long temp = microsSinceEpoch;
-		microsecond = (int)LongMath.mod(temp, 1000000);
-		temp = LongMath.divideAndFloor(temp, 1000000);
-		second = (int)LongMath.mod(temp, 60);
-		temp = LongMath.divideAndFloor(temp, 60);
-		minute = (int)LongMath.mod(temp, 60);
-		temp = LongMath.divideAndFloor(temp, 60);
-		hour = (int)LongMath.mod(temp, 24);
-		temp = LongMath.divideAndFloor(temp, 24);
-		Date tempdate = new Date((int)temp);  // temp is now equal to the number of days since the epoch. It is in [106751992,106751992).
-		year = tempdate.getYear();
-		month = tempdate.getMonth();
-		day = tempdate.getDay();
-		dayOfWeek = tempdate.getDayOfWeek();
 	}
 	
 	
