@@ -95,12 +95,10 @@ final class Sha256Hasher extends BlockHasherCore {
 	@Override
 	public HashValue getHashDestructively(byte[] block, int blockLength, long length) {
 		block[blockLength] = (byte)0x80;
-		for (int i = blockLength + 1; i < block.length; i++)
-			block[i] = 0x00;
+		Arrays.fill(block, blockLength + 1, block.length, (byte)0);
 		if (blockLength + 1 > block.length - 8) {
 			compress(block);
-			for (int i = 0; i < block.length; i++)
-				block[i] = 0x00;
+			Arrays.fill(block, (byte)0);
 		}
 		for (int i = 0; i < 8; i++)
 			block[block.length - 1 - i] = (byte)((length * 8) >>> (i * 8));

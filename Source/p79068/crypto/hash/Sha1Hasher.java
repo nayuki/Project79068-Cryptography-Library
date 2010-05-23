@@ -1,6 +1,9 @@
 package p79068.crypto.hash;
 
 import static p79068.math.IntegerBitMath.rotateLeft;
+
+import java.util.Arrays;
+
 import p79068.crypto.Zeroizer;
 import p79068.lang.BoundsChecker;
 import p79068.math.IntegerBitMath;
@@ -85,12 +88,10 @@ final class Sha1Hasher extends BlockHasherCore {
 	@Override
 	public HashValue getHashDestructively(byte[] block, int blockLength, long length) {
 		block[blockLength] = (byte)0x80;
-		for (int i = blockLength + 1; i < block.length; i++)
-			block[i] = 0x00;
+		Arrays.fill(block, blockLength + 1, block.length, (byte)0);
 		if (blockLength + 1 > block.length - 8) {
 			compress(block);
-			for (int i = 0; i < block.length; i++)
-				block[i] = 0x00;
+			Arrays.fill(block, (byte)0);
 		}
 		for (int i = 0; i < 8; i++)
 			block[block.length - 1 - i] = (byte)((length * 8) >>> (i * 8));

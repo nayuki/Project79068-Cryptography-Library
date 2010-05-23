@@ -1,5 +1,7 @@
 package p79068.crypto.hash;
 
+import java.util.Arrays;
+
 import p79068.crypto.Zeroizer;
 import p79068.lang.BoundsChecker;
 import p79068.math.LongBitMath;
@@ -407,16 +409,11 @@ final class TigerHasher extends BlockHasherCore {
 	
 	@Override
 	public HashValue getHashDestructively(byte[] block, int blockLength, long length) {
-		if (!tiger2Mode)
-			block[blockLength] = 0x01;
-		else
-			block[blockLength] = (byte)0x80;
-		for (int i = blockLength + 1; i < block.length; i++)
-			block[i] = 0x00;
+		block[blockLength] = (byte)(tiger2Mode ? 0x80 : 0x01);
+		Arrays.fill(block, blockLength + 1, block.length, (byte)0);
 		if (blockLength + 1 > block.length - 8) {
 			compress(block);
-			for (int i = 0; i < block.length; i++)
-				block[i] = 0x00;
+			Arrays.fill(block, (byte)0);
 		}
 		for (int i = 0; i < 8; i++)
 			block[block.length - 8 + i] = (byte)((length * 8) >>> (i * 8));
