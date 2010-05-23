@@ -1,5 +1,7 @@
 package p79068.util.hash;
 
+import java.util.Arrays;
+
 import org.junit.Test;
 import p79068.crypto.hash.HashUtils;
 
@@ -20,10 +22,9 @@ public final class Sum32Test {
 	
 	
 	private static String getMillionAs() {
-		StringBuffer sb = new StringBuffer();
-		for (int i = 0; i < 1000000; i++)
-			sb.append('A');
-		return sb.toString();
+		char[] result = new char[1000000];
+		Arrays.fill(result, 'A');
+		return new String(result);
 	}
 	
 }

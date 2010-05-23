@@ -1,5 +1,7 @@
 package p79068.crypto.hash;
 
+import java.util.Arrays;
+
 import org.junit.Test;
 import p79068.crypto.hash.HashUtils;
 
@@ -98,10 +100,9 @@ public final class ShaTest {
 	
 	
 	private static String getMillionAs() {
-		StringBuffer sb = new StringBuffer();
-		for (int i = 0; i < 1000000; i++)
-			sb.append('a');
-		return sb.toString();
+		char[] result = new char[1000000];
+		Arrays.fill(result, 'a');
+		return new String(result);
 	}
 	
 }
