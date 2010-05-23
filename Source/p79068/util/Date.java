@@ -58,13 +58,13 @@ public final class Date implements Comparable<Date> {
 	 * @param day the day of month
 	 * @return the day of week, with <code>0</code> = Sunday, <code>1</code> = Monday, ..., <code>6</code> = Saturday
 	 */
-	public static int dayOfWeek(int year, int month, int day) {  // See Zeller's congruence.
-		year = IntegerMath.mod(year, 400);                 // Reduce year to [0,400).
-		month = (int)LongMath.mod((long)month - 3, 4800);  // Convert month from 1 = January to 0 = March, and reduce to [0,4800). (i.e. 400 years)
-		year += month / 12;                                // Reduce month into year. Year is in [0,799).
-		month %= 12;                                       // Reduce month to [0,12).
-		day = IntegerMath.mod(day, 7);                     // Reduce day to [0,7).
-		return (year + year/4 - year/100 + year/400 + (13*month+2)/5 + day + 2) % 7;  // Note: The first argument of the remainder operator is in [2,1029).
+	public static int dayOfWeek(int year, int month, int day) {
+		year = IntegerMath.mod(year, 400);                 // Reduce year to [0, 400)
+		month = (int)LongMath.mod((long)month - 3, 4800);  // Convert month from 1 = January to 0 = March, and reduce to [0, 4800) (i.e. 400 years)
+		year += month / 12;                                // Reduce month into year. Year is now in [0, 799).
+		month %= 12;                                       // Reduce month to [0, 12)
+		day = IntegerMath.mod(day, 7);                     // Reduce day to [0, 7)
+		return (year + year/4 - year/100 + year/400 + (13*month+2)/5 + day + 2) % 7;  // Zeller's congruence. Note: The left side of the remainder operator is in [2, 1029).
 	}
 	
 	
@@ -74,7 +74,8 @@ public final class Date implements Comparable<Date> {
 	 * @return the day of week, with <code>0</code> = Sunday, <code>1</code> = Monday, ..., <code>6</code> = Saturday
 	 */
 	public static int dayOfWeek(int daysSinceEpoch) {
-		return (int)LongMath.mod((long)daysSinceEpoch + 6, 7);  // 2000-01-01 is a Saturday.
+		// The epoch (2000-01-01) is a Saturday (6)
+		return (IntegerMath.mod(daysSinceEpoch, 7) + 6) % 7;
 	}
 	
 	
@@ -83,17 +84,23 @@ public final class Date implements Comparable<Date> {
 	 * @throws ArithmeticOverflowException if the result does not fit in an <code>int</code>
 	 */
 	public static int daysSinceEpoch(int year, int month, int day) {
+		// Use extra precision to prevent overflow
 		long y = year;
 		long m = month;
 		long d = day;
-		m -= 3;                                         // Convert month from 1, January-based to 0, March-based. January and February are considered to belong to the "previous" year.
-		y += LongMath.divideAndFloor(m, 12);            // Reduce month into year.
-		m -= LongMath.divideAndFloor(m, 12) * 12;       // Reduce month to [0,12).
-		d--;                                            // Convert from 1-based day to 0-based day and use d as the accumulator.
+		
+		// Process the month
+		m -= 3;  // Convert month from 1 = January to 0 = March. January and February are considered to belong to the "previous" year.
+		y += LongMath.divideAndFloor(m, 12);       // Reduce month into year
+		m -= LongMath.divideAndFloor(m, 12) * 12;  // Reduce month to [0,12)
+		
+		d--;  // Convert day from 1-based to 0-based. Use d as the accumulator.
 		d += LongMath.divideAndFloor(y, 400) * 146097;  // Reduce year into day. There are 146097 days in any contiguous 400 years.
-		y -= LongMath.divideAndFloor(y, 400) * 400;     // Reduce year to [0,400).
-		d += y * 365 + y / 4 - y / 100 + y / 400 + cumulativeDays[(int)m];  // Add the days in the years (taking leap years into account) and months.
-		d -= 730425;                                    // Convert epoch from 0000-03-01 to 2000-01-01.
+		y -= LongMath.divideAndFloor(y, 400) * 400;     // Reduce year to [0, 400)
+		d += y*365 + y/4 - y/100 + y/400 + cumulativeDays[(int)m];  // Add the days in the years (taking leap years into account) and months
+		
+		d -= 730425;  // Convert epoch from 0000-03-01 to 2000-01-01
+		
 		if (d < Integer.MIN_VALUE || d > Integer.MAX_VALUE)
 			throw new ArithmeticOverflowException();
 		return (int)d;
@@ -105,16 +112,16 @@ public final class Date implements Comparable<Date> {
 	private final int daysSinceEpoch;
 	
 	/** The year. */
-	private int year;
+	private final int year;
 	
 	/** The month. 1 = January, ..., 12 = December. Range: [1, 12]. */
-	private int month;
+	private final int month;
 	
 	/** The day of month. 1 = first day. Range: [1, 31]. */
-	private int day;
+	private final int day;
 	
 	/** The day of week. 0 = Sunday, ..., 6 = Saturday. Range: [0, 7). */
-	private int dayOfWeek;
+	private final int dayOfWeek;
 	
 	
 	
@@ -131,24 +138,34 @@ public final class Date implements Comparable<Date> {
 	public Date(int daysSinceEpoch) {
 		this.daysSinceEpoch = daysSinceEpoch;
 		dayOfWeek = dayOfWeek(daysSinceEpoch);
-		long d = (long)daysSinceEpoch + 730425;                // Convert epoch from 2000-01-01 to 0000-03-01.
-		year = (int)LongMath.divideAndFloor(d, 146097) * 400;  // Reduce d into year.
-		d -= LongMath.divideAndFloor(d, 146097) * 146097;      // Reduce d to [0,146097).
-		day = (int)d;
-		// Calculate the year, taking leap years into account. Valid only for d in [0,146097).
-		year += Math.min(day / 36524, 3) * 100;                // There are *usually* 36524 days in 100 years.
-		day -= Math.min(day / 36524, 3) * 36524;               // Reduce d to *approximately* [0, 100 years).
-		year += day / 1461 * 4;                                // There are *usually* 1461 days in 4 years.
-		day -= day / 1461 * 1461;                              // Reduce d to *approximately* [0, 4 years).
-		year += Math.min(day / 365, 3);                        // There are *usually* 365 days in 1 year.
-		day -= Math.min(day / 365, 3) * 365;                   // Reduce d to [0,366).
-		for (month = 0; month < 11 && cumulativeDays[month + 1] <= day; month++);  // Find the month that the day belongs in.
-		day = day - cumulativeDays[month] + 1;                 // Convert to day of month, 1-based.
-		month += 3;                                            // Convert from 0, March-based to 1, January-based.
-		if (month > 12) {                                      // Reduce month to [1,13).
-			year++;
-			month -= 12;
+		
+		long tempday = (long)daysSinceEpoch + 730425;  // Convert epoch from 2000-01-01 to 0000-03-01
+		int y = (int)LongMath.divideAndFloor(tempday, 146097) * 400;   // Reduce tempday into year
+		tempday -= LongMath.divideAndFloor(tempday, 146097) * 146097;  // Reduce tempday to [0, 146097)
+		
+		// Calculate the year, taking leap years into account. Valid for and only for d in [0, 146097).
+		int d = (int)tempday;
+		y += Math.min(d / 36524, 3) * 100;    // There are *usually* 36524 days in 100 years
+		d -= Math.min(d / 36524, 3) * 36524;  // Reduce d to *approximately* [0, 100 years)
+		y += d / 1461 * 4;                    // There are *usually* 1461 days in 4 years
+		d -= d / 1461 * 1461;                 // Reduce d to *approximately* [0, 4 years)
+		y += Math.min(d / 365, 3);            // There are *usually* 365 days in 1 year
+		d -= Math.min(d / 365, 3) * 365;      // Reduce d to [0, 366)
+		
+		// Calculate the month
+		int m = 0;
+		while (m < 11 && cumulativeDays[m + 1] <= d)  // Find the month that the day belongs in
+			m++;
+		d = d - cumulativeDays[m] + 1;  // Convert to day of month, 1-based
+		m += 3;                         // Convert from 0 = March to 1 = January
+		if (m > 12) {                   // Reduce month to [1, 12]
+			y++;
+			m -= 12;
 		}
+		
+		this.year = y;
+		this.month = m;
+		this.day = d;
 	}
 	
 	
