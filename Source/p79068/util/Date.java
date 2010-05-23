@@ -245,7 +245,9 @@ public final class Date implements Comparable<Date> {
 	
 	
 	/**
-	 * Compares this date with the specified date.
+	 * Compares this date with the specified date for order. Returns a negative integer, zero, or positive integer respectively if this date is earlier than, equal to, or later than the specified date.
+	 * @param other the date to compare to
+	 * @return a negative integer, zero, or positive integer respectively if {@code this} is earlier than, equal to, or later than {@code other}
 	 */
 	public int compareTo(Date other) {
 		return IntegerMath.compare(daysSinceEpoch, other.daysSinceEpoch);
@@ -253,7 +255,7 @@ public final class Date implements Comparable<Date> {
 	
 	
 	/**
-	 * Returns the hash code for this date.
+	 * Returns the hash code for this date. The hash code algorithm is subjected to change.
 	 */
 	@Override
 	public int hashCode() {
@@ -262,7 +264,7 @@ public final class Date implements Comparable<Date> {
 	
 	
 	/**
-	 * Returns this date as a string: e.g., <code><var>yyyy</var>-<var>mm</var>-<var>dd</var></code>. This format is subject to change.
+	 * Returns this date as a string: e.g., {@code <var>yyyy</var>-<var>mm</var>-<var>dd</var>}. This format is subject to change.
 	 */
 	@Override
 	public String toString() {

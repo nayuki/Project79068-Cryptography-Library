@@ -74,7 +74,7 @@ public final class HashValue implements Comparable<HashValue> {
 	
 	/**
 	 * Compares this hash value with the specified hash value for order. Returns a negative integer, zero, or positive integer respectively if this hash value is less than, equal to, or greater than the specified hash value. The comparison involves lexicographical ordering on unsigned byte values. Hash values of different lengths are incomparable and an exception will be thrown.
-	 * @param other the object to compare to
+	 * @param other the hash value to compare to
 	 * @return a negative integer, zero, or positive integer respectively if {@code this} is less than, equal to, or greater than {@code other}
 	 * @throws IllegalArgumentException if {@code other} has a different hash length than {@code this}
 	 */

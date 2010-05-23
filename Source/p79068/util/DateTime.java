@@ -48,6 +48,7 @@ public final class DateTime implements Comparable<DateTime> {
 	}
 	
 	
+	
 	private int year;
 	private int month;
 	private int day;
@@ -59,6 +60,7 @@ public final class DateTime implements Comparable<DateTime> {
 	private int microsecond;
 	
 	private long microsSinceEpoch;
+	
 	
 	
 	/**
@@ -121,6 +123,7 @@ public final class DateTime implements Comparable<DateTime> {
 		day = tempdate.getDay();
 		dayOfWeek = tempdate.getDayOfWeek();
 	}
+	
 	
 	
 	/**
@@ -205,7 +208,9 @@ public final class DateTime implements Comparable<DateTime> {
 	
 	
 	/**
-	 * Compares this date-time with the specified date-time.
+	 * Compares this date-time with the specified date for order. Returns a negative integer, zero, or positive integer respectively if this date is earlier than, equal to, or later than the specified date-time.
+	 * @param other the date to compare to
+	 * @return a negative integer, zero, or positive integer respectively if {@code this} is earlier than, equal to, or later than {@code other}
 	 */
 	public int compareTo(DateTime obj) {
 		return LongMath.compare(microsSinceEpoch, obj.microsSinceEpoch);
@@ -213,7 +218,7 @@ public final class DateTime implements Comparable<DateTime> {
 	
 	
 	/**
-	 * Returns the hash code for this date-time.
+	 * Returns the hash code for this date-time. The hash code algorithm is subjected to change.
 	 */
 	@Override
 	public int hashCode() {
@@ -244,7 +249,7 @@ public final class DateTime implements Comparable<DateTime> {
 	
 	
 	/**
-	 * Returns this date as a string: e.g., <code><var>yyyy</var>-<var>mm</var>-<var>dd</var> <var>HH</var>:<var>MM</var>:<var>SS</var>.<var>SSSSSS</var> UTC</code>. This format is subject to change.
+	 * Returns this date as a string: e.g., {@code <var>yyyy</var>-<var>mm</var>-<var>dd</var> <var>HH</var>:<var>MM</var>:<var>SS</var>.<var>SSSSSS</var> UTC}. This format is subject to change.
 	 */
 	@Override
 	public String toString() {
