@@ -50,33 +50,33 @@ public final class DateTime implements Comparable<DateTime> {
 	
 	
 	/** The number of microseconds since the epoch of 2000-01-01 00:00:00 UTC. */
-	private final long microsSinceEpoch;
+	public final long microsSinceEpoch;
 	
 	
 	/** The year. */
-	private final int year;
+	public final int year;
 	
 	/** The month. 1 = January, ..., 12 = December. Range: [1, 12]. */
-	private final int month;
+	public final int month;
 	
 	/** The day of month. 1 = first day. Range: [1, 31]. */
-	private final int day;
+	public final int day;
 	
 	/** The day of week. 0 = Sunday, ..., 6 = Saturday. Range: [0, 7). */
-	private final int dayOfWeek;
+	public final int dayOfWeek;
 	
 	
 	/** The hour. Range: [0, 24). */
-	private final int hour;
+	public final int hour;
 	
 	/** The minute. Range: [0, 60). */
-	private final int minute;
+	public final int minute;
 	
 	/** The second. Range: [0, 60). */
-	private final int second;
+	public final int second;
 	
 	/** The microsecond. Range: [0, 1000000). */
-	private final int microsecond;
+	public final int microsecond;
 	
 	
 	
@@ -151,78 +151,6 @@ public final class DateTime implements Comparable<DateTime> {
 		this(microsSinceEpoch(year, month, day, hour, minute, second, microsecond));
 	}
 	
-	
-	
-	/**
-	 * Returns the year of this date-time object.
-	 */
-	public int getYear() {
-		return year;
-	}
-	
-	
-	/**
-	 * Returns the month of this date-time object. 1 is January, ..., 12 is December. 
-	 */
-	public int getMonth() {
-		return month;
-	}
-	
-	
-	/**
-	 * Returns the day of month of this date-time.
-	 */
-	public int getDay() {
-		return day;
-	}
-	
-	
-	/**
-	 * Returns the day of week of this date-time. 0 is Sunday, ..., 6 is Saturday.
-	 */
-	public int getDayOfWeek() {
-		return dayOfWeek;
-	}
-	
-	
-	/**
-	 * Returns the hour of this date-time.
-	 */
-	public int getHour() {
-		return hour;
-	}
-	
-	
-	/**
-	 * Returns the minute of this date-time.
-	 */
-	public int getMinute() {
-		return minute;
-	}
-	
-	
-	/**
-	 * Returns the second of this date-time.
-	 */
-	public int getSecond() {
-		return second;
-	}
-	
-	
-	/**
-	 * Returns the microsecond of this date-time.
-	 */
-	public int getMicrosecond() {
-		return microsecond;
-	}
-	
-	
-	/**
-	 * Returns the number of microseconds since the epoch, of this date-time object.
-	 */
-	public long getMicrosSinceEpoch() {
-		return microsSinceEpoch;
-	}
 	
 	
 	/**
