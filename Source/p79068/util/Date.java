@@ -240,7 +240,7 @@ public final class Date implements Comparable<Date> {
 	 */
 	@Override
 	public int hashCode() {
-		return daysSinceEpoch;
+		return HashCoder.newInstance().add(daysSinceEpoch).getHashCode();
 	}
 	
 	
