@@ -241,7 +241,7 @@ public abstract class ListTest {
 			String str = "thick broom or they do";
 			assertEquals(str.length(), list.length());
 			for (int i = 0; i < str.length(); i++)
-				assertEquals((char)str.charAt(i), (char)list.getAt(i));
+				assertEquals(str.charAt(i), (char)list.getAt(i));
 		}
 		
 		assertEquals('t', (char)list.removeAt( 0));
@@ -269,7 +269,7 @@ public abstract class ListTest {
 			String str = "him red";
 			assertEquals(str.length(), list.length());
 			for (int i = 0; i < str.length(); i++)
-				assertEquals((char)str.charAt(i), (char)list.getAt(i));
+				assertEquals(str.charAt(i), (char)list.getAt(i));
 		}
 	}
 	
