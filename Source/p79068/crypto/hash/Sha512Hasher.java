@@ -10,7 +10,7 @@ import p79068.util.hash.HashValue;
 
 final class Sha512Hasher extends BlockHasherCore {
 	
-	private boolean sha512Mode;
+	private final boolean sha512Mode;
 	
 	private long[] state;
 	

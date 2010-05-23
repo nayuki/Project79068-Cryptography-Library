@@ -10,7 +10,7 @@ import p79068.util.hash.HashValue;
 
 final class Sha256Hasher extends BlockHasherCore {
 	
-	private boolean sha256Mode;
+	private final boolean sha256Mode;
 	
 	private int[] state;
 	

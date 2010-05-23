@@ -9,7 +9,7 @@ import p79068.util.hash.HashValue;
 
 final class Sha1Hasher extends BlockHasherCore {
 	
-	private boolean sha1Mode;
+	private final boolean sha1Mode;
 	
 	private int[] state;
 	

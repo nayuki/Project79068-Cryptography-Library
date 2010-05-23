@@ -8,7 +8,7 @@ import p79068.util.hash.HashValue;
 
 final class TigerHasher extends BlockHasherCore {
 	
-	private boolean tiger2Mode;
+	private final boolean tiger2Mode;
 	
 	private long[] state;
 	
