@@ -13,32 +13,38 @@ class SimpleHashCoder extends HashCoder {
 	
 	@Override
 	public HashCoder add(byte x) {
-		state = state * 37 + (x & 0xFF);
+		state += x;
+		hash();
 		return this;
 	}
 	
 	@Override
 	public HashCoder add(short x) {
-		state = state * 37 + (x & 0xFFFF);
+		state += x;
+		hash();
 		return this;
 	}
 	
 	@Override
 	public HashCoder add(int x) {
-		state = state * 37 + x;
+		state += x;
+		hash();
 		return this;
 	}
 	
 	@Override
 	public HashCoder add(long x) {
-		state = state * 37 + (int)(x >>> 32);
-		state = state * 37 + (int)(x >>> 0);
+		state += (int)(x >>> 32);
+		hash();
+		state += (int)(x >>> 0);
+		hash();
 		return this;
 	}
 	
 	@Override
 	public HashCoder add(float x) {
-		state = state * 37 + Float.floatToRawIntBits(x);
+		state += Float.floatToRawIntBits(x);
+		hash();
 		return this;
 	}
 	
@@ -49,22 +55,22 @@ class SimpleHashCoder extends HashCoder {
 	
 	@Override
 	public HashCoder add(boolean x) {
-		if (x)
-			state = state * 37 + 1;
-		else
-			state = state * 37;
+		state += x ? 1 : 0;
+		hash();
 		return this;
 	}
 	
 	@Override
 	public HashCoder add(char x) {
-		state = state * 37 + x;
+		state += x;
+		hash();
 		return this;
 	}
 	
 	@Override
 	public HashCoder add(Object x) {
-		state = state * 37 + x.hashCode();
+		state += x.hashCode();
+		hash();
 		return this;
 	}
 	
@@ -73,4 +79,15 @@ class SimpleHashCoder extends HashCoder {
 	public int getHashCode() {
 		return state;
 	}
+	
+	
+	
+	private void hash() {
+		for (int i = 0; i < 4; i++) {  // Arbitrary number of mixing rounds
+			state *= 0x7C824F73;  // Arbitrary number, coprime with 2^32
+			state += 0x5C12FE83;  // Arbitrary number
+			state = state << 11 | state >>> 21;  // Rotation by arbitrary amount coprime with int size (32)
+		}
+	}
+	
 }
