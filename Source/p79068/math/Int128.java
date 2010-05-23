@@ -234,12 +234,8 @@ public final class Int128 implements Comparable<Int128> {
 			return this;
 		else if (shift < 64)
 			return new Int128(high >> shift, high << (64 - shift) | low >>> shift);
-		else {
-			if (high >= 0)
-				return new Int128(0L, high >> (shift - 64));
-			else
-				return new Int128(-1L, high >> (shift - 64));
-		}
+		else
+			return new Int128(high >> 63, high >> (shift - 64));
 	}
 	
 	
@@ -261,8 +257,10 @@ public final class Int128 implements Comparable<Int128> {
 	public boolean equals(Object obj) {
 		if (!(obj instanceof Int128))
 			return false;
-		Int128 num = (Int128)obj;
-		return high == num.high && low == num.low;
+		else {
+			Int128 num = (Int128)obj;
+			return high == num.high && low == num.low;
+		}
 	}
 	
 	
