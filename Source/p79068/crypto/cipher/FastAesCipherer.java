@@ -43,9 +43,9 @@ final class FastAesCipherer extends Cipherer {
 				for (int j = 0; j < 4; j++) {
 					decKeySch[i * 4 + j] =
 						  mulinv0[SBOX[encKeySch[(roundCount - i) * 4 + j] >>> 24 & 0xFF] & 0xFF]
-					    ^ mulinv1[SBOX[encKeySch[(roundCount - i) * 4 + j] >>> 16 & 0xFF] & 0xFF]
-					    ^ mulinv2[SBOX[encKeySch[(roundCount - i) * 4 + j] >>>  8 & 0xFF] & 0xFF]
-					    ^ mulinv3[SBOX[encKeySch[(roundCount - i) * 4 + j] >>>  0 & 0xFF] & 0xFF];
+						^ mulinv1[SBOX[encKeySch[(roundCount - i) * 4 + j] >>> 16 & 0xFF] & 0xFF]
+						^ mulinv2[SBOX[encKeySch[(roundCount - i) * 4 + j] >>>  8 & 0xFF] & 0xFF]
+						^ mulinv3[SBOX[encKeySch[(roundCount - i) * 4 + j] >>>  0 & 0xFF] & 0xFF];
 				}
 			}
 		}
