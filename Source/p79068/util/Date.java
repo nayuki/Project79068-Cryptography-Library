@@ -6,9 +6,8 @@ import p79068.math.LongMath;
 
 
 /**
- * An instance of this class represents a date on the Gregorian calendar. The epoch of 2000-01-01 is used.
- * <p>Mutability: <em>Immutable</em></p>
- * <p>Years in CE/AD are represented normally. Years in BCE/BC are count down from zero: <code>0</code> is year 1 BCE, <code>-1</code> is year 2 BCE, <code>-2</code> is year 3 BCE, and so on.</p>
+ * A date on the Gregorian calendar. The epoch of 2000-01-01 is used. Date objects are immutable.
+ * <p>Years in CE/AD are represented normally. Years in BCE/BC count down from zero: <code>0</code> is year 1 BCE, <code>-1</code> is year 2 BCE, <code>-2</code> is year 3 BCE, and so on.</p>
  * <p>Months:</p>
  * <ul>
  *  <li><code>01</code>: January</li>
