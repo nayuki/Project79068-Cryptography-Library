@@ -49,17 +49,34 @@ public final class DateTime implements Comparable<DateTime> {
 	
 	
 	
+	/** The number of microseconds since the epoch of 2000-01-01 00:00:00 UTC. */
+	private long microsSinceEpoch;
+	
+	
+	/** The year. */
 	private int year;
+	
+	/** The month. 1 = January, ..., 12 = December. Range: [1, 12]. */
 	private int month;
+	
+	/** The day of month. 1 = first day. Range: [1, 31]. */
 	private int day;
+	
+	/** The day of week. 0 = Sunday, ..., 6 = Saturday. Range: [0, 7). */
 	private int dayOfWeek;
 	
-	private int hour;
-	private int minute;
-	private int second;
-	private int microsecond;
 	
-	private long microsSinceEpoch;
+	/** The hour. Range: [0, 24). */
+	private int hour;
+	
+	/** The minute. Range: [0, 60). */
+	private int minute;
+	
+	/** The second. Range: [0, 60). */
+	private int second;
+	
+	/** The microsecond. Range: [0, 1000000). */
+	private int microsecond;
 	
 	
 	
@@ -68,6 +85,7 @@ public final class DateTime implements Comparable<DateTime> {
 	 */
 	public DateTime(long microsSinceEpoch) {
 		this.microsSinceEpoch = microsSinceEpoch;
+		
 		long temp = microsSinceEpoch;
 		microsecond = (int)LongMath.mod(temp, 1000000);
 		temp = LongMath.divideAndFloor(temp, 1000000);
@@ -77,7 +95,8 @@ public final class DateTime implements Comparable<DateTime> {
 		temp = LongMath.divideAndFloor(temp, 60);
 		hour = (int)LongMath.mod(temp, 24);
 		temp = LongMath.divideAndFloor(temp, 24);
-		Date tempdate = new Date((int)temp);  // temp is now equal to the number of days since the epoch. It is in [106751992,106751992).
+		
+		Date tempdate = new Date((int)temp);  // temp is now equal to the number of days since the epoch. It is in the range [106751992, 106751992).
 		year = tempdate.getYear();
 		month = tempdate.getMonth();
 		day = tempdate.getDay();
@@ -135,7 +154,7 @@ public final class DateTime implements Comparable<DateTime> {
 	
 	
 	/**
-	 * Returns the month of this date-time object.
+	 * Returns the month of this date-time object. 1 is January, ..., 12 is December. 
 	 */
 	public int getMonth() {
 		return month;
@@ -151,7 +170,7 @@ public final class DateTime implements Comparable<DateTime> {
 	
 	
 	/**
-	 * Returns the day of week of this date-time.
+	 * Returns the day of week of this date-time. 0 is Sunday, ..., 6 is Saturday.
 	 */
 	public int getDayOfWeek() {
 		return dayOfWeek;

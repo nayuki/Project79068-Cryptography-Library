@@ -101,11 +101,20 @@ public final class Date implements Comparable<Date> {
 	
 	
 	
-	private int year;
-	private int month;
-	private int day;
-	private int dayOfWeek;
+	/** The number of days since the epoch of 2000-01-01. */
 	private int daysSinceEpoch;
+	
+	/** The year. */
+	private int year;
+	
+	/** The month. 1 = January, ..., 12 = December. Range: [1, 12]. */
+	private int month;
+	
+	/** The day of month. 1 = first day. Range: [1, 31]. */
+	private int day;
+	
+	/** The day of week. 0 = Sunday, ..., 6 = Saturday. Range: [0, 7). */
+	private int dayOfWeek;
 	
 	
 	
