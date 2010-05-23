@@ -100,6 +100,7 @@ public final class Date implements Comparable<Date> {
 	}
 	
 	
+	
 	private int year;
 	private int month;
 	private int day;
@@ -107,16 +108,6 @@ public final class Date implements Comparable<Date> {
 	private int daysSinceEpoch;
 	
 	
-	/**
-	 * Constructs a date at the specified year, month, and day.
-	 * @param year the year
-	 * @param month the month
-	 * @param day the day of month
-	 * @throws ArithmeticOverflowException if the date cannot be represented
-	 */
-	public Date(int year, int month, int day) {
-		this(daysSinceEpoch(year, month, day));
-	}
 	
 	/**
 	 * Constructs a date at the specified number of days after the epoch (2000-01-01). The epoch (January 1, 2000) is day 0.
@@ -150,6 +141,19 @@ public final class Date implements Comparable<Date> {
 			month -= 12;
 		}
 	}
+	
+	
+	/**
+	 * Creates a date at the specified year, month, and day.
+	 * @param year the year
+	 * @param month the month
+	 * @param day the day of month
+	 * @throws ArithmeticOverflowException if the date cannot be represented
+	 */
+	public Date(int year, int month, int day) {
+		this(daysSinceEpoch(year, month, day));
+	}
+	
 	
 	
 	/**
@@ -228,7 +232,9 @@ public final class Date implements Comparable<Date> {
 	
 	
 	/**
-	 * Tests for equality with the specified object.
+	 * Tests whether this date is equal to the specified object. Returns <code>true</code> if the specified object is a date representing the same day. Otherwise, this method returns <code>false</code>.
+	 * @param other the object to test for equality
+	 * @return whether <code>other</code> is a date with the same day
 	 */
 	@Override
 	public boolean equals(Object other) {

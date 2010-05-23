@@ -199,7 +199,9 @@ public final class DateTime implements Comparable<DateTime> {
 	
 	
 	/**
-	 * Tests for equality with the specified object.
+	 * Tests whether this date is equal to the specified object. Returns <code>true</code> if the specified object is a date-time representing the same day and time. Otherwise, this method returns <code>false</code>.
+	 * @param other the object to test for equality
+	 * @return whether <code>other</code> is a date-time with the same day and time
 	 */
 	@Override
 	public boolean equals(Object obj) {
