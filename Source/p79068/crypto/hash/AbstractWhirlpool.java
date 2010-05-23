@@ -5,7 +5,20 @@ import p79068.crypto.cipher.Cipherer;
 import p79068.util.hash.Hasher;
 
 
-abstract class AbstractWhirlpool extends BlockHashFunction {
+public abstract class AbstractWhirlpool extends BlockHashFunction {
+	
+	
+	AbstractWhirlpool() {}
+	
+	
+	
+	/**
+	 * Returns the Whirlpool parameters of this Whirlpool hash function.
+	 * @return the Whirlpool parameters
+	 */
+	abstract WhirlpoolParameters getParameters();
+	
+	
 	
 	/**
 	 * Returns a new hasher of this hash function.
@@ -36,9 +49,6 @@ abstract class AbstractWhirlpool extends BlockHashFunction {
 		return 64;
 	}
 	
-	
-	
-	abstract WhirlpoolParameters getParameters();
 	
 	
 	public Cipherer newCipherer(BlockCipher cipher, byte[] key) {
