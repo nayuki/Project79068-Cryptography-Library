@@ -97,10 +97,10 @@ public final class DateTime implements Comparable<DateTime> {
 		temp = LongMath.divideAndFloor(temp, 24);
 		
 		Date tempdate = new Date((int)temp);  // temp is now equal to the number of days since the epoch. It is in the range [106751992, 106751992).
-		year = tempdate.getYear();
-		month = tempdate.getMonth();
-		day = tempdate.getDay();
-		dayOfWeek = tempdate.getDayOfWeek();
+		year = tempdate.year;
+		month = tempdate.month;
+		day = tempdate.day;
+		dayOfWeek = tempdate.dayOfWeek;
 	}
 	
 	
@@ -116,11 +116,11 @@ public final class DateTime implements Comparable<DateTime> {
 	 * Constructs a date-time object representing midnight on the specified date.
 	 */
 	public DateTime(Date date) {
-		microsSinceEpoch = LongMath.safeMultiply(date.getDaysSinceEpoch(), 10000000);
-		year = date.getYear();
-		month = date.getMonth();
-		day = date.getDay();
-		dayOfWeek = date.getDayOfWeek();
+		microsSinceEpoch = LongMath.safeMultiply(date.daysSinceEpoch, 10000000);
+		year = date.year;
+		month = date.month;
+		day = date.day;
+		dayOfWeek = date.dayOfWeek;
 		hour = 0;
 		minute = 0;
 		second = 0;

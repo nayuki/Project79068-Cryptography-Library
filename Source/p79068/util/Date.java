@@ -109,19 +109,19 @@ public final class Date implements Comparable<Date> {
 	
 	
 	/** The number of days since the epoch of 2000-01-01. */
-	private final int daysSinceEpoch;
+	public final int daysSinceEpoch;
 	
 	/** The year. */
-	private final int year;
+	public final int year;
 	
 	/** The month. 1 = January, ..., 12 = December. Range: [1, 12]. */
-	private final int month;
+	public final int month;
 	
 	/** The day of month. 1 = first day. Range: [1, 31]. */
-	private final int day;
+	public final int day;
 	
 	/** The day of week. 0 = Sunday, ..., 6 = Saturday. Range: [0, 7). */
-	private final int dayOfWeek;
+	public final int dayOfWeek;
 	
 	
 	
@@ -178,52 +178,6 @@ public final class Date implements Comparable<Date> {
 	 */
 	public Date(int year, int month, int day) {
 		this(daysSinceEpoch(year, month, day));
-	}
-	
-	
-	
-	/**
-	 * Returns the year of this date.
-	 * @return the year of this date
-	 */
-	public int getYear() {
-		return year;
-	}
-	
-	
-	/**
-	 * Returns the month of this date.
-	 * @return the month of this date
-	 */
-	public int getMonth() {
-		return month;
-	}
-	
-	
-	/**
-	 * Returns the day of month of this date.
-	 * @return the day of month of this date
-	 */
-	public int getDay() {
-		return day;
-	}
-	
-	
-	/**
-	 * Returns the day of week of this date.
-	 * @return the day of week of this date
-	 */
-	public int getDayOfWeek() {
-		return dayOfWeek;
-	}
-	
-	
-	/**
-	 * Returns the number of days since the epoch, of this date.
-	 * @return the number of days since the epoch, of this date
-	 */
-	public int getDaysSinceEpoch() {
-		return daysSinceEpoch;
 	}
 	
 	

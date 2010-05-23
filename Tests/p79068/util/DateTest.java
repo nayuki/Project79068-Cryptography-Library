@@ -214,9 +214,9 @@ public final class DateTest {
 		int d = 1;
 		while (y <= 2400) {
 			Date date = new Date(i);
-			assertEquals(date.getYear(), y);
-			assertEquals(date.getMonth(), m);
-			assertEquals(date.getDay(), d);
+			assertEquals(date.year, y);
+			assertEquals(date.month, m);
+			assertEquals(date.day, d);
 			d++;
 			if (d > monthLength(y, m)) {
 				m++;
@@ -240,9 +240,9 @@ public final class DateTest {
 		int d = 1;
 		while (y >= 1600) {
 			Date date = new Date(i);
-			assertEquals(date.getYear(), y);
-			assertEquals(date.getMonth(), m);
-			assertEquals(date.getDay(), d);
+			assertEquals(date.year, y);
+			assertEquals(date.month, m);
+			assertEquals(date.day, d);
 			d--;
 			if (d <= 0) {
 				m--;
@@ -265,9 +265,9 @@ public final class DateTest {
 		int d = 1;
 		while (y <= 2500) {
 			Date date = new Date(y, m, d);
-			assertEquals(date.getYear(), y);
-			assertEquals(date.getMonth(), m);
-			assertEquals(date.getDay(), d);
+			assertEquals(date.year, y);
+			assertEquals(date.month, m);
+			assertEquals(date.day, d);
 			d++;
 			if (d > monthLength(y, m)) {
 				m++;
@@ -285,14 +285,14 @@ public final class DateTest {
 	public void testNewDateEdgeCases() {
 		{
 			Date date = new Date(-2147483648);
-			assertEquals(-5877611, date.getYear());
-			assertEquals(6, date.getMonth());
-			assertEquals(22, date.getDay());
+			assertEquals(-5877611, date.year);
+			assertEquals(6, date.month);
+			assertEquals(22, date.day);
 		} {
 			Date date = new Date(2147483647);
-			assertEquals(5881610, date.getYear(), 5881610);
-			assertEquals(7, date.getMonth());
-			assertEquals(11, date.getDay());
+			assertEquals(5881610, date.year, 5881610);
+			assertEquals(7, date.month);
+			assertEquals(11, date.day);
 		}
 	}
 	
