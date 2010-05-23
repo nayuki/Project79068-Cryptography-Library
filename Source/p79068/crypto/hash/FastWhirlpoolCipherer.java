@@ -114,8 +114,8 @@ final class FastWhirlpoolCipherer extends Cipherer {
 			out[off + 3] = (byte)(in[i] >>> 32);
 			out[off + 4] = (byte)(in[i] >>> 24);
 			out[off + 5] = (byte)(in[i] >>> 16);
-			out[off + 6] = (byte)(in[i] >>> 8);
-			out[off + 7] = (byte)(in[i] >>> 0);
+			out[off + 6] = (byte)(in[i] >>>  8);
+			out[off + 7] = (byte)(in[i] >>>  0);
 		}
 	}
 	
