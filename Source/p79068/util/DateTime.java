@@ -50,33 +50,33 @@ public final class DateTime implements Comparable<DateTime> {
 	
 	
 	/** The number of microseconds since the epoch of 2000-01-01 00:00:00 UTC. */
-	private long microsSinceEpoch;
+	private final long microsSinceEpoch;
 	
 	
 	/** The year. */
-	private int year;
+	private final int year;
 	
 	/** The month. 1 = January, ..., 12 = December. Range: [1, 12]. */
-	private int month;
+	private final int month;
 	
 	/** The day of month. 1 = first day. Range: [1, 31]. */
-	private int day;
+	private final int day;
 	
 	/** The day of week. 0 = Sunday, ..., 6 = Saturday. Range: [0, 7). */
-	private int dayOfWeek;
+	private final int dayOfWeek;
 	
 	
 	/** The hour. Range: [0, 24). */
-	private int hour;
+	private final int hour;
 	
 	/** The minute. Range: [0, 60). */
-	private int minute;
+	private final int minute;
 	
 	/** The second. Range: [0, 60). */
-	private int second;
+	private final int second;
 	
 	/** The microsecond. Range: [0, 1000000). */
-	private int microsecond;
+	private final int microsecond;
 	
 	
 	

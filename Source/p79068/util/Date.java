@@ -102,7 +102,7 @@ public final class Date implements Comparable<Date> {
 	
 	
 	/** The number of days since the epoch of 2000-01-01. */
-	private int daysSinceEpoch;
+	private final int daysSinceEpoch;
 	
 	/** The year. */
 	private int year;
