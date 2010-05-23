@@ -180,7 +180,8 @@ final class WhirlpoolCipherer extends Cipherer {
 	}
 	
 	
-	private void sigma(byte[] block, byte[] key) { // The key addition. Self-inverting.
+	// The key addition. Self-inverting.
+	private void sigma(byte[] block, byte[] key) {
 		for (int i = 0; i < 64; i++)
 			block[i] ^= key[i];
 	}
