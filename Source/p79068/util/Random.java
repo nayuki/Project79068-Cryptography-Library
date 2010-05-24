@@ -19,9 +19,21 @@ public abstract class Random {
 	public static final Random DEFAULT = new SynchronizedMersenneTwister();
 	
 	
+	/**
+	 * Multiplying a 24-bit integer with this constant yields a <code>float</code> in [0, 1). This value is chosen so that all the mantissa bits in the <code>float</code> may be non-zero when the magnitude is in [0.5, 1).
+	 */
+	protected static final float floatScaler = 1.0F / (1 << 24);
+	
 	
 	/**
-	 * Returns a new random number generator instance.
+	 * Multiplying a 53-bit integer with this constant yields a <code>double</code> in [0, 1). This value is chosen so that all the mantissa bits in the <code>double</code> may be non-zero when the magnitude is in [0.5, 1).
+	 */
+	protected static final double doubleScaler = 1.0D / (1L << 53);
+	
+	
+	
+	/**
+	 * Returns a new random number generator instance from a default algorithm.
 	 */
 	public static Random newInstance() {
 		return new MersenneTwister();
@@ -41,6 +53,7 @@ public abstract class Random {
 	}
 	
 	
+	
 	/**
 	 * Returns a random, uniformly distributed <code>boolean</code> value.
 	 * @return <samp>true</samp> or <samp>false</samp>, each with equal probability
@@ -58,8 +71,9 @@ public abstract class Random {
 	
 	
 	/**
-	 * Returns a random, uniformly distributed integer between 0 (inclusive) and <code>n</code> (exclusive).
-	 * @return an integer in the range [0,<code>n</code>), each with equal probability
+	 * Returns a random, uniformly distributed integer between 0 (inclusive) and <code>n</code> (exclusive). <code>n</code> must be positive.
+	 * @return an integer in the range [0, <code>n</code>), each with equal probability
+	 * @throws IllegalArgumentException if <code>n</code> &le; 0
 	 */
 	public int randomInt(int n) {
 		if (n <= 0)
@@ -88,8 +102,8 @@ public abstract class Random {
 	
 	
 	/**
-	 * Returns a random <code>float</code> value uniformly distributed between 0.0 (inclusive) and 1.0 (exclusive).
-	 * @return a <code>float</code> in the range [0,1), each with equal probability
+	 * Returns a random <code>float</code> value uniformly distributed between 0.0 (inclusive) and 1.0 (exclusive). The granularity is unspecified.
+	 * @return a <code>float</code> in the range [0, 1), each with equal probability
 	 */
 	public float randomFloat() {
 		return (randomInt() & 0xFFFFFF) * floatScaler;
@@ -97,8 +111,8 @@ public abstract class Random {
 	
 	
 	/**
-	 * Returns a random <code>double</code> value uniformly distributed between 0.0 (inclusive) and 1.0 (exclusive).
-	 * @return a <code>double</code> in the range [0,1), each with equal probability
+	 * Returns a random <code>double</code> value uniformly distributed between 0.0 (inclusive) and 1.0 (exclusive). The granularity is unspecified.
+	 * @return a <code>double</code> in the range [0, 1), each with equal probability
 	 */
 	public double randomDouble() {
 		return ((randomInt() & 0xFFFFFFFFL) << 21 | randomInt() & 0x1FFFFFL) * doubleScaler;
@@ -142,7 +156,7 @@ public abstract class Random {
 	/**
 	 * Returns a random <code>double</code> with a Gaussian (<q>normal</q>) distribution of mean 0.0 and standard deviation 1.0.
 	 * <p>To obtain a Gaussian-distributed value with mean <code>m</code> and standard deviation <code>s</code>, use this expression: <code>randomGaussian()*s + m</code></p>
-	 * <p>Note that the probability of producing a number outside of [&minus;10,10] is 10<sup>&minus;23</sup>; the probability of producing a number outside of [&minus;15,15] is 10<sup>&minus;50</sup> (i.e., practically impossible). (Assuming that the underlying random number generator is unbiased.)</p>
+	 * <p>Note that the probability of producing a number outside of [&minus;10, 10] is 10<sup>&minus;23</sup>; the probability of producing a number outside of [&minus;15, 15] is 10<sup>&minus;50</sup> (i.e., effectively impossible). (Assuming that the underlying random number generator is unbiased.)</p>
 	 * @return a <code>double</code> with a Gaussian distribution of mean 0.0 and standard deviation 1.0
 	 */
 	public double randomGaussian() {  // Uses the Box-Muller transform
@@ -183,18 +197,5 @@ public abstract class Random {
 	public java.util.Random asJavaRandom() {
 		return new JavaRandomAdapter(this);
 	}
-	
-	
-	
-	/**
-	 * Multiplying a 24-bit integer with this constant yields a <code>float</code> in [0, 1). This value is chosen so that all the mantissa bits in the <code>float</code> may be non-zero when the magnitude is in [0.5, 1).
-	 */
-	protected static final float floatScaler = 1.0F / (1 << 24);
-	
-	
-	/**
-	 * Multiplying a 53-bit integer with this constant yields a <code>double</code> in [0, 1). This value is chosen so that all the mantissa bits in the <code>double</code> may be non-zero when the magnitude is in [0.5, 1).
-	 */
-	protected static final double doubleScaler = 1.0D / (1L << 53);
 	
 }
