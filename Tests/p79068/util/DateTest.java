@@ -64,6 +64,82 @@ public final class DateTest {
 	
 	
 	@Test
+	public void testMonthLength() {
+		assertEquals(31, Date.monthLength(2000, 1));
+		assertEquals(29, Date.monthLength(2000, 2));
+		assertEquals(31, Date.monthLength(2000, 3));
+		assertEquals(30, Date.monthLength(2000, 4));
+		assertEquals(31, Date.monthLength(2000, 5));
+		assertEquals(30, Date.monthLength(2000, 6));
+		assertEquals(31, Date.monthLength(2000, 7));
+		assertEquals(31, Date.monthLength(2000, 8));
+		assertEquals(30, Date.monthLength(2000, 9));
+		assertEquals(31, Date.monthLength(2000, 10));
+		assertEquals(30, Date.monthLength(2000, 11));
+		assertEquals(31, Date.monthLength(2000, 12));
+		
+		assertEquals(31, Date.monthLength(2001, 1));
+		assertEquals(28, Date.monthLength(2001, 2));
+		assertEquals(31, Date.monthLength(2001, 3));
+		assertEquals(30, Date.monthLength(2001, 4));
+	}
+	
+	
+	@Test
+	public void testMonthLengthLenient() {
+		assertEquals(29, Date.monthLength(1999, 14));
+		assertEquals(29, Date.monthLength(2001, -10));
+		assertEquals(28, Date.monthLength(2000, 14));
+		assertEquals(31, Date.monthLength(37, 581));
+	}
+	
+	
+	@Test
+	public void testMonthLengthEdgeCases() {
+		assertEquals(30, Date.monthLength(Integer.MIN_VALUE, Integer.MIN_VALUE));  // April, non-leap year
+		assertEquals(31, Date.monthLength(Integer.MIN_VALUE, Integer.MAX_VALUE));  // July, non-leap year
+		assertEquals(30, Date.monthLength(Integer.MAX_VALUE, Integer.MIN_VALUE));  // April, leap year
+		assertEquals(31, Date.monthLength(Integer.MAX_VALUE, Integer.MAX_VALUE));  // July, non-leap year
+		
+		assertEquals(28, Date.monthLength(Integer.MIN_VALUE + 0, Integer.MIN_VALUE + 10));
+		assertEquals(28, Date.monthLength(Integer.MIN_VALUE + 1, Integer.MIN_VALUE + 10));
+		assertEquals(29, Date.monthLength(Integer.MIN_VALUE + 2, Integer.MIN_VALUE + 10));
+		
+		assertEquals(28, Date.monthLength(Integer.MIN_VALUE + 0, Integer.MAX_VALUE - 5));
+		assertEquals(28, Date.monthLength(Integer.MIN_VALUE + 1, Integer.MAX_VALUE - 5));
+		assertEquals(29, Date.monthLength(Integer.MIN_VALUE + 2, Integer.MAX_VALUE - 5));
+		
+		assertEquals(28, Date.monthLength(Integer.MAX_VALUE - 0, Integer.MIN_VALUE + 10));
+		assertEquals(29, Date.monthLength(Integer.MAX_VALUE - 1, Integer.MIN_VALUE + 10));
+		
+		assertEquals(28, Date.monthLength(Integer.MAX_VALUE - 0, Integer.MAX_VALUE - 5));
+		assertEquals(29, Date.monthLength(Integer.MAX_VALUE - 1, Integer.MAX_VALUE - 5));
+	}
+	
+	
+	@Test
+	public void testDayOfWeekByEpoch() {
+		assertEquals(4, Date.dayOfWeek(-2));
+		assertEquals(5, Date.dayOfWeek(-1));
+		assertEquals(6, Date.dayOfWeek( 0));  // 2000-01-01
+		assertEquals(0, Date.dayOfWeek( 1));
+		assertEquals(1, Date.dayOfWeek( 2));
+	}
+	
+	
+	@Test
+	public void testDayOfWeekByEpochEdgeCases() {
+		assertEquals(4, Date.dayOfWeek(Integer.MIN_VALUE + 0));
+		assertEquals(5, Date.dayOfWeek(Integer.MIN_VALUE + 1));
+		assertEquals(6, Date.dayOfWeek(Integer.MIN_VALUE + 2));
+		
+		assertEquals(0, Date.dayOfWeek(Integer.MAX_VALUE - 0));
+		assertEquals(6, Date.dayOfWeek(Integer.MAX_VALUE - 1));
+		assertEquals(5, Date.dayOfWeek(Integer.MAX_VALUE - 2));
+	}
+	
+	
+	@Test
 	public void testDayOfWeek() {
 		assertEquals(6, Date.dayOfWeek(2000,  1,  1));
 		assertEquals(0, Date.dayOfWeek(2000,  1,  2));
@@ -86,10 +162,10 @@ public final class DateTest {
 	
 	@Test
 	public void testDayOfWeekCountingForward() {
-		int y = 2000;
+		int y = 2000;  // 2000-01-01 is a Saturday (6)
 		int m = 1;
 		int d = 1;
-		int i = 6;  // Internal day of week counter. Note that 2000-01-01 is a Saturday (6). This day plus or minus any multiple of 400 years has the same day of week (e.g. 1600-01-01).
+		int i = 6;  // Internal day of week counter
 		while (y <= 2400) {
 			assertEquals(i, Date.dayOfWeek(y, m, d));
 			d++;
@@ -108,10 +184,10 @@ public final class DateTest {
 	
 	@Test
 	public void testDayOfWeekCountingBackward() {
-		int y = 2000;
+		int y = 2000;  // 2000-01-01 is a Saturday (6)
 		int m = 1;
 		int d = 1;
-		int i = 6;  // Internal day of week counter. Note that 2000-01-01 is a Saturday (6). This day plus or minus any multiple of 400 years has the same day of week (e.g. 1600-01-01).
+		int i = 6;  // Internal day of week counter
 		while (y >= 1600) {
 			assertEquals(i, Date.dayOfWeek(y, m, d));
 			d--;
@@ -136,7 +212,7 @@ public final class DateTest {
 	
 	
 	@Test
-	public void testGetDaysSinceEpoch() {
+	public void testDaysSinceEpoch() {
 		assertEquals(-730, Date.daysSinceEpoch(1998, 1, 1));
 		assertEquals(-365, Date.daysSinceEpoch(1999, 1, 1));
 		assertEquals(   0, Date.daysSinceEpoch(2000, 1, 1));
@@ -150,11 +226,11 @@ public final class DateTest {
 	
 	
 	@Test
-	public void testGetDaysSinceEpochCountingForward() {
-		int y = 2000;
+	public void testDaysSinceEpochCountingForward() {
+		int y = 2000;  // 2000-01-01 is the epoch, i.e. day 0
 		int m = 1;
 		int d = 1;
-		int i = 0;  // Internal days since epoch counter. Remember that 2000-01-01 is the epoch, i.e. day 0.
+		int i = 0;  // Internal days since epoch counter
 		while (y <= 2400) {
 			assertEquals(i, Date.daysSinceEpoch(y, m, d));
 			d++;
@@ -172,8 +248,8 @@ public final class DateTest {
 	
 	
 	@Test
-	public void testGetDaysSinceEpochCountingBackward() {
-		int y = 2000;
+	public void testDaysSinceEpochCountingBackward() {
+		int y = 2000;  // 2000-01-01 is the epoch, i.e. day 0
 		int m = 1;
 		int d = 1;
 		int i = 0;  // Internal days since epoch counter
