@@ -10,6 +10,7 @@ import java.util.NoSuchElementException;
 
 import org.junit.Test;
 import p79068.math.ArithmeticOverflowException;
+import p79068.math.IntegerMath;
 
 
 public final class DateTest {
@@ -282,15 +283,14 @@ public final class DateTest {
 			int d1 = Random.DEFAULT.randomInt(28) + 1;
 			
 			int refComp;
-			if      (y0 < y1) refComp = -1;
-			else if (y0 > y1) refComp = +1;
-			else if (m0 < m1) refComp = -1;
-			else if (m0 > m1) refComp = +1;
-			else if (d0 < d1) refComp = -1;
-			else if (d0 > d1) refComp = +1;
-			else              refComp =  0;
+			if (y0 != y1)
+				refComp = IntegerMath.compare(y0, y1);
+			else if (m0 != m1)
+				refComp = IntegerMath.compare(m0, m1);
+			else 
+				refComp = IntegerMath.compare(d0, d1);
 			
-			assertEquals(refComp, new Date(y0, m0, d0).compareTo(new Date(y1, m1, d1)));
+			assertEquals(IntegerMath.sign(refComp), IntegerMath.sign(new Date(y0, m0, d0).compareTo(new Date(y1, m1, d1))));
 		}
 	}
 	
