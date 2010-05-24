@@ -27,6 +27,22 @@ public final class LongMath {
 	
 	
 	/**
+	 * Returns the difference of the specified integers, throwing an exception if the result overflows.
+	 * @param x the minuend
+	 * @param y the subtrahend
+	 * @return <code>x</code> minus <code>y</code>
+	 * @throws ArithmeticOverflowException if the result overflows
+	 */
+	public static long checkedSubtract(long x, long y) {
+		long z = x - y;
+		if (y > 0 && z > x || y < 0 && z < x)
+			throw new ArithmeticOverflowException(String.format("%d - %d", x, y));
+		else
+			return z;
+	}
+	
+	
+	/**
 	 * Returns the product of the specified integers, throwing an exception if the result overflows.
 	 * @param x a multiplicand
 	 * @param y a multiplicand
