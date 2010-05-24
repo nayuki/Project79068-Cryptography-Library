@@ -46,8 +46,7 @@ final class WhirlpoolHasher extends BlockHasherCore {
 	public void zeroize() {
 		if (state == null)
 			throw new IllegalStateException("Already zeroized");
-		Zeroizer.clear(state);
-		state = null;
+		state = Zeroizer.clear(state);
 	}
 	
 	

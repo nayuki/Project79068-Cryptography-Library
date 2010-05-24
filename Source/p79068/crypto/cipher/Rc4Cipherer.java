@@ -98,8 +98,7 @@ final class Rc4Cipherer extends StreamCipherer {
 			return;
 		i = 0;
 		j = 0;
-		Zeroizer.clear(s);
-		s = null;
+		s = Zeroizer.clear(s);
 		super.zeroize();
 	}
 	

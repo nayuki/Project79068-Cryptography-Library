@@ -70,8 +70,7 @@ final class WhirlpoolCipherer extends Cipherer {
 	public void zeroize() {
 		if (cipher == null)
 			return;
-		Zeroizer.clear(key);
-		key = null;
+		key = Zeroizer.clear(key);
 		super.zeroize();
 	}
 	

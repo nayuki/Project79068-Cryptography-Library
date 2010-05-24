@@ -96,8 +96,7 @@ final class Rc2Cipherer extends Cipherer {
 	public void zeroize() {
 		if (cipher == null)
 			return;
-		Zeroizer.clear(keySchedule);
-		keySchedule = null;
+		keySchedule = Zeroizer.clear(keySchedule);
 		super.zeroize();
 	}
 	

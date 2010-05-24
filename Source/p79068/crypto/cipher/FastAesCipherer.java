@@ -176,10 +176,8 @@ final class FastAesCipherer extends Cipherer {
 	public void zeroize() {
 		if (cipher == null)
 			return;
-		Zeroizer.clear(encKeySch);
-		Zeroizer.clear(decKeySch);
-		encKeySch = null;
-		decKeySch = null;
+		encKeySch = Zeroizer.clear(encKeySch);
+		decKeySch = Zeroizer.clear(decKeySch);
 		super.zeroize();
 	}
 	

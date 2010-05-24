@@ -135,8 +135,7 @@ public final class BlockHasher extends Hasher implements Zeroizable {
 			throw new IllegalStateException("Already zeroized");
 		length = 0;
 		blockLength = 0;
-		Zeroizer.clear(block);
-		block = null;
+		block = Zeroizer.clear(block);
 		hashFunction = null;
 		core.zeroize();
 		core = null;

@@ -130,8 +130,7 @@ final class TeaCipherer extends Cipherer {
 	public void zeroize() {
 		if (cipher == null)
 			return;
-		Zeroizer.clear(int32Key);
-		int32Key = null;
+		int32Key = Zeroizer.clear(int32Key);
 		super.zeroize();
 	}
 	

@@ -34,10 +34,8 @@ final class Md2Hasher extends BlockHasherCore {
 	public void zeroize() {
 		if (state == null)
 			throw new IllegalStateException("Already zeroized");
-		Zeroizer.clear(state);
-		Zeroizer.clear(checksum);
-		state = null;
-		checksum = null;
+		state = Zeroizer.clear(state);
+		checksum = Zeroizer.clear(checksum);
 	}
 	
 	
