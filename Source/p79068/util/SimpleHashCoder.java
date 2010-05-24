@@ -87,8 +87,8 @@ class SimpleHashCoder extends HashCoder {
 	private void hash() {
 		for (int i = 0; i < 4; i++) {  // Arbitrary number of mixing rounds
 			state *= 0x7C824F73;  // Arbitrary number, coprime with 2^32
-			state += 0x5C12FE83;  // Arbitrary number
-			state = state << 11 | state >>> 21;  // Rotation by arbitrary amount coprime with int size (32)
+			state ^= 0x5C12FE83;  // Arbitrary number
+			state = state << 5 | state >>> 27;  // Rotation by arbitrary amount coprime with int size (32)
 		}
 	}
 	
