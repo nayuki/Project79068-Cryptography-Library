@@ -16,7 +16,7 @@ public abstract class Random {
 	/**
 	 * A default, thread-safe instance provided for convenience.
 	 */
-	public static final Random DEFAULT = new SynchronizedMersenneTwister();
+	public static final Random DEFAULT = new SynchronizedRandom(new MersenneTwister());
 	
 	
 	/**
