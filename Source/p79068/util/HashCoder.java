@@ -28,4 +28,5 @@ public abstract class HashCoder {
 	
 	
 	public abstract int getHashCode();
+	
 }
