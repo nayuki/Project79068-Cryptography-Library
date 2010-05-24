@@ -4,6 +4,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
 import org.junit.Test;
 import p79068.math.ArithmeticOverflowException;
 
@@ -161,46 +165,9 @@ public final class DateTest {
 	
 	
 	@Test
-	public void testDayOfWeekCountingForward() {
-		int y = 2000;  // 2000-01-01 is a Saturday (6)
-		int m = 1;
-		int d = 1;
-		int i = 6;  // Internal day of week counter
-		while (y <= 2400) {
-			assertEquals(i, Date.dayOfWeek(y, m, d));
-			d++;
-			if (d > Date.monthLength(y, m)) {
-				m++;
-				d = 1;
-				if (m > 12) {
-					y++;
-					m = 1;
-				}
-			}
-			i = (i + 1) % 7;
-		}
-	}
-	
-	
-	@Test
-	public void testDayOfWeekCountingBackward() {
-		int y = 2000;  // 2000-01-01 is a Saturday (6)
-		int m = 1;
-		int d = 1;
-		int i = 6;  // Internal day of week counter
-		while (y >= 1600) {
-			assertEquals(i, Date.dayOfWeek(y, m, d));
-			d--;
-			if (d == 0) {
-				m--;
-				if (m == 0) {
-					y--;
-					m = 12;
-				}
-				d = Date.monthLength(y, m);
-			}
-			i = (i + 6) % 7;
-		}
+	public void testDayOfWeekCounting() {
+		for (TestDate d : new DateRange(1600, 1, 1, 6, -146097, 146097 * 2))
+			assertEquals(d.dayOfWeek, Date.dayOfWeek(d.year, d.month, d.day));
 	}
 	
 	
@@ -226,121 +193,32 @@ public final class DateTest {
 	
 	
 	@Test
-	public void testDaysSinceEpochCountingForward() {
-		int y = 2000;  // 2000-01-01 is the epoch, i.e. day 0
-		int m = 1;
-		int d = 1;
-		int i = 0;  // Internal days since epoch counter
-		while (y <= 2400) {
-			assertEquals(i, Date.daysSinceEpoch(y, m, d));
-			d++;
-			if (d > Date.monthLength(y, m)) {
-				m++;
-				d = 1;
-				if (m > 12) {
-					y++;
-					m = 1;
-				}
-			}
-			i++;
-		}
-	}
-	
-	
-	@Test
-	public void testDaysSinceEpochCountingBackward() {
-		int y = 2000;  // 2000-01-01 is the epoch, i.e. day 0
-		int m = 1;
-		int d = 1;
-		int i = 0;  // Internal days since epoch counter
-		while (y >= 1600) {
-			assertEquals(Date.daysSinceEpoch(y, m, d), i);
-			d--;
-			if (d <= 0) {
-				m--;
-				if (m <= 0) {
-					y--;
-					m = 12;
-				}
-				d = Date.monthLength(y, m);
-			}
-			i--;
-		}
+	public void testDaysSinceByEpochCounting() {
+		for (TestDate d : new DateRange(1600, 1, 1, 6, -146097, 146097 * 2))
+			assertEquals(d.daysSinceEpoch, Date.daysSinceEpoch(d.year, d.month, d.day));
 	}
 	
 	
 	// Days since epoch to calendar date, forwards
 	@Test
-	public void testToCalendarDateForwards() {
-		int i = 0;
-		int y = 2000;  // Internal calendar date counters
-		int m = 1;
-		int d = 1;
-		while (y <= 2400) {
-			Date date = new Date(i);
-			assertEquals(date.year, y);
-			assertEquals(date.month, m);
-			assertEquals(date.day, d);
-			d++;
-			if (d > Date.monthLength(y, m)) {
-				m++;
-				d = 1;
-				if (m > 12) {
-					y++;
-					m = 1;
-				}
-			}
-			i++;
-		}
-	}
-	
-	
-	// Days since epoch to calendar date, backwards
-	@Test
-	public void testToCalendarDateBackwards() {
-		int i = 0;
-		int y = 2000;  // Internal calendar date counters
-		int m = 1;
-		int d = 1;
-		while (y >= 1600) {
-			Date date = new Date(i);
-			assertEquals(date.year, y);
-			assertEquals(date.month, m);
-			assertEquals(date.day, d);
-			d--;
-			if (d <= 0) {
-				m--;
-				if (m <= 0) {
-					y--;
-					m = 12;
-				}
-				d = Date.monthLength(y, m);
-			}
-			i--;
+	public void testNewDateByEpochCounting() {
+		for (TestDate d : new DateRange(1600, 1, 1, 6, -146097, 146097 * 2)) {
+			Date date = new Date(d.daysSinceEpoch);
+			assertEquals(d.year, date.year);
+			assertEquals(d.month, date.month);
+			assertEquals(d.day, date.day);
 		}
 	}
 	
 	
 	// new Date(y,m,d), because it requires a conversion to epoch days and then back to calendar date.
 	@Test
-	public void testNewDate() {
-		int y = -500;
-		int m = 1;
-		int d = 1;
-		while (y <= 2500) {
-			Date date = new Date(y, m, d);
-			assertEquals(date.year, y);
-			assertEquals(date.month, m);
-			assertEquals(date.day, d);
-			d++;
-			if (d > Date.monthLength(y, m)) {
-				m++;
-				d = 1;
-				if (m > 12) {
-					y++;
-					m = 1;
-				}
-			}
+	public void testNewDateByCalendar() {
+		for (TestDate d : new DateRange(1600, 1, 1, 6, -146097, 146097 * 2)) {
+			Date date = new Date(d.year, d.month, d.day);
+			assertEquals(d.year, date.year);
+			assertEquals(d.month, date.month);
+			assertEquals(d.day, date.day);
 		}
 	}
 	
@@ -414,6 +292,116 @@ public final class DateTest {
 			
 			assertEquals(refComp, new Date(y0, m0, d0).compareTo(new Date(y1, m1, d1)));
 		}
+	}
+	
+	
+	
+	private static class DateRange implements Iterable<TestDate> {
+		
+		private final int year;
+		private final int month;
+		private final int day;
+		private final int dayOfWeek;
+		private final int daysSinceEpoch;
+		private final int count;
+		
+		
+		public DateRange(int year, int month, int day, int dayOfWeek, int daysSinceEpoch, int count) {
+			this.year = year;
+			this.month = month;
+			this.day = day;
+			this.dayOfWeek = dayOfWeek;
+			this.daysSinceEpoch = daysSinceEpoch;
+			this.count = count;
+		}
+		
+		
+		@Override
+		public Iterator<TestDate> iterator() {
+			return new DateIterator(year, month, day, dayOfWeek, daysSinceEpoch, count);
+		}
+		
+	}
+	
+	
+	
+	private static class DateIterator implements Iterator<TestDate> {
+		
+		private int year;
+		private int month;
+		private int day;
+		private int dayOfWeek;
+		private int daysSinceEpoch;
+		private int count;
+		
+		
+		
+		public DateIterator(int year, int month, int day, int dayOfWeek, int daysSinceEpoch, int count) {
+			this.year = year;
+			this.month = month;
+			this.day = day;
+			this.dayOfWeek = dayOfWeek;
+			this.daysSinceEpoch = daysSinceEpoch;
+			this.count = count;
+		}
+		
+		
+		
+		@Override
+		public boolean hasNext() {
+			return count > 0;
+		}
+		
+		
+		@Override
+		public TestDate next() {
+			if (!hasNext())
+				throw new NoSuchElementException();
+			TestDate result = new TestDate(year, month, day, dayOfWeek, daysSinceEpoch);
+			count--;
+			if (count > 0) {
+				day++;
+				if (day == Date.monthLength(year, month) + 1) {
+					month++;
+					day = 1;
+					if (month == 13) {
+						year++;
+						month = 1;
+					}
+				}
+				dayOfWeek = (dayOfWeek + 1) % 7;
+				daysSinceEpoch++;
+			}
+			return result;
+		}
+		
+		
+		@Override
+		public void remove() {
+			throw new UnsupportedOperationException();
+		}
+		
+	}
+	
+	
+	
+	private static class TestDate {
+		
+		public final int year;
+		public final int month;
+		public final int day;
+		public final int dayOfWeek;
+		public final int daysSinceEpoch;
+		
+		
+		public TestDate(int year, int month, int day, int dayOfWeek, int daysSinceEpoch) {
+			this.year = year;
+			this.month = month;
+			this.day = day;
+			this.dayOfWeek = dayOfWeek;
+			this.daysSinceEpoch = daysSinceEpoch;
+		}
+		
 	}
 	
 }
