@@ -26,12 +26,4 @@ final class IdentityCipherer extends Cipherer {
 		BoundsChecker.check(b.length, off, len);
 	}
 	
-	
-	@Override
-	public void zeroize() {
-		if (cipher == null)
-			return;
-		super.zeroize();
-	}
-	
 }

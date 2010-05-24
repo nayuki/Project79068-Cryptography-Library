@@ -18,12 +18,4 @@ final class IdentityStreamCipherer extends StreamCipherer {
 		BoundsChecker.check(b.length, off, len);
 	}
 	
-	
-	@Override
-	public void zeroize() {
-		if (cipher == null)
-			return;
-		super.zeroize();
-	}
-	
 }
