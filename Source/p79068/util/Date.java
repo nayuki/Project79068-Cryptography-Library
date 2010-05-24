@@ -53,8 +53,7 @@ public final class Date implements Comparable<Date> {
 	
 	
 	/**
-	 * Tests whether the specified year is a leap year.
-	 * <p>A year divisible by 400 is a leap year. A year divisible by 4 but not by 100 is a leap year.</p>
+	 * Tests whether the specified year is a leap year. A year divisible by 400 is a leap year. Otherwise, a year divisible by 4 but not by 100 is a leap year. Other years are not leap years.
 	 * @param year the year to test
 	 * @return <code>true</code> if and only if <code>year</code> is a leap year
 	 */
@@ -112,6 +111,9 @@ public final class Date implements Comparable<Date> {
 	
 	/**
 	 * Returns the number of days after the epoch that the specified date represents.
+	 * @param year the year
+	 * @param month the month
+	 * @param day the day of month
 	 * @throws ArithmeticOverflowException if the result does not fit in an <code>int</code>
 	 */
 	public static int daysSinceEpoch(int year, int month, int day) {
@@ -166,6 +168,7 @@ public final class Date implements Comparable<Date> {
 	 *  <li>1970-01-01 = day <code>-10957</code></li>
 	 *  <li>1980-01-01 = day <code>-7305</code></li>
 	 * </ul>
+	 * @param daysSinceEpoch the number of days since the epoch of 2000-01-01
 	 */
 	public Date(int daysSinceEpoch) {
 		this.daysSinceEpoch = daysSinceEpoch;
