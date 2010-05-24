@@ -13,7 +13,7 @@ public final class IntegerMath {
 	 * Returns the sum of the specified integers, throwing an exception if the result overflows.
 	 * @param x a summand
 	 * @param y a summand
-	 * @return <code>x</code> plus <code>y</code>
+	 * @return {@code x} plus {@code y}
 	 * @throws ArithmeticOverflowException if the result overflows
 	 */
 	public static int safeAdd(int x, int y) {
@@ -29,7 +29,7 @@ public final class IntegerMath {
 	 * Returns the product of the specified integers, throwing an exception if the result overflows.
 	 * @param x a multiplicand
 	 * @param y a multiplicand
-	 * @return <code>x</code> times <code>y</code>
+	 * @return {@code x} times {@code y}
 	 * @throws ArithmeticOverflowException if the result overflows
 	 */
 	public static int safeMultiply(int x, int y) {
@@ -42,10 +42,10 @@ public final class IntegerMath {
 	
 	
 	/**
-	 * Returns the quotient of the specified integers, throwing an exception if the result overflows. The only overflow case is when <code>x</code> = &minus;2<sup>31</sup> and <code>y</code> = &minus;1.
+	 * Returns the quotient of the specified integers, throwing an exception if the result overflows. The only overflow case is when {@code x} = &minus;2<sup>31</sup> and {@code y} = &minus;1.
 	 * @param x the dividend
 	 * @param y the divisor
-	 * @return <code>x</code> divided by <code>y</code>
+	 * @return {@code x} divided by {@code y}
 	 * @throws ArithmeticOverflowException if the result overflows
 	 */
 	public static int safeDivide(int x, int y) {
@@ -60,9 +60,9 @@ public final class IntegerMath {
 	 * Returns the floor of the quotient of the specified integers.
 	 * @param x the dividend
 	 * @param y the divisor
-	 * @return the floor of <code>x</code> divided by <code>y</code>
-	 * @throws ArithmeticException if <code>y</code> is 0
-	 * @throws ArithmeticOverflowException if <code>x</code> = &minus;2<sup>31</sup> and <code>y</code> = &minus;1
+	 * @return the floor of {@code x} divided by {@code y}
+	 * @throws ArithmeticException if {@code y} is 0
+	 * @throws ArithmeticOverflowException if {@code x} = &minus;2<sup>31</sup> and {@code y} = &minus;1
 	 */
 	public static int divideAndFloor(int x, int y) {
 		if (x == Integer.MIN_VALUE && y == -1)  // The one and only overflow case
@@ -80,18 +80,18 @@ public final class IntegerMath {
 	
 	
 	/**
-	 * Returns <code>x</code> modulo <code>y</code>. The result either has the same sign as <code>y</code> or is zero. Note that this is not exactly the same as the remainder operator (<code>%</code>) provided by the language.
+	 * Returns {@code x} modulo {@code y}. The result either has the same sign as {@code y} or is zero. Note that this is not exactly the same as the remainder operator ({@code %}) provided by the language.
 	 * <p>Sample values:</p>
 	 * <ul>
-	 *   <li><code>mod( 4, &nbsp;3) = &nbsp;1</code></li>
-	 *   <li><code>mod(-4, &nbsp;3) = &nbsp;2</code></li>
-	 *   <li><code>mod( 4, -3) = -2</code></li>
-	 *   <li><code>mod(-4, -3) = -1</code></li>
+	 *   <li>{@code mod( 4, &nbsp;3) = &nbsp;1}</li>
+	 *   <li>{@code mod(-4, &nbsp;3) = &nbsp;2}</li>
+	 *   <li>{@code mod( 4, -3) = -2}</li>
+	 *   <li>{@code mod(-4, -3) = -1}</li>
 	 * </ul>
 	 * @param x the integer to reduce
 	 * @param y the modulus
-	 * @return <code>x</code> modulo <code>y</code>
-	 * @throws ArithmeticException if <code>y</code> is 0
+	 * @return {@code x} modulo {@code y}
+	 * @throws ArithmeticException if {@code y} is 0
 	 */
 	public static int mod(int x, int y) {
 		x %= y;  // x is now in (-abs(y), abs(y))
@@ -105,7 +105,7 @@ public final class IntegerMath {
 	// Simple functions
 	
 	/**
-	 * Returns the sign of the specified integer, which is <samp>-1</samp>, <samp>0</samp>, or <samp>1</samp>. Also called sgn and signum.
+	 * Returns the sign of the specified integer, which is {@code -1}, {@code 0}, or {@code 1}. Also called sgn and signum.
 	 * @param x the integer to whose sign will be computed
 	 */
 	public static int sign(int x) {
@@ -115,7 +115,7 @@ public final class IntegerMath {
 	
 	/**
 	 * Compares the specified integers.
-	 * @return <samp>-1</samp> if <code>x &lt; y</code>, <samp>0</samp> if <code>x == y</code>, or <samp>1</samp> if <code>x &gt; y</code>
+	 * @return {@code -1} if {@code x &lt; y}, {@code 0} if {@code x == y}, or {@code 1} if {@code x &gt; y}
 	 */
 	public static int compare(int x, int y) {
 		if (x < y)
@@ -131,7 +131,7 @@ public final class IntegerMath {
 	 * Compares the specified unsigned integers.
 	 * @param x an operand, interpreted as an unsigned 32-bit integer
 	 * @param y an operand, interpreted as an unsigned 32-bit integer
-	 * @return <samp>-1</samp> if <code>x &lt; y</code>, <samp>0</samp> if <code>x == y</code>, or <samp>1</samp> if <code>x &gt; y</code>
+	 * @return {@code -1} if {@code x &lt; y}, {@code 0} if {@code x == y}, or {@code 1} if {@code x &gt; y}
 	 */
 	public static int compareUnsigned(int x, int y) {
 		return compare(x ^ (1 << 31), y ^ (1 << 31));  // Flip top bits
@@ -139,12 +139,12 @@ public final class IntegerMath {
 	
 	
 	/**
-	 * Returns the integer in the specified range (inclusive) nearest to the specified integer. In other words, if <code>x &lt; min</code> then <code>min</code> is returned; if <code>x &gt; max</code> then <code>max</code> is returned; otherwise <code>x</code> is returned. This function is equivalent to <code>Math.max(Math.min(x, max), min)</code>.
+	 * Returns the integer in the specified range (inclusive) nearest to the specified integer. In other words, if {@code x &lt; min} then {@code min} is returned; if {@code x &gt; max} then {@code max} is returned; otherwise {@code x} is returned. This function is equivalent to {@code Math.max(Math.min(x, max), min)}.
 	 * @param x the integer to clamp
 	 * @param min the lower limit (inclusive)
 	 * @param max the upper limit (inclusive)
-	 * @return <code>min</code>, <code>x</code>, or <code>max</code>, whichever is closest to <code>x</code>
-	 * @throws IllegalArgumentException if <code>min &gt; max</code>
+	 * @return {@code min}, {@code x}, or {@code max}, whichever is closest to {@code x}
+	 * @throws IllegalArgumentException if {@code min &gt; max}
 	 */
 	public static int clamp(int x, int min, int max) {
 		if (min > max)
@@ -161,7 +161,7 @@ public final class IntegerMath {
 	/**
 	 * Tests whether the specified number is an integral power of 2. The powers of 2 are 1, 2, 4, ..., 1073741824. Zero and negative numbers are not powers of 2.
 	 * @param x the integer to test
-	 * @return <samp>true</samp> if and only if <code>x</code> is an integral power of 2
+	 * @return {@code true} if and only if {@code x} is an integral power of 2
 	 */
 	public static boolean isPowerOf2(int x) {
 		return x > 0 && (x & (x - 1)) == 0;
@@ -175,11 +175,11 @@ public final class IntegerMath {
 	 * Returns the floor of the square root of the specified number.
 	 * <p>Sample values:</p>
 	 * <ul>
-	 *  <li><code>sqrt(4) = 2</code></li>
-	 *  <li><code>sqrt(5) = 2</code></li>
-	 *  <li><code>sqrt(9) = 3</code></li>
+	 *  <li>{@code sqrt(4) = 2}</li>
+	 *  <li>{@code sqrt(5) = 2}</li>
+	 *  <li>{@code sqrt(9) = 3}</li>
 	 * </ul>
-	 * @throws IllegalArgumentException if <code>x &lt; 0</code>
+	 * @throws IllegalArgumentException if {@code x &lt; 0}
 	 */
 	public static int sqrt(int x) {
 		if (x < 0)
@@ -198,9 +198,9 @@ public final class IntegerMath {
 	 * Returns the cube root of the specified number, rounded down towards zero.
 	 * <p>Sample values:</p>
 	 * <ul>
-	 *  <li><code>cbrt(1) = 1</code></li>
-	 *  <li><code>cbrt(5) = 1</code></li>
-	 *  <li><code>cbrt(8) = 2</code></li>
+	 *  <li>{@code cbrt(1) = 1}</li>
+	 *  <li>{@code cbrt(5) = 1}</li>
+	 *  <li>{@code cbrt(8) = 2}</li>
 	 * </ul>
 	 */
 	public static int cbrt(int x) {
@@ -222,7 +222,7 @@ public final class IntegerMath {
 	 * Returns the floor of the base 2 logarithm of the specified number. The result is in the range [0, 30].
 	 * @param x the integer to log and floor
 	 * @return the floor of the base 2 logarithm of the number
-	 * @throws IllegalArgumentException if <code>x</code> &le; 0
+	 * @throws IllegalArgumentException if {@code x} &le; 0
 	 */
 	public static int log2Floor(int x) {
 		if (x <= 0)
@@ -240,7 +240,7 @@ public final class IntegerMath {
 	 * Returns the ceiling of the base 2 logarithm of the specified number. The result is in the range [0, 31].
 	 * @param x the integer to log and ceiling
 	 * @return the ceiling of the base 2 logarithm of the number
-	 * @throws IllegalArgumentException if <code>x</code> &le; 0
+	 * @throws IllegalArgumentException if {@code x} &le; 0
 	 */
 	public static int log2Ceiling(int x) {
 		if (x <= 0)
@@ -258,8 +258,8 @@ public final class IntegerMath {
 	/**
 	 * Returns the nearest power of 2 that is less than or equal to the specified number.
 	 * @param x the integer to floor to a power of 2
-	 * @return a power of 2 less than or equal to <code>x</code>
-	 * @throws IllegalArgumentException if <code>x &lt;= 0</code>
+	 * @return a power of 2 less than or equal to {@code x}
+	 * @throws IllegalArgumentException if {@code x &lt;= 0}
 	 */
 	public static int floorToPowerOf2(int x) {
 		if (x <= 0)
@@ -276,9 +276,9 @@ public final class IntegerMath {
 	/**
 	 * Returns the nearest power of 2 that is greater than or equal to the specified number.
 	 * @param x the integer to ceiling to a power of 2
-	 * @return a power of 2 greater than or equal to <code>x</code>
-	 * @throws IllegalArgumentException if <code>x &lt;= 0</code>
-	 * @throws ArithmeticOverflowException if <code>x &gt; 1073741824</code>
+	 * @return a power of 2 greater than or equal to {@code x}
+	 * @throws IllegalArgumentException if {@code x &lt;= 0}
+	 * @throws ArithmeticOverflowException if {@code x &gt; 1073741824}
 	 */
 	public static int ceilingToPowerOf2(int x) {
 		if (x <= 0)
@@ -299,12 +299,12 @@ public final class IntegerMath {
 	// Modular arithmetic functions
 	
 	/**
-	 * Returns the integer <code>y</code> such that <code>x</code> <code>y</code> mod m = 1 (assuming the calculation does not overflow). <code>y</code> exists if and only if <code>gcd(x, m)</code> = 1. If <code>y</code> exists, then <code>y</code> is in the range [0, <code>m</code>).
+	 * Returns the integer {@code y} such that {@code x} {@code y} mod m = 1 (assuming the calculation does not overflow). {@code y} exists if and only if {@code gcd(x, m)} = 1. If {@code y} exists, then {@code y} is in the range [0, {@code m}).
 	 * @param x the integer to reciprocate
 	 * @param m the modulus
-	 * @throws ArithmeticException if <code>x</code> = 0
-	 * @throws IllegalArgumentException if <code>m</code> &lt; 1
-	 * @throws IllegalArgumentException if a reciprocal does no exist (because <code>gcd(x, m)</code> &ne; 1)
+	 * @throws ArithmeticException if {@code x} = 0
+	 * @throws IllegalArgumentException if {@code m} &lt; 1
+	 * @throws IllegalArgumentException if a reciprocal does no exist (because {@code gcd(x, m)} &ne; 1)
 	 */
 	public static int reciprocalMod(int x, int m) {
 		if (x == 0)
@@ -333,13 +333,13 @@ public final class IntegerMath {
 	
 	
 	/**
-	 * Returns <code>x</code> to the power of <code>y</code>, modulo <code>m</code>.
+	 * Returns {@code x} to the power of {@code y}, modulo {@code m}.
 	 * @param x the base of the power
 	 * @param y the exponent of the power
 	 * @param m the modulus
-	 * @return <code>x</code><sup><code>y</code></sup> mod <code>m</code>
-	 * @throws IllegalArgumentException if <code>y</code> &lt; 0
-	 * @throws IllegalArgumentException if <code>x</code> has no reciprocal modulo <code>m</code>
+	 * @return {@code x}<sup>{@code y}</sup> mod {@code m}
+	 * @throws IllegalArgumentException if {@code y} &lt; 0
+	 * @throws IllegalArgumentException if {@code x} has no reciprocal modulo {@code m}
 	 */
 	public static int powMod(int x, int y, int m) {
 		if (y < 0)
@@ -395,8 +395,8 @@ public final class IntegerMath {
 	
 	
 	/**
-	 * Returns Euler's totient function of the specified integer. This is the number of integers between <code>1</code> (inclusive) and <code>x</code> (inclusive) that are coprime to <code>x</code>. Note that 1 is coprime to all integers, and <code>totient(1) == 1</code>.
-	 * @throws IllegalArgumentException if <code>x</code> &le; 0
+	 * Returns Euler's totient function of the specified integer. This is the number of integers between {@code 1} (inclusive) and {@code x} (inclusive) that are coprime to {@code x}. Note that 1 is coprime to all integers, and {@code totient(1) == 1}.
+	 * @throws IllegalArgumentException if {@code x} &le; 0
 	 */
 	public static int totient(int x) {
 		if (x <= 0)
@@ -425,8 +425,8 @@ public final class IntegerMath {
 	/**
 	 * Tests whether the specified integer is a prime number. Note that 0 and 1 are not prime.
 	 * @param x the integer to test
-	 * @return <samp>true</samp> if <code>x</code> is a prime number, <samp>false</samp> otherwise
-	 * @throws IllegalArgumentException if <code>x &lt; 0</code>
+	 * @return {@code true} if {@code x} is a prime number, {@code false} otherwise
+	 * @throws IllegalArgumentException if {@code x &lt; 0}
 	 */
 	public static boolean isPrime(int x) {
 		if (x < 0)
@@ -450,8 +450,8 @@ public final class IntegerMath {
 	/**
 	 * Tests whether the specified integer is a composite number. Note that 0 and 1 are not composite.
 	 * @param x the integer to test
-	 * @return <samp>true</samp> if <code>x</code> is a composite number, <samp>false</samp> otherwise
-	 * @throws IllegalArgumentException if <code>x &lt; 0</code>
+	 * @return {@code true} if {@code x} is a composite number, {@code false} otherwise
+	 * @throws IllegalArgumentException if {@code x &lt; 0}
 	 */
 	public static boolean isComposite(int x) {
 		if (x == 0 || x == 1)
@@ -462,11 +462,11 @@ public final class IntegerMath {
 	
 	
 	/**
-	 * Returns an array where each element denotes whether its index is a prime number; integers up to <code>n</code> (inclusive) can be tested. That is, <code>result[n]</code> has the value <samp>true</samp> if <code>n</code> is prime.
+	 * Returns an array where each element denotes whether its index is a prime number; integers up to {@code n} (inclusive) can be tested. That is, {@code result[n]} has the value {@code true} if {@code n} is prime.
 	 * <p>Internally, the sieve of Eratosthenes is used.</p>
 	 * @param n the highest number (inclusive) that can be tested by the returned array
-	 * @return an array of length <code>n+1</code> where each element denotes whether its index is prime
-	 * @throws IllegalArgumentException if <code>n &lt; 0</code>
+	 * @return an array of length {@code n+1} where each element denotes whether its index is prime
+	 * @throws IllegalArgumentException if {@code n &lt; 0}
 	 */
 	public static boolean[] listPrimality(int n) {
 		if (n < 0)
@@ -491,8 +491,8 @@ public final class IntegerMath {
 	
 	/**
 	 * Returns the factorial of the specified integer.
-	 * @throws IllegalArgumentException if <code>x</code> &lt; 0
-	 * @throws ArithmeticOverflowException if <code>x</code> &gt; 20
+	 * @throws IllegalArgumentException if {@code x} &lt; 0
+	 * @throws ArithmeticOverflowException if {@code x} &gt; 20
 	 */
 	public static int factorial(int x) {
 		if (x < 0)
@@ -507,7 +507,7 @@ public final class IntegerMath {
 	
 	
 	/**
-	 * Returns the number of ways of obtaining an ordered subset of <code>k</code> elements from a set of <code>n</code> (unique) elements. *plagiarism
+	 * Returns the number of ways of obtaining an ordered subset of {@code k} elements from a set of {@code n} (unique) elements. *plagiarism
 	 * @param n the size of the set
 	 * @param k the size of the subset to take
 	 * @throws ArithmeticOverflowException if the result overflows
@@ -530,17 +530,17 @@ public final class IntegerMath {
 	 * Returns the element of the Fibonacci sequence at the specified index.
 	 * <p>Sample values:</p>
 	 * <ul>
-	 *  <li><code>fibonacci(-4) == -3</code></li>
-	 *  <li><code>fibonacci(-3) == &nbsp;2</code></li>
-	 *  <li><code>fibonacci(-2) == -1</code></li>
-	 *  <li><code>fibonacci(-1) == &nbsp;1</code></li>
-	 *  <li><code>fibonacci( 0) == &nbsp;0</code></li>
-	 *  <li><code>fibonacci( 1) == &nbsp;1</code></li>
-	 *  <li><code>fibonacci( 2) == &nbsp;1</code></li>
-	 *  <li><code>fibonacci( 3) == &nbsp;2</code></li>
-	 *  <li><code>fibonacci( 4) == &nbsp;3</code></li>
+	 *  <li>{@code fibonacci(-4) == -3}</li>
+	 *  <li>{@code fibonacci(-3) == &nbsp;2}</li>
+	 *  <li>{@code fibonacci(-2) == -1}</li>
+	 *  <li>{@code fibonacci(-1) == &nbsp;1}</li>
+	 *  <li>{@code fibonacci( 0) == &nbsp;0}</li>
+	 *  <li>{@code fibonacci( 1) == &nbsp;1}</li>
+	 *  <li>{@code fibonacci( 2) == &nbsp;1}</li>
+	 *  <li>{@code fibonacci( 3) == &nbsp;2}</li>
+	 *  <li>{@code fibonacci( 4) == &nbsp;3}</li>
 	 * </ul>
-	 * @throws ArithmeticOverflowException if the result overflows (because <code>x</code> &lt; &minus;46 or <code>x</code> &gt; 46)
+	 * @throws ArithmeticOverflowException if the result overflows (because {@code x} &lt; &minus;46 or {@code x} &gt; 46)
 	 */
 	public static int fibonacci(int x) {
 		if (x < -46 || x > 46)
