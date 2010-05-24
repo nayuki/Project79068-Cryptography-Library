@@ -26,7 +26,7 @@ public class Adler32 extends HashFunction {
 	
 	
 	/**
-	 * Returns the name of this hash function: {@code Adler-32}.
+	 * Returns the name of this hash function: {@code "Adler-32"}.
 	 */
 	@Override
 	public String getName() {

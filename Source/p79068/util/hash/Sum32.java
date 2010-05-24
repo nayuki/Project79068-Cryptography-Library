@@ -26,7 +26,7 @@ public class Sum32 extends HashFunction {
 	
 	
 	/**
-	 * Returns the name of this hash function: {@code Sum-32}.
+	 * Returns the name of this hash function: {@code "Sum-32"}.
 	 */
 	@Override
 	public String getName() {

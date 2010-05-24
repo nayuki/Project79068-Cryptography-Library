@@ -32,7 +32,7 @@ public final class Sha256 extends BlockHashFunction {
 	
 	
 	/**
-	 * Returns the name of this hash function: {@code SHA-256}.
+	 * Returns the name of this hash function: {@code "SHA-256"}.
 	 * @return {@code "SHA-256"}
 	 */
 	@Override

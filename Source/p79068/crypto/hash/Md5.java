@@ -30,7 +30,7 @@ public final class Md5 extends BlockHashFunction {
 	
 	
 	/**
-	 * Returns the name of this hash function: {@code MD5}.
+	 * Returns the name of this hash function: {@code "MD5"}.
 	 * @return {@code "MD5"}
 	 */
 	@Override

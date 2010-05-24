@@ -30,7 +30,7 @@ public final class Sha512 extends BlockHashFunction {
 	
 	
 	/**
-	 * Returns the name of this hash function: {@code SHA-512}.
+	 * Returns the name of this hash function: {@code "SHA-512"}.
 	 * @return {@code "SHA-512"}
 	 */
 	@Override

@@ -27,7 +27,7 @@ public final class Whirlpool extends AbstractWhirlpool {
 	
 	
 	/**
-	 * Returns the name of this hash function: {@code Whirlpool}.
+	 * Returns the name of this hash function: {@code "Whirlpool"}.
 	 * @return {@code "Whirlpool"}
 	 */
 	@Override

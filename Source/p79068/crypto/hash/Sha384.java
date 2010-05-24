@@ -31,7 +31,7 @@ public final class Sha384 extends BlockHashFunction {
 	
 	
 	/**
-	 * Returns the name of this hash function: {@code SHA-384}.
+	 * Returns the name of this hash function: {@code "SHA-384"}.
 	 * @return {@code "SHA-384"}
 	 */
 	@Override

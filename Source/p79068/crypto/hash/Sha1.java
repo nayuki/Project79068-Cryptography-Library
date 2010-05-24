@@ -32,7 +32,7 @@ public final class Sha1 extends BlockHashFunction {
 	
 	
 	/**
-	 * Returns the name of this hash function: {@code SHA-1}.
+	 * Returns the name of this hash function: {@code "SHA-1"}.
 	 * @return {@code "SHA-1"}
 	 */
 	@Override

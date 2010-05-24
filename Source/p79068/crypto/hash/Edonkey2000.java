@@ -32,7 +32,7 @@ public final class Edonkey2000 extends HashFunction {
 	
 	
 	/**
-	 * Returns the name of this hash function: {@code eDonkey2000}.
+	 * Returns the name of this hash function: {@code "eDonkey2000"}.
 	 * @return {@code "eDonkey2000"}
 	 */
 	@Override

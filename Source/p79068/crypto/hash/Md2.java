@@ -30,7 +30,7 @@ public final class Md2 extends BlockHashFunction {
 	
 	
 	/**
-	 * Returns the name of this hash function: {@code MD2}.
+	 * Returns the name of this hash function: {@code "MD2"}.
 	 * @return {@code "MD2"}
 	 */
 	@Override

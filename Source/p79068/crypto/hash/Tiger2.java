@@ -31,7 +31,7 @@ public final class Tiger2 extends BlockHashFunction {
 	
 	
 	/**
-	 * Returns the name of this hash function: {@code Tiger2}.
+	 * Returns the name of this hash function: {@code "Tiger2"}.
 	 * @return {@code "Tiger2"}
 	 */
 	@Override
