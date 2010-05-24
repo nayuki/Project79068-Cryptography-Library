@@ -14,7 +14,7 @@ public final class LongMath {
 	 * Returns the sum of the specified integers, throwing an exception if the result overflows.
 	 * @param x a summand
 	 * @param y a summand
-	 * @return <code>x</code> plus <code>y</code>
+	 * @return {@code x} plus {@code y}
 	 * @throws ArithmeticOverflowException if the result overflows
 	 */
 	public static long checkedAdd(long x, long y) {
@@ -30,7 +30,7 @@ public final class LongMath {
 	 * Returns the difference of the specified integers, throwing an exception if the result overflows.
 	 * @param x the minuend
 	 * @param y the subtrahend
-	 * @return <code>x</code> minus <code>y</code>
+	 * @return {@code x} minus {@code y}
 	 * @throws ArithmeticOverflowException if the result overflows
 	 */
 	public static long checkedSubtract(long x, long y) {
@@ -46,7 +46,7 @@ public final class LongMath {
 	 * Returns the product of the specified integers, throwing an exception if the result overflows.
 	 * @param x a multiplicand
 	 * @param y a multiplicand
-	 * @return <code>x</code> times <code>y</code>
+	 * @return {@code x} times {@code y}
 	 * @throws ArithmeticOverflowException if the result overflows
 	 */
 	public static long checkedMultiply(long x, long y) {
@@ -59,10 +59,10 @@ public final class LongMath {
 	
 	
 	/**
-	 * Returns the quotient of the specified integers, throwing an exception if the result overflows. The only overflow case is when <code>x</code> = &minus;2<sup>31</sup> and <code>y</code> = &minus;1.
+	 * Returns the quotient of the specified integers, throwing an exception if the result overflows. The only overflow case is when {@code x} = &minus;2<sup>31</sup> and {@code y} = &minus;1.
 	 * @param x the dividend
 	 * @param y the divisor
-	 * @return <code>x</code> divided by <code>y</code>
+	 * @return {@code x} divided by {@code y}
 	 * @throws ArithmeticOverflowException if the result overflows
 	 */
 	public static long checkedDivide(long x, long y) {
@@ -77,9 +77,9 @@ public final class LongMath {
 	 * Returns the floor of the quotient of the specified integers.
 	 * @param x the dividend
 	 * @param y the divisor
-	 * @return the floor of <code>x</code> divided by <code>y</code>
-	 * @throws ArithmeticException if <code>y</code> is 0
-	 * @throws ArithmeticOverflowException if <code>x</code> = &minus;2<sup>63</sup> and <code>y</code> = &minus;1
+	 * @return the floor of {@code x} divided by {@code y}
+	 * @throws ArithmeticException if {@code y} is 0
+	 * @throws ArithmeticOverflowException if {@code x} = &minus;2<sup>63</sup> and {@code y} = &minus;1
 	 */
 	public static long divideAndFloor(long x, long y) {
 		if (x == Long.MIN_VALUE && y == -1)  // The one and only overflow case
@@ -97,11 +97,11 @@ public final class LongMath {
 	
 	
 	/**
-	 * Returns <code>x</code> modulo <code>y</code>. The result either has the same sign as <code>y</code> or is zero. Note that this is not exactly the same as the remainder operator (<code>%</code>) provided by the language.
+	 * Returns {@code x} modulo {@code y}. The result either has the same sign as {@code y} or is zero. Note that this is not exactly the same as the remainder operator ({@code %}) provided by the language.
 	 * @param x the integer to reduce
 	 * @param y the modulus
-	 * @return <code>x</code> modulo <code>y</code>
-	 * @throws ArithmeticException if <code>y</code> is 0
+	 * @return {@code x} modulo {@code y}
+	 * @throws ArithmeticException if {@code y} is 0
 	 */
 	public static long mod(long x, long y) {
 		x %= y;  // x is now in (-abs(y), abs(y))
@@ -125,7 +125,7 @@ public final class LongMath {
 	
 	/**
 	 * Compares two integers without overflowing.
-	 * @return <samp>-1</samp> if <code>x &lt; y</code>, <samp>0</samp> if <code>x == y</code>, or <samp>1</samp> if <code>x &gt; y</code>
+	 * @return <samp>-1</samp> if {@code x &lt; y}, <samp>0</samp> if {@code x == y}, or <samp>1</samp> if {@code x &gt; y}
 	 */
 	public static int compare(long x, long y) {
 		if (x < y)
@@ -141,7 +141,7 @@ public final class LongMath {
 	 * Compares two unsigned integers without overflowing.
 	 * @param x an operand, interpreted as an unsigned 64-bit integer
 	 * @param y an operand, interpreted as an unsigned 64-bit integer
-	 * @return <samp>-1</samp> if <code>x &lt; y</code>, <samp>0</samp> if <code>x == y</code>, or <samp>1</samp> if <code>x &gt; y</code>
+	 * @return <samp>-1</samp> if {@code x &lt; y}, <samp>0</samp> if {@code x == y}, or <samp>1</samp> if {@code x &gt; y}
 	 */
 	public static int compareUnsigned(long x, long y) {
 		return compare(x ^ (1L << 63), y ^ (1L << 63));  // Flip top bits
@@ -149,12 +149,12 @@ public final class LongMath {
 	
 	
 	/**
-	 * Returns the integer in the specified range (inclusive) nearest to the specified integer. In other words, if <code>x &lt; min</code> then <code>min</code> is returned; if <code>x &gt; max</code> then <code>max</code> is returned; otherwise <code>x</code> is returned. This function is equivalent to <code>Math.max(Math.min(x, max), min)</code>.
+	 * Returns the integer in the specified range (inclusive) nearest to the specified integer. In other words, if {@code x &lt; min} then {@code min} is returned; if {@code x &gt; max} then {@code max} is returned; otherwise {@code x} is returned. This function is equivalent to {@code Math.max(Math.min(x, max), min)}.
 	 * @param x the integer to clamp
 	 * @param min the lower limit (inclusive)
 	 * @param max the upper limit (inclusive)
-	 * @return <code>min</code>, <code>x</code>, or <code>max</code>, whichever is closest to <code>x</code>
-	 * @throws IllegalArgumentException if <code>min &gt; max</code>
+	 * @return {@code min}, {@code x}, or {@code max}, whichever is closest to {@code x}
+	 * @throws IllegalArgumentException if {@code min &gt; max}
 	 */
 	public static long clamp(long x, long min, long max) {
 		if (min > max)

@@ -26,7 +26,7 @@ public class Sum32 extends HashFunction {
 	
 	
 	/**
-	 * Returns the name of this hash function: <code>Sum-32</code>.
+	 * Returns the name of this hash function: {@code Sum-32}.
 	 */
 	@Override
 	public String getName() {
@@ -35,7 +35,7 @@ public class Sum32 extends HashFunction {
 	
 	
 	/**
-	 * Returns the length of hash values produced by this hash function: <code>4</code> bytes.
+	 * Returns the length of hash values produced by this hash function: {@code 4} bytes.
 	 */
 	@Override
 	public int getHashLength() {

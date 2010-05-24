@@ -45,8 +45,8 @@ public final class UnicodeString implements Comparable<UnicodeString> {
 	
 	/**
 	 * Constructs blah...
-	 * @throws NullPointerException if <code>char</code> is null
-	 * @throws IllegalArgumentException if <code>char</code> contains values less than 0 or greater than 0x10FFFF.
+	 * @throws NullPointerException if {@code char} is null
+	 * @throws IllegalArgumentException if {@code char} contains values less than 0 or greater than 0x10FFFF.
 	 */
 	public UnicodeString(int[] chars) {
 		this(chars, 0, chars.length);

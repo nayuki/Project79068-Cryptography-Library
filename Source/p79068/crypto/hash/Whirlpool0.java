@@ -21,8 +21,8 @@ public final class Whirlpool0 extends AbstractWhirlpool {
 	
 	
 	/**
-	 * Returns the name of this hash function: <code>Whirlpool-0</code>.
-	 * @return <code>"Whirlpool-0"</code>
+	 * Returns the name of this hash function: {@code Whirlpool-0}.
+	 * @return {@code "Whirlpool-0"}
 	 */
 	@Override
 	public String getName() {

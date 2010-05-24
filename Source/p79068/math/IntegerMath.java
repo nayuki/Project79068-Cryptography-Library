@@ -29,7 +29,7 @@ public final class IntegerMath {
 	 * Returns the difference of the specified integers, throwing an exception if the result overflows.
 	 * @param x the minuend
 	 * @param y the subtrahend
-	 * @return <code>x</code> minus <code>y</code>
+	 * @return {@code x} minus {@code y}
 	 * @throws ArithmeticOverflowException if the result overflows
 	 */
 	public static int checkedSubtract(int x, int y) {

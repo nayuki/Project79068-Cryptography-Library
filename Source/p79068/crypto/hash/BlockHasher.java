@@ -20,7 +20,7 @@ public final class BlockHasher extends Hasher implements Zeroizable {
 	private byte[] block;
 	
 	/**
-	 * The number of bytes filled in the current block. It is in the range [<code>0, <code>block.length</code>) initially and after each <code>update()</code> operation.
+	 * The number of bytes filled in the current block. It is in the range [{@code 0}, {@code block.length}) initially and after each {@code update()} operation.
 	 */
 	private int blockLength;
 	
@@ -68,8 +68,8 @@ public final class BlockHasher extends Hasher implements Zeroizable {
 	
 	/**
 	 * Updates the current hash with the specified byte array.
-	 * @throws NullPointerException if <code>b</code> is <code>null</code>
-	 * @throws IndexOutOfBoundsException if <code>off</code> and <code>len</code> specify that indices out of array <code>b</code>'s range to be accessed
+	 * @throws NullPointerException if {@code b} is {@code null}
+	 * @throws IndexOutOfBoundsException if {@code off} and {@code len} specify that indices out of array {@code b}'s range to be accessed
 	 * @throws IllegalStateException if this object has been zeroized
 	 */
 	@Override

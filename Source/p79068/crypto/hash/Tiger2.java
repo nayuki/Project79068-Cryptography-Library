@@ -31,8 +31,8 @@ public final class Tiger2 extends BlockHashFunction {
 	
 	
 	/**
-	 * Returns the name of this hash function: <code>Tiger2</code>.
-	 * @return <code>"Tiger2"</code>
+	 * Returns the name of this hash function: {@code Tiger2}.
+	 * @return {@code "Tiger2"}
 	 */
 	@Override
 	public String getName() {
@@ -41,8 +41,8 @@ public final class Tiger2 extends BlockHashFunction {
 	
 	
 	/**
-	 * Returns the length of hash values produced by this hash function: <code>24</code> bytes (192 bits).
-	 * @return <code>24</code>
+	 * Returns the length of hash values produced by this hash function: {@code 24} bytes (192 bits).
+	 * @return {@code 24}
 	 */
 	@Override
 	public int getHashLength() {
@@ -51,8 +51,8 @@ public final class Tiger2 extends BlockHashFunction {
 	
 	
 	/**
-	 * Returns the block length of this hash function: <code>64</code> bytes (512 bits).
-	 * @return <code>64</code>
+	 * Returns the block length of this hash function: {@code 64} bytes (512 bits).
+	 * @return {@code 64}
 	 */
 	@Override
 	public int getBlockLength() {

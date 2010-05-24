@@ -8,7 +8,7 @@ package p79068.math;
 public class ArithmeticOverflowException extends ArithmeticException {
 	
 	/**
-	 * Creates an arithmetic overflow exception with a <code>null</code> detail message.
+	 * Creates an arithmetic overflow exception with a {@code null} detail message.
 	 */
 	public ArithmeticOverflowException() {
 		super();

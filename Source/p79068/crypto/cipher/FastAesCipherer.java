@@ -18,7 +18,7 @@ final class FastAesCipherer extends Cipherer {
 	private int[] decKeySch;
 	
 	/**
-	 * The number of rounds. Equal to <code>min(key.length/4, 4) + 6</code>, where <code>key.length</code> is in bytes.
+	 * The number of rounds. Equal to {@code min(key.length/4, 4) + 6}, where {@code key.length} is in bytes.
 	 */
 	private final int roundCount;
 	

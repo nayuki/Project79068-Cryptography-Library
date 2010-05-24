@@ -20,8 +20,8 @@ public abstract class StreamCipherer extends Cipherer {
 	
 	
 	/**
-	 * @throws NullPointerException if <code>b</code> is <code>null</code>
-	 * @throws IndexOutOfBoundsException if <code>off</code> and <code>len</code> specify a range outside of array <code>b</code>'s bounds
+	 * @throws NullPointerException if {@code b} is {@code null}
+	 * @throws IndexOutOfBoundsException if {@code off} and {@code len} specify a range outside of array {@code b}'s bounds
 	 */
 	@Override
 	public final void decrypt(byte[] b, int off, int len) {

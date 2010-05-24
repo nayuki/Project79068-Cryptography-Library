@@ -2,17 +2,17 @@ package p79068.lang;
 
 
 /**
- * Provides convenience methods for checking bounds and throwing <code>IndexOutOfBoundsException</code>s.
+ * Provides convenience methods for checking bounds and throwing {@code IndexOutOfBoundsException}s.
  * <p>Instantiability: <em>Not applicable</em></p>
  */
 public final class BoundsChecker {
 	
 	/**
-	 * Throws an <code>IndexOutOfBoundsException</code> if the specified index is outside the specified bounds; otherwise returns normally.
+	 * Throws an {@code IndexOutOfBoundsException} if the specified index is outside the specified bounds; otherwise returns normally.
 	 * <p>An index is out of bounds if at least one of these is true:</p>
 	 * <ul>
-	 *  <li><code>accessIndex &lt; 0</code></li>
-	 *  <li><code>accessIndex &gt;= arrayLength</code></li>
+	 *  <li>{@code accessIndex &lt; 0}</li>
+	 *  <li>{@code accessIndex &gt;= arrayLength}</li>
 	 * </ul>
 	 * @throws IllegalArgumentException if the array length is negative (supersedes index out of bounds exception)
 	 * @throws IndexOutOfBoundsException if the index is out of bounds
@@ -26,13 +26,13 @@ public final class BoundsChecker {
 	
 	
 	/**
-	 * Throws an <code>IndexOutOfBoundsException</code> if the specified range is outside the specified bounds; otherwise returns normally.
+	 * Throws an {@code IndexOutOfBoundsException} if the specified range is outside the specified bounds; otherwise returns normally.
 	 * <p>An index is out of bounds if at least one of these is true:</p>
 	 * <ul>
-	 *  <li><code>accessOffset &lt; 0</code></li>
-	 *  <li><code>accessOffset &gt; arrayLength</code></li>
-	 *  <li><code>accessLength &lt; 0</code></li>
-	 *  <li><code>accessOffset+accessLength &gt; arrayLength</code> (computed without overflowing)</li>
+	 *  <li>{@code accessOffset &lt; 0}</li>
+	 *  <li>{@code accessOffset &gt; arrayLength}</li>
+	 *  <li>{@code accessLength &lt; 0}</li>
+	 *  <li>{@code accessOffset+accessLength &gt; arrayLength} (computed without overflowing)</li>
 	 * </ul>
 	 * @throws IllegalArgumentException if the array length is negative (supersedes index out of bounds exception)
 	 * @throws IndexOutOfBoundsException if the range is out of bounds

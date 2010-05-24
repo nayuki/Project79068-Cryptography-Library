@@ -7,7 +7,7 @@ package p79068.crypto.hash;
 final class WhirlpoolUtils {
 	
 	/**
-	 * The exponentiation table, where <code>exp[i]</code> is equal to <code>0x02</code> to the power of <code>i</code>, in GF(2<sup>8</sup>)/0x11D. The table is a permutation of [1, 255].
+	 * The exponentiation table, where {@code exp[i]} is equal to {@code 0x02} to the power of {@code i}, in GF(2<sup>8</sup>)/0x11D. The table is a permutation of [1, 255].
 	 * <p>Note that for all i, exp(i + 255) = exp(i). Also, for all i, exp(i) is in [1, 255].</p>
 	 */
 	private static final int[] exp;
@@ -52,7 +52,7 @@ final class WhirlpoolUtils {
 	 * @param x a summand
 	 * @param y a summand
 	 * @return the sum of the specified elements, in the field
-	 * @throws IllegalArgumentException if <code>x</code> or <code>y</code> is not in [0, 255]
+	 * @throws IllegalArgumentException if {@code x} or {@code y} is not in [0, 255]
 	 */
 	public static int add(int x, int y) {
 		if ((x & 0xFF) != x || (y & 0xFF) != y)
@@ -67,7 +67,7 @@ final class WhirlpoolUtils {
 	 * @param x a multiplicand
 	 * @param y a multiplicand
 	 * @return the product of the specified elements, in the field
-	 * @throws IllegalArgumentException if <code>x</code> or <code>y</code> is not in [0, 255]
+	 * @throws IllegalArgumentException if {@code x} or {@code y} is not in [0, 255]
 	 */
 	public static int multiply(int x, int y) {
 		if ((x & 0xFF) != x || (y & 0xFF) != y)

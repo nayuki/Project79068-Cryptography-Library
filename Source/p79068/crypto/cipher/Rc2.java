@@ -35,7 +35,7 @@ public final class Rc2 extends BlockCipher {
 	
 	
 	/**
-	 * Returns the name of this cipher algorithm: <samp>RC2 (<var>m</var>-bit effective key length, <var>n</var>-bit key)</samp>.
+	 * Returns the name of this cipher algorithm: {@code RC2 (<var>m</var>-bit effective key length, <var>n</var>-bit key)}.
 	 */
 	@Override
 	public String getName() {
@@ -53,8 +53,8 @@ public final class Rc2 extends BlockCipher {
 	
 	
 	/**
-	 * Returns the block length of this cipher algorithm: <samp>8</samp> bytes (64 bits).
-	 * @return <code>8</code>
+	 * Returns the block length of this cipher algorithm: {@code 8} bytes (64 bits).
+	 * @return {@code 8}
 	 */
 	@Override
 	public int getBlockLength() {

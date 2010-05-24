@@ -12,8 +12,8 @@ public final class IntegerBitMath {
 	/**
 	 * Returns the value of the bit at the specified index of the specified bit sequence.
 	 * @param x the bit sequence to test
-	 * @param bitIndex the index of the bit in <code>x</code> to test
-	 * @return <code>0</code> or <code>1</code>
+	 * @param bitIndex the index of the bit in {@code x} to test
+	 * @return {@code 0} or {@code 1}
 	 */
 	public static int extractBit(int x, int bitIndex) {
 		BoundsChecker.check(32, bitIndex);
@@ -23,7 +23,7 @@ public final class IntegerBitMath {
 	
 	/**
 	 * Returns a contiguous group of bits extracted from the specified bit sequence and placed xxx.
-	 * For example: <code>extractBits(0xCAFE, 4, 8)</code> yields <code>0xAF</code>.
+	 * For example: {@code extractBits(0xCAFE, 4, 8)} yields {@code 0xAF}.
 	 */
 	public static int extractBits(int x, int bitOffset, int bitLength) {
 		BoundsChecker.check(32, bitOffset, bitLength);
@@ -37,7 +37,7 @@ public final class IntegerBitMath {
 	/**
 	 * Returns the reverse of the specified bit sequence.
 	 * @param x the bit sequence to reverse
-	 * @return the reverse of <code>x</code>
+	 * @return the reverse of {@code x}
 	 */
 	public static int reverseBits(int x) {
 		x = (x & 0x55555555) <<  1 | (x & 0xAAAAAAAA) >>>  1;
@@ -50,8 +50,8 @@ public final class IntegerBitMath {
 	
 	
 	/**
-	 * Returns the number of bits set to <code>1</code> in the specified integer. Also known as the Hamming weight or population count function.
-	 * @return the number of bits set to <code>1</code>, between <code>0</code> (inclusive) and <code>32</code> (inclusive)
+	 * Returns the number of bits set to {@code 1} in the specified integer. Also known as the Hamming weight or population count function.
+	 * @return the number of bits set to {@code 1}, between {@code 0} (inclusive) and {@code 32} (inclusive)
 	 */
 	public static int countOnes(int x) {
 		x = ((x & 0xAAAAAAAA) >>>  1) + (x & 0x55555555);
@@ -67,7 +67,7 @@ public final class IntegerBitMath {
 	 * Returns the specified bit sequence rotated to the left by the specified number of places. The shift value is taken modulo 32.
 	 * @param x the bit sequence to rotate
 	 * @param shift the number of places to rotate to the left, taken modulo 32
-	 * @return <code>x</code> rotated to the left by <code>shift</code> places
+	 * @return {@code x} rotated to the left by {@code shift} places
 	 */
 	public static int rotateLeft(int x, int shift) {
 		return x << shift | x >>> (32 - shift);
@@ -78,7 +78,7 @@ public final class IntegerBitMath {
 	 * Returns the specified bit sequence rotated to the right by the specified number of places. The shift value is taken modulo 32.
 	 * @param x the bit sequence to rotate
 	 * @param shift the number of places to rotate to the right, taken modulo 32
-	 * @return <code>x</code> rotated to the right by <code>shift</code> places
+	 * @return {@code x} rotated to the right by {@code shift} places
 	 */
 	public static int rotateRight(int x, int shift) {
 		return x << (32 - shift) | x >>> shift;

@@ -13,8 +13,8 @@ public final class LongBitMath {
 	/**
 	 * Returns the value of the bit at the specified index of the specified bit sequence.
 	 * @param x the bit sequence to test
-	 * @param bitIndex the index of the bit in <code>x</code> to test
-	 * @return <code>0</code> or <code>1</code>
+	 * @param bitIndex the index of the bit in {@code x} to test
+	 * @return {@code 0} or {@code 1}
 	 */
 	public static int extractBit(long x, int bitIndex) {
 		BoundsChecker.check(64, bitIndex);
@@ -24,7 +24,7 @@ public final class LongBitMath {
 	
 	/**
 	 * Returns a contiguous group of bits extracted from the specified bit sequence and placed xxx.
-	 * For example: <code>extractBits(0xC0FFEEL, 8, 16)</code> yields <code>0xC0FFL</code>.
+	 * For example: {@code extractBits(0xC0FFEEL, 8, 16)} yields {@code 0xC0FFL}.
 	 */
 	public static long extractBits(long x, int bitOffset, int bitLength) {
 		BoundsChecker.check(64, bitOffset, bitLength);
@@ -38,7 +38,7 @@ public final class LongBitMath {
 	/**
 	 * Returns the reverse of the specified bit sequence.
 	 * @param x the bit sequence to reverse
-	 * @return the reverse of <code>x</code>
+	 * @return the reverse of {@code x}
 	 */
 	public static long reverse(long x) {
 		x = (x & 0x5555555555555555L) <<  1 | (x & 0xAAAAAAAAAAAAAAAAL) >>>  1;
@@ -52,8 +52,8 @@ public final class LongBitMath {
 	
 	
 	/**
-	 * Returns the number of bits set to <code>1</code> in the specified integer. Also known as the Hamming weight or population count function.
-	 * @return the number of bits set to <code>1</code>, between <code>0</code> (inclusive) and <code>64</code> (inclusive)
+	 * Returns the number of bits set to {@code 1} in the specified integer. Also known as the Hamming weight or population count function.
+	 * @return the number of bits set to {@code 1}, between {@code 0} (inclusive) and {@code 64} (inclusive)
 	 */
 	public static int countOnes(long x) {
 		x = ((x & 0xAAAAAAAAAAAAAAAAL) >>>  1) + (x & 0x5555555555555555L);
@@ -69,7 +69,7 @@ public final class LongBitMath {
 	 * Returns the specified bit sequence rotated to the left by the specified number of places. The shift value is taken modulo 64.
 	 * @param x the bit sequence to rotate
 	 * @param shift the number of places to rotate to the left, taken modulo 64
-	 * @return <code>x</code> rotated to the left by <code>shift</code> places
+	 * @return {@code x} rotated to the left by {@code shift} places
 	 */
 	public static long rotateLeft(long x, int shift) {
 		return x << shift | x >>> (64 - shift);
@@ -80,7 +80,7 @@ public final class LongBitMath {
 	 * Returns the specified bit sequence rotated to the right by the specified number of places. The shift value is taken modulo 64.
 	 * @param x the bit sequence to rotate
 	 * @param shift the number of places to rotate to the right, taken modulo 64
-	 * @return <code>x</code> rotated to the right by <code>shift</code> places
+	 * @return {@code x} rotated to the right by {@code shift} places
 	 */
 	public static long rotateRight(long x, int shift) {
 		return x << (64 - shift) | x >>> shift;

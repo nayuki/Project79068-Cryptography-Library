@@ -7,7 +7,7 @@ import p79068.lang.NullChecker;
  * Incrementally computes the hash value of a byte sequence.
  * <p>Mutability: <em>Mutable</em><br>
  * Thread safety: <em>Unsafe</em> unless otherwise specified<br>
- * Instantiability: Via <code>{@link HashFunction#newHasher()}</code></p>
+ * Instantiability: Via {@link HashFunction#newHasher()}</p>
  * <p>Usage example:</p>
  * <pre>Hasher hasher = Md5.FUNCTION.newHasher();
 while (<i>more data available</i>) {

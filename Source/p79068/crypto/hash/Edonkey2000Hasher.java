@@ -15,7 +15,7 @@ final class Edonkey2000Hasher extends Hasher implements Zeroizable {
 	
 	
 	/**
-	 * The outer hasher, which hashes the hash values of individual blocks. This is <code>null</code> if and only if the total number of bytes hashed is less than <code>BLOCK_LENGTH</code>.
+	 * The outer hasher, which hashes the hash values of individual blocks. This is {@code null} if and only if the total number of bytes hashed is less than {@code BLOCK_LENGTH}.
 	 */
 	private Hasher outerHasher;
 	
@@ -25,7 +25,7 @@ final class Edonkey2000Hasher extends Hasher implements Zeroizable {
 	private Hasher innerHasher;
 	
 	/**
-	 * The number of bytes hashed in the current block. This is in the range [<code>0</code>, <code>BLOCK_LENGTH</code>) initially and after each <code>update()</code> operation.
+	 * The number of bytes hashed in the current block. This is in the range [{@code 0}, {@code BLOCK_LENGTH}) initially and after each {@code update()} operation.
 	 */
 	private int currentBlockLength;
 	

@@ -11,7 +11,7 @@ import p79068.util.hash.HashValue;
 public abstract class BlockHasherCore implements Cloneable, Zeroizable {
 	
 	/**
-	 * Applies the compression function to combine the current message block into the hasher's internal state. This calls <code>compress(this.block, 0, this.block.length)</code>.
+	 * Applies the compression function to combine the current message block into the hasher's internal state. This calls {@code compress(this.block, 0, this.block.length)}.
 	 */
 	public void compress(byte[] message) {
 		NullChecker.check(message);
@@ -22,7 +22,7 @@ public abstract class BlockHasherCore implements Cloneable, Zeroizable {
 	/**
 	 * Applies the compression function to combine the specified message blocks into the hasher's internal state.
 	 * @param message the byte array to compress
-	 * @param off the offset into array <code>message</code>
+	 * @param off the offset into array {@code message}
 	 * @param len the number of bytes to process, which is always a multiple of the block size
 	 */
 	public abstract void compress(byte[] message, int off, int len);
@@ -47,7 +47,7 @@ public abstract class BlockHasherCore implements Cloneable, Zeroizable {
 	
 	
 	/**
-	 * Does nothing. It is safe for direct subclasses to omit calling <code>super.zeroize()</code>.
+	 * Does nothing. It is safe for direct subclasses to omit calling {@code super.zeroize()}.
 	 */
 	public void zeroize() {}
 	

@@ -7,31 +7,31 @@ import p79068.math.LongMath;
 
 /**
  * A date on the Gregorian calendar. The epoch of 2000-01-01 is used. Date objects are immutable.
- * <p>Years in CE/AD are represented normally. Years in BCE/BC count down from zero: <code>0</code> is year 1 BCE, <code>-1</code> is year 2 BCE, <code>-2</code> is year 3 BCE, and so on.</p>
+ * <p>Years in CE/AD are represented normally. Years in BCE/BC count down from zero: {@code 0} is year 1 BCE, {@code -1} is year 2 BCE, {@code -2} is year 3 BCE, and so on.</p>
  * <p>Months:</p>
  * <ul>
- *  <li><code>01</code>: January</li>
- *  <li><code>02</code>: February</li>
- *  <li><code>03</code>: March</li>
- *  <li><code>04</code>: April</li>
- *  <li><code>05</code>: May</li>
- *  <li><code>06</code>: June</li>
- *  <li><code>07</code>: July</li>
- *  <li><code>08</code>: August</li>
- *  <li><code>09</code>: September</li>
- *  <li><code>10</code>: October</li>
- *  <li><code>11</code>: November</li>
- *  <li><code>12</code>: December</li>
+ *  <li>{@code 01}: January</li>
+ *  <li>{@code 02}: February</li>
+ *  <li>{@code 03}: March</li>
+ *  <li>{@code 04}: April</li>
+ *  <li>{@code 05}: May</li>
+ *  <li>{@code 06}: June</li>
+ *  <li>{@code 07}: July</li>
+ *  <li>{@code 08}: August</li>
+ *  <li>{@code 09}: September</li>
+ *  <li>{@code 10}: October</li>
+ *  <li>{@code 11}: November</li>
+ *  <li>{@code 12}: December</li>
  * </ul>
  * <p>Days of the week:</p>
  * <ul>
- *  <li><code>0</code>: Sunday</li>
- *  <li><code>1</code>: Monday</li>
- *  <li><code>2</code>: Tuesday</li>
- *  <li><code>3</code>: Wednesday</li>
- *  <li><code>4</code>: Thursday</li>
- *  <li><code>5</code>: Friday</li>
- *  <li><code>6</code>: Saturday</li>
+ *  <li>{@code 0}: Sunday</li>
+ *  <li>{@code 1}: Monday</li>
+ *  <li>{@code 2}: Tuesday</li>
+ *  <li>{@code 3}: Wednesday</li>
+ *  <li>{@code 4}: Thursday</li>
+ *  <li>{@code 5}: Friday</li>
+ *  <li>{@code 6}: Saturday</li>
  * </ul>
  * <p>The earliest representable date is year &minus;5877611, month 06, day 22.<br>
  *  The latest representable date is year 5881610, month 07, day 11.</p>
@@ -55,7 +55,7 @@ public final class Date implements Comparable<Date> {
 	/**
 	 * Tests whether the specified year is a leap year. A year divisible by 400 is a leap year. Otherwise, a year divisible by 4 but not by 100 is a leap year. Other years are not leap years.
 	 * @param year the year to test
-	 * @return <code>true</code> if and only if <code>year</code> is a leap year
+	 * @return {@code true} if and only if {@code year} is a leap year
 	 */
 	public static boolean isLeapYear(int year) {
 		return (IntegerMath.mod(year, 4) == 0 && IntegerMath.mod(year, 100) != 0) || IntegerMath.mod(year, 400) == 0;
@@ -86,7 +86,7 @@ public final class Date implements Comparable<Date> {
 	 * @param year the year
 	 * @param month the month
 	 * @param day the day of month
-	 * @return the day of week, with <code>0</code> = Sunday, <code>1</code> = Monday, ..., <code>6</code> = Saturday
+	 * @return the day of week, with {@code 0} = Sunday, {@code 1} = Monday, ..., {@code 6} = Saturday
 	 */
 	public static int dayOfWeek(int year, int month, int day) {
 		year = IntegerMath.mod(year, 400);                 // Reduce year to [0, 400)
@@ -101,7 +101,7 @@ public final class Date implements Comparable<Date> {
 	/**
 	 * Returns the day of week of the specified date. This method returns the correct result for all arguments.
 	 * @param daysSinceEpoch the number of days since the epoch of 2000-01-01
-	 * @return the day of week, with <code>0</code> = Sunday, <code>1</code> = Monday, ..., <code>6</code> = Saturday
+	 * @return the day of week, with {@code 0} = Sunday, {@code 1} = Monday, ..., {@code 6} = Saturday
 	 */
 	public static int dayOfWeek(int daysSinceEpoch) {
 		// The epoch (2000-01-01) is a Saturday (6)
@@ -114,7 +114,7 @@ public final class Date implements Comparable<Date> {
 	 * @param year the year
 	 * @param month the month
 	 * @param day the day of month
-	 * @throws ArithmeticOverflowException if the result does not fit in an <code>int</code>
+	 * @throws ArithmeticOverflowException if the result does not fit in an {@code int}
 	 */
 	public static int daysSinceEpoch(int year, int month, int day) {
 		// Use extra precision to prevent overflow
@@ -163,10 +163,10 @@ public final class Date implements Comparable<Date> {
 	 * Constructs a date at the specified number of days after the epoch (2000-01-01). The epoch (January 1, 2000) is day 0.
 	 * <p>Note: Epochs used in other systems, represented in this system:</p>
 	 * <ul>
-	 *  <li>1601-01-01 = day <code>-145731</code></li>
-	 *  <li>1900-01-01 = day <code>-36524</code></li>
-	 *  <li>1970-01-01 = day <code>-10957</code></li>
-	 *  <li>1980-01-01 = day <code>-7305</code></li>
+	 *  <li>1601-01-01 = day {@code -145731}</li>
+	 *  <li>1900-01-01 = day {@code -36524}</li>
+	 *  <li>1970-01-01 = day {@code -10957}</li>
+	 *  <li>1980-01-01 = day {@code -7305}</li>
 	 * </ul>
 	 * @param daysSinceEpoch the number of days since the epoch of 2000-01-01
 	 */
@@ -218,9 +218,9 @@ public final class Date implements Comparable<Date> {
 	
 	
 	/**
-	 * Returns a date representing this date plus the specified number of days. Addition and subtraction are related by the equation <code>this.add(x).subtract(this) == x</code> (for <code>int x</code>), assuming no overflow.
+	 * Returns a date representing this date plus the specified number of days. Addition and subtraction are related by the equation {@code this.add(x).subtract(this) == x} (for {@code int x}), assuming no overflow.
 	 * @param days the number of days to add
-	 * @return a date representing <code>days</code> days after this date
+	 * @return a date representing {@code days} days after this date
 	 * @throws ArithmeticOverflowException if the resulting date cannot be represented
 	 */
 	public Date add(int days) {
@@ -229,9 +229,9 @@ public final class Date implements Comparable<Date> {
 	
 	
 	/**
-	 * Returns the signed difference between this date and the specified date, in days. Addition and subtraction are related by the equation <code>this.add(x).subtract(this) == x</code> (for <code>int x</code>), assuming no overflow.
+	 * Returns the signed difference between this date and the specified date, in days. Addition and subtraction are related by the equation {@code this.add(x).subtract(this) == x} (for {@code int x}), assuming no overflow.
 	 * @param other the date to subtract
-	 * @return the number of days to add to <code>date</code> in order to get <code>this</code>
+	 * @return the number of days to add to {@code date} in order to get {@code this}
 	 * @throws ArithmeticOverflowException if the resulting difference cannot be represented
 	 */
 	public int subtract(Date other) {
@@ -241,9 +241,9 @@ public final class Date implements Comparable<Date> {
 	
 	
 	/**
-	 * Tests whether this date is equal to the specified object. Returns <code>true</code> if the specified object is a date representing the same day. Otherwise, this method returns <code>false</code>.
+	 * Tests whether this date is equal to the specified object. Returns {@code true} if the specified object is a date representing the same day. Otherwise, this method returns {@code false}.
 	 * @param other the object to test for equality
-	 * @return whether <code>other</code> is a date with the same day
+	 * @return whether {@code other} is a date with the same day
 	 */
 	@Override
 	public boolean equals(Object other) {

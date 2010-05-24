@@ -30,8 +30,8 @@ public final class Md2 extends BlockHashFunction {
 	
 	
 	/**
-	 * Returns the name of this hash function: <code>MD2</code>.
-	 * @return <code>"MD2"</code>
+	 * Returns the name of this hash function: {@code MD2}.
+	 * @return {@code "MD2"}
 	 */
 	@Override
 	public String getName() {
@@ -40,8 +40,8 @@ public final class Md2 extends BlockHashFunction {
 	
 	
 	/**
-	 * Returns the length of hash values produced by this hash function: <code>16</code> bytes (128 bits).
-	 * @return <code>16</code>
+	 * Returns the length of hash values produced by this hash function: {@code 16} bytes (128 bits).
+	 * @return {@code 16}
 	 */
 	@Override
 	public int getHashLength() {
@@ -50,8 +50,8 @@ public final class Md2 extends BlockHashFunction {
 	
 	
 	/**
-	 * Returns the block length of this hash function: <code>64</code> bytes (512 bits).
-	 * @return <code>64</code>
+	 * Returns the block length of this hash function: {@code 64} bytes (512 bits).
+	 * @return {@code 64}
 	 */
 	@Override
 	public int getBlockLength() {

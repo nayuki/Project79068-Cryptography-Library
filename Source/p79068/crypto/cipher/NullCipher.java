@@ -26,8 +26,8 @@ public final class NullCipher extends BlockCipher {
 	
 	
 	/**
-	 * Returns the name of this cipher algorithm: <samp>Null cipher</samp>.
-	 * @return <code>"Null cipher"</code>
+	 * Returns the name of this cipher algorithm: {@code Null cipher}.
+	 * @return {@code "Null cipher"}
 	 */
 	@Override
 	public String getName() {
@@ -36,8 +36,8 @@ public final class NullCipher extends BlockCipher {
 	
 	
 	/**
-	 * Returns the key length of this cipher algorithm: <samp>0</samp> bytes.
-	 * @return <code>0</code>
+	 * Returns the key length of this cipher algorithm: {@code 0} bytes.
+	 * @return {@code 0}
 	 */
 	@Override
 	public int getKeyLength() {
@@ -46,8 +46,8 @@ public final class NullCipher extends BlockCipher {
 	
 	
 	/**
-	 * Returns the block length of this cipher algorithm: <samp>1</samp> bytes.
-	 * @return <code>1</code>
+	 * Returns the block length of this cipher algorithm: {@code 1} bytes.
+	 * @return {@code 1}
 	 */
 	@Override
 	public int getBlockLength() {

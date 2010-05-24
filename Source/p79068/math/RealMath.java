@@ -8,7 +8,7 @@ package p79068.math;
 public class RealMath {
 	
 	/**
-	 * Returns the sine of the specified number of complete revolutions. It is similar to <code>Math.sin(2*Math.PI*x)</code>.
+	 * Returns the sine of the specified number of complete revolutions. It is similar to {@code Math.sin(2*Math.PI*x)}.
 	 */
 	public static float sinRevs(float x) {
 		if (x >= 0f) {
@@ -32,7 +32,7 @@ public class RealMath {
 	
 	
 	/**
-	 * Returns the cosine of the specified number of complete revolutions. It is similar to <code>Math.cos(2*Math.PI*x)</code>.
+	 * Returns the cosine of the specified number of complete revolutions. It is similar to {@code Math.cos(2*Math.PI*x)}.
 	 */
 	public static float cosRevs(float x) {
 		float sign = 1;
@@ -52,7 +52,7 @@ public class RealMath {
 	
 	
 	/**
-	 * Returns the tangent of the specified number of complete revolutions. It is similar to <code>Math.tan(2*Math.PI*x)</code>.
+	 * Returns the tangent of the specified number of complete revolutions. It is similar to {@code Math.tan(2*Math.PI*x)}.
 	 */
 	public static float tanRevs(float x) {
 		return sinRevs(x) / cosRevs(x);

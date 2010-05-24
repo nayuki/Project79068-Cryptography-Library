@@ -31,8 +31,8 @@ public abstract class AbstractWhirlpool extends BlockHashFunction {
 	
 	
 	/**
-	 * Returns the length of hash values produced by this hash function: <code>64</code> bytes (512 bits).
-	 * @return <code>64</code>
+	 * Returns the length of hash values produced by this hash function: {@code 64} bytes (512 bits).
+	 * @return {@code 64}
 	 */
 	@Override
 	public final int getHashLength() {
@@ -41,8 +41,8 @@ public abstract class AbstractWhirlpool extends BlockHashFunction {
 	
 	
 	/**
-	 * Returns the block length of this hash function: <code>64</code> bytes (512 bits).
-	 * @return <code>64</code>
+	 * Returns the block length of this hash function: {@code 64} bytes (512 bits).
+	 * @return {@code 64}
 	 */
 	@Override
 	public final int getBlockLength() {

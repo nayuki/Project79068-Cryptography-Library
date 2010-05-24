@@ -27,7 +27,7 @@ public class ZeroFunction extends HashFunction {
 	
 	
 	/**
-	 * Returns the name of this hash function: <code>Zero</code>.
+	 * Returns the name of this hash function: {@code Zero}.
 	 */
 	@Override
 	public String getName() {
@@ -36,7 +36,7 @@ public class ZeroFunction extends HashFunction {
 	
 	
 	/**
-	 * Returns the length of hash values produced by this hash function: <code>1</code> byte.
+	 * Returns the length of hash values produced by this hash function: {@code 1} byte.
 	 */
 	@Override
 	public int getHashLength() {

@@ -19,7 +19,7 @@ public final class DateTime implements Comparable<DateTime> {
 	
 	/**
 	 * Returns the number of microseconds after the epoch that the specified date and time represents.
-	 * @throws ArithmeticOverflowException if the result does not fit in a <code>long</code>
+	 * @throws ArithmeticOverflowException if the result does not fit in a {@code long}
 	 */
 	public static long microsSinceEpoch(int year, int month, int day) {
 		return microsSinceEpoch(year, month, day, 0, 0, 0);
@@ -28,7 +28,7 @@ public final class DateTime implements Comparable<DateTime> {
 	
 	/**
 	 * Returns the number of microseconds after the epoch that the specified date and time represents.
-	 * @throws ArithmeticOverflowException if the result does not fit in a <code>long</code>
+	 * @throws ArithmeticOverflowException if the result does not fit in a {@code long}
 	 */
 	public static long microsSinceEpoch(int year, int month, int day, int hour, int minute, int second) {
 		return microsSinceEpoch(year, month, day, hour, minute, second, 0);
@@ -37,7 +37,7 @@ public final class DateTime implements Comparable<DateTime> {
 	
 	/**
 	 * Returns the number of microseconds after the epoch that the specified date and time represents.
-	 * @throws ArithmeticOverflowException if the result does not fit in a <code>long</code>
+	 * @throws ArithmeticOverflowException if the result does not fit in a {@code long}
 	 */
 	public static long microsSinceEpoch(int year, int month, int day, int hour, int minute, int second, int microsecond) {
 		Int128 temp = new Int128(Date.daysSinceEpoch(year, month, day)).multiply(new Int128(86400000000L));
@@ -156,9 +156,9 @@ public final class DateTime implements Comparable<DateTime> {
 	
 	
 	/**
-	 * Tests whether this date is equal to the specified object. Returns <code>true</code> if the specified object is a date-time representing the same day and time. Otherwise, this method returns <code>false</code>.
+	 * Tests whether this date is equal to the specified object. Returns {@code true} if the specified object is a date-time representing the same day and time. Otherwise, this method returns {@code false}.
 	 * @param other the object to test for equality
-	 * @return whether <code>other</code> is a date-time with the same day and time
+	 * @return whether {@code other} is a date-time with the same day and time
 	 */
 	@Override
 	public boolean equals(Object obj) {
@@ -188,7 +188,7 @@ public final class DateTime implements Comparable<DateTime> {
 	/**
 	 * Returns the date-time representing this date-time plus the specified number of microseconds.
 	 * @param micros the number of microseconds to add
-	 * @return a date representing <code>micros</code> microseconds after this date-time
+	 * @return a date representing {@code micros} microseconds after this date-time
 	 * @throws ArithmeticOverflowException if the resulting date-time cannot be represented
 	 */
 	public DateTime add(long micros) {
@@ -217,7 +217,7 @@ public final class DateTime implements Comparable<DateTime> {
 	
 	
 	/**
-	 * Returns the date of this object as a <code>Date</code> object.
+	 * Returns the date of this object as a {@code Date} object.
 	 */
 	public Date toDate() {
 		return new Date((int)LongMath.divideAndFloor(microsSinceEpoch, 86400000000L));

@@ -13,13 +13,13 @@ public class Crc extends HashFunction {
 	 * An instance of the common CRC-32 hash function.
 	 * <p>Its parameters:</p>
 	 * <ul>
-	 *  <li><code>name = "CRC-32"</li>
-	 *  <li><code>degree = 32</li>
-	 *  <li><code>polynomial = 0x104C11DB7L</code> (<var>x</var><sup>32</sup> + <var>x</var><sup>26</sup> + <var>x</var><sup>23</sup> + <var>x</var><sup>22</sup> + <var>x</var><sup>16</sup> + <var>x</var><sup>12</sup> + <var>x</var><sup>11</sup> + <var>x</var><sup>10</sup> + <var>x</var><sup>8</sup> + <var>x</var><sup>7</sup> + <var>x</var><sup>5</sup> + <var>x</var><sup>4</sup> + <var>x</var><sup>2</sup> + <var>x</var><sup>1</sup> + <var>x</var><sup>0</sup>)</li>
-	 *  <li><code>reversein = true</code></li>
-	 *  <li><code>reverseout = true</code></li>
-	 *  <li><code>xorin = 0xFFFFFFFFL</code></li>
-	 *  <li><code>xorout = 0xFFFFFFFFL</code></li>
+	 *  <li>{@code name = "CRC-32"}</li>
+	 *  <li>{@code degree = 32}</li>
+	 *  <li>{@code polynomial = 0x104C11DB7L} (<var>x</var><sup>32</sup> + <var>x</var><sup>26</sup> + <var>x</var><sup>23</sup> + <var>x</var><sup>22</sup> + <var>x</var><sup>16</sup> + <var>x</var><sup>12</sup> + <var>x</var><sup>11</sup> + <var>x</var><sup>10</sup> + <var>x</var><sup>8</sup> + <var>x</var><sup>7</sup> + <var>x</var><sup>5</sup> + <var>x</var><sup>4</sup> + <var>x</var><sup>2</sup> + <var>x</var><sup>1</sup> + <var>x</var><sup>0</sup>)</li>
+	 *  <li>{@code reversein = true}</li>
+	 *  <li>{@code reverseout = true}</li>
+	 *  <li>{@code xorin = 0xFFFFFFFFL}</li>
+	 *  <li>{@code xorout = 0xFFFFFFFFL}</li>
 	 * </ul>
 	 */
 	public static final Crc CRC32_FUNCTION = new Crc("CRC-32", 32, 0x104C11DB7L, true, true, 0xFFFFFFFFL, 0xFFFFFFFFL);
@@ -92,7 +92,7 @@ public class Crc extends HashFunction {
 	
 	
 	/**
-	 * Returns the length of hash values produced by this hash function: <code>ceiling(degree/8)</code> bytes.
+	 * Returns the length of hash values produced by this hash function: {@code ceiling(degree/8)} bytes.
 	 */
 	@Override
 	public int getHashLength() {
@@ -103,7 +103,7 @@ public class Crc extends HashFunction {
 	/**
 	 * Tests for equality to the specified hash function.
 	 * @param obj the hash function to be compared for equality with
-	 * @return <code>true</code> if the specified hash function has the same parameters as this one
+	 * @return {@code true} if the specified hash function has the same parameters as this one
 	 */
 	@Override
 	public boolean equals(Object obj) {

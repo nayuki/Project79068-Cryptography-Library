@@ -31,8 +31,8 @@ public final class NewEdonkey2000 extends HashFunction {
 	
 	
 	/**
-	 * Returns the name of this hash function: <code>New eDonkey2000</code>.
-	 * @return <code>"New eDonkey2000"</code>
+	 * Returns the name of this hash function: {@code New eDonkey2000}.
+	 * @return {@code "New eDonkey2000"}
 	 */
 	@Override
 	public String getName() {
@@ -41,8 +41,8 @@ public final class NewEdonkey2000 extends HashFunction {
 	
 	
 	/**
-	 * Returns the length of hash values produced by this hash function: <code>16</code> bytes (128 bits).
-	 * @return <code>16</code>
+	 * Returns the length of hash values produced by this hash function: {@code 16} bytes (128 bits).
+	 * @return {@code 16}
 	 */
 	@Override
 	public int getHashLength() {

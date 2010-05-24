@@ -17,7 +17,7 @@ class RijndaelCipherer extends Cipherer {
 	
 	
 	/**
-	 * Key schedule, containing the round keys. The number of rounds is equal to <code>keySchedule.length - 1</code>.
+	 * Key schedule, containing the round keys. The number of rounds is equal to {@code keySchedule.length - 1}.
 	 */
 	protected byte[][] keySchedule;
 	

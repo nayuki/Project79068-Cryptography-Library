@@ -32,8 +32,8 @@ public final class Sha1 extends BlockHashFunction {
 	
 	
 	/**
-	 * Returns the name of this hash function: <code>SHA-1</code>.
-	 * @return <code>"SHA-1"</code>
+	 * Returns the name of this hash function: {@code SHA-1}.
+	 * @return {@code "SHA-1"}
 	 */
 	@Override
 	public String getName() {
@@ -42,8 +42,8 @@ public final class Sha1 extends BlockHashFunction {
 	
 	
 	/**
-	 * Returns the length of hash values produced by this hash function: <code>20</code> bytes (160 bits).
-	 * @return <code>20</code>
+	 * Returns the length of hash values produced by this hash function: {@code 20} bytes (160 bits).
+	 * @return {@code 20}
 	 */
 	@Override
 	public int getHashLength() {
@@ -52,8 +52,8 @@ public final class Sha1 extends BlockHashFunction {
 	
 	
 	/**
-	 * Returns the block length of this hash function: <code>64</code> bytes (512 bits).
-	 * @return <code>64</code>
+	 * Returns the block length of this hash function: {@code 64} bytes (512 bits).
+	 * @return {@code 64}
 	 */
 	@Override
 	public int getBlockLength() {

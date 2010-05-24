@@ -26,8 +26,8 @@ public final class NullStreamCipher extends StreamCipher {
 	
 	
 	/**
-	 * Returns the name of this cipher algorithm: <samp>Null stream cipher</samp>.
-	 * @return <code>"Null stream cipher"</code>
+	 * Returns the name of this cipher algorithm: {@code Null stream cipher}.
+	 * @return {@code "Null stream cipher"}
 	 */
 	@Override
 	public String getName() {
@@ -36,8 +36,8 @@ public final class NullStreamCipher extends StreamCipher {
 	
 	
 	/**
-	 * Returns the key length of this cipher algorithm: <samp>0</samp> bytes.
-	 * @return <code>0</code>
+	 * Returns the key length of this cipher algorithm: {@code 0} bytes.
+	 * @return {@code 0}
 	 */
 	@Override
 	public int getKeyLength() {

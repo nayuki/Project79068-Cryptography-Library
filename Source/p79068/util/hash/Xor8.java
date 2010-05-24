@@ -26,7 +26,7 @@ public class Xor8 extends HashFunction {
 	
 	
 	/**
-	 * Returns the name of this hash function: <code>XOR-8</code>.
+	 * Returns the name of this hash function: {@code XOR-8}.
 	 */
 	@Override
 	public String getName() {
@@ -35,7 +35,7 @@ public class Xor8 extends HashFunction {
 	
 	
 	/**
-	 * Returns the length of hash values produced by this hash function: <code>1</code> byte.
+	 * Returns the length of hash values produced by this hash function: {@code 1} byte.
 	 */
 	@Override
 	public int getHashLength() {

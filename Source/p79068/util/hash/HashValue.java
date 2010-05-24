@@ -59,9 +59,9 @@ public final class HashValue implements Comparable<HashValue> {
 	
 	
 	/**
-	 * Tests whether this hash value is equal to the specified object. Returns <code>true</code> if the specified object is a hash value and its byte array has the same length and contents as this hash value's byte array. Otherwise, this method returns <code>false</code>.
+	 * Tests whether this hash value is equal to the specified object. Returns {@code true} if the specified object is a hash value and its byte array has the same length and contents as this hash value's byte array. Otherwise, this method returns {@code false}.
 	 * @param other the object to test for equality
-	 * @return whether <code>other</code> is a hash value with the same sequence of bytes
+	 * @return whether {@code other} is a hash value with the same sequence of bytes
 	 */
 	@Override
 	public boolean equals(Object other) {

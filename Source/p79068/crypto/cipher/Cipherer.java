@@ -9,7 +9,7 @@ import p79068.lang.NullChecker;
  * A cipher instance.
  * <p>Mutability: <em>Mutable</em>, unless otherwise specified<br>
  * Thread safety: <em>Unsafe</em>, unless otherwise specified<br>
- * Instantiability: Via <code>Cipher instance.newCipherer()</code></p>
+ * Instantiability: Via {@code Cipher instance.newCipherer()}</p>
  * @see Cipher
  */
 public abstract class Cipherer implements Cloneable, Zeroizable {

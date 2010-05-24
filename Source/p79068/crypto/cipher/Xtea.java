@@ -26,8 +26,8 @@ public final class Xtea extends BlockCipher {
 	
 	
 	/**
-	 * Returns the name of this cipher algorithm: <samp>XTEA</samp>.
-	 * @return <code>XTEA</code>
+	 * Returns the name of this cipher algorithm: {@code XTEA}.
+	 * @return {@code XTEA}
 	 */
 	@Override
 	public String getName() {
@@ -36,8 +36,8 @@ public final class Xtea extends BlockCipher {
 	
 	
 	/**
-	 * Returns the key length of this cipher algorithm: <samp>16</samp> bytes (128 bits).
-	 * @return <code>16</code>
+	 * Returns the key length of this cipher algorithm: {@code 16} bytes (128 bits).
+	 * @return {@code 16}
 	 */
 	@Override
 	public int getKeyLength() {
@@ -46,8 +46,8 @@ public final class Xtea extends BlockCipher {
 	
 	
 	/**
-	 * Returns the block length of this cipher algorithm: <samp>8</samp> bytes (64 bits).
-	 * @return <code>8</code>
+	 * Returns the block length of this cipher algorithm: {@code 8} bytes (64 bits).
+	 * @return {@code 8}
 	 */
 	@Override
 	public int getBlockLength() {
