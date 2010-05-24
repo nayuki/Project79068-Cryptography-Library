@@ -42,7 +42,7 @@ public final class DateTime implements Comparable<DateTime> {
 	 */
 	public static long microsSinceEpoch(int year, int month, int day, int hour, int minute, int second, int microsecond) {
 		Int128 temp = new Int128(Date.daysSinceEpoch(year, month, day)).multiply(new Int128(86400000000L));
-		temp = temp.add(new Int128(hour * 3600000000L + minute * 60000000L + second * 1000000L + microsecond));  // The inner calculation doesn't overflow, but it's rather close to doing so.
+		temp = temp.add(new Int128(hour * 3600000000L + minute * 60000000L + second * 1000000L + microsecond));  // The inner calculation doesn't overflow, but it's rather close to doing so
 		if (temp.compareTo(new Int128(Long.MIN_VALUE)) < 0 || temp.compareTo(new Int128(Long.MAX_VALUE)) > 0)
 			throw new ArithmeticOverflowException();
 		return temp.low;

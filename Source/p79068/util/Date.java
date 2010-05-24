@@ -247,7 +247,7 @@ public final class Date implements Comparable<Date> {
 	 */
 	@Override
 	public boolean equals(Object other) {
-		// If and only if daysSinceEpoch are equal, all the 4 other fields (year, month, day, dayOfWeek) are equal too
+		// The two daysSinceEpoch are equal if and only if all the 4 other fields (year, month, day, dayOfWeek) are equal too
 		return other instanceof Date && daysSinceEpoch == ((Date)other).daysSinceEpoch;
 	}
 	
