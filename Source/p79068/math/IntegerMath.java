@@ -105,7 +105,7 @@ public final class IntegerMath {
 	// Simple functions
 	
 	/**
-	 * Returns the sign of the specified integer, which is <samp>-1</samp>, <samp>0</samp>, or <samp>1</samp>.
+	 * Returns the sign of the specified integer, which is <samp>-1</samp>, <samp>0</samp>, or <samp>1</samp>. Also called sgn and signum.
 	 * @param x the integer to whose sign will be computed
 	 */
 	public static int sign(int x) {
