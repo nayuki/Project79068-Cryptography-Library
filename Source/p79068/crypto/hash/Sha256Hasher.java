@@ -250,12 +250,12 @@ final class Sha256Hasher extends BlockHasherCore {
 	
 	
 	private static int choose(int x, int y, int z) {
-		return z ^ (x & (y ^ z));  // Equivalent to (x & y) ^ (~x & z)
+		return (x & y) ^ (~x & z);  // Can be optimized to z ^ (x & (y ^ z))
 	}
 	
 	
 	private static int majority(int x, int y, int z) {
-		return (x & (y | z)) | (y & z);  // Equivalent to (x & y) ^ (x & z) ^ (y & z)
+		return (x & y) ^ (x & z) ^ (y & z);  // Can be optimized to (x & (y | z)) | (y & z)
 	}
 	
 }

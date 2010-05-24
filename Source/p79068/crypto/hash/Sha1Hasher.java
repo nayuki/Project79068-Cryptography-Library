@@ -176,11 +176,11 @@ final class Sha1Hasher extends BlockHasherCore {
 	
 	
 	
-	private static int f(int i, int b, int c, int d) {
-		if      ( 0 <= i && i < 20) return d ^ (b & (c ^ d));  // Same as (b & c) | (~b & d)
-		else if (20 <= i && i < 40) return b ^ c ^ d;
-		else if (40 <= i && i < 60) return (b & (c | d)) | (c & d);  // Same as (b & c) | (c & d) | (d & b)
-		else if (60 <= i && i < 80) return b ^ c ^ d;
+	private static int f(int i, int x, int y, int z) {
+		if      ( 0 <= i && i < 20) return (x & y) | (~x & z);           // Choose. Can be optimized to z ^ (x & (y ^ z)).
+		else if (20 <= i && i < 40) return x ^ y ^ z;                    // Parity
+		else if (40 <= i && i < 60) return (x & y) ^ (x & z) ^ (y & z);  // Majority. Can be optimized to (x & (y | z)) | (y & z).
+		else if (60 <= i && i < 80) return x ^ y ^ z;                    // Parity
 		else throw new AssertionError();
 	}
 	
