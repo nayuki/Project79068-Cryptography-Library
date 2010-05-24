@@ -410,8 +410,9 @@ final class TigerHasher extends BlockHasherCore {
 	@Override
 	public HashValue getHashDestructively(byte[] block, int blockLength, long length) {
 		block[blockLength] = (byte)(tiger2Mode ? 0x80 : 0x01);
-		Arrays.fill(block, blockLength + 1, block.length, (byte)0);
-		if (blockLength + 1 > block.length - 8) {
+		blockLength++;
+		Arrays.fill(block, blockLength, block.length, (byte)0);
+		if (blockLength + 8 > block.length) {
 			compress(block);
 			Arrays.fill(block, (byte)0);
 		}

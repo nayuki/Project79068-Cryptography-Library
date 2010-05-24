@@ -132,9 +132,10 @@ final class FastMd4Hasher extends BlockHasherCore {
 	@Override
 	public HashValue getHashDestructively(byte[] block, int blockLength, long length) {
 		block[blockLength] = (byte)0x80;
-		for (int i = blockLength + 1; i < block.length; i++)
+		blockLength++;
+		for (int i = blockLength; i < block.length; i++)
 			block[i] = 0x00;
-		if (blockLength + 1 > block.length - 8) {
+		if (blockLength + 8 > block.length) {
 			compress(block);
 			for (int i = 0; i < block.length; i++)
 				block[i] = 0x00;

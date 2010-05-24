@@ -91,8 +91,9 @@ final class FastWhirlpoolHasher extends BlockHasherCore {
 	@Override
 	public HashValue getHashDestructively(byte[] block, int blockLength, long length) {
 		block[blockLength] = (byte)0x80;
-		Arrays.fill(block, blockLength + 1, block.length, (byte)0);
-		if (blockLength + 1 > block.length - 32) {
+		blockLength++;
+		Arrays.fill(block, blockLength, block.length, (byte)0);
+		if (blockLength + 32 > block.length) {
 			compress(block);
 			Arrays.fill(block, (byte)0);
 		}
