@@ -392,4 +392,28 @@ public final class DateTest {
 		assertEquals(new Date(2000, 1, 1), new Date(1993, 85, 1));
 	}
 	
+	
+	@Test
+	public void testCompareRandomly() {
+		for (int i = 0; i < 1000; i++) {
+			int y0 = Random.DEFAULT.randomInt(10000000) - 5000000;
+			int m0 = Random.DEFAULT.randomInt(12) + 1;
+			int d0 = Random.DEFAULT.randomInt(28) + 1;
+			int y1 = Random.DEFAULT.randomInt(10000000) - 5000000;
+			int m1 = Random.DEFAULT.randomInt(12) + 1;
+			int d1 = Random.DEFAULT.randomInt(28) + 1;
+			
+			int refComp;
+			if      (y0 < y1) refComp = -1;
+			else if (y0 > y1) refComp = +1;
+			else if (m0 < m1) refComp = -1;
+			else if (m0 > m1) refComp = +1;
+			else if (d0 < d1) refComp = -1;
+			else if (d0 > d1) refComp = +1;
+			else              refComp =  0;
+			
+			assertEquals(refComp, new Date(y0, m0, d0).compareTo(new Date(y1, m1, d1)));
+		}
+	}
+	
 }
