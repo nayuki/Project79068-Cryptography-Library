@@ -221,29 +221,21 @@ public final class Date implements Comparable<Date> {
 	 * Returns a date representing this date plus the specified number of days. Addition and subtraction are related by the equation <code>this.add(x).subtract(this) == x</code> (for <code>int x</code>), assuming no overflow.
 	 * @param days the number of days to add
 	 * @return a date representing <code>days</code> days after this date
-	 * @throws ArithmeticOverflowException if the resulting cannot be represented
+	 * @throws ArithmeticOverflowException if the resulting date cannot be represented
 	 */
 	public Date add(int days) {
-		long temp = (long)daysSinceEpoch + days;
-		if (temp >= Integer.MIN_VALUE && temp <= Integer.MAX_VALUE)
-			return new Date((int)temp);
-		else
-			throw new ArithmeticOverflowException();
+		return new Date(IntegerMath.checkedAdd(daysSinceEpoch, days));
 	}
 	
 	
 	/**
 	 * Returns the signed difference between this date and the specified date, in days. Addition and subtraction are related by the equation <code>this.add(x).subtract(this) == x</code> (for <code>int x</code>), assuming no overflow.
-	 * @param date the date to subtract
+	 * @param other the date to subtract
 	 * @return the number of days to add to <code>date</code> in order to get <code>this</code>
 	 * @throws ArithmeticOverflowException if the resulting difference cannot be represented
 	 */
-	public int subtract(Date date) {
-		long temp = (long)daysSinceEpoch - date.daysSinceEpoch;
-		if (temp >= Integer.MIN_VALUE && temp <= Integer.MAX_VALUE)
-			return (int)temp;
-		else
-			throw new ArithmeticOverflowException();
+	public int subtract(Date other) {
+		return IntegerMath.checkedSubtract(daysSinceEpoch, other.daysSinceEpoch);
 	}
 	
 	

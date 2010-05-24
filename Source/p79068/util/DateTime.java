@@ -2,6 +2,7 @@ package p79068.util;
 
 import p79068.math.ArithmeticOverflowException;
 import p79068.math.Int128;
+import p79068.math.IntegerMath;
 import p79068.math.LongMath;
 
 
@@ -185,23 +186,23 @@ public final class DateTime implements Comparable<DateTime> {
 	
 	/**
 	 * Returns the date-time representing this date-time plus the specified number of microseconds.
+	 * @param micros the number of microseconds to add
+	 * @return a date representing <code>micros</code> microseconds after this date-time
+	 * @throws ArithmeticOverflowException if the resulting date-time cannot be represented
 	 */
-	public DateTime add(long microseconds) {
-		Int128 temp = new Int128(microsSinceEpoch).add(new Int128(microseconds));
-		if (temp.compareTo(new Int128(Long.MIN_VALUE)) < 0 || temp.compareTo(new Int128(Long.MAX_VALUE)) > 0)
-			throw new ArithmeticOverflowException();
-		return new DateTime(temp.low);
+	public DateTime add(long micros) {
+		return new DateTime(LongMath.checkedAdd(microsSinceEpoch, micros));
 	}
 	
 	
 	/**
 	 * Returns the difference between this date-time and the specified date-time, in microseconds.
+	 * @param other the date-time to subtract
+	 * @return the signed difference between the two date-times, in microseconds
+	 * @throws ArithmeticOverflowException if the resulting difference cannot be represented
 	 */
-	public long subtract(DateTime date) {
-		Int128 temp = new Int128(microsSinceEpoch).subtract(new Int128(date.microsSinceEpoch));
-		if (temp.compareTo(new Int128(Long.MIN_VALUE)) < 0 || temp.compareTo(new Int128(Long.MAX_VALUE)) > 0)
-			throw new ArithmeticOverflowException();
-		return temp.low;
+	public long subtract(DateTime other) {
+		return LongMath.checkedSubtract(microsSinceEpoch, other.microsSinceEpoch);
 	}
 	
 	
