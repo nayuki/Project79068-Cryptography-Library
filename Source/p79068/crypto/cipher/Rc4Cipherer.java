@@ -25,15 +25,20 @@ final class Rc4Cipherer extends StreamCipherer {
 	
 	Rc4Cipherer(Rc4 cipher, byte[] key) {
 		super(cipher, key);
+		
 		s = new int[256];
 		for (int i = 0; i < 256; i++)
 			s[i] = i;
+		
 		for (int i = 0, j = 0; i < 256; i++) {
 			j = (j + s[i] + key[i % key.length]) & 0xFF;
+			
+			// Swap s[i] and s[j]
 			int temp = s[i];
 			s[i] = s[j];
 			s[j] = temp;
 		}
+		
 		i = 0;
 		j = 0;
 	}
@@ -49,10 +54,13 @@ final class Rc4Cipherer extends StreamCipherer {
 		for (int end = off + len; off < end; off++) {
 			i = (i + 1) & 0xFF;
 			j = (j + s[i]) & 0xFF;
+			
+			// Swap s[i] and s[j]
 			int temp = s[i];
 			s[i] = s[j];
 			s[j] = temp;
-			b[off] ^= s[(s[i] + temp) & 0xFF];
+			
+			b[off] ^= s[(s[i] + temp) & 0xFF];  // XOR data with generated key stream byte
 		}
 	}
 	
@@ -67,6 +75,8 @@ final class Rc4Cipherer extends StreamCipherer {
 		for (int k = 0; k < byteCount; k++) {
 			i = (i + 1) & 0xFF;
 			j = (j + s[i]) & 0xFF;
+			
+			// Swap s[i] and s[j]
 			int temp = s[i];
 			s[i] = s[j];
 			s[j] = temp;
