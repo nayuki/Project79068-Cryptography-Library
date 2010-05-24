@@ -35,7 +35,7 @@ public final class Rc2 extends BlockCipher {
 	
 	
 	/**
-	 * Returns the name of this cipher algorithm: {@code RC2 (<var>m</var>-bit effective key length, <var>n</var>-bit key)}.
+	 * Returns the name of this cipher algorithm: {@code "RC2 (<var>m</var>-bit effective key length, <var>n</var>-bit key)"}.
 	 */
 	@Override
 	public String getName() {

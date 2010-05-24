@@ -29,7 +29,7 @@ public final class Tea extends BlockCipher {
 	
 	
 	/**
-	 * Returns the name of this cipher algorithm: {@code TEA}.
+	 * Returns the name of this cipher algorithm: {@code "TEA"}.
 	 * @return {@code TEA}
 	 */
 	@Override

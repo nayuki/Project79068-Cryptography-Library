@@ -4,15 +4,15 @@ import p79068.lang.NullChecker;
 
 
 /**
- * The null (identity) stream cipher. Encryption and decryption both do not change the message.
+ * The identity (null) stream cipher. Encryption and decryption both do not change the message.
  * <p>Instantiability: <em>Singleton</em></p>
  */
-public final class NullStreamCipher extends StreamCipher {
+public final class IdentityStreamCipher extends StreamCipher {
 	
 	/**
 	 * The singleton instance of this cipher algorithm.
 	 */
-	public static final NullStreamCipher CIPHER = new NullStreamCipher();
+	public static final IdentityStreamCipher CIPHER = new IdentityStreamCipher();
 	
 	
 	
@@ -21,17 +21,17 @@ public final class NullStreamCipher extends StreamCipher {
 		NullChecker.check(key);
 		if (key.length != 0)
 			throw new IllegalArgumentException();
-		return new NullStreamCipherer(this, key);
+		return new IdentityStreamCipherer(this, key);
 	}
 	
 	
 	/**
-	 * Returns the name of this cipher algorithm: {@code Null stream cipher}.
-	 * @return {@code "Null stream cipher"}
+	 * Returns the name of this cipher algorithm: {@code "Identity stream cipher"}.
+	 * @return {@code "Identity stream cipher"}
 	 */
 	@Override
 	public String getName() {
-		return "Null stream cipher";
+		return "Identity stream cipher";
 	}
 	
 	
@@ -46,6 +46,6 @@ public final class NullStreamCipher extends StreamCipher {
 	
 	
 	
-	private NullStreamCipher() {}
+	private IdentityStreamCipher() {}
 	
 }

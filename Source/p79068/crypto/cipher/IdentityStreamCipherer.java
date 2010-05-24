@@ -3,9 +3,9 @@ package p79068.crypto.cipher;
 import p79068.lang.BoundsChecker;
 
 
-final class NullStreamCipherer extends StreamCipherer {
+final class IdentityStreamCipherer extends StreamCipherer {
 	
-	NullStreamCipherer(NullStreamCipher cipher, byte[] key) {
+	IdentityStreamCipherer(IdentityStreamCipher cipher, byte[] key) {
 		super(cipher, key);
 	}
 	

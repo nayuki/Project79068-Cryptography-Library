@@ -31,7 +31,7 @@ public final class Rc4 extends StreamCipher {
 	
 	
 	/**
-	 * Returns the name of this cipher algorithm: <samp>RC4 (<var>n</var>-bit key)</samp>.
+	 * Returns the name of this cipher algorithm: {@code "RC4 (<var>n</var>-bit key)"}.
 	 */
 	@Override
 	public String getName() {

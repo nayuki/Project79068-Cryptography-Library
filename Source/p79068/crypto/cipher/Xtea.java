@@ -26,7 +26,7 @@ public final class Xtea extends BlockCipher {
 	
 	
 	/**
-	 * Returns the name of this cipher algorithm: {@code XTEA}.
+	 * Returns the name of this cipher algorithm: {@code "XTEA"}.
 	 * @return {@code XTEA}
 	 */
 	@Override

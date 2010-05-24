@@ -3,9 +3,9 @@ package p79068.crypto.cipher;
 import p79068.lang.BoundsChecker;
 
 
-final class NullCipherer extends Cipherer {
+final class IdentityCipherer extends Cipherer {
 	
-	NullCipherer(NullCipher cipher, byte[] key) {
+	IdentityCipherer(IdentityCipher cipher, byte[] key) {
 		super(cipher, key);
 	}
 	

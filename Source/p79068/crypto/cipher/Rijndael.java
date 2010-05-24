@@ -66,7 +66,7 @@ public final class Rijndael extends BlockCipher {
 	
 	
 	/**
-	 * Returns the name of this cipher algorithm: <samp>Rijndael (<var>n</var>-bit key, <var>m</var>-bit block)</samp>.
+	 * Returns the name of this cipher algorithm: {@code "Rijndael (<var>n</var>-bit key, <var>m</var>-bit block)"}.
 	 */
 	@Override
 	public String getName() {

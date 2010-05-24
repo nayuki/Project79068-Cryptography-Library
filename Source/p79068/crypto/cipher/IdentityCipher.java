@@ -4,15 +4,15 @@ import p79068.lang.NullChecker;
 
 
 /**
- * The null (identity) cipher. Encryption and decryption both do not change the message.
+ * The identity (null) cipher. Encryption and decryption both do not change the message.
  * <p>Instantiability: <em>Singleton</em></p>
  */
-public final class NullCipher extends BlockCipher {
+public final class IdentityCipher extends BlockCipher {
 	
 	/**
 	 * The singleton instance of this cipher algorithm.
 	 */
-	public static final NullCipher CIPHER = new NullCipher();
+	public static final IdentityCipher CIPHER = new IdentityCipher();
 	
 	
 	
@@ -21,17 +21,17 @@ public final class NullCipher extends BlockCipher {
 		NullChecker.check(key);
 		if (key.length != 0)
 			throw new IllegalArgumentException();
-		return new NullCipherer(this, key);
+		return new IdentityCipherer(this, key);
 	}
 	
 	
 	/**
-	 * Returns the name of this cipher algorithm: {@code Null cipher}.
-	 * @return {@code "Null cipher"}
+	 * Returns the name of this cipher algorithm: {@code "Identity cipher"}.
+	 * @return {@code "Identity cipher"}
 	 */
 	@Override
 	public String getName() {
-		return "Null cipher";
+		return "Identity cipher";
 	}
 	
 	
@@ -56,6 +56,6 @@ public final class NullCipher extends BlockCipher {
 	
 	
 	
-	private NullCipher() {}
+	private IdentityCipher() {}
 	
 }

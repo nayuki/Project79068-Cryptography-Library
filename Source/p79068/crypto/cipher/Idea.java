@@ -27,7 +27,7 @@ public final class Idea extends BlockCipher {
 	
 	
 	/**
-	 * Returns the name of this cipher algorithm: {@code IDEA}.
+	 * Returns the name of this cipher algorithm: {@code "IDEA"}.
 	 * @return {@code IDEA}
 	 */
 	@Override

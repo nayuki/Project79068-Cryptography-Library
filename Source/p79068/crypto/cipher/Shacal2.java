@@ -35,7 +35,7 @@ public final class Shacal2 extends BlockCipher {
 	
 	
 	/**
-	 * Returns the name of this cipher algorithm: {@code SHACAL-2 (<var>n</var>-bit key)}.
+	 * Returns the name of this cipher algorithm: {@code "SHACAL-2 (<var>n</var>-bit key)"}.
 	 */
 	@Override
 	public String getName() {

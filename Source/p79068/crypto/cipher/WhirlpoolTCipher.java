@@ -29,7 +29,7 @@ public final class WhirlpoolTCipher extends BlockCipher {
 	
 	
 	/**
-	 * Returns the name of this cipher algorithm: {@code Whirlpool-T Cipher}.
+	 * Returns the name of this cipher algorithm: {@code "Whirlpool-T Cipher"}.
 	 * @return {@code "Whirlpool-T Cipher"}
 	 */
 	@Override
