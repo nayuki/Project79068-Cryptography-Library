@@ -6,9 +6,11 @@ class SimpleHashCoder extends HashCoder {
 	private int state;
 	
 	
+	
 	SimpleHashCoder() {
 		state = 0;
 	}
+	
 	
 	
 	@Override
