@@ -1,6 +1,7 @@
 package p79068.crypto.cipher;
 
 import p79068.lang.NullChecker;
+import p79068.util.HashCoder;
 
 
 /**
@@ -102,7 +103,10 @@ public final class Rijndael extends BlockCipher {
 	
 	@Override
 	public int hashCode() {
-		return keyLength << 16 | blockLength;
+		HashCoder h = HashCoder.newInstance();
+		h.add(keyLength);
+		h.add(blockLength);
+		return h.getHashCode();
 	}
 	
 }

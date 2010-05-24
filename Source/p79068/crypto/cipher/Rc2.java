@@ -1,6 +1,7 @@
 package p79068.crypto.cipher;
 
 import p79068.lang.NullChecker;
+import p79068.util.HashCoder;
 
 
 /**
@@ -77,7 +78,10 @@ public final class Rc2 extends BlockCipher {
 	
 	@Override
 	public int hashCode() {
-		return effectiveKeyLength << 16 | keyLength;
+		HashCoder h = HashCoder.newInstance();
+		h.add(effectiveKeyLength);
+		h.add(keyLength);
+		return h.getHashCode();
 	}
 	
 }

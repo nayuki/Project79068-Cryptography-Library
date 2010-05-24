@@ -1,6 +1,7 @@
 package p79068.crypto.cipher;
 
 import p79068.lang.NullChecker;
+import p79068.util.HashCoder;
 
 
 /**
@@ -55,7 +56,7 @@ public final class Rc4 extends StreamCipher {
 	
 	@Override
 	public int hashCode() {
-		return keyLength;
+		return HashCoder.newInstance().add(keyLength).getHashCode();
 	}
 	
 }

@@ -2,6 +2,7 @@ package p79068.math;
 
 import java.util.Arrays;
 
+import p79068.util.HashCoder;
 import p79068.util.Random;
 
 
@@ -306,12 +307,10 @@ public final class UnsignedBigInteger implements Comparable<UnsignedBigInteger> 
 	
 	@Override
 	public int hashCode() {
-		int result = 0;
-		for (int x : digits) {
-			result = result * 1158148907 + x;  // Uses some prime number
-			result = result << 11 | result >>> 21;
-		}
-		return result;
+		HashCoder h = HashCoder.newInstance();
+		for (int x : digits)
+			h.add(x);
+		return h.getHashCode();
 	}
 	
 	

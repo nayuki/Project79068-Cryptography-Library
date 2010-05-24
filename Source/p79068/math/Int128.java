@@ -274,10 +274,10 @@ public final class Int128 implements Comparable<Int128> {
 	
 	@Override
 	public int hashCode() {
-		HashCoder hc = HashCoder.newInstance();
-		hc.add(high);
-		hc.add(low);
-		return hc.getHashCode();
+		HashCoder h = HashCoder.newInstance();
+		h.add(high);
+		h.add(low);
+		return h.getHashCode();
 	}
 	
 	
