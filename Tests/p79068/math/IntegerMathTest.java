@@ -17,65 +17,65 @@ public final class IntegerMathTest {
 	
 	@Test
 	public void testSafeAdd() {
-		assertEquals(3, IntegerMath.safeAdd(1, 2));
-		assertEquals(-238, IntegerMath.safeAdd(-980, 742));
+		assertEquals(3, IntegerMath.checkedAdd(1, 2));
+		assertEquals(-238, IntegerMath.checkedAdd(-980, 742));
 	}
 	
 	
 	@Test(expected=ArithmeticOverflowException.class)
 	public void testSafeAddInvalid0() {
-		IntegerMath.safeAdd(2147483647, 1);
+		IntegerMath.checkedAdd(2147483647, 1);
 	}
 	
 	
 	@Test(expected=ArithmeticOverflowException.class)
 	public void testSafeAddInvalid1() {
-		IntegerMath.safeAdd(2147483600, 1000);
+		IntegerMath.checkedAdd(2147483600, 1000);
 	}
 	
 	
 	@Test(expected=ArithmeticOverflowException.class)
 	public void testSafeAddInvalid2() {
-		IntegerMath.safeAdd(-2147483648, -1);
+		IntegerMath.checkedAdd(-2147483648, -1);
 	}
 	
 	
 	@Test(expected=ArithmeticOverflowException.class)
 	public void testSafeAddInvalid3() {
-		IntegerMath.safeAdd(-2147483000, -10000);
+		IntegerMath.checkedAdd(-2147483000, -10000);
 	}
 	
 	
 	@Test
 	public void testSafeMultiply() {
-		assertEquals(6, IntegerMath.safeMultiply(2, 3));
-		assertEquals(-3976, IntegerMath.safeMultiply(71, -56));
-		assertEquals(-2147483648, IntegerMath.safeMultiply(-2147483648, 1));
-		assertEquals(-2147483648, IntegerMath.safeMultiply(1073741824, -2));
+		assertEquals(6, IntegerMath.checkedMultiply(2, 3));
+		assertEquals(-3976, IntegerMath.checkedMultiply(71, -56));
+		assertEquals(-2147483648, IntegerMath.checkedMultiply(-2147483648, 1));
+		assertEquals(-2147483648, IntegerMath.checkedMultiply(1073741824, -2));
 	}
 	
 	
 	@Test(expected=ArithmeticOverflowException.class)
 	public void testSafeMultiplyInvalid0() {
-		IntegerMath.safeMultiply(-2147483648, -1);
+		IntegerMath.checkedMultiply(-2147483648, -1);
 	}
 	
 	
 	@Test(expected=ArithmeticOverflowException.class)
 	public void testSafeMultiplyInvalid1() {
-		IntegerMath.safeMultiply(1073741824, 2);
+		IntegerMath.checkedMultiply(1073741824, 2);
 	}
 	
 	
 	@Test(expected=ArithmeticOverflowException.class)
 	public void testSafeMultiplyInvalid2() {
-		IntegerMath.safeMultiply(46341, -46341);
+		IntegerMath.checkedMultiply(46341, -46341);
 	}
 	
 	
 	@Test(expected=ArithmeticOverflowException.class)
 	public void testSafeMultiplyInvalid3() {
-		IntegerMath.safeMultiply(-123456, -67890);
+		IntegerMath.checkedMultiply(-123456, -67890);
 	}
 	
 	

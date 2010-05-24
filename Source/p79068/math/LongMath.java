@@ -17,7 +17,7 @@ public final class LongMath {
 	 * @return <code>x</code> plus <code>y</code>
 	 * @throws ArithmeticOverflowException if the result overflows
 	 */
-	public static long safeAdd(long x, long y) {
+	public static long checkedAdd(long x, long y) {
 		long z = x + y;
 		if (y > 0 && z < x || y < 0 && z > x)
 			throw new ArithmeticOverflowException(String.format("%d + %d", x, y));
@@ -33,7 +33,7 @@ public final class LongMath {
 	 * @return <code>x</code> times <code>y</code>
 	 * @throws ArithmeticOverflowException if the result overflows
 	 */
-	public static long safeMultiply(long x, long y) {
+	public static long checkedMultiply(long x, long y) {
 		Int128 z = new Int128(x).multiply(new Int128(y));
 		if (z.high == z.low >> 63)  // Equivalent to z >= Long.MIN_VALUE && z <= Long.MAX_VALUE
 			return z.low;
@@ -49,7 +49,7 @@ public final class LongMath {
 	 * @return <code>x</code> divided by <code>y</code>
 	 * @throws ArithmeticOverflowException if the result overflows
 	 */
-	public static long safeDivide(long x, long y) {
+	public static long checkedDivide(long x, long y) {
 		if (x == Long.MIN_VALUE && y == -1)
 			throw new ArithmeticOverflowException(String.format("%d / %d", x, y));
 		else

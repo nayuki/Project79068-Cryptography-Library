@@ -16,7 +16,7 @@ public final class IntegerMath {
 	 * @return {@code x} plus {@code y}
 	 * @throws ArithmeticOverflowException if the result overflows
 	 */
-	public static int safeAdd(int x, int y) {
+	public static int checkedAdd(int x, int y) {
 		int z = x + y;
 		if (y > 0 && z < x || y < 0 && z > x)
 			throw new ArithmeticOverflowException(String.format("%d + %d", x, y));
@@ -32,7 +32,7 @@ public final class IntegerMath {
 	 * @return {@code x} times {@code y}
 	 * @throws ArithmeticOverflowException if the result overflows
 	 */
-	public static int safeMultiply(int x, int y) {
+	public static int checkedMultiply(int x, int y) {
 		long z = (long)x * y;
 		if (z >= Integer.MIN_VALUE && z <= Integer.MAX_VALUE)
 			return x * y;
@@ -48,7 +48,7 @@ public final class IntegerMath {
 	 * @return {@code x} divided by {@code y}
 	 * @throws ArithmeticOverflowException if the result overflows
 	 */
-	public static int safeDivide(int x, int y) {
+	public static int checkedDivide(int x, int y) {
 		if (x == Integer.MIN_VALUE && y == -1)
 			throw new ArithmeticOverflowException(String.format("%d / %d", x, y));
 		else
@@ -387,7 +387,7 @@ public final class IntegerMath {
 	 */
 	public static int lcm(int x, int y) {
 		try {
-			return safeMultiply(x / gcd(x, y), y);
+			return checkedMultiply(x / gcd(x, y), y);
 		} catch (ArithmeticOverflowException e) {
 			throw new ArithmeticOverflowException(String.format("lcm(%d, %d)", x, y));
 		}

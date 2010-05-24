@@ -108,7 +108,7 @@ public final class DateTime implements Comparable<DateTime> {
 	 * Constructs a date-time initialized to the current date and time.
 	 */
 	public DateTime() {
-		this(LongMath.safeMultiply(LongMath.safeAdd(System.currentTimeMillis(), -946684800000L), 1000));
+		this(LongMath.checkedMultiply(LongMath.checkedAdd(System.currentTimeMillis(), -946684800000L), 1000));
 	}
 	
 	
@@ -116,7 +116,7 @@ public final class DateTime implements Comparable<DateTime> {
 	 * Constructs a date-time object representing midnight on the specified date.
 	 */
 	public DateTime(Date date) {
-		microsSinceEpoch = LongMath.safeMultiply(date.daysSinceEpoch, 10000000);
+		microsSinceEpoch = LongMath.checkedMultiply(date.daysSinceEpoch, 10000000);
 		year = date.year;
 		month = date.month;
 		day = date.day;
