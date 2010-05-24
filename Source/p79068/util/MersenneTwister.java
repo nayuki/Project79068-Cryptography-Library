@@ -19,24 +19,30 @@ package p79068.util;
 public final class MersenneTwister extends Random {
 	
 	private int[] state;
+	
 	private int index;
+	
 	
 	
 	public MersenneTwister() {
 		this(toInt32s(new long[]{System.currentTimeMillis(), System.nanoTime()}));
 	}
 	
+	
 	public MersenneTwister(int seed) {
 		setSeed(seed);
 	}
+	
 	
 	public MersenneTwister(long seed) {
 		this(toInt32s(new long[]{seed}));
 	}
 	
+	
 	public MersenneTwister(int[] seed) {
 		setSeed(seed);
 	}
+	
 	
 	
 	@Override
@@ -60,6 +66,7 @@ public final class MersenneTwister extends Random {
 			seed = 1812433253 * (seed ^ (seed >>> 30)) + index + 1;
 		}
 	}
+	
 	
 	private void setSeed(int[] seed) {
 		setSeed(19650218);
