@@ -138,7 +138,7 @@ final class Md5Hasher extends BlockHasherCore {
 		block[blockLength] = (byte)0x80;
 		blockLength++;
 		Arrays.fill(block, blockLength, block.length, (byte)0);
-		if (blockLength > block.length - 8) {
+		if (blockLength + 8 > block.length) {
 			compress(block);
 			Arrays.fill(block, (byte)0);
 		}
