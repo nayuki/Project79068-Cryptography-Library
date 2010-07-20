@@ -19,22 +19,27 @@ public final class HttpReader {
 	public HttpRequest readRequest() throws IOException {
 		HttpRequest request = new HttpRequest();
 		{
-			String[] temp = splitStartLine(readLine());
+			String[] temp = readLine().split(" ", 3);
+			if (temp.length != 3)
+				throw new RuntimeException();
 			request.setMethod(temp[0]);
 			request.setUri(temp[1]);
 			request.setHttpVersion(temp[2]);
 		}
+		
 		while (true) {
 			String line = readLine();
 			if (line.equals(""))
 				break;
-			String[] temp = splitHeaderLine(line);
+			String[] temp = line.split(":", 2);
 			if (temp.length == 1)
 				request.addHeader(temp[0], null);
 			else
 				request.addHeader(temp[0], temp[1]);
 		}
-		/* Read message body */
+		
+		// TODO: Read message body
+		
 		return request;
 	}
 	
@@ -52,16 +57,19 @@ public final class HttpReader {
 	private HttpResponse readResponse(boolean allowEntity) throws IOException {
 		HttpResponse response = new HttpResponse();
 		{
-			String[] temp = splitStartLine(readLine());
+			String[] temp = readLine().split(" ", 3);
+			if (temp.length != 3)
+				throw new RuntimeException();
 			response.setHttpVersion(temp[0]);
 			response.setStatusCode(Integer.parseInt(temp[1]));
 			response.setReasonPhrase(temp[2]);
 		}
+		
 		while (true) {
 			String line = readLine();
 			if (line.equals(""))
 				break;
-			String[] temp = splitHeaderLine(line);
+			String[] temp = line.split(":", 2);
 			if (temp.length == 1)
 				response.addHeader(temp[0], null);
 			else
@@ -69,41 +77,6 @@ public final class HttpReader {
 		}
 		/* Read message body */
 		return response;
-	}
-	
-	
-	private String[] splitStartLine(String str) {
-		String[] result = new String[3];
-		int start = 0;
-		int end = str.indexOf(' ', start);
-		if (end == -1)
-			throw new RuntimeException();
-		result[0] = str.substring(start, end);
-		start = end + 1;
-		end = str.indexOf(' ', start);
-		if (end == -1)
-			throw new RuntimeException();
-		result[1] = str.substring(start, end);
-		start = end + 1;
-		end = str.length();
-		result[2] = str.substring(start, end);
-		return result;
-	}
-	
-	
-	private String[] splitHeaderLine(String str) {
-		if (str.indexOf(':') == -1)
-			return new String[]{str};
-		else {
-			String[] result = new String[2];
-			int start = 0;
-			int end = str.indexOf(':', start);
-			result[0] = str.substring(start, end);
-			start = end + 1;
-			end = str.length();
-			result[1] = str.substring(start, end);
-			return result;
-		}
 	}
 	
 	

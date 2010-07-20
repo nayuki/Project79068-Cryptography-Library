@@ -11,7 +11,7 @@ public class HttpRequest {
 	protected String method;
 	protected String uri;
 	protected String httpVersion;
-	protected Map<String, List<String>> headers;
+	protected Map<String,List<String>> headers;
 	protected byte[] message;
 	
 	
@@ -20,7 +20,7 @@ public class HttpRequest {
 		method = null;
 		uri = null;
 		httpVersion = null;
-		headers = new HashMap<String, List<String>>();
+		headers = new HashMap<String,List<String>>();
 		message = null;
 	}
 	
@@ -35,7 +35,7 @@ public class HttpRequest {
 		setUri(uri);
 		setHttpVersion("HTTP/1.1");
 		setMessage(message);
-		headers = new HashMap<String, List<String>>();
+		headers = new HashMap<String,List<String>>();
 	}
 	
 	
@@ -56,8 +56,8 @@ public class HttpRequest {
 	
 	
 	@SuppressWarnings("unchecked")
-	public Map<String, List<String>> getHeaders() {
-		return (Map<String, List<String>>)((HashMap)headers).clone();
+	public Map<String,List<String>> getHeaders() {
+		return (Map<String,List<String>>)((HashMap)headers).clone();
 	}
 	
 	

@@ -1,7 +1,8 @@
 package p79068.net;
 
-import java.io.*;
-import java.util.*;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.List;
 
 
 public final class HttpWriter {

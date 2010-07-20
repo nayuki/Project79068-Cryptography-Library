@@ -11,7 +11,7 @@ public class HttpResponse {
 	protected String httpVersion;
 	protected int statusCode;
 	protected String reason;
-	protected Map<String, List<String>> headers;
+	protected Map<String,List<String>> headers;
 	protected byte[] message;
 	
 	
@@ -20,7 +20,7 @@ public class HttpResponse {
 		httpVersion = null;
 		statusCode = -1;
 		reason = null;
-		headers = new HashMap<String, List<String>>();
+		headers = new HashMap<String,List<String>>();
 		message = null;
 	}
 	
@@ -35,7 +35,7 @@ public class HttpResponse {
 		setReasonPhrase(reason);
 		setHttpVersion("HTTP/1.1");
 		setMessage(message);
-		headers = new HashMap<String, List<String>>();
+		headers = new HashMap<String,List<String>>();
 	}
 	
 	
@@ -56,8 +56,8 @@ public class HttpResponse {
 	
 	
 	@SuppressWarnings("unchecked")
-	public Map<String, List<String>> getHeaders() {
-		return (Map<String, List<String>>)((HashMap)headers).clone();
+	public Map<String,List<String>> getHeaders() {
+		return (Map<String,List<String>>)((HashMap)headers).clone();
 	}
 	
 	
