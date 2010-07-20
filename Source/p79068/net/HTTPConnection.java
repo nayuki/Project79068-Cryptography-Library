@@ -10,9 +10,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.Map;
+
 import p79068.io.LineInputStream;
 import p79068.util.ByteBuffer;
-import p79068.util.StringMap;
 
 
 public class HTTPConnection {
@@ -43,7 +45,7 @@ public class HTTPConnection {
 		String method = tpstr[0];
 		String uri = tpstr[1];
 		String version = tpstr[2];
-		StringMap header = new StringMap();
+		Map<String,String> header = new HashMap<String,String>();
 		parseHeader(in, header);
 		ByteBuffer b = new ByteBuffer();
 		
@@ -56,15 +58,15 @@ public class HTTPConnection {
 		String version = tpstr[0];
 		int status = Integer.parseInt(tpstr[1]);
 		String reason = tpstr[2];
-		StringMap header = new StringMap();
+		Map<String,String> header = new HashMap<String,String>();
 		parseHeader(in, header);
 		ByteBuffer b = new ByteBuffer();
 		if (status / 100 == 1 || status == 204 || status == 304 || !message)
 			;
 		else {
 			byte[] buf = new byte[2048];
-			if ((tpstr = header.getCaseInsensitive("Content-Length")).length > 0) {
-				int len = Integer.parseInt(tpstr[0]);
+			if (header.containsKey("Content-Length")) {
+				int len = Integer.parseInt(header.get("Content-Length"));
 				while (len > 0) {
 					int read = in.read(buf, 0, Math.min(len, buf.length));
 					if (read == -1)
@@ -72,7 +74,7 @@ public class HTTPConnection {
 					b.append(buf, 0, read);
 					len -= read;
 				}
-			} else if ((tpstr = header.getCaseInsensitive("Transfer-Encoding")).length > 0 && tpstr[0].equalsIgnoreCase("chunked")) {
+			} else if (header.containsKey("Transfer-Encoding") && header.get("Transfer-Encoding").equalsIgnoreCase("chunked")) {
 				int read = 0;
 				while (true) {
 					byte[] line = in.readLine();
@@ -92,7 +94,7 @@ public class HTTPConnection {
 				}
 				if (read != -1)
 					parseHeader(in, header);
-			} else if (header.getCaseInsensitive("Content-Type").length > 0) {
+			} else if (header.containsKey("Content-Type")) {
 				while (true) {
 					int read = in.read(buf);
 					if (read == -1)
@@ -105,15 +107,15 @@ public class HTTPConnection {
 	}
 	
 	
-	public void writeRequest(String method, String uri, String version, StringMap header, byte[] entity) throws IOException {
+	public void writeRequest(String method, String uri, String version, Map<String,String> header, byte[] entity) throws IOException {
 		ByteBuffer b = new ByteBuffer();
 		b.append(toASCII(method + " " + uri + " " + version + "\r\n"));
-		for (int i = 0; i < header.length(); i++) {
-			String[] tp = header.get(i);
-			if (tp[1] != null)
-				b.append(toASCII(tp[0] + ": " + tp[1] + "\r\n"));
+		for (String key : header.keySet()) {
+			String value = header.get(key);
+			if (value != null)
+				b.append(toASCII(key + ": " + value + "\r\n"));
 			else
-				b.append(toASCII(tp[0] + "\r\n"));
+				b.append(toASCII(key + "\r\n"));
 		}
 		b.append(toASCII("\r\n"));
 		if (entity == null)
@@ -130,15 +132,15 @@ public class HTTPConnection {
 	}
 	
 	
-	public void writeResponse(String version, int status, String reason, StringMap header, byte[] entity) throws IOException {
+	public void writeResponse(String version, int status, String reason, Map<String,String> header, byte[] entity) throws IOException {
 		ByteBuffer b = new ByteBuffer();
 		b.append(toASCII(version + " " + status + " " + reason + "\r\n"));
-		for (int i = 0; i < header.length(); i++) {
-			String[] tp = header.get(i);
-			if (tp[1] != null)
-				b.append(toASCII(tp[0] + ": " + tp[1] + "\r\n"));
+		for (String key : header.keySet()) {
+			String value = header.get(key);
+			if (value != null)
+				b.append(toASCII(key + ": " + value + "\r\n"));
 			else
-				b.append(toASCII(tp[0] + "\r\n"));
+				b.append(toASCII(key + "\r\n"));
 		}
 		b.append(toASCII("\r\n"));
 		if (entity == null)
@@ -181,7 +183,7 @@ public class HTTPConnection {
 	}
 	
 	
-	private static void parseHeader(LineInputStream in, StringMap header) throws IOException {
+	private static void parseHeader(LineInputStream in, Map<String,String> header) throws IOException {
 		ByteBuffer b = new ByteBuffer();
 		while (true) {
 			byte[] line = in.readLine();
