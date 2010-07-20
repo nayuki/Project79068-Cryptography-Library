@@ -59,4 +59,11 @@ public final class FileIo {
 		}
 	}
 	
+	
+	
+	/**
+	 * Not instantiable.
+	 */
+	private FileIo() {}
+	
 }
