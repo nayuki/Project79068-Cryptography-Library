@@ -4,7 +4,7 @@ package p79068.math;
 /**
  * Contains methods that deal with the bit representation of IEEE-754 double-precision floating-point numbers.
  */
-public class DoubleBitMath {
+public final class DoubleBitMath {
 	
 	// Raw bit extraction
 	

@@ -5,7 +5,7 @@ package p79068.math;
  * Contains methods for math functions that deal with real numbers.
  * <p>Instantiability: <em>Not applicable</em></p>
  */
-public class RealMath {
+public final class RealMath {
 	
 	/**
 	 * Returns the sine of the specified number of complete revolutions. It is similar to {@code Math.sin(2*Math.PI*x)}.

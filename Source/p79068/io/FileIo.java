@@ -10,7 +10,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 
 
-public class FileIo {
+public final class FileIo {
 	
 	public static byte[] readAll(File file) throws IOException {
 		if (file.length() > Integer.MAX_VALUE)

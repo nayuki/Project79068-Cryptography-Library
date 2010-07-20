@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 
 
-public class FileUtils {
+public final class FileUtils {
 	
 	/**
 	 * Returns a list of all items in the specified directory.
