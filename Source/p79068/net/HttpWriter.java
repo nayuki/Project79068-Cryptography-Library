@@ -4,9 +4,9 @@ import java.io.*;
 import java.util.*;
 
 
-public class HttpWriter {
+public final class HttpWriter {
 	
-	protected OutputStream out;
+	private OutputStream out;
 	
 	
 	
@@ -48,7 +48,7 @@ public class HttpWriter {
 	}
 	
 	
-	protected static byte[] toBytes(String str) {
+	private static byte[] toBytes(String str) {
 		byte[] b = new byte[str.length()];
 		for (int i = 0; i < b.length; i++) {
 			char c = str.charAt(i);

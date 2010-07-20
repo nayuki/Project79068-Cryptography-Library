@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.io.InputStream;
 
 
-public class HttpReader {
+public final class HttpReader {
 	
-	protected InputStream in;
+	private InputStream in;
 	
 	
 	
@@ -72,7 +72,7 @@ public class HttpReader {
 	}
 	
 	
-	protected String[] splitStartLine(String str) {
+	private String[] splitStartLine(String str) {
 		String[] result = new String[3];
 		int start = 0;
 		int end = str.indexOf(' ', start);
@@ -91,7 +91,7 @@ public class HttpReader {
 	}
 	
 	
-	protected String[] splitHeaderLine(String str) {
+	private String[] splitHeaderLine(String str) {
 		if (str.indexOf(':') == -1)
 			return new String[]{str};
 		else {
@@ -107,7 +107,7 @@ public class HttpReader {
 	}
 	
 	
-	protected String readLine() throws IOException {
+	private String readLine() throws IOException {
 		StringBuilder sb = new StringBuilder();
 		while (true) {
 			int b = in.read();
