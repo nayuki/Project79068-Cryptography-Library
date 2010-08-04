@@ -6,7 +6,7 @@ import p79068.util.hash.HashValue;
 
 
 /**
- * This abstract superclass is stateless.
+ * This abstract superclass is stateless. Subclasses will have state.
  */
 public abstract class BlockHasherCore implements Cloneable, Zeroizable {
 	
