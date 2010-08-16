@@ -17,9 +17,7 @@ public final class FileUtils {
 	 * @throws IllegalArgumentException if {@code dir} is not a directory
 	 */
 	public static SortedSet<File> listItems(File dir) {
-		NullChecker.check(dir);
-		if (!dir.isDirectory())
-				throw new IllegalArgumentException("Not a directory");
+		checkArgIsDirectory(dir);
 		SortedSet<File> result = new TreeSet<File>();
 		Collections.addAll(result, dir.listFiles());
 		return result;
@@ -32,10 +30,7 @@ public final class FileUtils {
 	 * @throws IllegalArgumentException if {@code dir} is not a directory
 	 */
 	public static SortedSet<File> listFiles(File dir) {
-		NullChecker.check(dir);
-		if (!dir.isDirectory())
-			throw new IllegalArgumentException("Not a directory");
-		
+		checkArgIsDirectory(dir);
 		SortedSet<File> result = new TreeSet<File>();
 		for (File item : dir.listFiles()) {
 			if (item.isFile())
@@ -51,10 +46,7 @@ public final class FileUtils {
 	 * @throws IllegalArgumentException if {@code dir} is not a directory
 	 */
 	public static SortedSet<File> listDirs(File dir) {
-		NullChecker.check(dir);
-		if (!dir.isDirectory())
-			throw new IllegalArgumentException("Not a directory");
-		
+		checkArgIsDirectory(dir);
 		SortedSet<File> result = new TreeSet<File>();
 		for (File item : dir.listFiles()) {
 			if (item.isDirectory())
@@ -131,6 +123,14 @@ public final class FileUtils {
 			throw new IOException(String.format("New file exists: %s", newfile));
 		if (!file.renameTo(newfile))
 			throw new IOException(String.format("Rename failed: %s --> %s", file, newname));
+	}
+	
+	
+	
+	private static void checkArgIsDirectory(File dir) {
+		NullChecker.check(dir);
+		if (!dir.isDirectory())
+			throw new IllegalArgumentException("Not a directory");
 	}
 	
 	
