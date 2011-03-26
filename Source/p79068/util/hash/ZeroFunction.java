@@ -6,7 +6,7 @@ package p79068.util.hash;
  * <p>Mutability: <em>Immutable</em><br>
  *  Instantiability: <em>Singleton</em></p>
  */
-public class ZeroFunction extends AbstractHashFunction {
+public final class ZeroFunction extends AbstractHashFunction {
 	
 	/**
 	 * The singleton instance of the zero hash function. {@code name = "Zero"}, {@code hashLength = 1}.

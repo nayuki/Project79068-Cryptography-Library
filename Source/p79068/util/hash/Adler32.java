@@ -5,7 +5,7 @@ package p79068.util.hash;
  * The Adler-32 checksum function. It is described in RFC 1950.
  * <p>Instantiability: <em>Singleton</em></p>
  */
-public class Adler32 extends AbstractHashFunction {
+public final class Adler32 extends AbstractHashFunction {
 	
 	/**
 	 * The singleton instance of the Adler-32 hash function. {@code name = "Adler-32"}, {@code hashLength = 4}.

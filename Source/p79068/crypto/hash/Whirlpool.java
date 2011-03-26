@@ -5,7 +5,7 @@ import p79068.crypto.cipher.Cipherer;
 import p79068.util.hash.Hasher;
 
 
-public class Whirlpool extends AbstractBlockHashFunction {
+public final class Whirlpool extends AbstractBlockHashFunction {
 	
 	/**
 	 * The Whirlpool-0 hash function. {@code name = "Whirlpool-0"}, {@code hashLength = 64}, {@code blockLength = 64}.

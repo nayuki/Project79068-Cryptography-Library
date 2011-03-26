@@ -6,7 +6,7 @@ import p79068.util.HashCoder;
 /**
  * A family of CRC hash functions.
  */
-public class Crc extends AbstractHashFunction {
+public final class Crc extends AbstractHashFunction {
 	
 	/**
 	 * An instance of the common CRC-32 hash function.
