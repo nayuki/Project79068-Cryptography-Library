@@ -41,7 +41,7 @@ public abstract class AbstractHashFunction implements HashFunction {
 	
 	protected AbstractHashFunction(String name, int hashLen) {
 		this.name = name;
-		this.hashLength = hashLen;
+		hashLength = hashLen;
 	}
 	
 	
