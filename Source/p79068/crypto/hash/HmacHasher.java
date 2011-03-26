@@ -4,16 +4,17 @@ import p79068.crypto.Zeroizable;
 import p79068.lang.BoundsChecker;
 import p79068.util.hash.HashValue;
 import p79068.util.hash.AbstractHasher;
+import p79068.util.hash.Hasher;
 
 
 final class HmacHasher extends AbstractHasher implements Zeroizable {
 	
-	private AbstractHasher inner;
-	private AbstractHasher outer;
+	private Hasher inner;
+	private Hasher outer;
 	
 	
 	
-	public HmacHasher(Hmac hashFunc, AbstractHasher inner, AbstractHasher outer) {
+	public HmacHasher(Hmac hashFunc, Hasher inner, Hasher outer) {
 		super(hashFunc);
 		this.inner = inner.clone();
 		this.outer = outer.clone();
@@ -34,7 +35,7 @@ final class HmacHasher extends AbstractHasher implements Zeroizable {
 	public HashValue getHash() {
 		if (hashFunction == null)
 			throw new IllegalStateException("Already zeroized");
-		AbstractHasher temp = outer.clone();
+		Hasher temp = outer.clone();
 		temp.update(inner.getHash().toBytes());
 		return temp.getHash();
 	}

@@ -25,7 +25,7 @@ public class Xor8 extends AbstractHashFunction {
 	 * @return a new hasher of this hash function
 	 */
 	@Override
-	public AbstractHasher newHasher() {
+	public Hasher newHasher() {
 		return new Xor8Hasher(this);
 	}
 	

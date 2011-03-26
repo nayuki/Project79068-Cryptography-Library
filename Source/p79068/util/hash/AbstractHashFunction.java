@@ -8,20 +8,20 @@ import p79068.lang.NullChecker;
 
 
 /**
- * Computes the hash value of byte sequences and produces {@link AbstractHasher Hashers}.
+ * Computes the hash value of byte sequences and produces {@link Hasher Hashers}.
  * <p>Mutability: <em>Immutable</em> unless otherwise noted</p>
  * <p>One-shot hashing usage example:</p>
  * <pre>byte[] b = <i>getWholeMessage</i>();
  *byte[] hash = Sha1.FUNCTION.getHash(b).toBytes();</pre>
  * <p>Incremental hashing usage example:</p>
- * <pre>AbstractHasher hasher = Crc.CRC32_FUNCTION.newHasher();
+ * <pre>Hasher hasher = Crc.CRC32_FUNCTION.newHasher();
  *while (<i>more data available</i>) {
  *  byte[] b = <i>readSomeMore</i>();
  *  hasher.update(b);
  *}
  * String hash = hasher.getHash().toHexString();</pre>
  * <p>Although some hash function can operate on messages of bits rather than bytes, this is not supported at the moment.</p>
- * @see AbstractHasher
+ * @see Hasher
  * @see HashValue
  */
 public abstract class AbstractHashFunction implements HashFunction {
@@ -60,7 +60,7 @@ public abstract class AbstractHashFunction implements HashFunction {
 	 */
 	public HashValue getHash(byte[] b, int off, int len) {
 		NullChecker.check(b);
-		AbstractHasher hasher = newHasher();
+		Hasher hasher = newHasher();
 		hasher.update(b, off, len);
 		return hasher.getHash();
 	}
@@ -71,7 +71,7 @@ public abstract class AbstractHashFunction implements HashFunction {
 	 */
 	public HashValue getHash(File file) throws IOException {
 		NullChecker.check(file);
-		AbstractHasher hasher = newHasher();
+		Hasher hasher = newHasher();
 		InputStream in = new FileInputStream(file);
 		try {
 			byte[] b = new byte[32 * 1024];
@@ -92,7 +92,7 @@ public abstract class AbstractHashFunction implements HashFunction {
 	 * Returns a new hasher of this hash function, which is used to compute a hash value incrementally.
 	 * @return a new hasher of this hash function
 	 */
-	public abstract AbstractHasher newHasher();
+	public abstract Hasher newHasher();
 	
 	
 	/**

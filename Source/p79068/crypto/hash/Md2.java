@@ -1,7 +1,7 @@
 package p79068.crypto.hash;
 
 import p79068.util.hash.AbstractHashFunction;
-import p79068.util.hash.AbstractHasher;
+import p79068.util.hash.Hasher;
 
 
 /**
@@ -29,7 +29,7 @@ public final class Md2 extends AbstractBlockHashFunction {
 	 * @return a new hasher of this hash function
 	 */
 	@Override
-	public AbstractHasher newHasher() {
+	public Hasher newHasher() {
 		return new BlockHasher(this, new Md2Hasher());
 	}
 	

@@ -28,7 +28,7 @@ public interface HashFunction {
 	 * Returns a new hasher of this hash function, which is used to compute a hash value incrementally.
 	 * @return a new hasher of this hash function
 	 */
-	public AbstractHasher newHasher();
+	public Hasher newHasher();
 	
 	
 	/**

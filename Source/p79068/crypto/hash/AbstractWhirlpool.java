@@ -2,7 +2,7 @@ package p79068.crypto.hash;
 
 import p79068.crypto.cipher.BlockCipher;
 import p79068.crypto.cipher.Cipherer;
-import p79068.util.hash.AbstractHasher;
+import p79068.util.hash.Hasher;
 
 
 public abstract class AbstractWhirlpool extends AbstractBlockHashFunction {
@@ -27,7 +27,7 @@ public abstract class AbstractWhirlpool extends AbstractBlockHashFunction {
 	 * @return a new hasher of this hash function
 	 */
 	@Override
-	public AbstractHasher newHasher() {
+	public Hasher newHasher() {
 		return new BlockHasher(this, new FastWhirlpoolHasher(getParameters()));
 	}
 	

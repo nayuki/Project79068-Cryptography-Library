@@ -25,7 +25,7 @@ public class Sum32 extends AbstractHashFunction {
 	 * @return a new hasher of this hash function
 	 */
 	@Override
-	public AbstractHasher newHasher() {
+	public Hasher newHasher() {
 		return new Sum32Hasher(this);
 	}
 	

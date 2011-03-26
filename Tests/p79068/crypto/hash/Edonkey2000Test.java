@@ -5,7 +5,7 @@ import org.junit.Test;
 import p79068.crypto.CryptoUtils;
 import p79068.util.hash.HashFunction;
 import p79068.util.hash.HashValue;
-import p79068.util.hash.AbstractHasher;
+import p79068.util.hash.Hasher;
 
 
 public final class Edonkey2000Test {
@@ -54,7 +54,7 @@ public final class Edonkey2000Test {
 	
 	
 	private static HashValue getHashOfZeros(HashFunction hashfunc, int length) {
-		AbstractHasher hasher = hashfunc.newHasher();
+		Hasher hasher = hashfunc.newHasher();
 		byte[] b = new byte[1024];
 		while (length > 0) {
 			int temp = Math.min(b.length, length);

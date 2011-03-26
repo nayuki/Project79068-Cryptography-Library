@@ -3,7 +3,7 @@ package p79068.crypto.hash;
 import p79068.crypto.Zeroizable;
 import p79068.lang.NullChecker;
 import p79068.util.hash.AbstractHashFunction;
-import p79068.util.hash.AbstractHasher;
+import p79068.util.hash.Hasher;
 
 
 /**
@@ -14,8 +14,8 @@ import p79068.util.hash.AbstractHasher;
  */
 public final class Hmac extends AbstractHashFunction implements Zeroizable {
 	
-	private AbstractHasher inner;
-	private AbstractHasher outer;
+	private Hasher inner;
+	private Hasher outer;
 	
 	
 	
@@ -48,7 +48,7 @@ public final class Hmac extends AbstractHashFunction implements Zeroizable {
 	 * @throws IllegalStateException if this object has been zeroized
 	 */
 	@Override
-	public AbstractHasher newHasher() {
+	public Hasher newHasher() {
 		if (outer == null)
 			throw new IllegalStateException("Already zeroized");
 		return new HmacHasher(this, inner, outer);

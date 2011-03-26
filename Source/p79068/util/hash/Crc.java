@@ -75,7 +75,7 @@ public class Crc extends AbstractHashFunction {
 	 * @return a new hasher of this hash function
 	 */
 	@Override
-	public AbstractHasher newHasher() {
+	public Hasher newHasher() {
 		if (equals(CRC32_FUNCTION))
 			return new Crc32Hasher(this);
 		return new CrcHasher(this, degree, polynomial, reverseInputBits, reverseOutputBits, xorInput, xorOutput);

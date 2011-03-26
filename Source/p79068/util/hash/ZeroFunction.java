@@ -26,7 +26,7 @@ public class ZeroFunction extends AbstractHashFunction {
 	 * @return a new hasher of this hash function
 	 */
 	@Override
-	public AbstractHasher newHasher() {
+	public Hasher newHasher() {
 		return new ZeroHasher(this);
 	}
 	

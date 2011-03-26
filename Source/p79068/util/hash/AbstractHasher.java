@@ -9,7 +9,7 @@ import p79068.lang.NullChecker;
  * Thread safety: <em>Unsafe</em> unless otherwise specified<br>
  * Instantiability: Via {@link HashFunction#newHasher()}</p>
  * <p>Usage example:</p>
- * <pre>AbstractHasher hasher = Md5.FUNCTION.newHasher();
+ * <pre>Hasher hasher = Md5.FUNCTION.newHasher();
 while (<i>more data available</i>) {
   byte[] b = <i>readSomeMore</i>();
   hasher.update(b);
@@ -18,7 +18,7 @@ byte[] hash = hasher.getHash().toBytes();</pre>
  * @see HashFunction
  * @see HashValue
  */
-public abstract class AbstractHasher implements Cloneable {
+public abstract class AbstractHasher implements Cloneable, Hasher {
 	
 	/**
 	 * The hash function associated with this hasher. This reference must not be modified except for zeroization.
