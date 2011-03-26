@@ -41,13 +41,13 @@ public final class HmacTest {
 	
 	@Test
 	public void testHmacSha1() {
-		test(Sha1.FUNCTION, key1, msg0, "b617318655057264e28bc0b6fb378c8ef146be00");
-		test(Sha1.FUNCTION, key2, msg1, "effcdf6ae5eb2fa2d27416d5f184df9c259a7c79");
-		test(Sha1.FUNCTION, key4, msg2, "125d7342b9ac11cd91a39af48aa17b4f63f175d3");
-		test(Sha1.FUNCTION, key5, msg3, "4c9007f4026250c6bc8414f9bf50c86c2d7235da");
-		test(Sha1.FUNCTION, key7, msg4, "4c1a03424b55e07fe7f27be1d58bb9324a9a5a04");
-		test(Sha1.FUNCTION, key8, msg5, "aa4ae5e15272d00e95705637ce8a3b55ed402112");
-		test(Sha1.FUNCTION, key8, msg6, "e8e99d0f45237d786d6bbaa7965c7808bbff1a91");
+		test(Sha.SHA1_FUNCTION, key1, msg0, "b617318655057264e28bc0b6fb378c8ef146be00");
+		test(Sha.SHA1_FUNCTION, key2, msg1, "effcdf6ae5eb2fa2d27416d5f184df9c259a7c79");
+		test(Sha.SHA1_FUNCTION, key4, msg2, "125d7342b9ac11cd91a39af48aa17b4f63f175d3");
+		test(Sha.SHA1_FUNCTION, key5, msg3, "4c9007f4026250c6bc8414f9bf50c86c2d7235da");
+		test(Sha.SHA1_FUNCTION, key7, msg4, "4c1a03424b55e07fe7f27be1d58bb9324a9a5a04");
+		test(Sha.SHA1_FUNCTION, key8, msg5, "aa4ae5e15272d00e95705637ce8a3b55ed402112");
+		test(Sha.SHA1_FUNCTION, key8, msg6, "e8e99d0f45237d786d6bbaa7965c7808bbff1a91");
 	}
 	
 	
