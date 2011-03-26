@@ -5,24 +5,24 @@ import p79068.crypto.cipher.Cipherer;
 import p79068.util.hash.Hasher;
 
 
-public class AbstractWhirlpool extends AbstractBlockHashFunction {
+public class Whirlpool extends AbstractBlockHashFunction {
 	
 	/**
 	 * The Whirlpool-0 hash function. {@code name = "Whirlpool-0"}, {@code hashLength = 64}, {@code blockLength = 64}.
 	 */
-	public static final AbstractWhirlpool WHIRLPOOL0_FUNCTION = new AbstractWhirlpool("Whirlpool-0", 10, getWhirlpool0Sbox(), getWhirlpool0C(), getWhirlpool0CInverse());
+	public static final Whirlpool WHIRLPOOL0_FUNCTION = new Whirlpool("Whirlpool-0", 10, getWhirlpool0Sbox(), getWhirlpool0C(), getWhirlpool0CInverse());
 	
 	
 	/**
 	 * The Whirlpool-T hash function. {@code name = "Whirlpool-T"}, {@code hashLength = 64}, {@code blockLength = 64}.
 	 */
-	public static final AbstractWhirlpool WHIRLPOOL_T_FUNCTION = new AbstractWhirlpool("Whirlpool-T", 10, getWhirlpoolSbox(), getWhirlpool0C(), getWhirlpool0CInverse());
+	public static final Whirlpool WHIRLPOOL_T_FUNCTION = new Whirlpool("Whirlpool-T", 10, getWhirlpoolSbox(), getWhirlpool0C(), getWhirlpool0CInverse());
 	
 	
 	/**
 	 * The Whirlpool hash function. {@code name = "Whirlpool"}, {@code hashLength = 64}, {@code blockLength = 64}.
 	 */
-	public static final AbstractWhirlpool WHIRLPOOL_FUNCTION = new AbstractWhirlpool("Whirlpool", 10, getWhirlpoolSbox(), getWhirlpoolC(), getWhirlpoolCInverse());
+	public static final Whirlpool WHIRLPOOL_FUNCTION = new Whirlpool("Whirlpool", 10, getWhirlpoolSbox(), getWhirlpoolC(), getWhirlpoolCInverse());
 	
 	
 	
@@ -36,7 +36,7 @@ public class AbstractWhirlpool extends AbstractBlockHashFunction {
 	
 	
 	
-	protected AbstractWhirlpool(String name, int rounds, int[] sbox, int[] c, int[] cInv) {
+	protected Whirlpool(String name, int rounds, int[] sbox, int[] c, int[] cInv) {
 		super(name, 64, 64);
 		this.rounds = rounds;
 		this.sbox = sbox;

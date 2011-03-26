@@ -1,6 +1,6 @@
 package p79068.crypto.cipher;
 
-import p79068.crypto.hash.AbstractWhirlpool;
+import p79068.crypto.hash.Whirlpool;
 import p79068.lang.NullChecker;
 
 
@@ -24,7 +24,7 @@ public final class Whirlpool0Cipher extends BlockCipher {
 		NullChecker.check(key);
 		if (key.length != 64)
 			throw new IllegalArgumentException();
-		return AbstractWhirlpool.WHIRLPOOL0_FUNCTION.newCipherer(this, key);
+		return Whirlpool.WHIRLPOOL0_FUNCTION.newCipherer(this, key);
 	}
 	
 	
