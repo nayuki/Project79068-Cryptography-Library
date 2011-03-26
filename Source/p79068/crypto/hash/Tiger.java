@@ -10,7 +10,7 @@ import p79068.util.hash.Hasher;
  *  Instantiability: <em>Singleton</em></p>
  * @see AbstractHashFunction
  */
-public final class Tiger extends BlockHashFunction {
+public final class Tiger extends AbstractBlockHashFunction {
 	
 	/**
 	 * The singleton instance of the Tiger hash function. {@code name = "Tiger"}, {@code hashLength = 24}, {@code blockLength = 64};

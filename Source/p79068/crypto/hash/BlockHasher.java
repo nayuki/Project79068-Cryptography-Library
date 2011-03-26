@@ -37,7 +37,7 @@ public final class BlockHasher extends Hasher implements Zeroizable {
 	/**
 	 * Constructs a new instance with the specified hash algorithm and block length.
 	 */
-	public BlockHasher(BlockHashFunction func, BlockHasherCore core) {
+	public BlockHasher(AbstractBlockHashFunction func, BlockHasherCore core) {
 		super(func);
 		NullChecker.check(core);
 		block = new byte[func.getBlockLength()];

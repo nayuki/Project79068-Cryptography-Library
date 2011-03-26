@@ -11,7 +11,7 @@ import p79068.util.hash.Hasher;
  * @see AbstractHashFunction
  * @see Tiger2
  */
-public final class Tiger2 extends BlockHashFunction {
+public final class Tiger2 extends AbstractBlockHashFunction {
 	
 	/**
 	 * The singleton instance of the Tiger2 hash function. {@code name = "Tiger2"}, {@code hashLength = 24}, {@code blockLength = 64};

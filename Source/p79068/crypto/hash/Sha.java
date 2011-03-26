@@ -11,7 +11,7 @@ import p79068.util.hash.Hasher;
  * @see AbstractHashFunction
  * @see Sha1
  */
-public final class Sha extends BlockHashFunction {
+public final class Sha extends AbstractBlockHashFunction {
 	
 	/**
 	 * The singleton instance of the SHA hash function. {@code name = "SHA"}, {@code hashLength = 20}, {@code blockLength = 64};

@@ -5,7 +5,7 @@ import p79068.crypto.cipher.Cipherer;
 import p79068.util.hash.Hasher;
 
 
-public abstract class AbstractWhirlpool extends BlockHashFunction {
+public abstract class AbstractWhirlpool extends AbstractBlockHashFunction {
 	
 	
 	protected AbstractWhirlpool(String name) {

@@ -12,7 +12,7 @@ import p79068.util.hash.Hasher;
  *  Instantiability: <em>Singleton</em></p>
  * @see AbstractHashFunction
  */
-public final class Sha256 extends BlockHashFunction {
+public final class Sha256 extends AbstractBlockHashFunction {
 	
 	/**
 	 * The singleton instance of the SHA-256 hash function. {@code name = "SHA-256"}, {@code hashLength = 32}, {@code blockLength = 64};

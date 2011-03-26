@@ -11,7 +11,7 @@ import p79068.util.hash.Hasher;
  * @see AbstractHashFunction
  * @see Sha512
  */
-public final class Sha384 extends BlockHashFunction {
+public final class Sha384 extends AbstractBlockHashFunction {
 	
 	/**
 	 * The singleton instance of the SHA-384 hash function. {@code name = "SHA-384"}, {@code hashLength = 48}, {@code blockLength = 128};

@@ -10,7 +10,7 @@ import p79068.util.hash.Hasher;
  *  Instantiability: <em>Singleton</em></p>
  * @see AbstractHashFunction
  */
-public final class Md5 extends BlockHashFunction {
+public final class Md5 extends AbstractBlockHashFunction {
 	
 	/**
 	 * The singleton instance of the MD5 hash function. {@code name = "MD5"}, {@code hashLength = 16}, {@code blockLength = 64};

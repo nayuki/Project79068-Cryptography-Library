@@ -10,7 +10,7 @@ import p79068.util.hash.Hasher;
  *  Instantiability: <em>Singleton</em></p>
  * @see AbstractHashFunction
  */
-public final class Md2 extends BlockHashFunction {
+public final class Md2 extends AbstractBlockHashFunction {
 	
 	/**
 	 * The singleton instance of the MD2 hash function. {@code name = "MD2"}, {@code hashLength = 16}, {@code blockLength = 16};

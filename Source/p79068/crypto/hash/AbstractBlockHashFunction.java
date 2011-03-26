@@ -6,7 +6,7 @@ import p79068.util.hash.AbstractHashFunction;
 /**
  * A hash function that operates on blocks of bytes. The internal state of a hasher is only updated after each completed block.
  */
-public abstract class BlockHashFunction extends AbstractHashFunction {
+public abstract class AbstractBlockHashFunction extends AbstractHashFunction {
 	
 	/**
 	 * The block length of this hash function, in bytes.
@@ -15,7 +15,7 @@ public abstract class BlockHashFunction extends AbstractHashFunction {
 	
 	
 	
-	protected BlockHashFunction(String name, int hashLen, int blockLen) {
+	protected AbstractBlockHashFunction(String name, int hashLen, int blockLen) {
 		super(name, hashLen);
 		blockLength = blockLen;
 	}
