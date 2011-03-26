@@ -20,7 +20,7 @@ public final class Md4 extends BlockHashFunction {
 	
 	
 	private Md4() {
-		super("MD4", 16);
+		super("MD4", 16, 64);
 	}
 	
 	
@@ -32,16 +32,6 @@ public final class Md4 extends BlockHashFunction {
 	@Override
 	public Hasher newHasher() {
 		return new BlockHasher(this, new FastMd4Hasher());
-	}
-	
-	
-	/**
-	 * Returns the block length of this hash function: {@code 64} bytes (512 bits).
-	 * @return {@code 64}
-	 */
-	@Override
-	public int getBlockLength() {
-		return 64;
 	}
 	
 }

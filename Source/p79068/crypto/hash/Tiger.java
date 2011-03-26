@@ -20,7 +20,7 @@ public final class Tiger extends BlockHashFunction {
 	
 	
 	private Tiger() {
-		super("Tiger", 24);
+		super("Tiger", 24, 64);
 	}
 	
 	
@@ -32,16 +32,6 @@ public final class Tiger extends BlockHashFunction {
 	@Override
 	public Hasher newHasher() {
 		return new BlockHasher(this, new TigerHasher(false));
-	}
-	
-	
-	/**
-	 * Returns the block length of this hash function: {@code 64} bytes (512 bits).
-	 * @return {@code 64}
-	 */
-	@Override
-	public int getBlockLength() {
-		return 64;
 	}
 	
 }

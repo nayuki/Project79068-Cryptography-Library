@@ -20,7 +20,7 @@ public final class Sha512 extends BlockHashFunction {
 	
 	
 	private Sha512() {
-		super("SHA-512", 64);
+		super("SHA-512", 64, 128);
 	}
 	
 	
@@ -32,16 +32,6 @@ public final class Sha512 extends BlockHashFunction {
 	@Override
 	public Hasher newHasher() {
 		return new BlockHasher(this, new Sha512Hasher(true));
-	}
-	
-	
-	/**
-	 * Returns the block length of this hash function: {@code 128} bytes (1024 bits).
-	 * @return {@code 128}
-	 */
-	@Override
-	public int getBlockLength() {
-		return 128;
 	}
 	
 }

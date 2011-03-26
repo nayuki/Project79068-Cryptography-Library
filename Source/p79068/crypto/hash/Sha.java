@@ -21,7 +21,7 @@ public final class Sha extends BlockHashFunction {
 	
 	
 	private Sha() {
-		super("SHA", 20);
+		super("SHA", 20, 64);
 	}
 	
 	
@@ -33,16 +33,6 @@ public final class Sha extends BlockHashFunction {
 	@Override
 	public Hasher newHasher() {
 		return new BlockHasher(this, new Sha1Hasher(false));
-	}
-	
-	
-	/**
-	 * Returns the block length of this hash function: {@code 64} bytes (512 bits).
-	 * @return {@code 64}
-	 */
-	@Override
-	public int getBlockLength() {
-		return 64;
 	}
 	
 }

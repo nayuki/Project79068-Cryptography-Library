@@ -22,7 +22,7 @@ public final class Sha1 extends BlockHashFunction {
 	
 	
 	private Sha1() {
-		super("SHA-1", 20);
+		super("SHA-1", 20, 64);
 	}
 	
 	
@@ -35,17 +35,6 @@ public final class Sha1 extends BlockHashFunction {
 	public Hasher newHasher() {
 		return new BlockHasher(this, new FastSha1Hasher());
 	}
-	
-	
-	/**
-	 * Returns the block length of this hash function: {@code 64} bytes (512 bits).
-	 * @return {@code 64}
-	 */
-	@Override
-	public int getBlockLength() {
-		return 64;
-	}
-	
 	
 	
 	public Cipherer newCipherer(Shacal1 cipher, byte[] key) {
