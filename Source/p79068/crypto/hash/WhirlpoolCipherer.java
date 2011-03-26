@@ -14,9 +14,9 @@ final class WhirlpoolCipherer extends Cipherer {
 	
 	
 	
-	public WhirlpoolCipherer(BlockCipher cipher, byte[] key, WhirlpoolParameters params) {
+	public WhirlpoolCipherer(BlockCipher cipher, byte[] key, int rounds, int[] sbox, int[] c, int[] cInv) {
 		super(cipher, key);
-		hasher = new WhirlpoolHasher(params);
+		hasher = new WhirlpoolHasher(rounds, sbox, c, cInv);
 		setKey(key);
 	}
 	

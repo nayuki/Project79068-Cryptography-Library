@@ -4,7 +4,6 @@ import java.util.Arrays;
 
 import p79068.crypto.Zeroizer;
 import p79068.lang.BoundsChecker;
-import p79068.lang.NullChecker;
 import p79068.util.hash.HashValue;
 
 
@@ -20,13 +19,12 @@ final class WhirlpoolHasher extends BlockHasherCore {
 	
 	
 	
-	public WhirlpoolHasher(WhirlpoolParameters params) {
-		NullChecker.check(params);
-		sub = makeSbox(params.getSbox());
-		subinv = makeSboxInverse(params.getSbox());
-		mul = makeMultiplicationTable(params.getC());
-		mulinv = makeMultiplicationTable(params.getCInverse());
-		rcon = makeRoundConstants(params.getRounds(), sub);
+	public WhirlpoolHasher(int rounds, int[] sbox, int[] c, int[] cInv) {
+		sub = makeSbox(sbox);
+		subinv = makeSboxInverse(sbox);
+		mul = makeMultiplicationTable(c);
+		mulinv = makeMultiplicationTable(cInv);
+		rcon = makeRoundConstants(rounds, sub);
 		state = new byte[64];
 	}
 	
