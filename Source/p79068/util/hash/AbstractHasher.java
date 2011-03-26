@@ -18,7 +18,7 @@ byte[] hash = hasher.getHash().toBytes();</pre>
  * @see HashFunction
  * @see HashValue
  */
-public abstract class AbstractHasher implements Cloneable, Hasher {
+public abstract class AbstractHasher implements Hasher, Cloneable {
 	
 	/**
 	 * The hash function associated with this hasher. This reference must not be modified except for zeroization.
@@ -30,7 +30,7 @@ public abstract class AbstractHasher implements Cloneable, Hasher {
 	/**
 	 * Creates a hasher set to the specified hash function.
 	 */
-	public AbstractHasher(HashFunction hashFunc) {
+	protected AbstractHasher(HashFunction hashFunc) {
 		NullChecker.check(hashFunc);
 		hashFunction = hashFunc;
 	}
