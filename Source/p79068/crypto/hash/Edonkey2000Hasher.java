@@ -3,10 +3,10 @@ package p79068.crypto.hash;
 import p79068.crypto.Zeroizable;
 import p79068.lang.BoundsChecker;
 import p79068.util.hash.HashValue;
-import p79068.util.hash.Hasher;
+import p79068.util.hash.AbstractHasher;
 
 
-final class Edonkey2000Hasher extends Hasher implements Zeroizable {
+final class Edonkey2000Hasher extends AbstractHasher implements Zeroizable {
 	
 	/**
 	 * The block length. After each block of this many bytes, the hash of the inner hasher is added to the outer hasher.
@@ -17,12 +17,12 @@ final class Edonkey2000Hasher extends Hasher implements Zeroizable {
 	/**
 	 * The outer hasher, which hashes the hash values of individual blocks. This is {@code null} if and only if the total number of bytes hashed is less than {@code BLOCK_LENGTH}.
 	 */
-	private Hasher outerHasher;
+	private AbstractHasher outerHasher;
 	
 	/**
 	 * The inner hasher, which hashes the current block.
 	 */
-	private Hasher innerHasher;
+	private AbstractHasher innerHasher;
 	
 	/**
 	 * The number of bytes hashed in the current block. This is in the range [{@code 0}, {@code BLOCK_LENGTH}) initially and after each {@code update()} operation.
@@ -76,7 +76,7 @@ final class Edonkey2000Hasher extends Hasher implements Zeroizable {
 		if (outerHasher == null)  // Fewer than or equal to BLOCK_SIZE bytes has been hashed, so return the hash of the one and only block
 			return innerHasher.getHash();
 		else {
-			Hasher temp = outerHasher.clone();
+			AbstractHasher temp = outerHasher.clone();
 			temp.update(innerHasher.getHash().toBytes());  // Add the hash of the current block, which has 0 or more bytes hashed
 			return temp.getHash();
 		}

@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import p79068.util.Random;
 import p79068.util.hash.HashValue;
-import p79068.util.hash.Hasher;
+import p79068.util.hash.AbstractHasher;
 
 
 public final class BlockHasherTest {
@@ -15,7 +15,7 @@ public final class BlockHasherTest {
 		Random.DEFAULT.randomBytes(message);
 		HashValue expectedHash = Md5.FUNCTION.getHash(message);
 		
-		Hasher hasher = Md5.FUNCTION.newHasher();
+		AbstractHasher hasher = Md5.FUNCTION.newHasher();
 		hasher.update(message, 0 * 64, 64);
 		hasher.update(message, 1 * 64, 64);
 		hasher.update(message, 2 * 64, 64);
@@ -34,7 +34,7 @@ public final class BlockHasherTest {
 		Random.DEFAULT.randomBytes(message);
 		HashValue expectedHash = Md5.FUNCTION.getHash(message);
 		
-		Hasher hasher = Md5.FUNCTION.newHasher();
+		AbstractHasher hasher = Md5.FUNCTION.newHasher();
 		hasher.update(message, 0, 24);
 		hasher.update(message, 24, 463);
 		assertEquals(expectedHash, hasher.getHash());
@@ -47,7 +47,7 @@ public final class BlockHasherTest {
 		Random.DEFAULT.randomBytes(message);
 		HashValue expectedHash = Md5.FUNCTION.getHash(message);
 		
-		Hasher hasher = Md5.FUNCTION.newHasher();
+		AbstractHasher hasher = Md5.FUNCTION.newHasher();
 		hasher.update(message, 0, 13);
 		hasher.update(message, 13, 7);
 		hasher.update(message, 20, 467);
@@ -61,7 +61,7 @@ public final class BlockHasherTest {
 		Random.DEFAULT.randomBytes(message);
 		HashValue expectedHash = Md5.FUNCTION.getHash(message);
 		
-		Hasher hasher = Md5.FUNCTION.newHasher();
+		AbstractHasher hasher = Md5.FUNCTION.newHasher();
 		hasher.update(message, 0, 31);
 		hasher.update(message, 31, 33);
 		hasher.update(message, 64, 423);
@@ -82,7 +82,7 @@ public final class BlockHasherTest {
 		HashValue expectedHash = Md5.FUNCTION.getHash(message);
 		
 		for (int i = 0; i < 100; i++) {
-			Hasher hasher = Md5.FUNCTION.newHasher();
+			AbstractHasher hasher = Md5.FUNCTION.newHasher();
 			int off = 0;
 			while (off < message.length) {
 				int temp = Random.DEFAULT.randomInt(Math.min(maxPartitionLen + 1, message.length - off + 1));

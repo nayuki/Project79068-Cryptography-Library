@@ -24,7 +24,7 @@ import p79068.lang.BoundsChecker;
 import p79068.math.LongBitMath;
 
 
-final class CrcHasher extends Hasher {
+final class CrcHasher extends AbstractHasher {
 	
 	private int degree;
 	private boolean reverseInputBits;

@@ -4,7 +4,7 @@ import p79068.lang.BoundsChecker;
 import p79068.math.IntegerBitMath;
 
 
-final class Adler32Hasher extends Hasher {
+final class Adler32Hasher extends AbstractHasher {
 	
 	private int s1;  // Always in the range [0, 65521) after update
 	private int s2;  // Always in the range [0, 65521) after update

@@ -5,14 +5,14 @@ import p79068.crypto.Zeroizer;
 import p79068.lang.BoundsChecker;
 import p79068.lang.NullChecker;
 import p79068.util.hash.HashValue;
-import p79068.util.hash.Hasher;
+import p79068.util.hash.AbstractHasher;
 
 
 /**
  * A hasher that only applies the compression function after each block.
  * <p>The instance returned by a BlockHashFunction is not necessarily a BlockHasher.</p>
  */
-public final class BlockHasher extends Hasher implements Zeroizable {
+public final class BlockHasher extends AbstractHasher implements Zeroizable {
 	
 	/**
 	 * The data of the current block.

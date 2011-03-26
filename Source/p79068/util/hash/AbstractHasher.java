@@ -9,7 +9,7 @@ import p79068.lang.NullChecker;
  * Thread safety: <em>Unsafe</em> unless otherwise specified<br>
  * Instantiability: Via {@link HashFunction#newHasher()}</p>
  * <p>Usage example:</p>
- * <pre>Hasher hasher = Md5.FUNCTION.newHasher();
+ * <pre>AbstractHasher hasher = Md5.FUNCTION.newHasher();
 while (<i>more data available</i>) {
   byte[] b = <i>readSomeMore</i>();
   hasher.update(b);
@@ -18,7 +18,7 @@ byte[] hash = hasher.getHash().toBytes();</pre>
  * @see HashFunction
  * @see HashValue
  */
-public abstract class Hasher implements Cloneable {
+public abstract class AbstractHasher implements Cloneable {
 	
 	/**
 	 * The hash function associated with this hasher. This reference must not be modified except for zeroization.
@@ -30,7 +30,7 @@ public abstract class Hasher implements Cloneable {
 	/**
 	 * Creates a hasher set to the specified hash function.
 	 */
-	public Hasher(HashFunction hashFunc) {
+	public AbstractHasher(HashFunction hashFunc) {
 		NullChecker.check(hashFunc);
 		hashFunction = hashFunc;
 	}
@@ -82,9 +82,9 @@ public abstract class Hasher implements Cloneable {
 	 * @return a clone of this object
 	 */
 	@Override
-	public Hasher clone() {
+	public AbstractHasher clone() {
 		try {
-			return (Hasher)super.clone();
+			return (AbstractHasher)super.clone();
 		} catch (CloneNotSupportedException e) {
 			throw new AssertionError(e);
 		}

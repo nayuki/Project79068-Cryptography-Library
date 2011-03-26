@@ -1,7 +1,7 @@
 package p79068.crypto.hash;
 
 import p79068.util.hash.AbstractHashFunction;
-import p79068.util.hash.Hasher;
+import p79068.util.hash.AbstractHasher;
 
 
 /**
@@ -31,7 +31,7 @@ public final class NewEdonkey2000 extends AbstractHashFunction {
 	 * @return a new hasher of this hash function
 	 */
 	@Override
-	public Hasher newHasher() {
+	public AbstractHasher newHasher() {
 		return new NewEdonkey2000Hasher(this);
 	}
 	

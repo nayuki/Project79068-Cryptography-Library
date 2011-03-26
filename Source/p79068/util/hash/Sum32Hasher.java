@@ -4,7 +4,7 @@ import p79068.lang.BoundsChecker;
 import p79068.math.IntegerBitMath;
 
 
-final class Sum32Hasher extends Hasher {
+final class Sum32Hasher extends AbstractHasher {
 	
 	/**
 	 * The running sum of all the bytes seen, modulo 2<sup>32</sup>.

@@ -5,7 +5,7 @@ import static org.junit.Assert.fail;
 import p79068.crypto.CryptoUtils;
 import p79068.crypto.Zeroizable;
 import p79068.util.hash.HashFunction;
-import p79068.util.hash.Hasher;
+import p79068.util.hash.AbstractHasher;
 
 
 public final class HashUtils {
@@ -39,7 +39,7 @@ public final class HashUtils {
 	
 	
 	public static void testZeroization(HashFunction hashFunc) {
-		Hasher hasher = hashFunc.newHasher();
+		AbstractHasher hasher = hashFunc.newHasher();
 		hasher.update(new byte[200]);
 		if (!(hasher instanceof Zeroizable))
 			fail();

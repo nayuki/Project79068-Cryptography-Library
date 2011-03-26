@@ -3,7 +3,7 @@ package p79068.util.hash;
 import p79068.lang.BoundsChecker;
 
 
-final class ZeroHasher extends Hasher {
+final class ZeroHasher extends AbstractHasher {
 	
 	ZeroHasher(ZeroFunction hashFunc) {
 		super(hashFunc);

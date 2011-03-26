@@ -10,7 +10,7 @@ import p79068.lang.BoundsChecker;
 import p79068.math.IntegerBitMath;
 
 
-final class Crc32Hasher extends Hasher {
+final class Crc32Hasher extends AbstractHasher {
 	
 	private int register;
 	
