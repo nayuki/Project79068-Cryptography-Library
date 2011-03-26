@@ -4,7 +4,7 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.fail;
 import p79068.crypto.CryptoUtils;
 import p79068.crypto.Zeroizable;
-import p79068.util.hash.AbstractHashFunction;
+import p79068.util.hash.HashFunction;
 import p79068.util.hash.Hasher;
 
 
@@ -16,7 +16,7 @@ public final class HashUtils {
 	 * @param message the message, in ASCII
 	 * @param expectedHash the expected hash, in hexadecimal
 	 */
-	public static void testAscii(AbstractHashFunction hashFunc, String message, String expectedHash) {
+	public static void testAscii(HashFunction hashFunc, String message, String expectedHash) {
 		byte[] hash1 = CryptoUtils.hexToBytes(expectedHash);
 		byte[] msg = CryptoUtils.asciiToBytes(message);
 		byte[] hash0 = hashFunc.getHash(msg).toBytes();
@@ -30,7 +30,7 @@ public final class HashUtils {
 	 * @param message the message, in hexadecimal
 	 * @param expectedHash the expected hash, in hexadecimal
 	 */
-	public static void testHex(AbstractHashFunction hashFunc, String message, String expectedHash) {
+	public static void testHex(HashFunction hashFunc, String message, String expectedHash) {
 		byte[] hash1 = CryptoUtils.hexToBytes(expectedHash);
 		byte[] msg = CryptoUtils.hexToBytes(message);
 		byte[] hash0 = hashFunc.getHash(msg).toBytes();
@@ -38,7 +38,7 @@ public final class HashUtils {
 	}
 	
 	
-	public static void testZeroization(AbstractHashFunction hashFunc) {
+	public static void testZeroization(HashFunction hashFunc) {
 		Hasher hasher = hashFunc.newHasher();
 		hasher.update(new byte[200]);
 		if (!(hasher instanceof Zeroizable))

@@ -6,7 +6,7 @@ import p79068.lang.NullChecker;
 
 /**
  * Represents a hash value produced by a hash function. Immutable.
- * @see AbstractHashFunction
+ * @see HashFunction
  * @see Hasher
  */
 public final class HashValue implements Comparable<HashValue> {

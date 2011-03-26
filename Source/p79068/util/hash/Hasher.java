@@ -7,7 +7,7 @@ import p79068.lang.NullChecker;
  * Incrementally computes the hash value of a byte sequence.
  * <p>Mutability: <em>Mutable</em><br>
  * Thread safety: <em>Unsafe</em> unless otherwise specified<br>
- * Instantiability: Via {@link AbstractHashFunction#newHasher()}</p>
+ * Instantiability: Via {@link HashFunction#newHasher()}</p>
  * <p>Usage example:</p>
  * <pre>Hasher hasher = Md5.FUNCTION.newHasher();
 while (<i>more data available</i>) {
@@ -15,7 +15,7 @@ while (<i>more data available</i>) {
   hasher.update(b);
 }
 byte[] hash = hasher.getHash().toBytes();</pre>
- * @see AbstractHashFunction
+ * @see HashFunction
  * @see HashValue
  */
 public abstract class Hasher implements Cloneable {
@@ -23,14 +23,14 @@ public abstract class Hasher implements Cloneable {
 	/**
 	 * The hash function associated with this hasher. This reference must not be modified except for zeroization.
 	 */
-	protected AbstractHashFunction hashFunction;
+	protected HashFunction hashFunction;
 	
 	
 	
 	/**
 	 * Creates a hasher set to the specified hash function.
 	 */
-	public Hasher(AbstractHashFunction hashFunc) {
+	public Hasher(HashFunction hashFunc) {
 		NullChecker.check(hashFunc);
 		hashFunction = hashFunc;
 	}
@@ -71,7 +71,7 @@ public abstract class Hasher implements Cloneable {
 	 * Returns the hash function associated with this instance.
 	 * @return the hash function associated with this instance
 	 */
-	public AbstractHashFunction getHashFunction() {
+	public HashFunction getHashFunction() {
 		return hashFunction;
 	}
 	

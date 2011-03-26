@@ -24,7 +24,7 @@ import p79068.lang.NullChecker;
  * @see Hasher
  * @see HashValue
  */
-public abstract class AbstractHashFunction {
+public abstract class AbstractHashFunction implements HashFunction {
 	
 	/**
 	 * Computes and returns the hash value of the specified byte array.

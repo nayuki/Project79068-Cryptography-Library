@@ -3,7 +3,7 @@ package p79068.crypto.hash;
 import static org.junit.Assert.assertArrayEquals;
 import org.junit.Test;
 import p79068.crypto.CryptoUtils;
-import p79068.util.hash.AbstractHashFunction;
+import p79068.util.hash.HashFunction;
 import p79068.util.hash.HashValue;
 import p79068.util.hash.Hasher;
 
@@ -47,13 +47,13 @@ public final class Edonkey2000Test {
 	
 	
 	
-	private static void test(AbstractHashFunction hashFunc, int length, String expectedHash) {
+	private static void test(HashFunction hashFunc, int length, String expectedHash) {
 		byte[] actualHash = getHashOfZeros(hashFunc, length).toBytes();
 		assertArrayEquals(CryptoUtils.hexToBytes(expectedHash), actualHash);
 	}
 	
 	
-	private static HashValue getHashOfZeros(AbstractHashFunction hashfunc, int length) {
+	private static HashValue getHashOfZeros(HashFunction hashfunc, int length) {
 		Hasher hasher = hashfunc.newHasher();
 		byte[] b = new byte[1024];
 		while (length > 0) {
