@@ -14,13 +14,13 @@ public class Whirlpool extends AbstractBlockHashFunction {
 	
 	
 	/**
-	 * The Whirlpool-T hash function. {@code name = "Whirlpool-T"}, {@code hashLength = 64}, {@code blockLength = 64}.
+	 * The Whirlpool-T hash function. {@code name = "Whirlpool-T"}, {@code hashLength = 64}, {@code blockLength = 64}. This is based on Whirlpool-0 with the S-box changed. 
 	 */
 	public static final Whirlpool WHIRLPOOL_T_FUNCTION = new Whirlpool("Whirlpool-T", 10, getWhirlpoolSbox(), getWhirlpool0C(), getWhirlpool0CInverse());
 	
 	
 	/**
-	 * The Whirlpool hash function. {@code name = "Whirlpool"}, {@code hashLength = 64}, {@code blockLength = 64}.
+	 * The Whirlpool hash function. {@code name = "Whirlpool"}, {@code hashLength = 64}, {@code blockLength = 64}. This is based on Whirlpool-T with the linear mixing changed.
 	 */
 	public static final Whirlpool WHIRLPOOL_FUNCTION = new Whirlpool("Whirlpool", 10, getWhirlpoolSbox(), getWhirlpoolC(), getWhirlpoolCInverse());
 	
