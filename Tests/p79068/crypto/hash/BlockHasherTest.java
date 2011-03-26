@@ -13,9 +13,9 @@ public final class BlockHasherTest {
 	public void testMultipleOfBlockSize() {
 		byte[] message = new byte[487];  // Some arbitrary prime number
 		Random.DEFAULT.randomBytes(message);
-		HashValue expectedHash = Md5.FUNCTION.getHash(message);
+		HashValue expectedHash = Md.MD5_FUNCTION.getHash(message);
 		
-		Hasher hasher = Md5.FUNCTION.newHasher();
+		Hasher hasher = Md.MD5_FUNCTION.newHasher();
 		hasher.update(message, 0 * 64, 64);
 		hasher.update(message, 1 * 64, 64);
 		hasher.update(message, 2 * 64, 64);
@@ -32,9 +32,9 @@ public final class BlockHasherTest {
 	public void testPartialFill0() {
 		byte[] message = new byte[487];
 		Random.DEFAULT.randomBytes(message);
-		HashValue expectedHash = Md5.FUNCTION.getHash(message);
+		HashValue expectedHash = Md.MD5_FUNCTION.getHash(message);
 		
-		Hasher hasher = Md5.FUNCTION.newHasher();
+		Hasher hasher = Md.MD5_FUNCTION.newHasher();
 		hasher.update(message, 0, 24);
 		hasher.update(message, 24, 463);
 		assertEquals(expectedHash, hasher.getHash());
@@ -45,9 +45,9 @@ public final class BlockHasherTest {
 	public void testPartialFill1() {
 		byte[] message = new byte[487];
 		Random.DEFAULT.randomBytes(message);
-		HashValue expectedHash = Md5.FUNCTION.getHash(message);
+		HashValue expectedHash = Md.MD5_FUNCTION.getHash(message);
 		
-		Hasher hasher = Md5.FUNCTION.newHasher();
+		Hasher hasher = Md.MD5_FUNCTION.newHasher();
 		hasher.update(message, 0, 13);
 		hasher.update(message, 13, 7);
 		hasher.update(message, 20, 467);
@@ -59,9 +59,9 @@ public final class BlockHasherTest {
 	public void testPartialFill2() {
 		byte[] message = new byte[487];
 		Random.DEFAULT.randomBytes(message);
-		HashValue expectedHash = Md5.FUNCTION.getHash(message);
+		HashValue expectedHash = Md.MD5_FUNCTION.getHash(message);
 		
-		Hasher hasher = Md5.FUNCTION.newHasher();
+		Hasher hasher = Md.MD5_FUNCTION.newHasher();
 		hasher.update(message, 0, 31);
 		hasher.update(message, 31, 33);
 		hasher.update(message, 64, 423);
@@ -79,10 +79,10 @@ public final class BlockHasherTest {
 	private static void testRandomPartitions(int messageLength, int maxPartitionLen) {
 		byte[] message = new byte[messageLength];
 		Random.DEFAULT.randomBytes(message);
-		HashValue expectedHash = Md5.FUNCTION.getHash(message);
+		HashValue expectedHash = Md.MD5_FUNCTION.getHash(message);
 		
 		for (int i = 0; i < 100; i++) {
-			Hasher hasher = Md5.FUNCTION.newHasher();
+			Hasher hasher = Md.MD5_FUNCTION.newHasher();
 			int off = 0;
 			while (off < message.length) {
 				int temp = Random.DEFAULT.randomInt(Math.min(maxPartitionLen + 1, message.length - off + 1));

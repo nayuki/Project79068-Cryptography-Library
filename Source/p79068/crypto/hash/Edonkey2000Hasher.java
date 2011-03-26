@@ -35,7 +35,7 @@ final class Edonkey2000Hasher extends AbstractHasher implements Zeroizable {
 	public Edonkey2000Hasher(Edonkey2000 hashFunc) {
 		super(hashFunc);
 		outerHasher = null;
-		innerHasher = Md4.FUNCTION.newHasher();
+		innerHasher = Md.MD4_FUNCTION.newHasher();
 		currentBlockLength = 0;
 	}
 	
@@ -115,9 +115,9 @@ final class Edonkey2000Hasher extends AbstractHasher implements Zeroizable {
 	private void nextBlock() {
 		if (currentBlockLength == BLOCK_LENGTH) {
 			if (outerHasher == null)
-				outerHasher = Md4.FUNCTION.newHasher();
+				outerHasher = Md.MD4_FUNCTION.newHasher();
 			outerHasher.update(innerHasher.getHash().toBytes());
-			innerHasher = Md4.FUNCTION.newHasher();
+			innerHasher = Md.MD4_FUNCTION.newHasher();
 			currentBlockLength = 0;
 		}
 	}
