@@ -56,12 +56,13 @@ public final class Whirlpool extends AbstractBlockHashFunction {
 	}
 	
 	
-	
 	public Cipherer newCipherer(BlockCipher cipher, byte[] key) {
 		return new FastWhirlpoolCipherer(cipher, key, rounds, sbox, c, cInverse);
 	}
 	
 	
+	
+	// Whirlpool-0 parameters
 	
 	private static int[] getWhirlpool0Sbox() {
 		return new int[] {
@@ -94,23 +95,22 @@ public final class Whirlpool extends AbstractBlockHashFunction {
 	}
 	
 	
+	// Whirlpool parameters
+	
 	private static int[] getWhirlpoolSbox() {
-		int[] sub = new int[256];
-		
 		int[] e = {0x1, 0xB, 0x9, 0xC, 0xD, 0x6, 0xF, 0x3, 0xE, 0x8, 0x7, 0x4, 0xA, 0x2, 0x5, 0x0};  // The E mini-box
 		int[] r = {0x7, 0xC, 0xB, 0xD, 0xE, 0x4, 0x9, 0xF, 0x6, 0x3, 0x8, 0xA, 0x2, 0x5, 0x1, 0x0};  // The R mini-box
-		
 		int[] einv = new int[16];  // The inverse of E
 		for (int i = 0; i < e.length; i++)
 			einv[e[i]] = i;
-		
+
+		int[] sub = new int[256];
 		for (int i = 0; i < sub.length; i++) {
 			int left = e[i >>> 4];
 			int right = einv[i & 0xF];
 			int temp = r[left ^ right];
 			sub[i] = (e[left ^ temp] << 4 | einv[right ^ temp]);
 		}
-		
 		return sub;
 	}
 	
