@@ -8,7 +8,6 @@ import p79068.util.hash.Hasher;
  * The SHA-512 hash function.
  * <p>Mutability: <em>Immutable</em><br>
  *  Instantiability: <em>Singleton</em></p>
- * @see AbstractHashFunction
  */
 public final class Sha512 extends AbstractBlockHashFunction {
 	

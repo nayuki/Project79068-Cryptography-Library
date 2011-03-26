@@ -10,7 +10,6 @@ import p79068.util.hash.Hasher;
  * The SHA-256 hash function.
  * <p>Mutability: <em>Immutable</em><br>
  *  Instantiability: <em>Singleton</em></p>
- * @see AbstractHashFunction
  */
 public final class Sha256 extends AbstractBlockHashFunction {
 	

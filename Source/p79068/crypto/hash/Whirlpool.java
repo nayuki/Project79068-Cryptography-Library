@@ -13,7 +13,6 @@ import p79068.util.hash.AbstractHashFunction;
  * </ul>
  * <p>Mutability: <em>Immutable</em><br>
  *  Instantiability: <em>Singleton</em></p>
- * @see AbstractHashFunction
  * @see Whirlpool0
  * @see WhirlpoolT
  */

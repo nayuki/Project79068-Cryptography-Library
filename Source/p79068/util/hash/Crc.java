@@ -5,7 +5,6 @@ import p79068.util.HashCoder;
 
 /**
  * A family of CRC hash functions.
- * @see AbstractHashFunction
  */
 public class Crc extends AbstractHashFunction {
 	

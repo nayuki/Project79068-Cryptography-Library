@@ -9,7 +9,6 @@ import p79068.util.hash.Hasher;
  * <p>Specifically, it uses the MD4 function to hash blocks of (exactly) 9 728 000 bytes starting from the beginning. If the message is less than one block long, the hash of the first block is returned. Otherwise: <em>If the message length is a positive multiple of the block length, one extra empty block at the end is hashed and included.</em> The hashes of these blocks are concatenated together are hashed again with MD4 to yield the final hash value.</p>
  * <p>Mutability: <em>Immutable</em><br>
  *  Instantiability: <em>Singleton</em></p>
- * @see AbstractHashFunction
  * @see NewEdonkey2000
  */
 public final class Edonkey2000 extends AbstractHashFunction {

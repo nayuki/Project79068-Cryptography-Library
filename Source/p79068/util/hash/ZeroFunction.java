@@ -5,7 +5,6 @@ package p79068.util.hash;
  * The zero hash function, always returning 8 bits of zeros.
  * <p>Mutability: <em>Immutable</em><br>
  *  Instantiability: <em>Singleton</em></p>
- * @see AbstractHashFunction
  */
 public class ZeroFunction extends AbstractHashFunction {
 	

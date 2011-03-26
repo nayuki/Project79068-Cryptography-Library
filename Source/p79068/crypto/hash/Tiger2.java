@@ -8,7 +8,6 @@ import p79068.util.hash.Hasher;
  * The Tiger2 hash function.
  * <p>Mutability: <em>Immutable</em><br>
  *  Instantiability: <em>Singleton</em></p>
- * @see AbstractHashFunction
  * @see Tiger2
  */
 public final class Tiger2 extends AbstractBlockHashFunction {

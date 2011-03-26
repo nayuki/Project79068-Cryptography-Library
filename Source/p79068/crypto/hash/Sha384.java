@@ -8,7 +8,6 @@ import p79068.util.hash.Hasher;
  * The SHA-384 hash function.
  * <p>Mutability: <em>Immutable</em><br>
  *  Instantiability: <em>Singleton</em></p>
- * @see AbstractHashFunction
  * @see Sha512
  */
 public final class Sha384 extends AbstractBlockHashFunction {

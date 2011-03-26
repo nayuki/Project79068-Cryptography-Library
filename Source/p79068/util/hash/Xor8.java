@@ -4,7 +4,6 @@ package p79068.util.hash;
 /**
  * The XOR checksum function. The hash value is the XOR of all the bytes.
  * <p>Instantiability: <em>Singleton</em></p>
- * @see AbstractHashFunction
  */
 public class Xor8 extends AbstractHashFunction {
 	

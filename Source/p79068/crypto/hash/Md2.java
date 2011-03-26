@@ -8,7 +8,6 @@ import p79068.util.hash.Hasher;
  * The MD2 hash function. It is described in RFC 1319.
  * <p>Mutability: <em>Immutable</em><br>
  *  Instantiability: <em>Singleton</em></p>
- * @see AbstractHashFunction
  */
 public final class Md2 extends AbstractBlockHashFunction {
 	

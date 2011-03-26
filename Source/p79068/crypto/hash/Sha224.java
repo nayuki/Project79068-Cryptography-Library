@@ -8,7 +8,6 @@ import p79068.util.hash.Hasher;
  * The SHA-224 hash function.
  * <p>Mutability: <em>Immutable</em><br>
  *  Instantiability: <em>Singleton</em></p>
- * @see AbstractHashFunction
  * @see Sha256
  */
 public final class Sha224 extends AbstractBlockHashFunction {

@@ -4,7 +4,6 @@ package p79068.util.hash;
 /**
  * The Sum-32 checksum function. The hash value is the sum of all the bytes (interpreted as unsigned), modulo 2<sup>32</sup>, serialized in big endian.
  * <p>Instantiability: <em>Singleton</em></p>
- * @see AbstractHashFunction
  */
 public class Sum32 extends AbstractHashFunction {
 	

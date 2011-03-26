@@ -8,7 +8,6 @@ import p79068.util.hash.Hasher;
  * The original SHA hash function, also known as SHA-0. It is described in FIPS Publication 180 (1993-05-11).
  * <p>Mutability: <em>Immutable</em><br>
  *  Instantiability: <em>Singleton</em></p>
- * @see AbstractHashFunction
  * @see Sha1
  */
 public final class Sha extends AbstractBlockHashFunction {

@@ -8,7 +8,6 @@ import p79068.util.hash.Hasher;
  * The MD5 hash function. It is described in RFC 1321.
  * <p>Mutability: <em>Immutable</em><br>
  *  Instantiability: <em>Singleton</em></p>
- * @see AbstractHashFunction
  */
 public final class Md5 extends AbstractBlockHashFunction {
 	
