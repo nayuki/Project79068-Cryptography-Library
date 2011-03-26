@@ -36,7 +36,7 @@ public final class Whirlpool extends AbstractBlockHashFunction {
 	
 	
 	
-	protected Whirlpool(String name, int rounds, int[] sbox, int[] c, int[] cInv) {
+	private Whirlpool(String name, int rounds, int[] sbox, int[] c, int[] cInv) {
 		super(name, 64, 64);
 		this.rounds = rounds;
 		this.sbox = sbox;
