@@ -2,7 +2,6 @@ package p79068.crypto.hash;
 
 import p79068.crypto.cipher.Cipherer;
 import p79068.crypto.cipher.Shacal2;
-import p79068.util.hash.AbstractHashFunction;
 import p79068.util.hash.Hasher;
 
 

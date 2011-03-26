@@ -1,7 +1,5 @@
 package p79068.crypto.hash;
 
-import p79068.util.hash.AbstractHashFunction;
-
 
 /**
  * The Whirlpool-T hash function.

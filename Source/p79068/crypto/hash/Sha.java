@@ -1,6 +1,5 @@
 package p79068.crypto.hash;
 
-import p79068.util.hash.AbstractHashFunction;
 import p79068.util.hash.Hasher;
 
 
