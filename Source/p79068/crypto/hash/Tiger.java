@@ -9,13 +9,13 @@ import p79068.util.hash.Hasher;
 public final class Tiger extends AbstractBlockHashFunction {
 	
 	/**
-	 * The Tiger hash function. {@code name = "Tiger"}, {@code hashLength = 24}, {@code blockLength = 64};
+	 * The Tiger hash function. {@code name = "Tiger"}, {@code hashLength = 24}, {@code blockLength = 64}.
 	 */
 	public final static Tiger TIGER_FUNCTION = new Tiger("Tiger");
 	
 	
 	/**
-	 * The Tiger2 hash function. {@code name = "Tiger2"}, {@code hashLength = 24}, {@code blockLength = 64};
+	 * The Tiger2 hash function. {@code name = "Tiger2"}, {@code hashLength = 24}, {@code blockLength = 64}.
 	 */
 	public final static Tiger TIGER2_FUNCTION = new Tiger("Tiger2");
 	

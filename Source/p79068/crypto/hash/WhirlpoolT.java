@@ -11,7 +11,7 @@ package p79068.crypto.hash;
 public final class WhirlpoolT extends AbstractWhirlpool {
 	
 	/**
-	 * The singleton instance of the Whirlpool-T hash function. {@code name = "Whirlpool-T"}, {@code hashLength = 64}, {@code blockLength = 64};
+	 * The singleton instance of the Whirlpool-T hash function. {@code name = "Whirlpool-T"}, {@code hashLength = 64}, {@code blockLength = 64}.
 	 */
 	public final static WhirlpoolT FUNCTION = new WhirlpoolT();
 	

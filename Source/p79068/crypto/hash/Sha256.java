@@ -13,7 +13,7 @@ import p79068.util.hash.Hasher;
 public final class Sha256 extends AbstractBlockHashFunction {
 	
 	/**
-	 * The singleton instance of the SHA-256 hash function. {@code name = "SHA-256"}, {@code hashLength = 32}, {@code blockLength = 64};
+	 * The singleton instance of the SHA-256 hash function. {@code name = "SHA-256"}, {@code hashLength = 32}, {@code blockLength = 64}.
 	 */
 	public final static Sha256 FUNCTION = new Sha256();
 	

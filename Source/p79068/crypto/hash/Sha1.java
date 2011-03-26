@@ -13,7 +13,7 @@ import p79068.util.hash.Hasher;
 public final class Sha1 extends AbstractBlockHashFunction {
 	
 	/**
-	 * The singleton instance of the SHA-1 hash function. {@code name = "SHA-1"}, {@code hashLength = 20}, {@code blockLength = 64};
+	 * The singleton instance of the SHA-1 hash function. {@code name = "SHA-1"}, {@code hashLength = 20}, {@code blockLength = 64}.
 	 */
 	public final static Sha1 FUNCTION = new Sha1();
 	
