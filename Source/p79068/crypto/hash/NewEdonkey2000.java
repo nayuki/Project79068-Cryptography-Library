@@ -1,6 +1,6 @@
 package p79068.crypto.hash;
 
-import p79068.util.hash.HashFunction;
+import p79068.util.hash.AbstractHashFunction;
 import p79068.util.hash.Hasher;
 
 
@@ -11,7 +11,7 @@ import p79068.util.hash.Hasher;
  *  Instantiability: <em>Singleton</em></p>
  * @see Edonkey2000
  */
-public final class NewEdonkey2000 extends HashFunction {
+public final class NewEdonkey2000 extends AbstractHashFunction {
 	
 	/**
 	 * The singleton instance of the new eDonkey2000 hash function.

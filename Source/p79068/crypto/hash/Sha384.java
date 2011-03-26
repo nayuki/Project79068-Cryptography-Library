@@ -1,6 +1,6 @@
 package p79068.crypto.hash;
 
-import p79068.util.hash.HashFunction;
+import p79068.util.hash.AbstractHashFunction;
 import p79068.util.hash.Hasher;
 
 
@@ -8,7 +8,7 @@ import p79068.util.hash.Hasher;
  * The SHA-384 hash function.
  * <p>Mutability: <em>Immutable</em><br>
  *  Instantiability: <em>Singleton</em></p>
- * @see HashFunction
+ * @see AbstractHashFunction
  * @see Sha512
  */
 public final class Sha384 extends BlockHashFunction {

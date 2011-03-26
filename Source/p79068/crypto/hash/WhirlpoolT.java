@@ -1,13 +1,13 @@
 package p79068.crypto.hash;
 
-import p79068.util.hash.HashFunction;
+import p79068.util.hash.AbstractHashFunction;
 
 
 /**
  * The Whirlpool-T hash function.
  * <p>Mutability: <em>Immutable</em><br>
  *  Instantiability: <em>Singleton</em></p>
- * @see HashFunction
+ * @see AbstractHashFunction
  * @see Whirlpool0
  * @see Whirlpool
  */

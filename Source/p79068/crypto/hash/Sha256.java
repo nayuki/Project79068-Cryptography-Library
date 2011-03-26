@@ -2,7 +2,7 @@ package p79068.crypto.hash;
 
 import p79068.crypto.cipher.Cipherer;
 import p79068.crypto.cipher.Shacal2;
-import p79068.util.hash.HashFunction;
+import p79068.util.hash.AbstractHashFunction;
 import p79068.util.hash.Hasher;
 
 
@@ -10,7 +10,7 @@ import p79068.util.hash.Hasher;
  * The SHA-256 hash function.
  * <p>Mutability: <em>Immutable</em><br>
  *  Instantiability: <em>Singleton</em></p>
- * @see HashFunction
+ * @see AbstractHashFunction
  */
 public final class Sha256 extends BlockHashFunction {
 	

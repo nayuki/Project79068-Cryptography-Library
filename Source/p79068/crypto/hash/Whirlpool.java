@@ -1,6 +1,6 @@
 package p79068.crypto.hash;
 
-import p79068.util.hash.HashFunction;
+import p79068.util.hash.AbstractHashFunction;
 
 
 /**
@@ -13,7 +13,7 @@ import p79068.util.hash.HashFunction;
  * </ul>
  * <p>Mutability: <em>Immutable</em><br>
  *  Instantiability: <em>Singleton</em></p>
- * @see HashFunction
+ * @see AbstractHashFunction
  * @see Whirlpool0
  * @see WhirlpoolT
  */

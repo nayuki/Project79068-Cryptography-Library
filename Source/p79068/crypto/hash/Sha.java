@@ -1,6 +1,6 @@
 package p79068.crypto.hash;
 
-import p79068.util.hash.HashFunction;
+import p79068.util.hash.AbstractHashFunction;
 import p79068.util.hash.Hasher;
 
 
@@ -8,7 +8,7 @@ import p79068.util.hash.Hasher;
  * The original SHA hash function, also known as SHA-0. It is described in FIPS Publication 180 (1993-05-11).
  * <p>Mutability: <em>Immutable</em><br>
  *  Instantiability: <em>Singleton</em></p>
- * @see HashFunction
+ * @see AbstractHashFunction
  * @see Sha1
  */
 public final class Sha extends BlockHashFunction {

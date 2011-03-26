@@ -1,6 +1,6 @@
 package p79068.crypto.hash;
 
-import p79068.util.hash.HashFunction;
+import p79068.util.hash.AbstractHashFunction;
 import p79068.util.hash.Hasher;
 
 
@@ -8,7 +8,7 @@ import p79068.util.hash.Hasher;
  * The MD4 hash function. It is described in RFC 1320.
  * <p>Mutability: <em>Immutable</em><br>
  *  Instantiability: <em>Singleton</em></p>
- * @see HashFunction
+ * @see AbstractHashFunction
  */
 public final class Md4 extends BlockHashFunction {
 	

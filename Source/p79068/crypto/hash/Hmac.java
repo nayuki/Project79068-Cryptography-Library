@@ -2,7 +2,7 @@ package p79068.crypto.hash;
 
 import p79068.crypto.Zeroizable;
 import p79068.lang.NullChecker;
-import p79068.util.hash.HashFunction;
+import p79068.util.hash.AbstractHashFunction;
 import p79068.util.hash.Hasher;
 
 
@@ -11,9 +11,9 @@ import p79068.util.hash.Hasher;
  * <p>The HMAC specification calls for a block hash function because the initial state of an HMAC instance need not retain incomplete message bytes.</p>
  * <p>The underlying function's block length must not be smaller than its output hash value length.</p>
  * <p>Mutability: <em>Mutable</em></p>
- * @see HashFunction
+ * @see AbstractHashFunction
  */
-public final class Hmac extends HashFunction implements Zeroizable {
+public final class Hmac extends AbstractHashFunction implements Zeroizable {
 	
 	private Hasher inner;
 	private Hasher outer;
