@@ -14,6 +14,7 @@ public class Crc extends AbstractHashFunction {
 	 * <p>Its parameters:</p>
 	 * <ul>
 	 *  <li>{@code name = "CRC-32"}</li>
+	 *  <li>{@code hashLength = 4}</li>
 	 *  <li>{@code degree = 32}</li>
 	 *  <li>{@code polynomial = 0x104C11DB7L} (<var>x</var><sup>32</sup> + <var>x</var><sup>26</sup> + <var>x</var><sup>23</sup> + <var>x</var><sup>22</sup> + <var>x</var><sup>16</sup> + <var>x</var><sup>12</sup> + <var>x</var><sup>11</sup> + <var>x</var><sup>10</sup> + <var>x</var><sup>8</sup> + <var>x</var><sup>7</sup> + <var>x</var><sup>5</sup> + <var>x</var><sup>4</sup> + <var>x</var><sup>2</sup> + <var>x</var><sup>1</sup> + <var>x</var><sup>0</sup>)</li>
 	 *  <li>{@code reversein = true}</li>
@@ -36,8 +37,7 @@ public class Crc extends AbstractHashFunction {
 	
 	
 	/**
-	 * Constructs a CRC hash function with the specified parameters.
-	 *
+	 * Constructs a CRC hash function with the specified parameters. The hash length is ceil({@code deg}/8) bytes.
 	 * @param name the name of the hash function
 	 * @param deg the degree of the polynomial used
 	 * @param poly the polynomial
@@ -47,6 +47,7 @@ public class Crc extends AbstractHashFunction {
 	 * @param xorout the value to XOR with the output hash value (before output reversal)
 	 */
 	public Crc(String name, int deg, long poly, boolean revin, boolean revout, long xorin, long xorout) {
+		super(name, (deg + 7) / 8);
 		if (name == null)
 			throw new IllegalArgumentException();
 		if (deg < 1 || deg > 64)
@@ -79,24 +80,6 @@ public class Crc extends AbstractHashFunction {
 		if (equals(CRC32_FUNCTION))
 			return new Crc32Hasher(this);
 		return new CrcHasher(this, degree, polynomial, reverseInputBits, reverseOutputBits, xorInput, xorOutput);
-	}
-	
-	
-	/**
-	 * Returns the name of this hash function, which is specified when it is constructed.
-	 */
-	@Override
-	public String getName() {
-		return name;
-	}
-	
-	
-	/**
-	 * Returns the length of hash values produced by this hash function: {@code ceiling(degree/8)} bytes.
-	 */
-	@Override
-	public int getHashLength() {
-		return (degree + 7) / 8;
 	}
 	
 	

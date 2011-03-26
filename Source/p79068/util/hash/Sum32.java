@@ -9,9 +9,15 @@ package p79068.util.hash;
 public class Sum32 extends AbstractHashFunction {
 	
 	/**
-	 * The singleton instance of the Sum-32 hash function.
+	 * The singleton instance of the Sum-32 hash function. {@code name = "Sum-32"}, {@code hashLength = 4}.
 	 */
 	public final static Sum32 FUNCTION = new Sum32();
+	
+	
+	
+	private Sum32() {
+		super("Sum-32", 4);
+	}
 	
 	
 	
@@ -23,27 +29,5 @@ public class Sum32 extends AbstractHashFunction {
 	public Hasher newHasher() {
 		return new Sum32Hasher(this);
 	}
-	
-	
-	/**
-	 * Returns the name of this hash function: {@code "Sum-32"}.
-	 */
-	@Override
-	public String getName() {
-		return "Sum-32";
-	}
-	
-	
-	/**
-	 * Returns the length of hash values produced by this hash function: {@code 4} bytes.
-	 */
-	@Override
-	public int getHashLength() {
-		return 4;
-	}
-	
-	
-	
-	private Sum32() {}
 	
 }

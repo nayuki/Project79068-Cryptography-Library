@@ -15,9 +15,15 @@ import p79068.util.hash.Hasher;
 public final class Sha256 extends BlockHashFunction {
 	
 	/**
-	 * The singleton instance of the SHA-256 hash function.
+	 * The singleton instance of the SHA-256 hash function. {@code name = "SHA-256"}, {@code hashLength = 32}, {@code blockLength = 64};
 	 */
 	public final static Sha256 FUNCTION = new Sha256();
+	
+	
+	
+	private Sha256() {
+		super("SHA-256", 32);
+	}
 	
 	
 	
@@ -28,26 +34,6 @@ public final class Sha256 extends BlockHashFunction {
 	@Override
 	public Hasher newHasher() {
 		return new BlockHasher(this, new Sha256Hasher(true));
-	}
-	
-	
-	/**
-	 * Returns the name of this hash function: {@code "SHA-256"}.
-	 * @return {@code "SHA-256"}
-	 */
-	@Override
-	public String getName() {
-		return "SHA-256";
-	}
-	
-	
-	/**
-	 * Returns the length of hash values produced by this hash function: {@code 32} bytes (256 bits).
-	 * @return {@code 32}
-	 */
-	@Override
-	public int getHashLength() {
-		return 32;
 	}
 	
 	
@@ -64,9 +50,5 @@ public final class Sha256 extends BlockHashFunction {
 	public Cipherer newCipherer(Shacal2 cipher, byte[] key) {
 		return new Shacal2Cipherer(cipher, key);
 	}
-	
-	
-	
-	private Sha256() {}
 	
 }

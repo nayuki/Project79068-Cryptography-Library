@@ -14,19 +14,14 @@ import p79068.util.hash.AbstractHashFunction;
 public final class WhirlpoolT extends AbstractWhirlpool {
 	
 	/**
-	 * The singleton instance of the Whirlpool-1 hash function.
+	 * The singleton instance of the Whirlpool-T hash function. {@code name = "Whirlpool-T"}, {@code hashLength = 64}, {@code blockLength = 64};
 	 */
 	public final static WhirlpoolT FUNCTION = new WhirlpoolT();
 	
 	
 	
-	/**
-	 * Returns the name of this hash function: {@code "Whirlpool-T"}.
-	 * @return {@code "Whirlpool-T"}
-	 */
-	@Override
-	public String getName() {
-		return "Whirlpool-T";
+	private WhirlpoolT() {
+		super("Whirlpool-T");
 	}
 	
 	
@@ -35,10 +30,6 @@ public final class WhirlpoolT extends AbstractWhirlpool {
 	WhirlpoolParameters getParameters() {
 		return PARAMETERS;
 	}
-	
-	
-	
-	private WhirlpoolT() {}
 	
 	
 	

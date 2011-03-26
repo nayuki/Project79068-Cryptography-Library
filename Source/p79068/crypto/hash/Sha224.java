@@ -14,9 +14,15 @@ import p79068.util.hash.Hasher;
 public final class Sha224 extends BlockHashFunction {
 	
 	/**
-	 * The singleton instance of the SHA-224 hash function.
+	 * The singleton instance of the SHA-224 hash function. {@code name = "SHA-224"}, {@code hashLength = 28}, {@code blockLength = 64};
 	 */
 	public final static Sha224 FUNCTION = new Sha224();
+	
+	
+	
+	private Sha224() {
+		super("SHA-224", 28);
+	}
 	
 	
 	
@@ -31,26 +37,6 @@ public final class Sha224 extends BlockHashFunction {
 	
 	
 	/**
-	 * Returns the name of this hash function: {@code "SHA-224"}.
-	 * @return {@code "SHA-224"}
-	 */
-	@Override
-	public String getName() {
-		return "SHA-224";
-	}
-	
-	
-	/**
-	 * Returns the length of hash values produced by this hash function: {@code 28} bytes (224 bits).
-	 * @return {@code 28}
-	 */
-	@Override
-	public int getHashLength() {
-		return 28;
-	}
-	
-	
-	/**
 	 * Returns the block length of this hash function: {@code 64} bytes (512 bits).
 	 * @return {@code 64}
 	 */
@@ -58,9 +44,5 @@ public final class Sha224 extends BlockHashFunction {
 	public int getBlockLength() {
 		return 64;
 	}
-	
-	
-	
-	private Sha224() {}
 	
 }

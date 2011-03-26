@@ -27,6 +27,26 @@ import p79068.lang.NullChecker;
 public abstract class AbstractHashFunction implements HashFunction {
 	
 	/**
+	 * The name of this hash function.
+	 */
+	private String name;
+	
+	
+	/**
+	 * The length of the hash values produced by this hash function, in bytes.
+	 */
+	private int hashLength;
+	
+	
+	
+	protected AbstractHashFunction(String name, int hashLen) {
+		this.name = name;
+		this.hashLength = hashLen;
+	}
+	
+	
+	
+	/**
 	 * Computes and returns the hash value of the specified byte array.
 	 */
 	public HashValue getHash(byte[] b) {
@@ -79,15 +99,17 @@ public abstract class AbstractHashFunction implements HashFunction {
 	 * Returns the name of this hash function.
 	 * @return the name of this hash function
 	 */
-	public abstract String getName();
+	public final String getName() {
+		return name;
+	}
 	
 	
 	/**
 	 * Returns the length of the hash values produced by this hash function, in bytes.
 	 * @return the length of the hash values produced by this hash function, in bytes
 	 */
-	public int getHashLength() {
-		return getHash(new byte[0]).getLength();
+	public final int getHashLength() {
+		return hashLength;
 	}
 	
 	

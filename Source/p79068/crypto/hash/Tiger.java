@@ -13,9 +13,15 @@ import p79068.util.hash.Hasher;
 public final class Tiger extends BlockHashFunction {
 	
 	/**
-	 * The singleton instance of the Tiger hash function.
+	 * The singleton instance of the Tiger hash function. {@code name = "Tiger"}, {@code hashLength = 24}, {@code blockLength = 64};
 	 */
 	public final static Tiger FUNCTION = new Tiger();
+	
+	
+	
+	private Tiger() {
+		super("Tiger", 24);
+	}
 	
 	
 	
@@ -30,26 +36,6 @@ public final class Tiger extends BlockHashFunction {
 	
 	
 	/**
-	 * Returns the name of this hash function: {@code "Tiger"}.
-	 * @return {@code "Tiger"}
-	 */
-	@Override
-	public String getName() {
-		return "Tiger";
-	}
-	
-	
-	/**
-	 * Returns the length of hash values produced by this hash function: {@code 24} bytes (192 bits).
-	 * @return {@code 24}
-	 */
-	@Override
-	public int getHashLength() {
-		return 24;
-	}
-	
-	
-	/**
 	 * Returns the block length of this hash function: {@code 64} bytes (512 bits).
 	 * @return {@code 64}
 	 */
@@ -57,9 +43,5 @@ public final class Tiger extends BlockHashFunction {
 	public int getBlockLength() {
 		return 64;
 	}
-	
-	
-	
-	private Tiger() {}
 	
 }

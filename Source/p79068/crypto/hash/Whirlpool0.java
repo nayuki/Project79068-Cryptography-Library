@@ -14,30 +14,22 @@ import p79068.util.hash.AbstractHashFunction;
 public final class Whirlpool0 extends AbstractWhirlpool {
 	
 	/**
-	 * The singleton instance of the Whirlpool-0 hash function.
+	 * The singleton instance of the Whirlpool-0 hash function. {@code name = "Whirlpool-0"}, {@code hashLength = 64}, {@code blockLength = 64};
 	 */
 	public final static Whirlpool0 FUNCTION = new Whirlpool0();
 	
 	
 	
-	/**
-	 * Returns the name of this hash function: {@code "Whirlpool-0"}.
-	 * @return {@code "Whirlpool-0"}
-	 */
-	@Override
-	public String getName() {
-		return "Whirlpool-0";
+	private Whirlpool0() {
+		super("Whirlpool-0");
 	}
+	
 	
 	
 	@Override
 	WhirlpoolParameters getParameters() {
 		return PARAMETERS;
 	}
-	
-	
-	
-	private Whirlpool0() {}
 	
 	
 	

@@ -9,9 +9,15 @@ package p79068.util.hash;
 public class Xor8 extends AbstractHashFunction {
 	
 	/**
-	 * The singleton instance of the XOR hash function.
+	 * The singleton instance of the XOR hash function. {@code name = "XOR-8"}, {@code hashLength = 1}.
 	 */
 	public final static Xor8 FUNCTION = new Xor8();
+	
+	
+	
+	private Xor8() {
+		super("XOR-8", 1);
+	}
 	
 	
 	
@@ -22,24 +28,6 @@ public class Xor8 extends AbstractHashFunction {
 	@Override
 	public Hasher newHasher() {
 		return new Xor8Hasher(this);
-	}
-	
-	
-	/**
-	 * Returns the name of this hash function: {@code "XOR-8"}.
-	 */
-	@Override
-	public String getName() {
-		return "XOR-8";
-	}
-	
-	
-	/**
-	 * Returns the length of hash values produced by this hash function: {@code 1} byte.
-	 */
-	@Override
-	public int getHashLength() {
-		return 1;
 	}
 	
 }

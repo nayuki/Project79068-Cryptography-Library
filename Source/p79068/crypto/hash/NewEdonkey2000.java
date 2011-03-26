@@ -14,9 +14,15 @@ import p79068.util.hash.Hasher;
 public final class NewEdonkey2000 extends AbstractHashFunction {
 	
 	/**
-	 * The singleton instance of the new eDonkey2000 hash function.
+	 * The singleton instance of the new eDonkey2000 hash function. {@code name = "New eDonkey2000"}, {@code hashLength = 16}.
 	 */
 	public final static NewEdonkey2000 FUNCTION = new NewEdonkey2000();
+	
+	
+	
+	private NewEdonkey2000() {
+		super("New eDonkey2000", 16);
+	}
 	
 	
 	
@@ -28,29 +34,5 @@ public final class NewEdonkey2000 extends AbstractHashFunction {
 	public Hasher newHasher() {
 		return new NewEdonkey2000Hasher(this);
 	}
-	
-	
-	/**
-	 * Returns the name of this hash function: {@code "New eDonkey2000"}.
-	 * @return {@code "New eDonkey2000"}
-	 */
-	@Override
-	public String getName() {
-		return "New eDonkey2000";
-	}
-	
-	
-	/**
-	 * Returns the length of hash values produced by this hash function: {@code 16} bytes (128 bits).
-	 * @return {@code 16}
-	 */
-	@Override
-	public int getHashLength() {
-		return Md4.FUNCTION.getHashLength();
-	}
-	
-	
-	
-	private NewEdonkey2000() {}
 	
 }

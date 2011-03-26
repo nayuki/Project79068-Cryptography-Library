@@ -14,9 +14,15 @@ import p79068.util.hash.Hasher;
 public final class Sha extends BlockHashFunction {
 	
 	/**
-	 * The singleton instance of the SHA hash function.
+	 * The singleton instance of the SHA hash function. {@code name = "SHA"}, {@code hashLength = 20}, {@code blockLength = 64};
 	 */
 	public final static Sha FUNCTION = new Sha();
+	
+	
+	
+	private Sha() {
+		super("SHA", 20);
+	}
 	
 	
 	
@@ -31,26 +37,6 @@ public final class Sha extends BlockHashFunction {
 	
 	
 	/**
-	 * Returns the name of this hash function: {@code "SHA"}.
-	 * @return {@code "SHA"}
-	 */
-	@Override
-	public String getName() {
-		return "SHA";
-	}
-	
-	
-	/**
-	 * Returns the length of hash values produced by this hash function: {@code 20} bytes (160 bits).
-	 * @return {@code 20}
-	 */
-	@Override
-	public int getHashLength() {
-		return 20;
-	}
-	
-	
-	/**
 	 * Returns the block length of this hash function: {@code 64} bytes (512 bits).
 	 * @return {@code 64}
 	 */
@@ -58,9 +44,5 @@ public final class Sha extends BlockHashFunction {
 	public int getBlockLength() {
 		return 64;
 	}
-	
-	
-	
-	private Sha() {}
 	
 }

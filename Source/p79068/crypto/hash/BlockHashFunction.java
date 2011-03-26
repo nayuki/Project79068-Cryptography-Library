@@ -8,6 +8,12 @@ import p79068.util.hash.AbstractHashFunction;
  */
 public abstract class BlockHashFunction extends AbstractHashFunction {
 	
+	protected BlockHashFunction(String name, int hashLen) {
+		super(name, hashLen);
+	}
+	
+	
+	
 	/**
 	 * Returns the block length of this hash function. This property is required for the HMAC hash function.
 	 * @return the block length of this hash function

@@ -13,9 +13,15 @@ import p79068.util.hash.Hasher;
 public final class Md2 extends BlockHashFunction {
 	
 	/**
-	 * The singleton instance of the MD2 hash function.
+	 * The singleton instance of the MD2 hash function. {@code name = "MD2"}, {@code hashLength = 16}, {@code blockLength = 16};
 	 */
 	public final static Md2 FUNCTION = new Md2();
+	
+	
+	
+	private Md2() {
+		super("MD2", 16);
+	}
 	
 	
 	
@@ -30,26 +36,6 @@ public final class Md2 extends BlockHashFunction {
 	
 	
 	/**
-	 * Returns the name of this hash function: {@code "MD2"}.
-	 * @return {@code "MD2"}
-	 */
-	@Override
-	public String getName() {
-		return "MD2";
-	}
-	
-	
-	/**
-	 * Returns the length of hash values produced by this hash function: {@code 16} bytes (128 bits).
-	 * @return {@code 16}
-	 */
-	@Override
-	public int getHashLength() {
-		return 16;
-	}
-	
-	
-	/**
 	 * Returns the block length of this hash function: {@code 64} bytes (512 bits).
 	 * @return {@code 64}
 	 */
@@ -57,9 +43,5 @@ public final class Md2 extends BlockHashFunction {
 	public int getBlockLength() {
 		return 16;
 	}
-	
-	
-	
-	private Md2() {}
 	
 }

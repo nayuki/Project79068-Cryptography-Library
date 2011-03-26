@@ -13,9 +13,15 @@ import p79068.util.hash.Hasher;
 public final class Sha512 extends BlockHashFunction {
 	
 	/**
-	 * The singleton instance of the SHA-512 hash function.
+	 * The singleton instance of the SHA-512 hash function. {@code name = "SHA-512"}, {@code hashLength = 64}, {@code blockLength = 128};
 	 */
 	public final static Sha512 FUNCTION = new Sha512();
+	
+	
+	
+	private Sha512() {
+		super("SHA-512", 64);
+	}
 	
 	
 	
@@ -30,26 +36,6 @@ public final class Sha512 extends BlockHashFunction {
 	
 	
 	/**
-	 * Returns the name of this hash function: {@code "SHA-512"}.
-	 * @return {@code "SHA-512"}
-	 */
-	@Override
-	public String getName() {
-		return "SHA-512";
-	}
-	
-	
-	/**
-	 * Returns the length of hash values produced by this hash function: {@code 64} bytes (512 bits).
-	 * @return {@code 64}
-	 */
-	@Override
-	public int getHashLength() {
-		return 64;
-	}
-	
-	
-	/**
 	 * Returns the block length of this hash function: {@code 128} bytes (1024 bits).
 	 * @return {@code 128}
 	 */
@@ -57,9 +43,5 @@ public final class Sha512 extends BlockHashFunction {
 	public int getBlockLength() {
 		return 128;
 	}
-	
-	
-	
-	private Sha512() {}
 	
 }

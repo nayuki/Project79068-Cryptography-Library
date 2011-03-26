@@ -15,9 +15,15 @@ import p79068.util.hash.Hasher;
 public final class Sha1 extends BlockHashFunction {
 	
 	/**
-	 * The singleton instance of the SHA-1 hash function.
+	 * The singleton instance of the SHA-1 hash function. {@code name = "SHA-1"}, {@code hashLength = 20}, {@code blockLength = 64};
 	 */
 	public final static Sha1 FUNCTION = new Sha1();
+	
+	
+	
+	private Sha1() {
+		super("SHA-1", 20);
+	}
 	
 	
 	
@@ -28,26 +34,6 @@ public final class Sha1 extends BlockHashFunction {
 	@Override
 	public Hasher newHasher() {
 		return new BlockHasher(this, new FastSha1Hasher());
-	}
-	
-	
-	/**
-	 * Returns the name of this hash function: {@code "SHA-1"}.
-	 * @return {@code "SHA-1"}
-	 */
-	@Override
-	public String getName() {
-		return "SHA-1";
-	}
-	
-	
-	/**
-	 * Returns the length of hash values produced by this hash function: {@code 20} bytes (160 bits).
-	 * @return {@code 20}
-	 */
-	@Override
-	public int getHashLength() {
-		return 20;
 	}
 	
 	
@@ -65,9 +51,5 @@ public final class Sha1 extends BlockHashFunction {
 	public Cipherer newCipherer(Shacal1 cipher, byte[] key) {
 		return new Shacal1Cipherer(cipher, key);
 	}
-	
-	
-	
-	private Sha1() {}
 	
 }

@@ -9,9 +9,15 @@ package p79068.util.hash;
 public class Adler32 extends AbstractHashFunction {
 	
 	/**
-	 * The singleton instance of the Adler-32 hash function.
+	 * The singleton instance of the Adler-32 hash function. {@code name = "Adler-32"}, {@code hashLength = 4}.
 	 */
 	public final static Adler32 FUNCTION = new Adler32();
+	
+	
+	
+	private Adler32() {
+		super("Adler-32", 4);
+	}
 	
 	
 	
@@ -23,27 +29,5 @@ public class Adler32 extends AbstractHashFunction {
 	public Hasher newHasher() {
 		return new Adler32Hasher(this);
 	}
-	
-	
-	/**
-	 * Returns the name of this hash function: {@code "Adler-32"}.
-	 */
-	@Override
-	public String getName() {
-		return "Adler-32";
-	}
-	
-	
-	/**
-	 * Returns the length of hash values produced by this hash function: {@code 4} bytes.
-	 */
-	@Override
-	public int getHashLength() {
-		return 4;
-	}
-	
-	
-	
-	private Adler32() {}
 	
 }

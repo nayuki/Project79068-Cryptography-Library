@@ -10,9 +10,15 @@ package p79068.util.hash;
 public class ZeroFunction extends AbstractHashFunction {
 	
 	/**
-	 * The singleton instance of the zero hash function.
+	 * The singleton instance of the zero hash function. {@code name = "Zero"}, {@code hashLength = 1}.
 	 */
 	public final static ZeroFunction FUNCTION = new ZeroFunction();
+	
+	
+	
+	private ZeroFunction() {
+		super("Zero", 1);
+	}
 	
 	
 	
@@ -24,27 +30,5 @@ public class ZeroFunction extends AbstractHashFunction {
 	public Hasher newHasher() {
 		return new ZeroHasher(this);
 	}
-	
-	
-	/**
-	 * Returns the name of this hash function: {@code "Zero"}.
-	 */
-	@Override
-	public String getName() {
-		return "Zero";
-	}
-	
-	
-	/**
-	 * Returns the length of hash values produced by this hash function: {@code 1} byte.
-	 */
-	@Override
-	public int getHashLength() {
-		return 1;
-	}
-	
-	
-	
-	private ZeroFunction() {}
 	
 }

@@ -26,6 +26,7 @@ public final class Hmac extends AbstractHashFunction implements Zeroizable {
 	 * @param key the secret key
 	 */
 	public Hmac(BlockHashFunction hashFunc, byte[] key) {
+		super(String.format("HMAC-%s", hashFunc.getName()), hashFunc.getHashLength());
 		NullChecker.check(hashFunc, key);
 		if (hashFunc.getBlockLength() < hashFunc.getHashLength())
 			throw new IllegalArgumentException();
@@ -52,30 +53,6 @@ public final class Hmac extends AbstractHashFunction implements Zeroizable {
 		if (outer == null)
 			throw new IllegalStateException("Already zeroized");
 		return new HmacHasher(this, inner, outer);
-	}
-	
-	
-	/**
-	 * Returns the name of this hash function.
-	 * @throws IllegalStateException if this object has been zeroized
-	 */
-	@Override
-	public String getName() {
-		if (outer == null)
-			throw new IllegalStateException("Already zeroized");
-		return String.format("HMAC-%s", outer.getHashFunction().getName());
-	}
-	
-	
-	/**
-	 * Returns the length of hash values produced by this hash function: the length produced by the underlying hash function.
-	 * @throws IllegalStateException if this object has been zeroized
-	 */
-	@Override
-	public int getHashLength() {
-		if (outer == null)
-			throw new IllegalStateException("Already zeroized");
-		return outer.getHashFunction().getHashLength();
 	}
 	
 	

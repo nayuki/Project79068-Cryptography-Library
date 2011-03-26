@@ -13,9 +13,15 @@ import p79068.util.hash.Hasher;
 public final class Md5 extends BlockHashFunction {
 	
 	/**
-	 * The singleton instance of the MD5 hash function.
+	 * The singleton instance of the MD5 hash function. {@code name = "MD5"}, {@code hashLength = 16}, {@code blockLength = 64};
 	 */
 	public final static Md5 FUNCTION = new Md5();
+	
+	
+	
+	private Md5() {
+		super("MD5", 16);
+	}
 	
 	
 	
@@ -30,26 +36,6 @@ public final class Md5 extends BlockHashFunction {
 	
 	
 	/**
-	 * Returns the name of this hash function: {@code "MD5"}.
-	 * @return {@code "MD5"}
-	 */
-	@Override
-	public String getName() {
-		return "MD5";
-	}
-	
-	
-	/**
-	 * Returns the length of hash values produced by this hash function: {@code 16} bytes (128 bits).
-	 * @return {@code 16}
-	 */
-	@Override
-	public int getHashLength() {
-		return 16;
-	}
-	
-	
-	/**
 	 * Returns the block length of this hash function: {@code 64} bytes (512 bits).
 	 * @return {@code 64}
 	 */
@@ -57,9 +43,5 @@ public final class Md5 extends BlockHashFunction {
 	public int getBlockLength() {
 		return 64;
 	}
-	
-	
-	
-	private Md5() {}
 	
 }
