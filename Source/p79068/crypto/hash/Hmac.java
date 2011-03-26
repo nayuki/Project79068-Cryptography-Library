@@ -25,7 +25,7 @@ public final class Hmac extends AbstractHashFunction implements Zeroizable {
 	 * @param hashFunc the underlying block hash function
 	 * @param key the secret key
 	 */
-	public Hmac(AbstractBlockHashFunction hashFunc, byte[] key) {
+	public Hmac(BlockHashFunction hashFunc, byte[] key) {
 		super(String.format("HMAC-%s", hashFunc.getName()), hashFunc.getHashLength());
 		NullChecker.check(hashFunc, key);
 		if (hashFunc.getBlockLength() < hashFunc.getHashLength())
@@ -73,7 +73,7 @@ public final class Hmac extends AbstractHashFunction implements Zeroizable {
 	
 	
 	
-	private static byte[] preprocessKey(AbstractBlockHashFunction hashFunc, byte[] key) {
+	private static byte[] preprocessKey(BlockHashFunction hashFunc, byte[] key) {
 		if (key.length > hashFunc.getBlockLength())
 			key = hashFunc.getHash(key).toBytes();
 		byte[] blocksizedkey = new byte[hashFunc.getBlockLength()];
