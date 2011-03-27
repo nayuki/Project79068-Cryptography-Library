@@ -20,7 +20,7 @@ final class Sha1Core extends BlockHasherCore {
 	
 	public Sha1Core(boolean sha1Mode) {
 		this.sha1Mode = sha1Mode;
-		state = new int[] { 0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476, 0xC3D2E1F0 };
+		state = new int[]{0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476, 0xC3D2E1F0};
 	}
 	
 	
