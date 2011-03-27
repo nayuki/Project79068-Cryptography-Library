@@ -1,7 +1,6 @@
 package p79068.crypto.cipher;
 
 import p79068.lang.BoundsChecker;
-import p79068.random.Random;
 
 
 /**
@@ -47,14 +46,6 @@ public abstract class StreamCipherer extends Cipherer {
 	@Override
 	public StreamCipher getCipher() {
 		return (StreamCipher)cipher;
-	}
-	
-	
-	/**
-	 * Returns this stream cipher as a (cryptographically secure) pseudorandom number generator.
-	 */
-	public Random asRandom() {
-		return new StreamCiphererRandom(this);
 	}
 	
 }
