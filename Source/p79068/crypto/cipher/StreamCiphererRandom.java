@@ -1,9 +1,9 @@
 package p79068.crypto.cipher;
 
-import p79068.random.Random;
+import p79068.random.AbstractRandom;
 
 
-public final class StreamCiphererRandom extends Random {
+public final class StreamCiphererRandom extends AbstractRandom {
 	
 	private StreamCipherer cipherer;
 	
