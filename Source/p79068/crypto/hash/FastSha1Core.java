@@ -8,23 +8,23 @@ import p79068.math.IntegerBitMath;
 import p79068.util.hash.HashValue;
 
 
-final class FastSha1Hasher extends BlockHasherCore {
+final class FastSha1Core extends BlockHasherCore {
 	
 	private int[] state;
 	
 	
 	
-	public FastSha1Hasher() {
+	public FastSha1Core() {
 		state = new int[] { 0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476, 0xC3D2E1F0 };
 	}
 	
 	
 	
 	@Override
-	public FastSha1Hasher clone() {
+	public FastSha1Core clone() {
 		if (state == null)
 			throw new IllegalStateException("Already zeroized");
-		FastSha1Hasher result = (FastSha1Hasher)super.clone();
+		FastSha1Core result = (FastSha1Core)super.clone();
 		result.state = result.state.clone();
 		return result;
 	}

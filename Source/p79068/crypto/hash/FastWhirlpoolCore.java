@@ -8,7 +8,7 @@ import p79068.math.LongBitMath;
 import p79068.util.hash.HashValue;
 
 
-final class FastWhirlpoolHasher extends BlockHasherCore {
+final class FastWhirlpoolCore extends BlockHasherCore {
 	
 	private final long[][] rcon;
 	
@@ -21,7 +21,7 @@ final class FastWhirlpoolHasher extends BlockHasherCore {
 	
 	
 	
-	public FastWhirlpoolHasher(int rounds, int[] sbox, int[] c, int[] cInv) {
+	public FastWhirlpoolCore(int rounds, int[] sbox, int[] c, int[] cInv) {
 		subInv = invertSbox(sbox);
 		mul = makeMultiplicationTable(sbox, c);
 		mulInv = makeInverseMultiplicationTable(cInv);
@@ -32,10 +32,10 @@ final class FastWhirlpoolHasher extends BlockHasherCore {
 	
 	
 	@Override
-	public FastWhirlpoolHasher clone() {
+	public FastWhirlpoolCore clone() {
 		if (state == null)
 			throw new IllegalStateException("Already zeroized");
-		FastWhirlpoolHasher result = (FastWhirlpoolHasher)super.clone();
+		FastWhirlpoolCore result = (FastWhirlpoolCore)super.clone();
 		result.state = result.state.clone();
 		return result;
 	}

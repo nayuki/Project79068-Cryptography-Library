@@ -52,7 +52,7 @@ public final class Whirlpool extends AbstractBlockHashFunction {
 	 */
 	@Override
 	public Hasher newHasher() {
-		return new BlockHasher(this, new FastWhirlpoolHasher(rounds, sbox, c, cInverse));
+		return new BlockHasher(this, new FastWhirlpoolCore(rounds, sbox, c, cInverse));
 	}
 	
 	

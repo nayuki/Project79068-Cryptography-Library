@@ -16,13 +16,13 @@ final class FastWhirlpoolCipherer extends Cipherer {
 	
 	private long[] key;
 	
-	private FastWhirlpoolHasher hasher;
+	private FastWhirlpoolCore hasher;
 	
 	
 	
 	public FastWhirlpoolCipherer(BlockCipher cipher, byte[] key, int rounds, int[] sbox, int[] c, int[] cInv) {
 		super(cipher, key);
-		hasher = new FastWhirlpoolHasher(rounds, sbox, c, cInv);
+		hasher = new FastWhirlpoolCore(rounds, sbox, c, cInv);
 		setKey(key);
 	}
 	

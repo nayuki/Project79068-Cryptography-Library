@@ -6,23 +6,23 @@ import p79068.math.IntegerBitMath;
 import p79068.util.hash.HashValue;
 
 
-final class FastMd4Hasher extends BlockHasherCore {
+final class FastMd4Core extends BlockHasherCore {
 	
 	private int[] state;
 	
 	
 	
-	public FastMd4Hasher() {
+	public FastMd4Core() {
 		state = new int[] { 0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476 };
 	}
 	
 	
 	
 	@Override
-	public FastMd4Hasher clone() {
+	public FastMd4Core clone() {
 		if (state == null)
 			throw new IllegalStateException("Already zeroized");
-		FastMd4Hasher result = (FastMd4Hasher)super.clone();
+		FastMd4Core result = (FastMd4Core)super.clone();
 		result.state = result.state.clone();
 		return result;
 	}

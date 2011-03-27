@@ -42,9 +42,9 @@ public final class Md extends AbstractBlockHashFunction {
 	 */
 	@Override
 	public Hasher newHasher() {
-		if      (this == MD2_FUNCTION) return new BlockHasher(this, new Md2Hasher());
-		else if (this == MD4_FUNCTION) return new BlockHasher(this, new FastMd4Hasher());
-		else if (this == MD5_FUNCTION) return new BlockHasher(this, new Md5Hasher());
+		if      (this == MD2_FUNCTION) return new BlockHasher(this, new Md2Core());
+		else if (this == MD4_FUNCTION) return new BlockHasher(this, new FastMd4Core());
+		else if (this == MD5_FUNCTION) return new BlockHasher(this, new Md5Core());
 		else throw new AssertionError();
 	}
 	

@@ -8,7 +8,7 @@ import p79068.math.LongBitMath;
 import p79068.util.hash.HashValue;
 
 
-final class TigerHasher extends BlockHasherCore {
+final class TigerCore extends BlockHasherCore {
 	
 	private final boolean tiger2Mode;
 	
@@ -16,7 +16,7 @@ final class TigerHasher extends BlockHasherCore {
 	
 	
 	
-	public TigerHasher(boolean tiger2Mode) {
+	public TigerCore(boolean tiger2Mode) {
 		this.tiger2Mode = tiger2Mode;
 		state = new long[] { 0x0123456789ABCDEFL, 0xFEDCBA9876543210L, 0xF096A5B4C3B2E187L };
 	}
@@ -24,10 +24,10 @@ final class TigerHasher extends BlockHasherCore {
 	
 	
 	@Override
-	public TigerHasher clone() {
+	public TigerCore clone() {
 		if (state == null)
 			throw new IllegalStateException("Already zeroized");
-		TigerHasher result = (TigerHasher)super.clone();
+		TigerCore result = (TigerCore)super.clone();
 		result.state = result.state.clone();
 		return result;
 	}

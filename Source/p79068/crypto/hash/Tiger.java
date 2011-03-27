@@ -33,8 +33,8 @@ public final class Tiger extends AbstractBlockHashFunction {
 	 */
 	@Override
 	public Hasher newHasher() {
-		if      (this == TIGER_FUNCTION ) return new BlockHasher(this, new TigerHasher(false));
-		else if (this == TIGER2_FUNCTION) return new BlockHasher(this, new TigerHasher(true));
+		if      (this == TIGER_FUNCTION ) return new BlockHasher(this, new TigerCore(false));
+		else if (this == TIGER2_FUNCTION) return new BlockHasher(this, new TigerCore(true));
 		else throw new AssertionError();
 	}
 	

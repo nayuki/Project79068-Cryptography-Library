@@ -7,7 +7,7 @@ import p79068.lang.BoundsChecker;
 import p79068.util.hash.HashValue;
 
 
-final class WhirlpoolHasher extends BlockHasherCore {
+final class WhirlpoolCore extends BlockHasherCore {
 	
 	private final byte[] sub;
 	private final byte[] subinv;
@@ -19,7 +19,7 @@ final class WhirlpoolHasher extends BlockHasherCore {
 	
 	
 	
-	public WhirlpoolHasher(int rounds, int[] sbox, int[] c, int[] cInv) {
+	public WhirlpoolCore(int rounds, int[] sbox, int[] c, int[] cInv) {
 		sub = makeSbox(sbox);
 		subinv = makeSboxInverse(sbox);
 		mul = makeMultiplicationTable(c);
@@ -31,10 +31,10 @@ final class WhirlpoolHasher extends BlockHasherCore {
 	
 	
 	@Override
-	public WhirlpoolHasher clone() {
+	public WhirlpoolCore clone() {
 		if (state == null)
 			throw new IllegalStateException("Already zeroized");
-		WhirlpoolHasher result = (WhirlpoolHasher)super.clone();
+		WhirlpoolCore result = (WhirlpoolCore)super.clone();
 		result.state = result.state.clone();
 		return result;
 	}

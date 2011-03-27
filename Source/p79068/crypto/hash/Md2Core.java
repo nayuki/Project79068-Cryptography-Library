@@ -5,14 +5,14 @@ import p79068.lang.BoundsChecker;
 import p79068.util.hash.HashValue;
 
 
-final class Md2Hasher extends BlockHasherCore {
+final class Md2Core extends BlockHasherCore {
 	
 	private int[] state;  // Every element is in [0, 255]
 	private int[] checksum;  // Every element is in [0, 255]
 	
 	
 	
-	public Md2Hasher() {
+	public Md2Core() {
 		state = new int[48];
 		checksum = new int[16];
 	}
@@ -20,10 +20,10 @@ final class Md2Hasher extends BlockHasherCore {
 	
 	
 	@Override
-	public Md2Hasher clone() {
+	public Md2Core clone() {
 		if (state == null)
 			throw new IllegalStateException("Already zeroized");
-		Md2Hasher result = (Md2Hasher)super.clone();
+		Md2Core result = (Md2Core)super.clone();
 		result.state = result.state.clone();
 		result.checksum = result.checksum.clone();
 		return result;

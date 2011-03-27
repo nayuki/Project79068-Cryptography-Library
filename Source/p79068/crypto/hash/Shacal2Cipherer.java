@@ -37,7 +37,7 @@ final class Shacal2Cipherer extends Cipherer {
 			for (int i = 0; i < 32; i++)
 				message[i >>> 2] |= (b[off + i] & 0xFF) << ((3 ^ i) << 3);
 			
-			Sha256Hasher.encrypt(keySchedule, message);
+			Sha256Core.encrypt(keySchedule, message);
 			
 			// Unpack int32s into bytes in big endian
 			for (int i = 0; i < 32; i++)
@@ -62,7 +62,7 @@ final class Shacal2Cipherer extends Cipherer {
 			for (int i = 0; i < 32; i++)
 				message[i >>> 2] |= (b[off + i] & 0xFF) << ((3 ^ i) << 3);
 			
-			Sha256Hasher.decrypt(keySchedule, message);
+			Sha256Core.decrypt(keySchedule, message);
 			
 			// Unpack int32s into bytes in big endian
 			for (int i = 0; i < 32; i++)

@@ -10,13 +10,13 @@ final class WhirlpoolCipherer extends Cipherer {
 	
 	private byte[] key;
 	
-	private WhirlpoolHasher hasher;
+	private WhirlpoolCore hasher;
 	
 	
 	
 	public WhirlpoolCipherer(BlockCipher cipher, byte[] key, int rounds, int[] sbox, int[] c, int[] cInv) {
 		super(cipher, key);
-		hasher = new WhirlpoolHasher(rounds, sbox, c, cInv);
+		hasher = new WhirlpoolCore(rounds, sbox, c, cInv);
 		setKey(key);
 	}
 	

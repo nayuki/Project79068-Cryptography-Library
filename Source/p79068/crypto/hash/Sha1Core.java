@@ -10,7 +10,7 @@ import p79068.math.IntegerBitMath;
 import p79068.util.hash.HashValue;
 
 
-final class Sha1Hasher extends BlockHasherCore {
+final class Sha1Core extends BlockHasherCore {
 	
 	private final boolean sha1Mode;
 	
@@ -18,7 +18,7 @@ final class Sha1Hasher extends BlockHasherCore {
 	
 	
 	
-	public Sha1Hasher(boolean sha1Mode) {
+	public Sha1Core(boolean sha1Mode) {
 		this.sha1Mode = sha1Mode;
 		state = new int[] { 0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476, 0xC3D2E1F0 };
 	}
@@ -26,10 +26,10 @@ final class Sha1Hasher extends BlockHasherCore {
 	
 	
 	@Override
-	public Sha1Hasher clone() {
+	public Sha1Core clone() {
 		if (state == null)
 			throw new IllegalStateException("Already zeroized");
-		Sha1Hasher result = (Sha1Hasher)super.clone();
+		Sha1Core result = (Sha1Core)super.clone();
 		result.state = result.state.clone();
 		return result;
 	}

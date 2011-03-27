@@ -8,7 +8,7 @@ import p79068.math.IntegerBitMath;
 import p79068.util.hash.HashValue;
 
 
-final class Sha256Hasher extends BlockHasherCore {
+final class Sha256Core extends BlockHasherCore {
 	
 	private final boolean sha256Mode;
 	
@@ -16,7 +16,7 @@ final class Sha256Hasher extends BlockHasherCore {
 	
 	
 	
-	public Sha256Hasher(boolean sha256Mode) {
+	public Sha256Core(boolean sha256Mode) {
 		this.sha256Mode = sha256Mode;
 		if (sha256Mode) {
 			state = new int[] {
@@ -34,10 +34,10 @@ final class Sha256Hasher extends BlockHasherCore {
 	
 	
 	@Override
-	public Sha256Hasher clone() {
+	public Sha256Core clone() {
 		if (state == null)
 			throw new IllegalStateException("Already zeroized");
-		Sha256Hasher result = (Sha256Hasher)super.clone();
+		Sha256Core result = (Sha256Core)super.clone();
 		result.state = result.state.clone();
 		return result;
 	}

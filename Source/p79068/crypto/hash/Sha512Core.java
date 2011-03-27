@@ -8,7 +8,7 @@ import p79068.math.LongBitMath;
 import p79068.util.hash.HashValue;
 
 
-final class Sha512Hasher extends BlockHasherCore {
+final class Sha512Core extends BlockHasherCore {
 	
 	private final boolean sha512Mode;
 	
@@ -16,7 +16,7 @@ final class Sha512Hasher extends BlockHasherCore {
 	
 	
 	
-	public Sha512Hasher(boolean sha512Mode) {
+	public Sha512Core(boolean sha512Mode) {
 		this.sha512Mode = sha512Mode;
 		if (sha512Mode) {
 			state = new long[] {
@@ -34,10 +34,10 @@ final class Sha512Hasher extends BlockHasherCore {
 	
 	
 	@Override
-	public Sha512Hasher clone() {
+	public Sha512Core clone() {
 		if (state == null)
 			throw new IllegalStateException("Already zeroized");
-		Sha512Hasher result = (Sha512Hasher)super.clone();
+		Sha512Core result = (Sha512Core)super.clone();
 		result.state = result.state.clone();
 		return result;
 	}

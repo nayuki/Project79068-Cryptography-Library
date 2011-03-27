@@ -31,7 +31,7 @@ public final class Sha256 extends AbstractBlockHashFunction {
 	 */
 	@Override
 	public Hasher newHasher() {
-		return new BlockHasher(this, new Sha256Hasher(true));
+		return new BlockHasher(this, new Sha256Core(true));
 	}
 	
 	

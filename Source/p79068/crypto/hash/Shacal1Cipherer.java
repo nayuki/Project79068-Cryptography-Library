@@ -37,7 +37,7 @@ final class Shacal1Cipherer extends Cipherer {
 			for (int i = 0; i < 20; i++)
 				message[i >>> 2] |= (b[off + i] & 0xFF) << ((3 ^ i) << 3);
 			
-			Sha1Hasher.encrypt(keySchedule, message);
+			Sha1Core.encrypt(keySchedule, message);
 			
 			// Unpack int32s into bytes in big endian
 			for (int i = 0; i < 20; i++)
@@ -62,7 +62,7 @@ final class Shacal1Cipherer extends Cipherer {
 			for (int i = 0; i < 20; i++)
 				message[i >>> 2] |= (b[off + i] & 0xFF) << ((3 ^ i) << 3);
 			
-			Sha1Hasher.decrypt(keySchedule, message);
+			Sha1Core.decrypt(keySchedule, message);
 			
 			// Unpack int32s into bytes in big endian
 			for (int i = 0; i < 20; i++)

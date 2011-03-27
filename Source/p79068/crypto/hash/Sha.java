@@ -57,12 +57,12 @@ public final class Sha extends AbstractBlockHashFunction {
 	 */
 	@Override
 	public Hasher newHasher() {
-		if      (this == SHA_FUNCTION   ) return new BlockHasher(this, new Sha1Hasher(false));
-		else if (this == SHA1_FUNCTION  ) return new BlockHasher(this, new FastSha1Hasher());
-		else if (this == SHA224_FUNCTION) return new BlockHasher(this, new Sha256Hasher(false));
-		else if (this == SHA256_FUNCTION) return new BlockHasher(this, new Sha256Hasher(true));
-		else if (this == SHA384_FUNCTION) return new BlockHasher(this, new Sha512Hasher(false));
-		else if (this == SHA512_FUNCTION) return new BlockHasher(this, new Sha512Hasher(true));
+		if      (this == SHA_FUNCTION   ) return new BlockHasher(this, new Sha1Core(false));
+		else if (this == SHA1_FUNCTION  ) return new BlockHasher(this, new FastSha1Core());
+		else if (this == SHA224_FUNCTION) return new BlockHasher(this, new Sha256Core(false));
+		else if (this == SHA256_FUNCTION) return new BlockHasher(this, new Sha256Core(true));
+		else if (this == SHA384_FUNCTION) return new BlockHasher(this, new Sha512Core(false));
+		else if (this == SHA512_FUNCTION) return new BlockHasher(this, new Sha512Core(true));
 		else throw new AssertionError();
 	}
 	
