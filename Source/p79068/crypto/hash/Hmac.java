@@ -1,9 +1,9 @@
 package p79068.crypto.hash;
 
 import p79068.crypto.Zeroizable;
+import p79068.hash.AbstractHashFunction;
+import p79068.hash.Hasher;
 import p79068.lang.NullChecker;
-import p79068.util.hash.AbstractHashFunction;
-import p79068.util.hash.Hasher;
 
 
 /**

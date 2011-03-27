@@ -3,9 +3,9 @@ package p79068.crypto.hash;
 import java.util.Arrays;
 
 import p79068.crypto.Zeroizer;
+import p79068.hash.HashValue;
 import p79068.lang.BoundsChecker;
 import p79068.math.IntegerBitMath;
-import p79068.util.hash.HashValue;
 
 
 final class Md4Core extends BlockHasherCore {

@@ -2,9 +2,10 @@ package p79068.crypto.hash;
 
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
+
+import p79068.hash.HashValue;
+import p79068.hash.Hasher;
 import p79068.random.Random;
-import p79068.util.hash.HashValue;
-import p79068.util.hash.Hasher;
 
 
 public final class BlockHasherTest {

@@ -3,9 +3,9 @@ package p79068.crypto.hash;
 import static p79068.math.LongBitMath.rotateRight;
 import java.util.Arrays;
 import p79068.crypto.Zeroizer;
+import p79068.hash.HashValue;
 import p79068.lang.BoundsChecker;
 import p79068.math.LongBitMath;
-import p79068.util.hash.HashValue;
 
 
 final class Sha512Core extends BlockHasherCore {

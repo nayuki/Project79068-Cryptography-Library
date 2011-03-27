@@ -2,10 +2,10 @@ package p79068.crypto.hash;
 
 import p79068.crypto.Zeroizable;
 import p79068.crypto.Zeroizer;
+import p79068.hash.AbstractHasher;
+import p79068.hash.HashValue;
 import p79068.lang.BoundsChecker;
 import p79068.lang.NullChecker;
-import p79068.util.hash.AbstractHasher;
-import p79068.util.hash.HashValue;
 
 
 /**

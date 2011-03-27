@@ -2,7 +2,7 @@ package p79068.crypto.hash;
 
 import p79068.crypto.cipher.BlockCipher;
 import p79068.crypto.cipher.Cipherer;
-import p79068.util.hash.Hasher;
+import p79068.hash.Hasher;
 
 
 public final class Whirlpool extends AbstractBlockHashFunction {

@@ -3,9 +3,9 @@ package p79068.crypto.hash;
 import static org.junit.Assert.assertArrayEquals;
 import org.junit.Test;
 import p79068.crypto.CryptoUtils;
-import p79068.util.hash.HashFunction;
-import p79068.util.hash.HashValue;
-import p79068.util.hash.Hasher;
+import p79068.hash.HashFunction;
+import p79068.hash.HashValue;
+import p79068.hash.Hasher;
 
 
 public final class Edonkey2000Test {

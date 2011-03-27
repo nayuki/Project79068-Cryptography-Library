@@ -4,8 +4,8 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.fail;
 import p79068.crypto.CryptoUtils;
 import p79068.crypto.Zeroizable;
-import p79068.util.hash.HashFunction;
-import p79068.util.hash.Hasher;
+import p79068.hash.HashFunction;
+import p79068.hash.Hasher;
 
 
 public final class HashUtils {

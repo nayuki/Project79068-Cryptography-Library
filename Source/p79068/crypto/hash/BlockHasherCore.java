@@ -1,8 +1,8 @@
 package p79068.crypto.hash;
 
 import p79068.crypto.Zeroizable;
+import p79068.hash.HashValue;
 import p79068.lang.NullChecker;
-import p79068.util.hash.HashValue;
 
 
 /**
