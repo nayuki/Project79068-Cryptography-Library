@@ -19,7 +19,7 @@ public final class IdeaTest {
 	public void testInvertibilityManyKeys() {
 		for (int i = 0; i < 3000; i++) {
 			byte[] key = new byte[16];
-			Random.DEFAULT.randomBytes(key);
+			Random.DEFAULT.uniformBytes(key);
 			CryptoUtils.testCipherInvertibility(Idea.CIPHER, Idea.CIPHER.getBlockLength());
 		}
 	}

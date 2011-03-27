@@ -86,7 +86,7 @@ public final class CryptoUtils {
 	
 	public static byte[] getRandomBytes(int length) {
 		byte[] b = new byte[length];
-		Random.DEFAULT.randomBytes(b);
+		Random.DEFAULT.uniformBytes(b);
 		return b;
 	}
 	
