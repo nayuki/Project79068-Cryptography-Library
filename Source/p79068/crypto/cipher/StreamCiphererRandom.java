@@ -1,6 +1,6 @@
 package p79068.crypto.cipher;
 
-import p79068.util.Random;
+import p79068.random.Random;
 
 
 class StreamCiphererRandom extends Random {
