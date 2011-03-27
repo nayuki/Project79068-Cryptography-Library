@@ -3,13 +3,13 @@ package p79068.crypto.cipher;
 import p79068.random.Random;
 
 
-class StreamCiphererRandom extends Random {
+public final class StreamCiphererRandom extends Random {
 	
 	private StreamCipherer cipherer;
 	
 	
 	
-	StreamCiphererRandom(StreamCipherer cipherer) {
+	public StreamCiphererRandom(StreamCipherer cipherer) {
 		if (cipherer == null)
 			throw new AssertionError();
 		this.cipherer = cipherer;
