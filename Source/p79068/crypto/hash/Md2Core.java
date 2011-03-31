@@ -68,13 +68,18 @@ final class Md2Core extends BlockHasherCore {
 		if (len % 16 != 0)
 			throw new AssertionError();
 		
+		int[] msg = new int[16];
+		
 		// For each block of 16 bytes
 		for (int i = off, end = off + len; i < end; i += 16) {
+			// Copy message block and convert from sint8 to uint32
+			for (int j = 0; j < 16; j++)
+				msg[j] = message[i + j] & 0xFF;
 			
 			// Copy the block into state
 			for (int j = 0; j < 16; j++) {
-				state[j + 16] = message[i + j] & 0xFF;
-				state[j + 32] = (message[i + j] & 0xFF) ^ state[j];
+				state[j + 16] = msg[j];
+				state[j + 32] = msg[j] ^ state[j];
 			}
 			
 			// Do 18 rounds
@@ -88,8 +93,7 @@ final class Md2Core extends BlockHasherCore {
 			// Checksum the block
 			int l = checksum[15];
 			for (int j = 0; j < 16; j++) {
-				int c = message[i + j] & 0xFF;
-				int temp = checksum[j] ^ sbox[c ^ l];
+				int temp = checksum[j] ^ sbox[msg[j] ^ l];
 				checksum[j] = temp;
 				l = temp;
 			}
