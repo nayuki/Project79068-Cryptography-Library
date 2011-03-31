@@ -18,7 +18,7 @@ final class TigerCore extends BlockHasherCore {
 	
 	public TigerCore(boolean tiger2Mode) {
 		this.tiger2Mode = tiger2Mode;
-		state = new long[] { 0x0123456789ABCDEFL, 0xFEDCBA9876543210L, 0xF096A5B4C3B2E187L };
+		state = new long[]{0x0123456789ABCDEFL, 0xFEDCBA9876543210L, 0xF096A5B4C3B2E187L};
 	}
 	
 	
