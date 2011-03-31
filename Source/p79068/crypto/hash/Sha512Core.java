@@ -148,10 +148,11 @@ final class Sha512Core extends BlockHasherCore {
 			compress(block);
 			Arrays.fill(block, (byte)0);
 		}
+		// SHA-512 and SHA-384 support lengths just less than 2^128 bits (2^125 bytes), but this implementation only counts to just less than 2^64 bytes
 		for (int i = 0; i < 8; i++)
-			block[block.length - 1 - i] = (byte)((length * 8) >>> (i * 8));  // SHA-512 and SHA-384 support lengths just less than 2^128 bits (2^125 bytes), but this implementation only counts to just less than 2^64 bytes.
+			block[block.length - 1 - i] = (byte)((length * 8) >>> (i * 8));
 		compress(block);
-		if (!sha512Mode)  // SHA-384, truncate the state
+		if (!sha512Mode)  // If SHA-384, truncate the state
 			state = Arrays.copyOf(state, 6);
 		return new HashValue(LongBitMath.toBytesBigEndian(state));
 	}
