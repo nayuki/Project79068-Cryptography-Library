@@ -1,5 +1,7 @@
 package p79068.crypto.hash;
 
+import static p79068.math.IntegerBitMath.rotateLeft;
+
 import java.util.Arrays;
 
 import p79068.crypto.Zeroizer;
@@ -97,11 +99,10 @@ final class Md4Core extends BlockHasherCore {
 				
 				int temp = a + f + schedule[k[i / 16 * 16 + i % 16]] + addCon[i / 16];
 				int rot = s[i / 16 * 4 + i % 4];
-				temp = temp << rot | temp >>> (32 - rot);  // Left rotation
 				a = d;
 				d = c;
 				c = b;
-				b = temp;
+				b = rotateLeft(temp, rot);
 			}
 			
 			state[0] += a;
