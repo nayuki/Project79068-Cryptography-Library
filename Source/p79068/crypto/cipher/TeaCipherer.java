@@ -63,12 +63,12 @@ final class TeaCipherer extends Cipherer {
 			// Unpack int32s into bytes in big endian
 			b[off + 0] = (byte)(y >>> 24);
 			b[off + 1] = (byte)(y >>> 16);
-			b[off + 2] = (byte)(y >>> 8);
-			b[off + 3] = (byte)(y >>> 0);
+			b[off + 2] = (byte)(y >>>  8);
+			b[off + 3] = (byte)(y >>>  0);
 			b[off + 4] = (byte)(z >>> 24);
 			b[off + 5] = (byte)(z >>> 16);
-			b[off + 6] = (byte)(z >>> 8);
-			b[off + 7] = (byte)(z >>> 0);
+			b[off + 6] = (byte)(z >>>  8);
+			b[off + 7] = (byte)(z >>>  0);
 		}
 	}
 	
