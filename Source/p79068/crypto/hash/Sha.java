@@ -4,7 +4,7 @@ import p79068.hash.Hasher;
 
 
 /**
- * The original SHA hash function, also known as SHA-0. The SHA family of hash functions is described in FIPS Publication 180 (1993-05-11).
+ * The SHA hash function family, described in FIPS Publication 180.
  */
 public final class Sha extends AbstractBlockHashFunction {
 	
