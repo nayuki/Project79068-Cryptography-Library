@@ -48,7 +48,7 @@ public final class Aes extends BlockCipher {
 		NullChecker.check(key);
 		if (key.length != keyLength)
 			throw new IllegalArgumentException();
-		return new FastAesCipherer(this, key);
+		return new AesCipherer(this, key);
 	}
 	
 	
