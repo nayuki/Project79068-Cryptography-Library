@@ -5,7 +5,7 @@ import p79068.lang.BoundsChecker;
 import p79068.math.IntegerBitMath;
 
 
-final class FastAesCipherer extends Cipherer {
+final class FastAesCipherer extends AbstractCipherer {
 	
 	/**
 	 * Encryption key schedule, containing the round keys (in the order of application).

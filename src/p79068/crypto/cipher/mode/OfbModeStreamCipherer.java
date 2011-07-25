@@ -1,13 +1,13 @@
 package p79068.crypto.cipher.mode;
 
 import p79068.crypto.Zeroizer;
+import p79068.crypto.cipher.AbstractStreamCipherer;
 import p79068.crypto.cipher.BlockCipher;
 import p79068.crypto.cipher.Cipherer;
-import p79068.crypto.cipher.StreamCipherer;
 import p79068.lang.BoundsChecker;
 
 
-final class OfbModeStreamCipherer extends StreamCipherer {
+final class OfbModeStreamCipherer extends AbstractStreamCipherer {
 	
 	private Cipherer cipherer;
 	private int blockLength;

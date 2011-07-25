@@ -1,64 +1,39 @@
 package p79068.crypto.cipher;
 
-import p79068.lang.NullChecker;
-
 
 /**
- * The TEA (Tiny Encryption Algorithm) block cipher.
+ * The TEA (Tiny Encryption Algorithm) and XTEA (Extended TEA) block ciphers.
  * <p>Key length: 128 bits (16 bytes)</p>
  * <p>Block length: 64 bits (8 bytes)</p>
  * <p>Instantiability: <em>Singleton</em></p>
- * @see Xtea
  */
-public final class Tea extends BlockCipher {
+public final class Tea extends AbstractCipher implements BlockCipher {
 	
 	/**
-	 * The singleton instance of this cipher algorithm.
+	 * The TEA cipher algorithm. {@code name = "TEA", blockLength = 8, keyLength = 16}.
 	 */
-	public static final Tea CIPHER = new Tea();
-	
-	
-	
-	@Override
-	public Cipherer newCipherer(byte[] key) {
-		NullChecker.check(key);
-		if (key.length != 16)
-			throw new IllegalArgumentException();
-		return new TeaCipherer(this, key);
-	}
+	public static final Tea TEA_CIPHER = new Tea("TEA");
 	
 	
 	/**
-	 * Returns the name of this cipher algorithm: {@code "TEA"}.
-	 * @return {@code TEA}
+	 * The XTEA cipher algorithm, a revision of TEA. {@code name = "XTEA", blockLength = 8, keyLength = 16}.
 	 */
-	@Override
-	public String getName() {
-		return "TEA";
-	}
+	public static final Tea XTEA_CIPHER = new Tea("XTEA");
 	
 	
-	/**
-	 * Returns the key length of this cipher algorithm: {@code 16} bytes (128 bits).
-	 * @return {@code 16}
-	 */
-	@Override
-	public int getKeyLength() {
-		return 16;
-	}
 	
-	
-	/**
-	 * Returns the block length of this cipher algorithm: {@code 8} bytes (64 bits).
-	 * @return {@code 8}
-	 */
-	@Override
-	public int getBlockLength() {
-		return 8;
+	private Tea(String name) {
+		super(name, 8, 16);
 	}
 	
 	
 	
-	private Tea() {}
+	@Override
+	public Cipherer newCiphererUnchecked(byte[] key) {
+		if (this == TEA_CIPHER)
+			return new TeaCipherer(this, key);
+		else
+			return new XteaCipherer(this, key);
+	}
 	
 }
