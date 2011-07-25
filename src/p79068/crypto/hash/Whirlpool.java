@@ -1,7 +1,5 @@
 package p79068.crypto.hash;
 
-import p79068.crypto.cipher.BlockCipher;
-import p79068.crypto.cipher.Cipherer;
 import p79068.hash.Hasher;
 
 
@@ -52,12 +50,7 @@ public final class Whirlpool extends AbstractBlockHashFunction {
 	 */
 	@Override
 	public Hasher newHasher() {
-		return new BlockHasher(this, new FastWhirlpoolCore(rounds, sbox, c, cInverse));
-	}
-	
-	
-	public Cipherer newCipherer(BlockCipher cipher, byte[] key) {
-		return new FastWhirlpoolCipherer(cipher, key, rounds, sbox, c, cInverse);
+		return new BlockHasher(this, new WhirlpoolCore(rounds, sbox, c, cInverse));
 	}
 	
 	

@@ -14,8 +14,7 @@ public final class CipherTest {
 		Rijndael.AES192_CIPHER,
 		Rijndael.AES256_CIPHER,
 		Tea.CIPHER,
-		Xtea.CIPHER,
-		WhirlpoolCipher.CIPHER
+		Xtea.CIPHER
 	};
 	
 	private static Cipher[] cipherModes = {
