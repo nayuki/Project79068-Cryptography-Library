@@ -16,18 +16,6 @@ public final class MdTest {
 	
 	
 	@Test
-	public void testMd2() {
-		HashUtils.testAscii(Md.MD2_FUNCTION, msg0, "8350E5A3E24C153DF2275C9F80692773");
-		HashUtils.testAscii(Md.MD2_FUNCTION, msg1, "32EC01EC4A6DAC72C0AB96FB34C0B5D1");
-		HashUtils.testAscii(Md.MD2_FUNCTION, msg2, "DA853B0D3F88D99B30283A69E6DED6BB");
-		HashUtils.testAscii(Md.MD2_FUNCTION, msg3, "AB4F496BFB2A530B219FF33031FE06B0");
-		HashUtils.testAscii(Md.MD2_FUNCTION, msg4, "4E8DDFF3650292AB5A4108C3AA47940B");
-		HashUtils.testAscii(Md.MD2_FUNCTION, msg5, "DA33DEF2A42DF13975352846C30338CD");
-		HashUtils.testAscii(Md.MD2_FUNCTION, msg6, "D5976F79D83D3A0DC9806C3C66F3EFD8");
-	}
-	
-	
-	@Test
 	public void testMd4() {
 		HashUtils.testAscii(Md.MD4_FUNCTION, msg0, "31D6CFE0D16AE931B73C59D7E0C089C0");
 		HashUtils.testAscii(Md.MD4_FUNCTION, msg1, "BDE52CB31DE33E46245E05FBDBD6FB24");
@@ -53,7 +41,6 @@ public final class MdTest {
 	
 	@Test
 	public void testZeroize() {
-		HashUtils.testZeroization(Md.MD2_FUNCTION);
 		HashUtils.testZeroization(Md.MD4_FUNCTION);
 		HashUtils.testZeroization(Md.MD5_FUNCTION);
 	}

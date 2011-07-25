@@ -14,11 +14,6 @@ import p79068.hash.Hasher;
 public final class Md extends AbstractBlockHashFunction {
 	
 	/**
-	 * The MD2 hash function. {@code name = "MD2"}, {@code hashLength = 16}, {@code blockLength = 16}.
-	 */
-	public final static Md MD2_FUNCTION = new Md("MD2", 16);
-	
-	/**
 	 * The MD4 hash function. {@code name = "MD4"}, {@code hashLength = 16}, {@code blockLength = 64}.
 	 */
 	public final static Md MD4_FUNCTION = new Md("MD4", 64);
@@ -42,8 +37,7 @@ public final class Md extends AbstractBlockHashFunction {
 	 */
 	@Override
 	public Hasher newHasher() {
-		if      (this == MD2_FUNCTION) return new BlockHasher(this, new Md2Core());
-		else if (this == MD4_FUNCTION) return new BlockHasher(this, new FastMd4Core());
+		if      (this == MD4_FUNCTION) return new BlockHasher(this, new FastMd4Core());
 		else if (this == MD5_FUNCTION) return new BlockHasher(this, new Md5Core());
 		else throw new AssertionError();
 	}
