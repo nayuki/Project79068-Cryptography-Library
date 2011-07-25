@@ -1,15 +1,43 @@
 package p79068.crypto.hash;
 
 import static p79068.math.IntegerBitMath.rotateLeft;
+
+import java.util.Arrays;
+
+import p79068.crypto.Zeroizer;
+import p79068.hash.HashValue;
 import p79068.lang.BoundsChecker;
+import p79068.math.IntegerBitMath;
 
 
-final class Sha1Core extends AbstractSha1Core {
+class Sha1Core extends BlockHasherCore {
+	
+	private int[] state;
+	
+	
 	
 	public Sha1Core() {
-		super();
+		state = new int[]{0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476, 0xC3D2E1F0};
 	}
 	
+	
+	
+	@Override
+	public Sha1Core clone() {
+		if (state == null)
+			throw new IllegalStateException("Already zeroized");
+		Sha1Core result = (Sha1Core)super.clone();
+		result.state = result.state.clone();
+		return result;
+	}
+	
+	
+	@Override
+	public void zeroize() {
+		if (state == null)
+			throw new IllegalStateException("Already zeroized");
+		state = Zeroizer.clear(state);
+	}
 	
 	
 	@Override
@@ -51,9 +79,7 @@ final class Sha1Core extends AbstractSha1Core {
 	}
 	
 	
-	
 	private static final int[] k = {0x5A827999, 0x6ED9EBA1, 0x8F1BBCDC, 0xCA62C1D6};
-	
 	
 	/*
 	 * Each round performs a transform of this form:
@@ -65,7 +91,7 @@ final class Sha1Core extends AbstractSha1Core {
 	 * The primed variables represent the output.
 	 * The actual implementation is an in-place version of this description.
 	 */
-	static void encrypt(int[] keySchedule, int[] message) {
+	private static void encrypt(int[] keySchedule, int[] message) {
 		int a = message[0];
 		int b = message[1];
 		int c = message[2];
@@ -96,6 +122,22 @@ final class Sha1Core extends AbstractSha1Core {
 		else if (40 <= i && i < 60) return (x & y) ^ (x & z) ^ (y & z);  // Majority. Can be optimized to (x & (y | z)) | (y & z).
 		else if (60 <= i && i < 80) return x ^ y ^ z;                    // Parity
 		else throw new AssertionError();
+	}
+	
+	
+	@Override
+	public HashValue getHashDestructively(byte[] block, int blockLength, long length) {
+		block[blockLength] = (byte)0x80;
+		blockLength++;
+		Arrays.fill(block, blockLength, block.length, (byte)0);
+		if (blockLength + 8 > block.length) {
+			compress(block);
+			Arrays.fill(block, (byte)0);
+		}
+		for (int i = 0; i < 8; i++)
+			block[block.length - 1 - i] = (byte)((length * 8) >>> (i * 8));
+		compress(block);
+		return new HashValue(IntegerBitMath.toBytesBigEndian(state));
 	}
 	
 }
