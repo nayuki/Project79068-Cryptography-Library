@@ -13,8 +13,8 @@ public final class CipherTest {
 		Aes.AES128_CIPHER,
 		Aes.AES192_CIPHER,
 		Aes.AES256_CIPHER,
-		Tea.CIPHER,
-		Xtea.CIPHER
+		Tea.TEA_CIPHER,
+		Tea.XTEA_CIPHER,
 	};
 	
 	private static Cipher[] cipherModes = {

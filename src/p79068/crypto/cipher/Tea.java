@@ -4,19 +4,23 @@ import p79068.lang.NullChecker;
 
 
 /**
- * The TEA (Tiny Encryption Algorithm) block cipher.
+ * The TEA (Tiny Encryption Algorithm) and XTEA (Extended TEA) block ciphers.
  * <p>Key length: 128 bits (16 bytes)</p>
  * <p>Block length: 64 bits (8 bytes)</p>
  * <p>Instantiability: <em>Singleton</em></p>
- * @see Xtea
  */
 public final class Tea extends BlockCipher {
 	
 	/**
-	 * The singleton instance of this cipher algorithm.
+	 * The TEA cipher algorithm. {@code name = "TEA"}.
 	 */
-	public static final Tea CIPHER = new Tea();
+	public static final Tea TEA_CIPHER = new Tea();
 	
+	
+	/**
+	 * The XTEA cipher algorithm, a revision of TEA. {@code name = "XTEA"}.
+	 */
+	public static final Tea XTEA_CIPHER = new Tea();
 	
 	
 	@Override
@@ -24,17 +28,24 @@ public final class Tea extends BlockCipher {
 		NullChecker.check(key);
 		if (key.length != 16)
 			throw new IllegalArgumentException();
-		return new TeaCipherer(this, key);
+		
+		if (this == TEA_CIPHER)
+			return new TeaCipherer(this, key);
+		else
+			return new XteaCipherer(this, key);
 	}
 	
 	
 	/**
-	 * Returns the name of this cipher algorithm: {@code "TEA"}.
-	 * @return {@code TEA}
+	 * Returns the name of this cipher algorithm.
+	 * @return the name of this cipher algorithm
 	 */
 	@Override
 	public String getName() {
-		return "TEA";
+		if (this == TEA_CIPHER)
+			return "TEA";
+		else
+			return "XTEA";
 	}
 	
 	

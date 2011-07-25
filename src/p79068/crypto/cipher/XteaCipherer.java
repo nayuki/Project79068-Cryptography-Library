@@ -15,7 +15,7 @@ final class XteaCipherer extends Cipherer {
 	
 	
 	
-	XteaCipherer(Xtea cipher, byte[] key) {
+	XteaCipherer(Tea cipher, byte[] key) {
 		super(cipher, key);
 		int32Key = new int[4];
 		for (int i = 0; i < int32Key.length; i++) {
