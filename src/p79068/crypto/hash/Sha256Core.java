@@ -164,56 +164,6 @@ final class Sha256Core extends BlockHasherCore {
 		message[6] = g;
 		message[7] = h;
 	}
-
-
-	/*
-	 * Each round performs a transform of this form:
-	 *  a = b'
-	 *  b = c'
-	 *  c = d'
-	 *  d = e' - (h + Ch(e,f,g))
-	 *  e = f'
-	 *  f = g'
-	 *  g = h'
-	 *  h = a' - (Ch(e,f,g) + Maj(a,b,c))
-	 * The primed variables represent the input.
-	 * The actual implementation is an in-place version of this description.
-	 */
-	static void decrypt(int[] keySchedule, int[] message) {
-		int a = message[0];
-		int b = message[1];
-		int c = message[2];
-		int d = message[3];
-		int e = message[4];
-		int f = message[5];
-		int g = message[6];
-		int h = message[7];
-		
-		// The 64 rounds
-		for (int i = 63; i >= 0; i--) {
-			int t0 = a;
-			int t1 = e;
-			a = b;
-			b = c;
-			c = d;
-			e = f;
-			f = g;
-			g = h;
-			int t2 = bigSigma1(e) + choose(e, f, g) + k[i] + keySchedule[i];
-			int t3 = bigSigma0(a) + majority(a, b, c);
-			h = t0 - (t2 + t3);
-			d = t1 - (h + t2);
-		}
-		
-		message[0] = a;
-		message[1] = b;
-		message[2] = c;
-		message[3] = d;
-		message[4] = e;
-		message[5] = f;
-		message[6] = g;
-		message[7] = h;
-	}
 	
 	
 	
