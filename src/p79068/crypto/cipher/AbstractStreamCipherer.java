@@ -19,6 +19,7 @@ public abstract class AbstractStreamCipherer extends AbstractCipherer implements
 	
 	
 	/**
+	 * Decrypts the specified byte array, which is the same as encrypting it.
 	 * @throws NullPointerException if {@code b} is {@code null}
 	 * @throws IndexOutOfBoundsException if {@code off} and {@code len} specify a range outside of array {@code b}'s bounds
 	 */
@@ -31,9 +32,15 @@ public abstract class AbstractStreamCipherer extends AbstractCipherer implements
 	}
 	
 	
+	/**
+	 * Skips the specified number of key stream bytes.
+	 * @param byteCount the number of bytes to skip, which must be non-negative
+	 * @throws IllegalArgumentException if {@code byteCount} is negative
+	 */
 	public void skip(int byteCount) {
 		if (byteCount < 0)
 			throw new IllegalArgumentException("Negative skip");
+		
 		byte[] b = new byte[1024];
 		while (byteCount > 0) {
 			int templen = Math.min(b.length, byteCount);

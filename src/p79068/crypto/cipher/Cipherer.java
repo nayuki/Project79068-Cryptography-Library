@@ -4,11 +4,8 @@ import p79068.crypto.Zeroizable;
 
 
 /**
- * A cipher instance.
- * <p>Mutability: <em>Mutable</em>, unless otherwise specified<br>
- * Thread safety: <em>Unsafe</em>, unless otherwise specified<br>
- * Instantiability: Via {@code Cipher instance.newCipherer()}</p>
- * @see Cipher
+ * A cipher instance with a key. Mutable unless otherwise specified. Thread-unsafe unless otherwise specified.
+ * @see Cipher#newCipherer(byte[])
  */
 public interface Cipherer extends Cloneable, Zeroizable {
 	
@@ -38,6 +35,7 @@ public interface Cipherer extends Cloneable, Zeroizable {
 	
 	/**
 	 * Returns the cipher algorithm associated with this cipherer.
+	 * @return the cipher algorithm
 	 */
 	public Cipher getCipher();
 	

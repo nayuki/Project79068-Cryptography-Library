@@ -5,11 +5,7 @@ import p79068.lang.NullChecker;
 
 
 /**
- * A cipher instance.
- * <p>Mutability: <em>Mutable</em>, unless otherwise specified<br>
- * Thread safety: <em>Unsafe</em>, unless otherwise specified<br>
- * Instantiability: Via {@code Cipher instance.newCipherer()}</p>
- * @see Cipher
+ * A cipher instance with a key, with some functionality implemented for convenience. Mutable unless otherwise specified. Thread-unsafe unless otherwise specified.
  */
 public abstract class AbstractCipherer implements Cipherer {
 	
@@ -23,6 +19,7 @@ public abstract class AbstractCipherer implements Cipherer {
 		NullChecker.check(cipher, key);
 		if (key.length != cipher.getKeyLength())
 			throw new IllegalArgumentException("Key length does not match cipher's key length");
+		
 		this.cipher = cipher;
 		this.key = key.clone();
 	}
@@ -61,6 +58,7 @@ public abstract class AbstractCipherer implements Cipherer {
 	
 	/**
 	 * Returns the cipher algorithm associated with this cipherer.
+	 * @return the cipher algorithm
 	 */
 	public Cipher getCipher() {
 		return cipher;

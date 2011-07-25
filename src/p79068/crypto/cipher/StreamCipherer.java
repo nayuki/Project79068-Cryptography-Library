@@ -18,6 +18,11 @@ public interface StreamCipherer extends Cipherer {
 	public void decrypt(byte[] b, int off, int len);
 	
 	
+	/**
+	 * Skips the specified number of key stream bytes.
+	 * @param byteCount the number of bytes to skip, which must be non-negative
+	 * @throws IllegalArgumentException if {@code byteCount} is negative
+	 */
 	public void skip(int byteCount);
 	
 	
