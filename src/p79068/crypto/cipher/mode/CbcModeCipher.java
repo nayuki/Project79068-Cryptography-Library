@@ -2,6 +2,7 @@ package p79068.crypto.cipher.mode;
 
 import p79068.crypto.Zeroizable;
 import p79068.crypto.Zeroizer;
+import p79068.crypto.cipher.AbstractCipher;
 import p79068.crypto.cipher.BlockCipher;
 import p79068.crypto.cipher.Cipher;
 import p79068.crypto.cipher.Cipherer;
@@ -16,7 +17,7 @@ import p79068.crypto.cipher.Cipherer;
  * <p><code>ciphertext[-1] = initializationVector<br>
  * plaintext[i] = decrypt(ciphertext[i]) XOR ciphertext[i-1]</code></p>
  */
-public final class CbcModeCipher extends Cipher implements Zeroizable {
+public final class CbcModeCipher extends AbstractCipher implements Cipher, Zeroizable {
 	
 	private BlockCipher blockCipher;
 	private byte[] key;
@@ -24,6 +25,7 @@ public final class CbcModeCipher extends Cipher implements Zeroizable {
 	
 	
 	public CbcModeCipher(BlockCipher cipher, byte[] key) {
+		super(cipher.getName() + " in CBC mode", cipher.getBlockLength(), cipher.getBlockLength());
 		if (key.length != cipher.getKeyLength())
 			throw new IllegalArgumentException();
 		blockCipher = cipher;
@@ -39,30 +41,6 @@ public final class CbcModeCipher extends Cipher implements Zeroizable {
 		if (initVector.length != blockCipher.getBlockLength())
 			throw new IllegalArgumentException();
 		return new CbcModeCipherer(this, initVector, blockCipher, key);
-	}
-	
-	
-	@Override
-	public String getName() {
-		if (blockCipher == null)
-			throw new IllegalStateException("Already zeroized");
-		return String.format("%s in CBC mode", blockCipher.getName());
-	}
-	
-	
-	@Override
-	public int getKeyLength() {
-		if (blockCipher == null)
-			throw new IllegalStateException("Already zeroized");
-		return blockCipher.getBlockLength();
-	}
-	
-	
-	@Override
-	public int getBlockLength() {
-		if (blockCipher == null)
-			throw new IllegalStateException("Already zeroized");
-		return blockCipher.getBlockLength();
 	}
 	
 	

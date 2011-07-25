@@ -6,14 +6,16 @@ import p79068.util.HashCoder;
 
 /**
  * The RC4 stream cipher.
+ * <p>The value returned by {@code getName()} is in the format {@code "RC4 (<var>n</var>-bit key)"}.</p>
  */
-public final class Rc4 extends StreamCipher {
+public final class Rc4 extends AbstractCipher implements StreamCipher {
 	
 	private int keyLength;  // In bytes
 	
 	
 	
 	public Rc4(int keyLength) {
+		super(String.format("RC4 (%d-bit key)", keyLength * 8), 1, keyLength);
 		if (keyLength <= 0 || keyLength > 256)
 			throw new IllegalArgumentException();
 		this.keyLength = keyLength;
@@ -27,24 +29,6 @@ public final class Rc4 extends StreamCipher {
 		if (key.length != keyLength)
 			throw new IllegalArgumentException();
 		return new Rc4Cipherer(this, key);
-	}
-	
-	
-	/**
-	 * Returns the name of this cipher algorithm: {@code "RC4 (<var>n</var>-bit key)"}.
-	 */
-	@Override
-	public String getName() {
-		return String.format("RC4 (%d-bit key)", keyLength * 8);
-	}
-	
-	
-	/**
-	 * Returns the key length of this cipher algorithm.
-	 */
-	@Override
-	public int getKeyLength() {
-		return keyLength;
 	}
 	
 	

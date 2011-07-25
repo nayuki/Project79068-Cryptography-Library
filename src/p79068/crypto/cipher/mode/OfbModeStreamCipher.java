@@ -2,6 +2,7 @@ package p79068.crypto.cipher.mode;
 
 import p79068.crypto.Zeroizable;
 import p79068.crypto.Zeroizer;
+import p79068.crypto.cipher.AbstractCipher;
 import p79068.crypto.cipher.BlockCipher;
 import p79068.crypto.cipher.StreamCipher;
 import p79068.crypto.cipher.StreamCipherer;
@@ -18,7 +19,7 @@ import p79068.crypto.cipher.StreamCipherer;
  * keyStream[i] = encrypt(keyStream[i-1])<br>
  * plaintext[i] = keyStream[i] XOR ciphertext[i]</code></p>
  */
-public final class OfbModeStreamCipher extends StreamCipher implements Zeroizable {
+public final class OfbModeStreamCipher extends AbstractCipher implements StreamCipher, Zeroizable {
 	
 	private BlockCipher blockCipher;
 	private byte[] key;
@@ -26,6 +27,7 @@ public final class OfbModeStreamCipher extends StreamCipher implements Zeroizabl
 	
 	
 	public OfbModeStreamCipher(BlockCipher cipher, byte[] key) {
+		super(cipher.getName() + " in OFB mode", 1, cipher.getBlockLength());
 		if (key.length != cipher.getKeyLength())
 			throw new IllegalArgumentException();
 		blockCipher = cipher;
@@ -41,22 +43,6 @@ public final class OfbModeStreamCipher extends StreamCipher implements Zeroizabl
 		if (initVector.length != blockCipher.getBlockLength())
 			throw new IllegalArgumentException();
 		return new OfbModeStreamCipherer(this, initVector, blockCipher, key);
-	}
-	
-	
-	@Override
-	public String getName() {
-		if (blockCipher == null)
-			throw new IllegalStateException("Already zeroized");
-		return String.format("%s in OFB mode", blockCipher.getName());
-	}
-	
-	
-	@Override
-	public int getKeyLength() {
-		if (blockCipher == null)
-			throw new IllegalStateException("Already zeroized");
-		return blockCipher.getBlockLength();
 	}
 	
 	

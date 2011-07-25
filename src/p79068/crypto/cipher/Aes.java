@@ -8,8 +8,9 @@ import p79068.util.HashCoder;
  * The AES (Advanced Encryption Standard) (Rijndael) block cipher.
  * <p>Key lengths: Any positive multiple of 32 bits (4 bytes)</p>
  * <p>Block length: 128 bits (16 bytes).</p>
+ * <p>The value returned by {@code getName()} is in the format {@code "AES (<var>n</var>-bit key)"}.</p>
  */
-public final class Aes extends BlockCipher {
+public final class Aes extends AbstractCipher implements BlockCipher {
 	
 	/**
 	 * The AES cipher algorithm with 128-bit key size.
@@ -36,6 +37,7 @@ public final class Aes extends BlockCipher {
 	
 	
 	public Aes(int keyLength) {
+		super(String.format("AES (%d-bit key)", keyLength * 8), 16, keyLength);
 		if (keyLength < 4 || keyLength % 4 != 0)
 			throw new IllegalArgumentException("Invalid key length");
 		this.keyLength = keyLength;
@@ -49,34 +51,6 @@ public final class Aes extends BlockCipher {
 		if (key.length != keyLength)
 			throw new IllegalArgumentException();
 		return new AesCipherer(this, key);
-	}
-	
-	
-	
-	/**
-	 * Returns the name of this cipher algorithm: {@code "AES (<var>n</var>-bit key)"}.
-	 */
-	@Override
-	public String getName() {
-		return String.format("AES (%d-bit key)", keyLength * 8);
-	}
-	
-	
-	/**
-	 * Returns the key length of this cipher algorithm.
-	 */
-	@Override
-	public int getKeyLength() {
-		return keyLength;
-	}
-	
-	
-	/**
-	 * Returns the block length of this cipher algorithm.
-	 */
-	@Override
-	public int getBlockLength() {
-		return 16;
 	}
 	
 	
