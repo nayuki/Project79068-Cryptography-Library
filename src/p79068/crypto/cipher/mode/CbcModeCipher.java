@@ -4,7 +4,6 @@ import p79068.crypto.Zeroizable;
 import p79068.crypto.Zeroizer;
 import p79068.crypto.cipher.AbstractCipher;
 import p79068.crypto.cipher.BlockCipher;
-import p79068.crypto.cipher.Cipher;
 import p79068.crypto.cipher.Cipherer;
 
 
@@ -17,7 +16,7 @@ import p79068.crypto.cipher.Cipherer;
  * <p><code>ciphertext[-1] = initializationVector<br>
  * plaintext[i] = decrypt(ciphertext[i]) XOR ciphertext[i-1]</code></p>
  */
-public final class CbcModeCipher extends AbstractCipher implements Cipher, Zeroizable {
+public final class CbcModeCipher extends AbstractCipher implements Zeroizable {
 	
 	private BlockCipher blockCipher;
 	private byte[] key;
