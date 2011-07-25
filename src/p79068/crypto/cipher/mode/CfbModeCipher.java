@@ -25,7 +25,7 @@ public final class CfbModeCipher extends AbstractCipher implements Cipher, Zeroi
 	
 	
 	public CfbModeCipher(BlockCipher cipher, byte[] key) {
-		super(cipher.getName() + " in CFB mode", cipher.getBlockLength(), cipher.getBlockLength());
+		super(cipher.getName() + "-CFB", cipher.getBlockLength(), cipher.getBlockLength());
 		if (key.length != cipher.getKeyLength())
 			throw new IllegalArgumentException();
 		blockCipher = cipher;

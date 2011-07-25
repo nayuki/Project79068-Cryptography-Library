@@ -25,7 +25,7 @@ public final class CbcModeCipher extends AbstractCipher implements Cipher, Zeroi
 	
 	
 	public CbcModeCipher(BlockCipher cipher, byte[] key) {
-		super(cipher.getName() + " in CBC mode", cipher.getBlockLength(), cipher.getBlockLength());
+		super(cipher.getName() + "-CBC", cipher.getBlockLength(), cipher.getBlockLength());
 		if (key.length != cipher.getKeyLength())
 			throw new IllegalArgumentException();
 		blockCipher = cipher;

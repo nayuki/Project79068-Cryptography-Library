@@ -27,7 +27,7 @@ public final class OfbModeStreamCipher extends AbstractCipher implements StreamC
 	
 	
 	public OfbModeStreamCipher(BlockCipher cipher, byte[] key) {
-		super(cipher.getName() + " in OFB mode", 1, cipher.getBlockLength());
+		super(cipher.getName() + "-OFB", 1, cipher.getBlockLength());
 		if (key.length != cipher.getKeyLength())
 			throw new IllegalArgumentException();
 		blockCipher = cipher;
