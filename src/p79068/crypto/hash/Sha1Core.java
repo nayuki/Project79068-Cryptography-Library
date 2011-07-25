@@ -6,13 +6,8 @@ import p79068.lang.BoundsChecker;
 
 final class Sha1Core extends AbstractSha1Core {
 	
-	private final boolean sha1Mode;
-	
-	
-	
-	public Sha1Core(boolean sha1Mode) {
+	public Sha1Core() {
 		super();
-		this.sha1Mode = sha1Mode;
 	}
 	
 	
@@ -40,8 +35,6 @@ final class Sha1Core extends AbstractSha1Core {
 			// Expand the schedule
 			for (int i = 16; i < 80; i++) {
 				int temp = schedule[i - 3] ^ schedule[i - 8] ^ schedule[i - 14] ^ schedule[i - 16];
-				if (sha1Mode)  // This is the only difference between SHA and SHA-1
-					temp = rotateLeft(temp, 1);
 				schedule[i] = temp;
 			}
 			

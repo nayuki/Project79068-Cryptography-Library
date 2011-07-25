@@ -9,12 +9,6 @@ import p79068.hash.Hasher;
 public final class Sha extends AbstractBlockHashFunction {
 	
 	/**
-	 * The original SHA hash function, also known as SHA-0. {@code name = "SHA"}, {@code hashLength = 20}, {@code blockLength = 64}. Described in FIPS Publication 180, 1993-05-11.
-	 */
-	public final static Sha SHA_FUNCTION = new Sha("SHA", 20, 64);
-	
-	
-	/**
 	 * The SHA-1 hash function. {@code name = "SHA-1"}, {@code hashLength = 20}, {@code blockLength = 64}.
 	 */
 	public final static Sha SHA1_FUNCTION = new Sha("SHA-1", 20, 64);
@@ -57,8 +51,7 @@ public final class Sha extends AbstractBlockHashFunction {
 	 */
 	@Override
 	public Hasher newHasher() {
-		if      (this == SHA_FUNCTION   ) return new BlockHasher(this, new Sha1Core(false));
-		else if (this == SHA1_FUNCTION  ) return new BlockHasher(this, new FastSha1Core());
+		if      (this == SHA1_FUNCTION  ) return new BlockHasher(this, new FastSha1Core());
 		else if (this == SHA224_FUNCTION) return new BlockHasher(this, new Sha256Core(false));
 		else if (this == SHA256_FUNCTION) return new BlockHasher(this, new Sha256Core(true));
 		else if (this == SHA384_FUNCTION) return new BlockHasher(this, new Sha512Core(false));

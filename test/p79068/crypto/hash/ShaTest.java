@@ -19,18 +19,6 @@ public final class ShaTest {
 	
 	
 	@Test
-	public void testSha() {
-		HashUtils.testAscii(Sha.SHA_FUNCTION, msg0, "F96CEA198AD1DD5617AC084A3D92C6107708C0EF");
-		HashUtils.testAscii(Sha.SHA_FUNCTION, msg1, "37F297772FAE4CB1BA39B6CF9CF0381180BD62F2");
-		HashUtils.testAscii(Sha.SHA_FUNCTION, msg2, "0164B8A914CD2A5E74C4F7FF082C4D97F1EDF880");
-		HashUtils.testAscii(Sha.SHA_FUNCTION, msg3, "C1B0F222D150EBB9AA36A40CAFDC8BCBED830B14");
-		HashUtils.testAscii(Sha.SHA_FUNCTION, msg4, "B40CE07A430CFD3C033039B9FE9AFEC95DC1BDCD");
-		HashUtils.testAscii(Sha.SHA_FUNCTION, msg5, "D2516EE1ACFA5BAF33DFC1C471E438449EF134C8");
-		HashUtils.testAscii(Sha.SHA_FUNCTION, msg7, "3232AFFA48628A26653B5AAA44541FD90D690603");
-	}
-	
-	
-	@Test
 	public void testSha1() {
 		HashUtils.testAscii(Sha.SHA1_FUNCTION, msg0, "DA39A3EE5E6B4B0D3255BFEF95601890AFD80709");
 		HashUtils.testAscii(Sha.SHA1_FUNCTION, msg1, "86F7E437FAA5A7FCE15D1DDCB9EAEAEA377667B8");
@@ -88,7 +76,6 @@ public final class ShaTest {
 	
 	@Test
 	public void testZeroize() {
-		HashUtils.testZeroization(Sha.SHA_FUNCTION);
 		HashUtils.testZeroization(Sha.SHA1_FUNCTION);
 		HashUtils.testZeroization(Sha.SHA224_FUNCTION);
 		HashUtils.testZeroization(Sha.SHA256_FUNCTION);
