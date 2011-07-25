@@ -58,7 +58,7 @@ public final class Rijndael extends BlockCipher {
 			throw new IllegalArgumentException();
 		
 		if (blockLength == 16)
-			return new FastAesCipherer(this, key);
+			return new AesCipherer(this, key);
 		else
 			return new RijndaelCipherer(this, key);
 	}

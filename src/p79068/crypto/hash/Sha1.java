@@ -31,7 +31,7 @@ public final class Sha1 extends AbstractBlockHashFunction {
 	 */
 	@Override
 	public Hasher newHasher() {
-		return new BlockHasher(this, new FastSha1Core());
+		return new BlockHasher(this, new Sha1Core(true));
 	}
 	
 	
