@@ -1,42 +1,18 @@
 package p79068.crypto.cipher;
 
 import p79068.crypto.Zeroizable;
-import p79068.crypto.Zeroizer;
-import p79068.lang.NullChecker;
 
 
 /**
- * A cipher instance.
- * <p>Mutability: <em>Mutable</em>, unless otherwise specified<br>
- * Thread safety: <em>Unsafe</em>, unless otherwise specified<br>
- * Instantiability: Via {@code Cipher instance.newCipherer()}</p>
- * @see Cipher
+ * A cipher instance with a key. Mutable unless otherwise specified. Thread-unsafe unless otherwise specified.
+ * @see Cipher#newCipherer(byte[])
  */
-public abstract class Cipherer implements Cloneable, Zeroizable {
-	
-	protected Cipher cipher;
-	
-	protected byte[] key;
-	
-	
-	
-	public Cipherer(Cipher cipher, byte[] key) {
-		NullChecker.check(cipher, key);
-		if (key.length != cipher.getKeyLength())
-			throw new IllegalArgumentException("Key length does not match cipher's key length");
-		this.cipher = cipher;
-		this.key = key.clone();
-	}
-	
-	
+public interface Cipherer extends Cloneable, Zeroizable {
 	
 	/**
 	 * Encrypts the specified byte array.
 	 */
-	public void encrypt(byte[] b) {
-		NullChecker.check(b);
-		encrypt(b, 0, b.length);
-	}
+	public void encrypt(byte[] b);
 	
 	
 	/**
@@ -48,10 +24,7 @@ public abstract class Cipherer implements Cloneable, Zeroizable {
 	/**
 	 * Decrypts the specified byte array.
 	 */
-	public void decrypt(byte[] b) {
-		NullChecker.check(b);
-		decrypt(b, 0, b.length);
-	}
+	public void decrypt(byte[] b);
 	
 	
 	/**
@@ -62,30 +35,14 @@ public abstract class Cipherer implements Cloneable, Zeroizable {
 	
 	/**
 	 * Returns the cipher algorithm associated with this cipherer.
+	 * @return the cipher algorithm
 	 */
-	public Cipher getCipher() {
-		return cipher;
-	}
+	public Cipher getCipher();
 	
 	
-	@Override
-	public Cipherer clone() {
-		try {
-			Cipherer result = (Cipherer)super.clone();
-			result.key = result.key.clone();
-			return result;
-		} catch (CloneNotSupportedException e) {
-			throw new AssertionError(e);
-		}
-	}
+	public Cipherer clone();
 	
 	
-	public void zeroize() {
-		if (cipher == null)
-			throw new IllegalStateException("Already zeroized");
-		Zeroizer.clear(key);
-		key = null;
-		cipher = null;
-	}
+	public void zeroize();
 	
 }

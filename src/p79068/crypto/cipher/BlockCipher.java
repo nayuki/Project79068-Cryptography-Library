@@ -13,12 +13,12 @@ package p79068.crypto.cipher;
  * An abstract block cipher in ECB (electronic codebook) mode.
  * <p>Mutability: <em>Immutable</em>, except for being Zeroizable</p>
  */
-public abstract class BlockCipher extends Cipher {
+public interface BlockCipher extends Cipher {
 	
 	/**
 	 * Returns a new cipherer, which is used to encrypt and decrypt byte blocks. The cipherer returned must be immutable except for being zeroizable. In particular, its encryption and decryption functions must be pure. That means for encryption, the result must be the same each time the same message is given. The same applies for decryption.
 	 */
 	@Override
-	public abstract Cipherer newCipherer(byte[] key);
+	public Cipherer newCipherer(byte[] key);
 	
 }

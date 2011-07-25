@@ -4,7 +4,7 @@ import p79068.crypto.Zeroizer;
 import p79068.lang.BoundsChecker;
 
 
-final class Rc4Cipherer extends StreamCipherer {
+final class Rc4Cipherer extends AbstractStreamCipherer {
 	
 	/**
 	 * A permutation of {0, 1, 2, ..., 254, 255}.

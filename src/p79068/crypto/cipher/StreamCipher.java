@@ -3,7 +3,6 @@
  * Therefore, encryption and decryption are the same operation.
  */
 
-
 package p79068.crypto.cipher;
 
 
@@ -12,18 +11,17 @@ package p79068.crypto.cipher;
  * <p>Note that a stream cipher's state must only depend on the key and the position in the pseudo-random sequence. It must not depend on any data that was encrypted or decrypted.</p>
  * @see Cipher
  */
-public abstract class StreamCipher extends Cipher {
+public interface StreamCipher extends Cipher {
 	
 	@Override
 	public abstract StreamCipherer newCipherer(byte[] key);
 	
 	
 	/**
-	 * Returns the block length of this cipher algorithm: <samp>1</samp> byte.
+	 * Returns the block length of this cipher algorithm, which is always {@code 1} byte.
+	 * @return the block length, which is always {@code 1}
 	 */
 	@Override
-	public final int getBlockLength() {
-		return 1;
-	}
+	public int getBlockLength();
 	
 }

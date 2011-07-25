@@ -4,7 +4,7 @@ import p79068.crypto.Zeroizer;
 import p79068.lang.BoundsChecker;
 
 
-final class WhirlpoolCipherer extends Cipherer {
+final class WhirlpoolCipherer extends AbstractCipherer {
 	
 	protected byte[] sub;
 	protected byte[] subinv;

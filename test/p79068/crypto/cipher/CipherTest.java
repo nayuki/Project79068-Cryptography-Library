@@ -19,8 +19,8 @@ public final class CipherTest {
 		Idea.CIPHER,
 		new Shacal1(16),
 		new Shacal2(16),
-		Tea.CIPHER,
-		Xtea.CIPHER,
+		Tea.TEA_CIPHER,
+		Tea.XTEA_CIPHER,
 		Whirlpool0Cipher.CIPHER,
 		WhirlpoolTCipher.CIPHER,
 		WhirlpoolCipher.CIPHER

@@ -1,14 +1,15 @@
 package p79068.crypto.hash;
 
 import java.util.Arrays;
+
 import p79068.crypto.Zeroizer;
-import p79068.crypto.cipher.Cipherer;
+import p79068.crypto.cipher.AbstractCipherer;
 import p79068.crypto.cipher.Shacal1;
 import p79068.lang.BoundsChecker;
 import p79068.math.IntegerBitMath;
 
 
-final class Shacal1Cipherer extends Cipherer {
+final class Shacal1Cipherer extends AbstractCipherer {
 	
 	private int[] keySchedule;
 	

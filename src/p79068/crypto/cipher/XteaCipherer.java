@@ -9,13 +9,13 @@ import p79068.crypto.Zeroizer;
 import p79068.lang.BoundsChecker;
 
 
-final class XteaCipherer extends Cipherer {
+final class XteaCipherer extends AbstractCipherer {
 	
 	private int[] int32Key;
 	
 	
 	
-	XteaCipherer(Xtea cipher, byte[] key) {
+	XteaCipherer(Tea cipher, byte[] key) {
 		super(cipher, key);
 		int32Key = new int[4];
 		for (int i = 0; i < int32Key.length; i++) {

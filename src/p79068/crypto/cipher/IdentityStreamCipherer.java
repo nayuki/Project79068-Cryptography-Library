@@ -3,7 +3,7 @@ package p79068.crypto.cipher;
 import p79068.lang.BoundsChecker;
 
 
-final class IdentityStreamCipherer extends StreamCipherer {
+final class IdentityStreamCipherer extends AbstractStreamCipherer {
 	
 	IdentityStreamCipherer(IdentityStreamCipher cipher, byte[] key) {
 		super(cipher, key);

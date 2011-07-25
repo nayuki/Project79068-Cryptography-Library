@@ -1,7 +1,6 @@
 package p79068.crypto.cipher;
 
 import p79068.crypto.hash.Sha256;
-import p79068.lang.NullChecker;
 import p79068.util.HashCoder;
 
 
@@ -11,13 +10,14 @@ import p79068.util.HashCoder;
  * <p>Block length: 256 bits (32 bytes)</p>
  * @see Shacal1
  */
-public final class Shacal2 extends BlockCipher {
+public final class Shacal2 extends AbstractCipher implements BlockCipher {
 	
 	private int keyLength;  // In bytes
 	
 	
 	
 	public Shacal2(int keyLength) {
+		super(String.format("SHACAL-2 (%d-bit)", keyLength), 32, keyLength);
 		if (keyLength < 0 || keyLength > 64)
 			throw new IllegalArgumentException();
 		this.keyLength = keyLength;
@@ -26,39 +26,8 @@ public final class Shacal2 extends BlockCipher {
 	
 	
 	@Override
-	public Cipherer newCipherer(byte[] key) {
-		NullChecker.check(key);
-		if (key.length != keyLength)
-			throw new IllegalArgumentException();
+	public Cipherer newCiphererUnchecked(byte[] key) {
 		return Sha256.FUNCTION.newCipherer(this, key);
-	}
-	
-	
-	/**
-	 * Returns the name of this cipher algorithm: {@code "SHACAL-2 (<var>n</var>-bit key)"}.
-	 */
-	@Override
-	public String getName() {
-		return String.format("SHACAL-2 (%d-bit key)", keyLength * 8);
-	}
-	
-	
-	/**
-	 * Returns the key length of this cipher algorithm.
-	 */
-	@Override
-	public int getKeyLength() {
-		return keyLength;
-	}
-	
-	
-	/**
-	 * Returns the block length of this cipher algorithm: {@code 32} bytes (256 bits).
-	 * @return {@code 32}
-	 */
-	@Override
-	public int getBlockLength() {
-		return 32;
 	}
 	
 	

@@ -1,6 +1,5 @@
 package p79068.crypto.cipher;
 
-import p79068.lang.NullChecker;
 import p79068.util.HashCoder;
 
 
@@ -9,7 +8,7 @@ import p79068.util.HashCoder;
  * <p>Key lengths: Any positive multiple of 32 bits (4 bytes)</p>
  * <p>Block lengths: 128, 160, 192, 224, and 256 bits. While Rijndael can use all of these, AES is limited to 128 bits (16 bytes).</p>
  */
-public final class Rijndael extends BlockCipher {
+public final class Rijndael extends AbstractCipher implements BlockCipher {
 	
 	/**
 	 * The AES cipher algorithm with 128-bit key size.
@@ -41,6 +40,7 @@ public final class Rijndael extends BlockCipher {
 	
 	
 	public Rijndael(int blockLength, int keyLength) {
+		super(String.format("Rijndael (%d-bit key, %d-bit block)", keyLength * 8, blockLength * 8), blockLength, keyLength);
 		if (keyLength < 4 || keyLength % 4 != 0)
 			throw new IllegalArgumentException("Invalid key length");
 		if (blockLength < 16 || blockLength > 32 || blockLength % 4 != 0)
@@ -52,43 +52,11 @@ public final class Rijndael extends BlockCipher {
 	
 	
 	@Override
-	public Cipherer newCipherer(byte[] key) {
-		NullChecker.check(key);
-		if (key.length != keyLength)
-			throw new IllegalArgumentException();
-		
+	public Cipherer newCiphererUnchecked(byte[] key) {
 		if (blockLength == 16)
 			return new AesCipherer(this, key);
 		else
 			return new RijndaelCipherer(this, key);
-	}
-	
-	
-	
-	/**
-	 * Returns the name of this cipher algorithm: {@code "Rijndael (<var>n</var>-bit key, <var>m</var>-bit block)"}.
-	 */
-	@Override
-	public String getName() {
-		return String.format("Rijndael (%d-bit key, %d-bit block)", keyLength * 8, blockLength * 8);
-	}
-	
-	
-	/**
-	 * Returns the key length of this cipher algorithm.
-	 */
-	@Override
-	public int getKeyLength() {
-		return keyLength;
-	}
-	
-	
-	/**
-	 * Returns the block length of this cipher algorithm.
-	 */
-	@Override
-	public int getBlockLength() {
-		return blockLength;
 	}
 	
 	

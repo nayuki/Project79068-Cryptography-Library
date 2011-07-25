@@ -1,7 +1,6 @@
 package p79068.crypto.cipher;
 
 import p79068.crypto.hash.Whirlpool;
-import p79068.lang.NullChecker;
 
 
 /**
@@ -10,7 +9,7 @@ import p79068.lang.NullChecker;
  * @see Whirlpool0Cipher
  * @see WhirlpoolCipher
  */
-public final class WhirlpoolTCipher extends BlockCipher {
+public final class WhirlpoolTCipher extends AbstractCipher implements BlockCipher {
 	
 	/**
 	 * The singleton instance of this cipher algorithm.
@@ -19,46 +18,15 @@ public final class WhirlpoolTCipher extends BlockCipher {
 	
 	
 	
+	private WhirlpoolTCipher() {
+		super("Whirlpool-T Cipher", 64, 64);
+	}
+	
+	
+	
 	@Override
-	public Cipherer newCipherer(byte[] key) {
-		NullChecker.check(key);
-		if (key.length != 64)
-			throw new IllegalArgumentException();
+	public Cipherer newCiphererUnchecked(byte[] key) {
 		return Whirlpool.WHIRLPOOL_T_FUNCTION.newCipherer(this, key);
 	}
-	
-	
-	/**
-	 * Returns the name of this cipher algorithm: {@code "Whirlpool-T Cipher"}.
-	 * @return {@code "Whirlpool-T Cipher"}
-	 */
-	@Override
-	public String getName() {
-		return "Whirlpool-T Cipher";
-	}
-	
-	
-	/**
-	 * Returns the key length of this cipher algorithm: {@code 64} bytes (512 bits).
-	 * @return {@code 64}
-	 */
-	@Override
-	public int getKeyLength() {
-		return 64;
-	}
-	
-	
-	/**
-	 * Returns the block length of this cipher algorithm: {@code 64} bytes (512 bits).
-	 * @return {@code 64}
-	 */
-	@Override
-	public int getBlockLength() {
-		return 64;
-	}
-	
-	
-	
-	private WhirlpoolTCipher() {}
 	
 }

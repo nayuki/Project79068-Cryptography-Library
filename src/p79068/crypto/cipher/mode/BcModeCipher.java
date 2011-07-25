@@ -2,8 +2,8 @@ package p79068.crypto.cipher.mode;
 
 import p79068.crypto.Zeroizable;
 import p79068.crypto.Zeroizer;
+import p79068.crypto.cipher.AbstractCipher;
 import p79068.crypto.cipher.BlockCipher;
-import p79068.crypto.cipher.Cipher;
 import p79068.crypto.cipher.Cipherer;
 
 
@@ -18,7 +18,7 @@ import p79068.crypto.cipher.Cipherer;
  * prevCiphersXored[i] = prevCiphersXored[i-1] XOR ciphertext[i]<br>
  * plaintext[i] = decrypt(ciphertext[i]) XOR prevCiphersXored[i-1]</code></p>
  */
-public final class BcModeCipher extends Cipher implements Zeroizable {
+public final class BcModeCipher extends AbstractCipher implements Zeroizable {
 	
 	private BlockCipher blockCipher;
 	private byte[] key;
@@ -26,6 +26,7 @@ public final class BcModeCipher extends Cipher implements Zeroizable {
 	
 	
 	public BcModeCipher(BlockCipher cipher, byte[] key) {
+		super(cipher.getName() + "-BC", cipher.getBlockLength(), cipher.getBlockLength());
 		if (key.length != cipher.getKeyLength())
 			throw new IllegalArgumentException();
 		blockCipher = cipher;
@@ -35,36 +36,10 @@ public final class BcModeCipher extends Cipher implements Zeroizable {
 	
 	
 	@Override
-	public Cipherer newCipherer(byte[] initVector) {
+	public Cipherer newCiphererUnchecked(byte[] initVector) {
 		if (blockCipher == null)
 			throw new IllegalStateException("Already zeroized");
-		if (initVector.length != blockCipher.getBlockLength())
-			throw new IllegalArgumentException();
 		return new BcModeCipherer(this, initVector, blockCipher, key);
-	}
-	
-	
-	@Override
-	public String getName() {
-		if (blockCipher == null)
-			throw new IllegalStateException("Already zeroized");
-		return String.format("%s in BC mode", blockCipher.getName());
-	}
-	
-	
-	@Override
-	public int getKeyLength() {
-		if (blockCipher == null)
-			throw new IllegalStateException("Already zeroized");
-		return blockCipher.getBlockLength();
-	}
-	
-	
-	@Override
-	public int getBlockLength() {
-		if (blockCipher == null)
-			throw new IllegalStateException("Already zeroized");
-		return blockCipher.getBlockLength();
 	}
 	
 	

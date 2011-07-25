@@ -4,7 +4,7 @@ import p79068.crypto.Zeroizer;
 import p79068.lang.BoundsChecker;
 
 
-final class Rc2Cipherer extends Cipherer {
+final class Rc2Cipherer extends AbstractCipherer {
 	
 	private int[] keySchedule;  // 16-bit integers
 	

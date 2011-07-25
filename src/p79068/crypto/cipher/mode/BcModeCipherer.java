@@ -1,12 +1,13 @@
 package p79068.crypto.cipher.mode;
 
 import p79068.crypto.Zeroizer;
+import p79068.crypto.cipher.AbstractCipherer;
 import p79068.crypto.cipher.BlockCipher;
 import p79068.crypto.cipher.Cipherer;
 import p79068.lang.BoundsChecker;
 
 
-final class BcModeCipherer extends Cipherer {
+final class BcModeCipherer extends AbstractCipherer {
 	
 	private Cipherer cipherer;
 	private int blockLength;

@@ -9,7 +9,7 @@ import p79068.crypto.Zeroizer;
 import p79068.lang.BoundsChecker;
 
 
-final class IdeaCipherer extends Cipherer {
+final class IdeaCipherer extends AbstractCipherer {
 	
 	/**
 	 * The encryption key schedule.
