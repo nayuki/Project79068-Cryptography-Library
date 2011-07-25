@@ -7,7 +7,7 @@ import p79068.util.HashCoder;
  * The AES (Advanced Encryption Standard) (Rijndael) block cipher.
  * <p>Key lengths: Any positive multiple of 32 bits (4 bytes)</p>
  * <p>Block length: 128 bits (16 bytes).</p>
- * <p>The value returned by {@code getName()} is in the format {@code "AES (<var>n</var>-bit key)"}.</p>
+ * <p>The value returned by {@code getName()} is in the format {@code "AES (<var>n</var>-bit)"}.</p>
  */
 public final class Aes extends AbstractCipher implements BlockCipher {
 	
@@ -36,7 +36,7 @@ public final class Aes extends AbstractCipher implements BlockCipher {
 	
 	
 	public Aes(int keyLength) {
-		super(String.format("AES (%d-bit key)", keyLength * 8), 16, keyLength);
+		super(String.format("AES (%d-bit)", keyLength * 8), 16, keyLength);
 		if (keyLength < 4 || keyLength % 4 != 0)
 			throw new IllegalArgumentException("Invalid key length");
 		this.keyLength = keyLength;
