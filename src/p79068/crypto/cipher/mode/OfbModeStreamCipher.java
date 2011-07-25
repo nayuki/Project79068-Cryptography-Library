@@ -2,9 +2,8 @@ package p79068.crypto.cipher.mode;
 
 import p79068.crypto.Zeroizable;
 import p79068.crypto.Zeroizer;
-import p79068.crypto.cipher.AbstractCipher;
+import p79068.crypto.cipher.AbstractStreamCipher;
 import p79068.crypto.cipher.BlockCipher;
-import p79068.crypto.cipher.StreamCipher;
 import p79068.crypto.cipher.StreamCipherer;
 
 
@@ -19,7 +18,7 @@ import p79068.crypto.cipher.StreamCipherer;
  * keyStream[i] = encrypt(keyStream[i-1])<br>
  * plaintext[i] = keyStream[i] XOR ciphertext[i]</code></p>
  */
-public final class OfbModeStreamCipher extends AbstractCipher implements StreamCipher, Zeroizable {
+public final class OfbModeStreamCipher extends AbstractStreamCipher implements Zeroizable {
 	
 	private BlockCipher blockCipher;
 	private byte[] key;
@@ -27,7 +26,7 @@ public final class OfbModeStreamCipher extends AbstractCipher implements StreamC
 	
 	
 	public OfbModeStreamCipher(BlockCipher cipher, byte[] key) {
-		super(cipher.getName() + "-OFB", 1, cipher.getBlockLength());
+		super(cipher.getName() + "-OFB", cipher.getBlockLength());
 		if (key.length != cipher.getKeyLength())
 			throw new IllegalArgumentException();
 		blockCipher = cipher;

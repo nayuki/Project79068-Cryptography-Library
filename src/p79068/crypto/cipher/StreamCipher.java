@@ -3,7 +3,6 @@
  * Therefore, encryption and decryption are the same operation.
  */
 
-
 package p79068.crypto.cipher;
 
 
@@ -19,7 +18,8 @@ public interface StreamCipher extends Cipher {
 	
 	
 	/**
-	 * Returns the block length of this cipher algorithm: <samp>1</samp> byte.
+	 * Returns the block length of this cipher algorithm, which is always {@code 1} byte.
+	 * @return the block length, which is always {@code 1}
 	 */
 	@Override
 	public int getBlockLength();
