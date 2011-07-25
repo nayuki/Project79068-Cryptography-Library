@@ -19,18 +19,8 @@ final class WhirlpoolUtils {
 	
 	
 	static {
+		// Initialize exponentiation table
 		exp = new int[255];
-		log = new int[256];
-		initTables();
-	}
-	
-	
-	
-	/**
-	 * Initializes the exponentiation and logarithm tables.
-	 */
-	private static void initTables() {
-		// Initialize exponentiation (exp) table
 		int product = 1;
 		for (int i = 0; i < exp.length; i++) {
 			exp[i] = product;
@@ -38,13 +28,13 @@ final class WhirlpoolUtils {
 			if ((product & 0x100) != 0)
 				product ^= 0x11D;  // Modulo by 0x11D in GF(2)
 		}
-		
+
 		// Initialize logarithm (log) table
+		log = new int[256];
 		log[0] = Integer.MIN_VALUE;  // Log of 0 is invalid
 		for (int i = 1; i < exp.length; i++)
 			log[exp[i]] = i;
 	}
-	
 	
 	
 	/**
