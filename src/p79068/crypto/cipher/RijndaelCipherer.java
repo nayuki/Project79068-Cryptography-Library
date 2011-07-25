@@ -9,7 +9,7 @@ import p79068.crypto.Zeroizer;
 import p79068.lang.BoundsChecker;
 
 
-class RijndaelCipherer extends Cipherer {
+class RijndaelCipherer extends AbstractCipherer {
 	
 	protected static byte[] SBOX = AesUtils.getSbox();
 	protected static byte[] SBOX_INVERSE = AesUtils.getSboxInverse();

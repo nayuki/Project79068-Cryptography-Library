@@ -9,7 +9,7 @@ import p79068.crypto.Zeroizer;
 import p79068.lang.BoundsChecker;
 
 
-final class XteaCipherer extends Cipherer {
+final class XteaCipherer extends AbstractCipherer {
 	
 	private int[] int32Key;
 	

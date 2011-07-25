@@ -9,7 +9,7 @@ import p79068.crypto.Zeroizer;
 import p79068.lang.BoundsChecker;
 
 
-final class TeaCipherer extends Cipherer {
+final class TeaCipherer extends AbstractCipherer {
 	
 	private int[] int32Key;
 	
