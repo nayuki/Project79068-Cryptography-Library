@@ -90,43 +90,6 @@ final class Sha1Core extends AbstractSha1Core {
 	}
 	
 	
-	/*
-	 * Each round performs a transform of this form:
-	 *  a = b'
-	 *  b = c' ROTLEFT 2
-	 *  c = d'
-	 *  d = e'
-	 *  e = a' - f(a,b,c,d)
-	 * The primed variables represent the input.
-	 * Therefore, equivalently: e = a' - f(b', c' ROTLEFT 2, d', e')
-	 * The actual implementation is an in-place version of this description.
-	 */
-	static void decrypt(int[] keySchedule, int[] message) {
-		int a = message[0];
-		int b = message[1];
-		int c = message[2];
-		int d = message[3];
-		int e = message[4];
-		
-		// The 80 rounds
-		for (int i = 79; i >= 0; i--) {
-			int temp = a;
-			a = b;
-			b = rotateLeft(c, 2);
-			c = d;
-			d = e;
-			e = temp - (rotateLeft(a, 5) + f(i, b, c, d) + k[i / 20] + keySchedule[i]);
-		}
-		
-		message[0] = a;
-		message[1] = b;
-		message[2] = c;
-		message[3] = d;
-		message[4] = e;
-	}
-	
-	
-	
 	private static int f(int i, int x, int y, int z) {
 		if      ( 0 <= i && i < 20) return (x & y) | (~x & z);           // Choose. Can be optimized to z ^ (x & (y ^ z)).
 		else if (20 <= i && i < 40) return x ^ y ^ z;                    // Parity
