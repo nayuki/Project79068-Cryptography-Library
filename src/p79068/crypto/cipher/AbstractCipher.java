@@ -40,7 +40,20 @@ public abstract class AbstractCipher implements Cipher {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public abstract Cipherer newCipherer(byte[] key);
+	public Cipherer newCipherer(byte[] key) {
+		NullChecker.check(key);
+		if (key.length != keyLength)
+			throw new IllegalArgumentException("Invalid key length");
+		return newCiphererUnchecked(key);
+	}
+	
+	
+	/**
+	 * Returns a new cipherer of this algorithm with the specified key. This is the same as {@link #newCipherer(byte[])}, but it is guaranteed that {@code key != null && key.length == getKeyLength()}.
+	 * @param key the key to be used
+	 * @return a new cipherer of this algorithm with the specified key
+	 */
+	protected abstract Cipherer newCiphererUnchecked(byte[] key);
 	
 	
 	/**

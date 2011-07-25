@@ -7,4 +7,9 @@ public abstract class AbstractStreamCipher extends AbstractCipher implements Str
 		super(name, 1, keyLength);
 	}
 	
+	
+	public StreamCipherer newCipherer(byte[] key) {
+		return (StreamCipherer)super.newCipherer(key);
+	}
+	
 }

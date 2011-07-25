@@ -1,6 +1,5 @@
 package p79068.crypto.cipher;
 
-import p79068.lang.NullChecker;
 import p79068.util.HashCoder;
 
 
@@ -24,10 +23,7 @@ public final class Rc4 extends AbstractStreamCipher {
 	
 	
 	@Override
-	public StreamCipherer newCipherer(byte[] key) {
-		NullChecker.check(key);
-		if (key.length != keyLength)
-			throw new IllegalArgumentException();
+	public StreamCipherer newCiphererUnchecked(byte[] key) {
 		return new Rc4Cipherer(this, key);
 	}
 	

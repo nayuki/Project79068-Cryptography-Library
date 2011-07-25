@@ -1,6 +1,5 @@
 package p79068.crypto.cipher;
 
-import p79068.lang.NullChecker;
 import p79068.util.HashCoder;
 
 
@@ -46,10 +45,7 @@ public final class Aes extends AbstractCipher implements BlockCipher {
 	
 	
 	@Override
-	public Cipherer newCipherer(byte[] key) {
-		NullChecker.check(key);
-		if (key.length != keyLength)
-			throw new IllegalArgumentException();
+	public Cipherer newCiphererUnchecked(byte[] key) {
 		return new AesCipherer(this, key);
 	}
 	

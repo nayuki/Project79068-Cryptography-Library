@@ -36,11 +36,9 @@ public final class OfbModeStreamCipher extends AbstractStreamCipher implements Z
 	
 	
 	@Override
-	public StreamCipherer newCipherer(byte[] initVector) {
+	public StreamCipherer newCiphererUnchecked(byte[] initVector) {
 		if (blockCipher == null)
 			throw new IllegalStateException("Already zeroized");
-		if (initVector.length != blockCipher.getBlockLength())
-			throw new IllegalArgumentException();
 		return new OfbModeStreamCipherer(this, initVector, blockCipher, key);
 	}
 	
