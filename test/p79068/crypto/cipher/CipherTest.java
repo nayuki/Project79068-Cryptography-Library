@@ -10,17 +10,17 @@ import p79068.crypto.cipher.mode.OfbModeStreamCipher;
 public final class CipherTest {
 	
 	private static Cipher[] blockCiphers = {
-		Rijndael.AES128_CIPHER,
-		Rijndael.AES192_CIPHER,
-		Rijndael.AES256_CIPHER,
+		Aes.AES128_CIPHER,
+		Aes.AES192_CIPHER,
+		Aes.AES256_CIPHER,
 		Tea.CIPHER,
 		Xtea.CIPHER
 	};
 	
 	private static Cipher[] cipherModes = {
-		new CbcModeCipher(Rijndael.AES128_CIPHER, new byte[16]),
-		new CfbModeCipher(Rijndael.AES128_CIPHER, new byte[16]),
-		new OfbModeStreamCipher(Rijndael.AES128_CIPHER, new byte[16]),
+		new CbcModeCipher(Aes.AES128_CIPHER, new byte[16]),
+		new CfbModeCipher(Aes.AES128_CIPHER, new byte[16]),
+		new OfbModeStreamCipher(Aes.AES128_CIPHER, new byte[16]),
 	};
 	
 	

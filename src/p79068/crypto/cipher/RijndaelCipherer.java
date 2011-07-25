@@ -11,8 +11,8 @@ import p79068.lang.BoundsChecker;
 
 class RijndaelCipherer extends Cipherer {
 	
-	protected static byte[] SBOX = RijndaelUtils.getSbox();
-	protected static byte[] SBOX_INVERSE = RijndaelUtils.getSboxInverse();
+	protected static byte[] SBOX = AesUtils.getSbox();
+	protected static byte[] SBOX_INVERSE = AesUtils.getSboxInverse();
 	
 	
 	
@@ -30,7 +30,7 @@ class RijndaelCipherer extends Cipherer {
 	
 	
 	
-	public RijndaelCipherer(Rijndael cipher, byte[] key) {
+	public RijndaelCipherer(Aes cipher, byte[] key) {
 		super(cipher, key);
 		blockLength = cipher.getBlockLength();
 		switch (blockLength) {
@@ -106,7 +106,7 @@ class RijndaelCipherer extends Cipherer {
 		int nb = blockLength / 4;  // Number of 32-bit blocks in the state
 		int rounds = Math.max(nk, nb) + 6;
 		
-		int[] w = RijndaelUtils.expandKey(key, nb);  // Key schedule
+		int[] w = AesUtils.expandKey(key, nb);  // Key schedule
 		
 		keySchedule = new byte[rounds + 1][];
 		for (int i = 0; i < keySchedule.length; i++)
@@ -234,12 +234,12 @@ class RijndaelCipherer extends Cipherer {
 		mul0D = new byte[256];
 		mul09 = new byte[256];
 		for (int i = 0; i < 256; i++) {
-			mul02[i] = (byte)RijndaelUtils.multiply(i, 0x02);
-			mul03[i] = (byte)RijndaelUtils.multiply(i, 0x03);
-			mul0E[i] = (byte)RijndaelUtils.multiply(i, 0x0E);
-			mul0B[i] = (byte)RijndaelUtils.multiply(i, 0x0B);
-			mul0D[i] = (byte)RijndaelUtils.multiply(i, 0x0D);
-			mul09[i] = (byte)RijndaelUtils.multiply(i, 0x09);
+			mul02[i] = (byte)AesUtils.multiply(i, 0x02);
+			mul03[i] = (byte)AesUtils.multiply(i, 0x03);
+			mul0E[i] = (byte)AesUtils.multiply(i, 0x0E);
+			mul0B[i] = (byte)AesUtils.multiply(i, 0x0B);
+			mul0D[i] = (byte)AesUtils.multiply(i, 0x0D);
+			mul09[i] = (byte)AesUtils.multiply(i, 0x09);
 		}
 	}
 	
