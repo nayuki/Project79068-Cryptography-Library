@@ -31,7 +31,7 @@ final class AesCipherer extends RijndaelCipherer {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
 		BoundsChecker.check(b.length, off, len);
-		if (len % 8 != 0)
+		if (len % 16 != 0)
 			throw new IllegalArgumentException("Invalid block length");
 		
 		byte[] block = new byte[16];  // Column-major indexed
@@ -49,7 +49,7 @@ final class AesCipherer extends RijndaelCipherer {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
 		BoundsChecker.check(b.length, off, len);
-		if (len % 8 != 0)
+		if (len % 16 != 0)
 			throw new IllegalArgumentException("Invalid block length");
 		
 		byte[] block = new byte[16];  // Column-major indexed
