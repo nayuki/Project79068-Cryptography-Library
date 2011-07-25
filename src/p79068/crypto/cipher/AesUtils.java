@@ -1,7 +1,7 @@
 package p79068.crypto.cipher;
 
 
-final class RijndaelUtils {
+final class AesUtils {
 	
 	private static final byte[] SBOX;
 	private static final byte[] SBOX_INVERSE;
@@ -123,6 +123,6 @@ final class RijndaelUtils {
 	/**
 	 * Not instantiable.
 	 */
-	private RijndaelUtils() {}
+	private AesUtils() {}
 	
 }

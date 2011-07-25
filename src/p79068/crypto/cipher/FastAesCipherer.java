@@ -24,7 +24,7 @@ final class FastAesCipherer extends Cipherer {
 	
 	
 	
-	FastAesCipherer(Rijndael cipher, byte[] key) {
+	FastAesCipherer(Aes cipher, byte[] key) {
 		super(cipher, key);
 		if (key.length % 4 != 0 || key.length == 0)
 			throw new IllegalArgumentException("Invalid key length");
@@ -33,7 +33,7 @@ final class FastAesCipherer extends Cipherer {
 		int nk = key.length / 4;  // Number of 32-bit blocks in the key
 		roundCount = Math.max(nk, 4) + 6;
 		
-		encKeySch = RijndaelUtils.expandKey(key, 4);
+		encKeySch = AesUtils.expandKey(key, 4);
 		
 		decKeySch = new int[encKeySch.length];
 		for (int i = 0; i < roundCount + 1; i++) {
@@ -183,7 +183,7 @@ final class FastAesCipherer extends Cipherer {
 	
 	
 	
-	private static byte[] SBOX = RijndaelUtils.getSbox();
+	private static byte[] SBOX = AesUtils.getSbox();
 	
 	private static int[] bigsub, bigsubinv;  // Substitutes 2 bytes in parallel.
 	private static int[] mul0, mul1, mul2, mul3;
@@ -191,8 +191,8 @@ final class FastAesCipherer extends Cipherer {
 	
 	
 	static {
-		byte[] sbox = RijndaelUtils.getSbox();
-		byte[] sboxinv = RijndaelUtils.getSboxInverse();
+		byte[] sbox = AesUtils.getSbox();
+		byte[] sboxinv = AesUtils.getSboxInverse();
 		initBigSBox(sbox, sboxinv);
 		initMultiplyTable(sbox, sboxinv);
 	}
@@ -215,10 +215,10 @@ final class FastAesCipherer extends Cipherer {
 		mul3 = new int[256];
 		for (int i = 0; i < 256; i++) {
 			int j = sbox[i] & 0xFF;
-			int temp = RijndaelUtils.multiply(j, 0x02) << 24
-			         | RijndaelUtils.multiply(j, 0x01) << 16
-			         | RijndaelUtils.multiply(j, 0x01) <<  8
-			         | RijndaelUtils.multiply(j, 0x03) <<  0;
+			int temp = AesUtils.multiply(j, 0x02) << 24
+			         | AesUtils.multiply(j, 0x01) << 16
+			         | AesUtils.multiply(j, 0x01) <<  8
+			         | AesUtils.multiply(j, 0x03) <<  0;
 			mul0[i] = IntegerBitMath.rotateRight(temp,  0);
 			mul1[i] = IntegerBitMath.rotateRight(temp,  8);
 			mul2[i] = IntegerBitMath.rotateRight(temp, 16);
@@ -231,10 +231,10 @@ final class FastAesCipherer extends Cipherer {
 		mulinv3 = new int[256];
 		for (int i = 0; i < 256; i++) {
 			int j = sboxinv[i] & 0xFF;
-			int temp = RijndaelUtils.multiply(j, 0x0E) << 24
-			         | RijndaelUtils.multiply(j, 0x09) << 16
-			         | RijndaelUtils.multiply(j, 0x0D) <<  8
-			         | RijndaelUtils.multiply(j, 0x0B) <<  0;
+			int temp = AesUtils.multiply(j, 0x0E) << 24
+			         | AesUtils.multiply(j, 0x09) << 16
+			         | AesUtils.multiply(j, 0x0D) <<  8
+			         | AesUtils.multiply(j, 0x0B) <<  0;
 			mulinv0[i] = IntegerBitMath.rotateRight(temp,  0);
 			mulinv1[i] = IntegerBitMath.rotateRight(temp,  8);
 			mulinv2[i] = IntegerBitMath.rotateRight(temp, 16);

@@ -18,7 +18,7 @@ import p79068.lang.BoundsChecker;
 
 final class AesCipherer extends RijndaelCipherer {
 	
-	AesCipherer(Rijndael cipher, byte[] key) {
+	AesCipherer(Aes cipher, byte[] key) {
 		super(cipher, key);
 		if (cipher.getBlockLength() != 16)
 			throw new AssertionError();
