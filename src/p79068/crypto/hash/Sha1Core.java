@@ -35,6 +35,7 @@ final class Sha1Core extends AbstractSha1Core {
 			// Expand the schedule
 			for (int i = 16; i < 80; i++) {
 				int temp = schedule[i - 3] ^ schedule[i - 8] ^ schedule[i - 14] ^ schedule[i - 16];
+				temp = rotateLeft(temp, 1);
 				schedule[i] = temp;
 			}
 			
