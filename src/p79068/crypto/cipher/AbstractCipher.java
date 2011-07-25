@@ -1,21 +1,35 @@
 package p79068.crypto.cipher;
 
+import p79068.lang.NullChecker;
+
 
 /**
- * An abstract cipher algorithm.
- * @see Cipherer
+ * A cipher algorithm with some functionality implemented for convenience.
+ * @see Cipher
  */
-public abstract class AbstractCipher {
+public abstract class AbstractCipher implements Cipher {
 	
 	private final String name;
 	
-	private int blockLength;
+	private final int blockLength;
 	
-	private int keyLength;
+	private final int keyLength;
 	
 	
 	
-	public AbstractCipher(String name, int blockLength, int keyLength) {
+	/**
+	 * Constructs a cipher with the specified name, block length, and key length.
+	 * @param name the name of the cipher
+	 * @param blockLength the block length of the cipher, in bytes
+	 * @param keyLength the key length of the cipher, in bytes
+	 */
+	protected AbstractCipher(String name, int blockLength, int keyLength) {
+		NullChecker.check(name);
+		if (blockLength <= 0)
+			throw new IllegalArgumentException("Non-positive block length");
+		if (keyLength < 0)
+			throw new IllegalArgumentException("Negative key length");
+		
 		this.name = name;
 		this.blockLength = blockLength;
 		this.keyLength = keyLength;
@@ -23,13 +37,14 @@ public abstract class AbstractCipher {
 	
 	
 	/**
-	 * Returns a new cipherer, which is used to encrypt and decrypt byte blocks.
+	 * {@inheritDoc}
 	 */
+	@Override
 	public abstract Cipherer newCipherer(byte[] key);
 	
 	
 	/**
-	 * Returns the name of this cipher algorithm.
+	 * Returns the name of this cipher algorithm. The value does not change for the lifetime of the cipher object.
 	 * @return the name of this cipher algorithm
 	 */
 	public final String getName() {
@@ -38,7 +53,7 @@ public abstract class AbstractCipher {
 	
 	
 	/**
-	 * Returns the block length of this cipher algorithm, in bytes. Encryptions and decryptions only act on complete blocks.
+	 * Returns the block length of this cipher algorithm, in bytes. Encryptions and decryptions only act on complete blocks. The value does not change for the lifetime of the cipher object.
 	 * @return the block length of this cipher algorithm, in bytes
 	 */
 	public final int getBlockLength() {
@@ -47,7 +62,7 @@ public abstract class AbstractCipher {
 	
 	
 	/**
-	 * Returns the key length of this cipher algorithm, in bytes.
+	 * Returns the key length of this cipher algorithm, in bytes. The value does not change for the lifetime of the cipher object.
 	 * @return the key length of this cipher algorithm, in bytes
 	 */
 	public final int getKeyLength() {
@@ -56,11 +71,12 @@ public abstract class AbstractCipher {
 	
 	
 	/**
-	 * Returns a string representation of this cipher. The format is: {@code "<var>name</var> cipher"}. This is subject to change.
+	 * Returns a string representation of this cipher. The format is: {@code "cipherName (keyLength-bit)"}. This is subject to change.
+	 * @return a string representation of this cipher
 	 */
 	@Override
 	public String toString() {
-		return String.format("%s cipher", getName());
+		return String.format("%s (%d-bit)", name, keyLength);
 	}
 	
 }
