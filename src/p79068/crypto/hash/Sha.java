@@ -15,12 +15,6 @@ public final class Sha extends AbstractBlockHashFunction {
 	
 	
 	/**
-	 * The SHA-224 hash function. {@code name = "SHA-224"}, {@code hashLength = 28}, {@code blockLength = 64}.
-	 */
-	public final static Sha SHA224_FUNCTION = new Sha("SHA-224", 28, 64);
-	
-	
-	/**
 	 * The SHA-256 hash function. {@code name = "SHA-256"}, {@code hashLength = 32}, {@code blockLength = 64}.
 	 */
 	public final static Sha SHA256_FUNCTION = new Sha("SHA-256", 32, 64);
@@ -52,8 +46,7 @@ public final class Sha extends AbstractBlockHashFunction {
 	@Override
 	public Hasher newHasher() {
 		if      (this == SHA1_FUNCTION  ) return new BlockHasher(this, new FastSha1Core());
-		else if (this == SHA224_FUNCTION) return new BlockHasher(this, new Sha256Core(false));
-		else if (this == SHA256_FUNCTION) return new BlockHasher(this, new Sha256Core(true));
+		else if (this == SHA256_FUNCTION) return new BlockHasher(this, new Sha256Core());
 		else if (this == SHA384_FUNCTION) return new BlockHasher(this, new Sha512Core(false));
 		else if (this == SHA512_FUNCTION) return new BlockHasher(this, new Sha512Core(true));
 		else throw new AssertionError();

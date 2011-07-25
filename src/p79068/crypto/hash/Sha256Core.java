@@ -10,25 +10,15 @@ import p79068.math.IntegerBitMath;
 
 final class Sha256Core extends BlockHasherCore {
 	
-	private final boolean sha256Mode;
-	
 	private int[] state;
 	
 	
 	
-	public Sha256Core(boolean sha256Mode) {
-		this.sha256Mode = sha256Mode;
-		if (sha256Mode) {
-			state = new int[] {
-				0x6A09E667, 0xBB67AE85, 0x3C6EF372, 0xA54FF53A,
-				0x510E527F, 0x9B05688C, 0x1F83D9AB, 0x5BE0CD19
-			};
-		} else {
-			state = new int[] {
-				0xC1059ED8, 0x367CD507, 0x3070DD17, 0xF70E5939,
-				0xFFC00B31, 0x68581511, 0x64F98FA7, 0xBEFA4FA4
-			};
-		}
+	public Sha256Core() {
+		state = new int[] {
+			0x6A09E667, 0xBB67AE85, 0x3C6EF372, 0xA54FF53A,
+			0x510E527F, 0x9B05688C, 0x1F83D9AB, 0x5BE0CD19
+		};
 	}
 	
 	
@@ -103,8 +93,6 @@ final class Sha256Core extends BlockHasherCore {
 		for (int i = 0; i < 8; i++)
 			block[block.length - 1 - i] = (byte)((length * 8) >>> (i * 8));
 		compress(block);
-		if (!sha256Mode)  // If SHA-224, truncate the state
-			state = Arrays.copyOf(state, 7);
 		return new HashValue(IntegerBitMath.toBytesBigEndian(state));
 	}
 	
