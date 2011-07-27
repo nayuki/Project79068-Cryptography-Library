@@ -1,5 +1,7 @@
 package p79068.crypto.hash;
 
+import java.math.BigInteger;
+
 import p79068.crypto.Zeroizable;
 import p79068.hash.HashValue;
 import p79068.lang.NullChecker;
@@ -32,7 +34,7 @@ public abstract class BlockHasherCore implements Cloneable, Zeroizable {
 	 * Returns the hash value, possibly changing this hasher's internal state.
 	 * @return the hash value
 	 */
-	public abstract HashValue getHashDestructively(byte[] block, int blockLength, long length);
+	public abstract HashValue getHashDestructively(byte[] block, int blockLength, BigInteger length);
 	
 	
 	

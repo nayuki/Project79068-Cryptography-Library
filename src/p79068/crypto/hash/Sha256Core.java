@@ -1,6 +1,8 @@
 package p79068.crypto.hash;
 
 import static p79068.math.IntegerBitMath.rotateRight;
+
+import java.math.BigInteger;
 import java.util.Arrays;
 import p79068.crypto.Zeroizer;
 import p79068.hash.HashValue;
@@ -82,7 +84,7 @@ final class Sha256Core extends BlockHasherCore {
 	
 	
 	@Override
-	public HashValue getHashDestructively(byte[] block, int blockLength, long length) {
+	public HashValue getHashDestructively(byte[] block, int blockLength, BigInteger length) {
 		block[blockLength] = (byte)0x80;
 		blockLength++;
 		Arrays.fill(block, blockLength, block.length, (byte)0);
@@ -90,8 +92,9 @@ final class Sha256Core extends BlockHasherCore {
 			compress(block);
 			Arrays.fill(block, (byte)0);
 		}
+		length = length.shiftLeft(3);  // Length is now in bits
 		for (int i = 0; i < 8; i++)
-			block[block.length - 1 - i] = (byte)((length * 8) >>> (i * 8));
+			block[block.length - 1 - i] = length.shiftRight(i * 8).byteValue();
 		compress(block);
 		return new HashValue(IntegerBitMath.toBytesBigEndian(state));
 	}
