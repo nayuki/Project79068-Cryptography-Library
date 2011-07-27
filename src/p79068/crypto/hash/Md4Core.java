@@ -88,14 +88,10 @@ final class Md4Core extends BlockHasherCore {
 			// The 48 rounds
 			for (int i = 0; i < 48; i++) {
 				int f;
-				if (0 <= i && i < 16)
-					f = d ^ (b & (c ^ d));  // Same as (b & c) | (~b & d)
-				else if (16 <= i && i < 32)
-					f = (b & c) | (d & (b | c));
-				else if (32 <= i && i < 48)
-					f = b ^ c ^ d;
-				else
-					throw new AssertionError();
+				if      ( 0 <= i && i < 16) f = (b & c) | (~b & d);  // Can be optimized to f = d ^ (b & (c ^ d))
+				else if (16 <= i && i < 32) f = (b & c) | (d & (b | c));
+				else if (32 <= i && i < 48) f = b ^ c ^ d;
+				else throw new AssertionError();
 				
 				int temp = a + f + schedule[k[i / 16 * 16 + i % 16]] + addCon[i / 16];
 				int rot = s[i / 16 * 4 + i % 4];

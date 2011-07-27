@@ -98,20 +98,11 @@ final class Md5Core extends BlockHasherCore {
 			for (int i = 0; i < 64; i++) {
 				int f;
 				int k;
-				if (0 <= i && i < 16) {
-					f = d ^ (b & (c ^ d));  // Same as (b & c) | (~b & d)
-					k = i;
-				} else if (16 <= i && i < 32) {
-					f = c ^ (d & (b ^ c));  // Same as (d & b) | (~d & c)
-					k = (5 * i + 1) % 16;
-				} else if (32 <= i && i < 48) {
-					f = b ^ c ^ d;
-					k = (3 * i + 5) % 16;
-				} else if (48 <= i && i < 64) {
-					f = c ^ (b | (~d));
-					k = 7 * i % 16;
-				} else
-					throw new AssertionError();
+				if      ( 0 <= i && i < 16) { f = (b & c) | (~b & d);  k = i;                }  // Can be optimized to f = d ^ (b & (c ^ d))
+				else if (16 <= i && i < 32) { f = (d & b) | (~d & c);  k = (5 * i + 1) % 16; }  // Can be optimized to f = c ^ (d & (b ^ c))
+				else if (32 <= i && i < 48) { f = b ^ c ^ d;           k = (3 * i + 5) % 16; }
+				else if (48 <= i && i < 64) { f = c ^ (b | (~d));      k = 7 * i % 16;       }
+				else throw new AssertionError();
 				
 				int temp = a + f + t[i] + schedule[k];
 				int rot = s[i / 16 * 4 + i % 4];
