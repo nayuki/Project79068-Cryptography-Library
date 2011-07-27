@@ -131,6 +131,14 @@ final class Sha512Core extends BlockHasherCore {
 	}
 	
 	
+	private static long smallSigma0(long x) { return rotateRight(x,  1) ^ rotateRight(x,  8) ^ (x >>> 7); }
+	private static long smallSigma1(long x) { return rotateRight(x, 19) ^ rotateRight(x, 61) ^ (x >>> 6); }
+	private static long bigSigma0  (long x) { return rotateRight(x, 28) ^ rotateRight(x, 34) ^ rotateRight(x, 39); }
+	private static long bigSigma1  (long x) { return rotateRight(x, 14) ^ rotateRight(x, 18) ^ rotateRight(x, 41); }
+	private static long choose  (long x, long y, long z) { return (x & y) ^ (~x & z);          }  // Can be optimized to z ^ (x & (y ^ z))
+	private static long majority(long x, long y, long z) { return (x & y) ^ (x & z) ^ (y & z); }  // Can be optimized to (x & (y | z)) | (y & z)
+	
+	
 	@Override
 	public HashValue getHashDestructively(byte[] block, int blockLength, BigInteger length) {
 		block[blockLength] = (byte)0x80;
@@ -145,37 +153,6 @@ final class Sha512Core extends BlockHasherCore {
 			block[block.length - 1 - i] = length.shiftRight(i * 8).byteValue();
 		compress(block);
 		return new HashValue(LongBitMath.toBytesBigEndian(state));
-	}
-	
-	
-	
-	private static long smallSigma0(long x) {
-		return rotateRight(x, 1) ^ rotateRight(x, 8) ^ (x >>> 7);
-	}
-	
-	
-	private static long smallSigma1(long x) {
-		return rotateRight(x, 19) ^ rotateRight(x, 61) ^ (x >>> 6);
-	}
-	
-	
-	private static long bigSigma0(long x) {
-		return rotateRight(x, 28) ^ rotateRight(x, 34) ^ rotateRight(x, 39);
-	}
-	
-	
-	private static long bigSigma1(long x) {
-		return rotateRight(x, 14) ^ rotateRight(x, 18) ^ rotateRight(x, 41);
-	}
-	
-	
-	private static long choose(long x, long y, long z) {
-		return (x & y) ^ (~x & z);  // Can be optimized to z ^ (x & (y ^ z))
-	}
-	
-	
-	private static long majority(long x, long y, long z) {
-		return (x & y) ^ (x & z) ^ (y & z);  // Can be optimized to (x & (y | z)) | (y & z) 
 	}
 	
 }

@@ -169,34 +169,11 @@ final class Sha256Core extends BlockHasherCore {
 	}
 	
 	
-	
-	private static int smallSigma0(int x) {
-		return rotateRight(x, 7) ^ rotateRight(x, 18) ^ (x >>> 3);
-	}
-	
-	
-	private static int smallSigma1(int x) {
-		return rotateRight(x, 17) ^ rotateRight(x, 19) ^ (x >>> 10);
-	}
-	
-	
-	private static int bigSigma0(int x) {
-		return rotateRight(x, 2) ^ rotateRight(x, 13) ^ rotateRight(x, 22);
-	}
-	
-	
-	private static int bigSigma1(int x) {
-		return rotateRight(x, 6) ^ rotateRight(x, 11) ^ rotateRight(x, 25);
-	}
-	
-	
-	private static int choose(int x, int y, int z) {
-		return (x & y) ^ (~x & z);  // Can be optimized to z ^ (x & (y ^ z))
-	}
-	
-	
-	private static int majority(int x, int y, int z) {
-		return (x & y) ^ (x & z) ^ (y & z);  // Can be optimized to (x & (y | z)) | (y & z)
-	}
+	private static int smallSigma0(int x) { return rotateRight(x,  7) ^ rotateRight(x, 18) ^ (x >>>  3); }
+	private static int smallSigma1(int x) { return rotateRight(x, 17) ^ rotateRight(x, 19) ^ (x >>> 10); }
+	private static int bigSigma0  (int x) { return rotateRight(x,  2) ^ rotateRight(x, 13) ^ rotateRight(x, 22); }
+	private static int bigSigma1  (int x) { return rotateRight(x,  6) ^ rotateRight(x, 11) ^ rotateRight(x, 25); }
+	private static int choose  (int x, int y, int z) { return (x & y) ^ (~x & z);          }  // Can be optimized to z ^ (x & (y ^ z))
+	private static int majority(int x, int y, int z) { return (x & y) ^ (x & z) ^ (y & z); }  // Can be optimized to (x & (y | z)) | (y & z)
 	
 }
