@@ -1,5 +1,7 @@
 package p79068.crypto.hash;
 
+import java.math.BigInteger;
+
 import p79068.crypto.Zeroizer;
 import p79068.hash.HashValue;
 import p79068.lang.BoundsChecker;
@@ -102,7 +104,7 @@ final class Md2Core extends BlockHasherCore {
 	
 	
 	@Override
-	public HashValue getHashDestructively(byte[] block, int blockLength, long length) {
+	public HashValue getHashDestructively(byte[] block, int blockLength, BigInteger length) {
 		for (int i = blockLength; i < block.length; i++)
 			block[i] = (byte)(16 - blockLength);
 		compress(block);

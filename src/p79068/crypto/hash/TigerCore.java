@@ -1,5 +1,6 @@
 package p79068.crypto.hash;
 
+import java.math.BigInteger;
 import java.util.Arrays;
 
 import p79068.crypto.Zeroizer;
@@ -408,7 +409,7 @@ final class TigerCore extends BlockHasherCore {
 	
 	
 	@Override
-	public HashValue getHashDestructively(byte[] block, int blockLength, long length) {
+	public HashValue getHashDestructively(byte[] block, int blockLength, BigInteger length) {
 		block[blockLength] = (byte)(tiger2Mode ? 0x80 : 0x01);
 		blockLength++;
 		Arrays.fill(block, blockLength, block.length, (byte)0);
@@ -416,8 +417,9 @@ final class TigerCore extends BlockHasherCore {
 			compress(block);
 			Arrays.fill(block, (byte)0);
 		}
+		length = length.shiftLeft(3);  // Length is now in bits
 		for (int i = 0; i < 8; i++)
-			block[block.length - 8 + i] = (byte)((length * 8) >>> (i * 8));
+			block[block.length - 8 + i] = length.shiftRight(i * 8).byteValue();
 		compress(block);
 		return new HashValue(LongBitMath.toBytesLittleEndian(state));
 	}

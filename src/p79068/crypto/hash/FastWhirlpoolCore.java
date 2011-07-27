@@ -1,5 +1,6 @@
 package p79068.crypto.hash;
 
+import java.math.BigInteger;
 import java.util.Arrays;
 
 import p79068.crypto.Zeroizer;
@@ -87,7 +88,7 @@ final class FastWhirlpoolCore extends BlockHasherCore {
 	
 	
 	@Override
-	public HashValue getHashDestructively(byte[] block, int blockLength, long length) {
+	public HashValue getHashDestructively(byte[] block, int blockLength, BigInteger length) {
 		block[blockLength] = (byte)0x80;
 		blockLength++;
 		Arrays.fill(block, blockLength, block.length, (byte)0);
@@ -95,8 +96,9 @@ final class FastWhirlpoolCore extends BlockHasherCore {
 			compress(block);
 			Arrays.fill(block, (byte)0);
 		}
+		length = length.shiftLeft(3);  // Length is now in bits
 		for (int i = 0; i < 8; i++)
-			block[block.length - 1 - i] = (byte)((length * 8) >>> (i * 8));  // Whirlpool supports lengths just less than 2^256 bits (2^253 bytes), but this implementation only counts to just less than 2^64 bytes.
+			block[block.length - 1 - i] = length.shiftRight(i * 8).byteValue();  // Whirlpool supports lengths just less than 2^256 bits (2^253 bytes), but this implementation only counts to just less than 2^64 bytes.
 		compress(block);
 		return new HashValue(LongBitMath.toBytesBigEndian(state));
 	}

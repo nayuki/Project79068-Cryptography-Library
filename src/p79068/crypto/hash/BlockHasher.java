@@ -1,5 +1,7 @@
 package p79068.crypto.hash;
 
+import java.math.BigInteger;
+
 import p79068.crypto.Zeroizable;
 import p79068.crypto.Zeroizer;
 import p79068.hash.AbstractHasher;
@@ -25,9 +27,9 @@ public final class BlockHasher extends AbstractHasher implements Zeroizable {
 	private int blockLength;
 	
 	/**
-	 * The total length of the message, in bytes. Warning: It overflows silently.
+	 * The total length of the message, in bytes.
 	 */
-	private long length;
+	private BigInteger length;
 	
 	
 	private BlockHasherCore core;
@@ -42,7 +44,7 @@ public final class BlockHasher extends AbstractHasher implements Zeroizable {
 		NullChecker.check(core);
 		block = new byte[func.getBlockLength()];
 		blockLength = 0;
-		length = 0;
+		length = BigInteger.ZERO;
 		this.core = core;
 	}
 	
@@ -62,7 +64,7 @@ public final class BlockHasher extends AbstractHasher implements Zeroizable {
 			core.compress(block);
 			blockLength = 0;
 		}
-		length++;
+		length = length.add(BigInteger.ONE);
 	}
 	
 	
@@ -78,7 +80,7 @@ public final class BlockHasher extends AbstractHasher implements Zeroizable {
 			throw new IllegalStateException("Already zeroized");
 		BoundsChecker.check(b.length, off, len);
 		
-		length += len;  // Update length now, before len changes
+		length = length.add(BigInteger.valueOf(len));  // Update length now, before len changes
 		if (blockLength > 0) {  // Try to fill up the current block
 			int temp = Math.min(block.length - blockLength, len);
 			System.arraycopy(b, off, block, blockLength, temp);
@@ -133,7 +135,7 @@ public final class BlockHasher extends AbstractHasher implements Zeroizable {
 	public void zeroize() {
 		if (hashFunction == null)
 			throw new IllegalStateException("Already zeroized");
-		length = 0;
+		length = null;
 		blockLength = 0;
 		block = Zeroizer.clear(block);
 		hashFunction = null;

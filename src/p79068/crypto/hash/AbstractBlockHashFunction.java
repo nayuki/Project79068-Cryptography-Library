@@ -11,7 +11,7 @@ public abstract class AbstractBlockHashFunction extends AbstractHashFunction imp
 	/**
 	 * The block length of this hash function, in bytes.
 	 */
-	private int blockLength;
+	private final int blockLength;
 	
 	
 	
