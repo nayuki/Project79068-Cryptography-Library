@@ -1,5 +1,7 @@
 package p79068.crypto.hash;
 
+import java.math.BigInteger;
+
 import p79068.crypto.Zeroizer;
 import p79068.hash.HashValue;
 import p79068.lang.BoundsChecker;
@@ -129,7 +131,7 @@ final class FastMd4Core extends BlockHasherCore {
 	
 	
 	@Override
-	public HashValue getHashDestructively(byte[] block, int blockLength, long length) {
+	public HashValue getHashDestructively(byte[] block, int blockLength, BigInteger length) {
 		block[blockLength] = (byte)0x80;
 		blockLength++;
 		for (int i = blockLength; i < block.length; i++)
@@ -139,8 +141,9 @@ final class FastMd4Core extends BlockHasherCore {
 			for (int i = 0; i < block.length; i++)
 				block[i] = 0x00;
 		}
+		length = length.shiftLeft(3);  // Length is now in bits
 		for (int i = 0; i < 8; i++)
-			block[block.length - 8 + i] = (byte)((length * 8) >>> (i * 8));
+			block[block.length - 8 + i] = length.shiftRight(i * 8).byteValue();
 		compress(block);
 		return new HashValue(IntegerBitMath.toBytesLittleEndian(state));
 	}

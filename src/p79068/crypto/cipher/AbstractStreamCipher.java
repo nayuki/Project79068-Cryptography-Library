@@ -12,4 +12,7 @@ public abstract class AbstractStreamCipher extends AbstractCipher implements Str
 		return (StreamCipherer)super.newCipherer(key);
 	}
 	
+	
+	protected abstract StreamCipherer newCiphererUnchecked(byte[] key);
+	
 }
