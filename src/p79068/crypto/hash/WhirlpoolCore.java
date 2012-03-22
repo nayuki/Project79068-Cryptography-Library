@@ -84,7 +84,7 @@ final class WhirlpoolCore extends BlockHasherCore {
 			Arrays.fill(block, (byte)0);
 		}
 		length = length.shiftLeft(3);  // Length is now in bits
-		for (int i = 0; i < 8; i++)
+		for (int i = 0; i < 32; i++)
 			block[block.length - 1 - i] = length.shiftRight(i * 8).byteValue();
 		compress(block);
 		return new HashValue(state);
