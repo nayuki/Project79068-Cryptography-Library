@@ -57,4 +57,10 @@ public final class CfbModeCipher extends AbstractCipher implements Zeroizable {
 		return obj instanceof CfbModeCipher && blockCipher.equals(((CfbModeCipher)obj).blockCipher);
 	}
 	
+	
+	@Override
+	public int hashCode() {
+		return blockCipher.hashCode();
+	}
+	
 }
