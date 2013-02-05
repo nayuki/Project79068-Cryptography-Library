@@ -1,6 +1,6 @@
 package p79068.hash;
 
-import p79068.lang.BoundsChecker;
+import p79068.Assert;
 import p79068.math.IntegerBitMath;
 
 
@@ -28,7 +28,7 @@ final class Adler32Hasher extends AbstractHasher {
 	
 	@Override
 	public void update(byte[] b, int off, int len) {
-		BoundsChecker.check(b.length, off, len);
+		Assert.assertRangeInBounds(b.length, off, len);
 		for (int i = off, j = 0, end = off + len; i < end; i++) {
 			s1 += b[i] & 0xFF;
 			s2 += s1;

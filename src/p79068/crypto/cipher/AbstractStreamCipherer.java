@@ -1,6 +1,6 @@
 package p79068.crypto.cipher;
 
-import p79068.lang.BoundsChecker;
+import p79068.Assert;
 
 
 /**
@@ -27,7 +27,7 @@ public abstract class AbstractStreamCipherer extends AbstractCipherer implements
 	public final void decrypt(byte[] b, int off, int len) {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
-		BoundsChecker.check(b.length, off, len);
+		Assert.assertRangeInBounds(b.length, off, len);
 		encrypt(b, off, len);
 	}
 	

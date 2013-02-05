@@ -2,9 +2,9 @@ package p79068.crypto.hash;
 
 import java.math.BigInteger;
 
+import p79068.Assert;
 import p79068.crypto.Zeroizable;
 import p79068.hash.HashValue;
-import p79068.lang.NullChecker;
 
 
 /**
@@ -16,7 +16,7 @@ public abstract class BlockHasherCore implements Cloneable, Zeroizable {
 	 * Applies the compression function to combine the current message block into the hasher's internal state. This calls {@code compress(this.block, 0, this.block.length)}.
 	 */
 	public void compress(byte[] message) {
-		NullChecker.check(message);
+		Assert.assertNotNull(message);
 		compress(message, 0, message.length);
 	}
 	

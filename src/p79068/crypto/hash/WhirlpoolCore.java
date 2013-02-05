@@ -3,9 +3,9 @@ package p79068.crypto.hash;
 import java.math.BigInteger;
 import java.util.Arrays;
 
+import p79068.Assert;
 import p79068.crypto.Zeroizer;
 import p79068.hash.HashValue;
-import p79068.lang.BoundsChecker;
 
 
 final class WhirlpoolCore extends BlockHasherCore {
@@ -53,7 +53,7 @@ final class WhirlpoolCore extends BlockHasherCore {
 	// Uses Miyaguchi-Preneel construction: next state = encrypt(msg: message block, key: state) XOR state XOR message block
 	@Override
 	public void compress(byte[] message, int off, int len) {
-		BoundsChecker.check(message.length, off, len);
+		Assert.assertRangeInBounds(message.length, off, len);
 		if (len % 64 != 0)
 			throw new AssertionError();
 		

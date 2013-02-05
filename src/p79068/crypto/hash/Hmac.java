@@ -1,9 +1,9 @@
 package p79068.crypto.hash;
 
+import p79068.Assert;
 import p79068.crypto.Zeroizable;
 import p79068.hash.AbstractHashFunction;
 import p79068.hash.Hasher;
-import p79068.lang.NullChecker;
 
 
 /**
@@ -26,7 +26,7 @@ public final class Hmac extends AbstractHashFunction implements Zeroizable {
 	 */
 	public Hmac(BlockHashFunction hashFunc, byte[] key) {
 		super(String.format("HMAC-%s", hashFunc.getName()), hashFunc.getHashLength());
-		NullChecker.check(hashFunc, key);
+		Assert.assertNotNull(hashFunc, key);
 		if (hashFunc.getBlockLength() < hashFunc.getHashLength())
 			throw new IllegalArgumentException();
 		inner = hashFunc.newHasher();

@@ -1,6 +1,6 @@
 package p79068.hash;
 
-import p79068.lang.BoundsChecker;
+import p79068.Assert;
 
 
 final class ZeroHasher extends AbstractHasher {
@@ -17,7 +17,7 @@ final class ZeroHasher extends AbstractHasher {
 	
 	@Override
 	public void update(byte[] b, int off, int len) {
-		BoundsChecker.check(b.length, off, len);
+		Assert.assertRangeInBounds(b.length, off, len);
 	}
 	
 	

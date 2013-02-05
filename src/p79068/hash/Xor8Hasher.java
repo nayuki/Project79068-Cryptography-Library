@@ -1,6 +1,6 @@
 package p79068.hash;
 
-import p79068.lang.BoundsChecker;
+import p79068.Assert;
 
 
 final class Xor8Hasher extends AbstractHasher {
@@ -27,7 +27,7 @@ final class Xor8Hasher extends AbstractHasher {
 	
 	@Override
 	public void update(byte[] b, int off, int len) {
-		BoundsChecker.check(b.length, off, len);
+		Assert.assertRangeInBounds(b.length, off, len);
 		for (int i = off, end = off + len; i < end; i++)
 			xor ^= b[i];
 	}

@@ -1,7 +1,8 @@
 package p79068.hash;
 
 import java.util.Arrays;
-import p79068.lang.NullChecker;
+
+import p79068.Assert;
 
 
 /**
@@ -24,7 +25,7 @@ public final class HashValue implements Comparable<HashValue> {
 	 * @throws NullPointerException if {@code hash} is {@code null}
 	 */
 	public HashValue(byte[] hash) {
-		NullChecker.check(hash);
+		Assert.assertNotNull(hash);
 		hashValue = hash.clone();
 	}
 	
@@ -83,7 +84,7 @@ public final class HashValue implements Comparable<HashValue> {
 	 * @throws IllegalArgumentException if {@code other} has a different hash length than {@code this}
 	 */
 	public int compareTo(HashValue other) {
-		NullChecker.check(other);
+		Assert.assertNotNull(other);
 		if (hashValue.length != other.hashValue.length)
 			throw new IllegalArgumentException("Hash lengths are different");
 		

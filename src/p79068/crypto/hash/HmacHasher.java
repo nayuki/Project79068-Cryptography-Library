@@ -1,10 +1,10 @@
 package p79068.crypto.hash;
 
+import p79068.Assert;
 import p79068.crypto.Zeroizable;
 import p79068.hash.AbstractHasher;
 import p79068.hash.HashValue;
 import p79068.hash.Hasher;
-import p79068.lang.BoundsChecker;
 
 
 final class HmacHasher extends AbstractHasher implements Zeroizable {
@@ -26,7 +26,7 @@ final class HmacHasher extends AbstractHasher implements Zeroizable {
 	public void update(byte[] b, int off, int len) {
 		if (hashFunction == null)
 			throw new IllegalStateException("Already zeroized");
-		BoundsChecker.check(b.length, off, len);
+		Assert.assertRangeInBounds(b.length, off, len);
 		inner.update(b, off, len);
 	}
 	

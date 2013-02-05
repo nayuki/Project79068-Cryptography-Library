@@ -1,6 +1,6 @@
 package p79068.hash;
 
-import p79068.lang.NullChecker;
+import p79068.Assert;
 
 
 /**
@@ -31,7 +31,7 @@ public abstract class AbstractHasher implements Hasher, Cloneable {
 	 * Creates a hasher set to the specified hash function.
 	 */
 	protected AbstractHasher(HashFunction hashFunc) {
-		NullChecker.check(hashFunc);
+		Assert.assertNotNull(hashFunc);
 		hashFunction = hashFunc;
 	}
 	
@@ -49,7 +49,7 @@ public abstract class AbstractHasher implements Hasher, Cloneable {
 	 * Updates the current state with the specified byte array.
 	 */
 	public void update(byte[] b) {
-		NullChecker.check(b);
+		Assert.assertNotNull(b);
 		update(b, 0, b.length);
 	}
 	

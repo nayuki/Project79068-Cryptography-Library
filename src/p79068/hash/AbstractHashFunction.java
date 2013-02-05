@@ -4,7 +4,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import p79068.lang.NullChecker;
+
+import p79068.Assert;
 
 
 /**
@@ -72,7 +73,7 @@ public abstract class AbstractHashFunction implements HashFunction {
 	 * Computes and returns the hash value of the specified byte array.
 	 */
 	public HashValue getHash(byte[] b) {
-		NullChecker.check(b);
+		Assert.assertNotNull(b);
 		return getHash(b, 0, b.length);
 	}
 	
@@ -81,7 +82,7 @@ public abstract class AbstractHashFunction implements HashFunction {
 	 * Computes and returns the hash value of the specified byte array.
 	 */
 	public HashValue getHash(byte[] b, int off, int len) {
-		NullChecker.check(b);
+		Assert.assertNotNull(b);
 		Hasher hasher = newHasher();
 		hasher.update(b, off, len);
 		return hasher.getHash();
@@ -92,7 +93,7 @@ public abstract class AbstractHashFunction implements HashFunction {
 	 * Computes and returns the hash value of the specified file.
 	 */
 	public HashValue getHash(File file) throws IOException {
-		NullChecker.check(file);
+		Assert.assertNotNull(file);
 		Hasher hasher = newHasher();
 		InputStream in = new FileInputStream(file);
 		try {

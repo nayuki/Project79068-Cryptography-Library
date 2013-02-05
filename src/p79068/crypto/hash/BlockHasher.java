@@ -2,12 +2,11 @@ package p79068.crypto.hash;
 
 import java.math.BigInteger;
 
+import p79068.Assert;
 import p79068.crypto.Zeroizable;
 import p79068.crypto.Zeroizer;
 import p79068.hash.AbstractHasher;
 import p79068.hash.HashValue;
-import p79068.lang.BoundsChecker;
-import p79068.lang.NullChecker;
 
 
 /**
@@ -41,7 +40,7 @@ public final class BlockHasher extends AbstractHasher implements Zeroizable {
 	 */
 	public BlockHasher(BlockHashFunction func, BlockHasherCore core) {
 		super(func);
-		NullChecker.check(core);
+		Assert.assertNotNull(core);
 		block = new byte[func.getBlockLength()];
 		blockLength = 0;
 		length = BigInteger.ZERO;
@@ -78,7 +77,7 @@ public final class BlockHasher extends AbstractHasher implements Zeroizable {
 	public void update(byte[] b, int off, int len) {
 		if (hashFunction == null)
 			throw new IllegalStateException("Already zeroized");
-		BoundsChecker.check(b.length, off, len);
+		Assert.assertRangeInBounds(b.length, off, len);
 		
 		length = length.add(BigInteger.valueOf(len));  // Update length now, before len changes
 		if (blockLength > 0) {  // Try to fill up the current block

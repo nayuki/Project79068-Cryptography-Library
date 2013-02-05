@@ -4,9 +4,10 @@ import static p79068.math.IntegerBitMath.rotateRight;
 
 import java.math.BigInteger;
 import java.util.Arrays;
+
+import p79068.Assert;
 import p79068.crypto.Zeroizer;
 import p79068.hash.HashValue;
-import p79068.lang.BoundsChecker;
 import p79068.math.IntegerBitMath;
 
 
@@ -46,7 +47,7 @@ final class Sha256Core extends BlockHasherCore {
 	
 	@Override
 	public void compress(byte[] message, int off, int len) {
-		BoundsChecker.check(message.length, off, len);
+		Assert.assertRangeInBounds(message.length, off, len);
 		if (len % 64 != 0)
 			throw new AssertionError();
 		

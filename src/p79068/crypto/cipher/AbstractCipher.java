@@ -1,6 +1,6 @@
 package p79068.crypto.cipher;
 
-import p79068.lang.NullChecker;
+import p79068.Assert;
 
 
 /**
@@ -24,7 +24,7 @@ public abstract class AbstractCipher implements Cipher {
 	 * @param keyLength the key length of the cipher, in bytes
 	 */
 	protected AbstractCipher(String name, int blockLength, int keyLength) {
-		NullChecker.check(name);
+		Assert.assertNotNull(name);
 		if (blockLength <= 0)
 			throw new IllegalArgumentException("Non-positive block length");
 		if (keyLength < 0)
@@ -41,7 +41,7 @@ public abstract class AbstractCipher implements Cipher {
 	 */
 	@Override
 	public Cipherer newCipherer(byte[] key) {
-		NullChecker.check(key);
+		Assert.assertNotNull(key);
 		if (key.length != keyLength)
 			throw new IllegalArgumentException("Invalid key length");
 		return newCiphererUnchecked(key);
