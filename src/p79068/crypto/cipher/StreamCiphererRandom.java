@@ -2,7 +2,7 @@ package p79068.crypto.cipher;
 
 import java.util.Arrays;
 
-import p79068.random.AbstractRandom;
+import p79068.util.random.AbstractRandom;
 
 
 public final class StreamCiphererRandom extends AbstractRandom {
