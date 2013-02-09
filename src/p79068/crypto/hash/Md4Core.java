@@ -1,7 +1,5 @@
 package p79068.crypto.hash;
 
-import static p79068.math.IntegerBitMath.rotateLeft;
-
 import java.math.BigInteger;
 import java.util.Arrays;
 
@@ -99,7 +97,7 @@ final class Md4Core extends BlockHasherCore {
 				a = d;
 				d = c;
 				c = b;
-				b = rotateLeft(temp, rot);
+				b = Integer.rotateLeft(temp, rot);
 			}
 			
 			state[0] += a;

@@ -1,7 +1,5 @@
 package p79068.crypto.hash;
 
-import static p79068.math.IntegerBitMath.rotateLeft;
-
 import java.math.BigInteger;
 import java.util.Arrays;
 
@@ -64,7 +62,7 @@ class Sha1Core extends BlockHasherCore {
 			// Expand the schedule
 			for (int i = 16; i < 80; i++) {
 				int temp = schedule[i - 3] ^ schedule[i - 8] ^ schedule[i - 14] ^ schedule[i - 16];
-				temp = rotateLeft(temp, 1);
+				temp = Integer.rotateLeft(temp, 1);
 				schedule[i] = temp;
 			}
 			
@@ -101,10 +99,10 @@ class Sha1Core extends BlockHasherCore {
 		
 		// The 80 rounds
 		for (int i = 0; i < 80; i++) {
-			int temp = rotateLeft(a, 5) + f(i, b, c, d) + e + k[i / 20] + keySchedule[i];
+			int temp = Integer.rotateLeft(a, 5) + f(i, b, c, d) + e + k[i / 20] + keySchedule[i];
 			e = d;
 			d = c;
-			c = rotateLeft(b, 30);
+			c = Integer.rotateLeft(b, 30);
 			b = a;
 			a = temp;
 		}
