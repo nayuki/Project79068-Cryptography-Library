@@ -22,12 +22,12 @@ public final class CrcTest {
 	// Using the prefix 0xFFFFFFFF creates a zero register. Any number of zeros appended directly after this has no effect on the CRC.
 	@Test
 	public void testCrc32ZeroPadding() {
-		testHex(Crc.CRC32_FUNCTION, "FFFFFFFF", "FFFFFFFF");
-		testHex(Crc.CRC32_FUNCTION, "FFFFFFFF00", "FFFFFFFF");
+		testHex(Crc.CRC32_FUNCTION, "FFFFFFFF"    , "FFFFFFFF");
+		testHex(Crc.CRC32_FUNCTION, "FFFFFFFF00"  , "FFFFFFFF");
 		testHex(Crc.CRC32_FUNCTION, "FFFFFFFF0000", "FFFFFFFF");
 		
-		testHex(Crc.CRC32_FUNCTION, "FFFFFFFF80", "12477CDF");
-		testHex(Crc.CRC32_FUNCTION, "FFFFFFFF0080", "12477CDF");
+		testHex(Crc.CRC32_FUNCTION, "FFFFFFFF80"    , "12477CDF");
+		testHex(Crc.CRC32_FUNCTION, "FFFFFFFF0080"  , "12477CDF");
 		testHex(Crc.CRC32_FUNCTION, "FFFFFFFF000080", "12477CDF");
 	}
 	
@@ -35,12 +35,12 @@ public final class CrcTest {
 	// For any message m, crc32(m ++ littleEndian(crc32(m))) == 0x2144DF1C
 	@Test
 	public void testCrc32AppendRemainder() {
-		testHex(Crc.CRC32_FUNCTION, "61", "E8B7BE43");
-		testHex(Crc.CRC32_FUNCTION, "6143BEB7E8", "2144DF1C");
-		testHex(Crc.CRC32_FUNCTION, "6143BEB7E81CDF4421", "2144DF1C");
-		
+		testHex(Crc.CRC32_FUNCTION, "61"                        , "E8B7BE43");
+		testHex(Crc.CRC32_FUNCTION, "6143BEB7E8"                , "2144DF1C");
+		testHex(Crc.CRC32_FUNCTION, "6143BEB7E81CDF4421"        , "2144DF1C");
 		testHex(Crc.CRC32_FUNCTION, "6143BEB7E81CDF44211CDF4421", "2144DF1C");
-		testHex(Crc.CRC32_FUNCTION, "616263", "352441C2");
+		
+		testHex(Crc.CRC32_FUNCTION, "616263"        , "352441C2");
 		testHex(Crc.CRC32_FUNCTION, "616263C2412435", "2144DF1C");
 	}
 	
