@@ -9,8 +9,8 @@ import p79068.Assert;
  * Thread safety: <em>Unsafe</em> unless otherwise specified<br>
  * Instantiability: Via {@link HashFunction#newHasher()}</p>
  * <p>Usage example:</p>
- * <pre>Hasher hasher = Md5.FUNCTION.newHasher();
-while (<i>more data available</i>) {
+ * <pre>Hasher hasher = Md.MD5_FUNCTION.newHasher();
+while (<i>isDataAvailable</i>()) {
   byte[] b = <i>readSomeMore</i>();
   hasher.update(b);
 }
@@ -21,7 +21,7 @@ byte[] hash = hasher.getHash().toBytes();</pre>
 public abstract class AbstractHasher implements Hasher, Cloneable {
 	
 	/**
-	 * The hash function associated with this hasher. This reference must not be modified except for zeroization.
+	 * The hash function associated with this hasher. This field must not be modified except for zeroization.
 	 */
 	protected HashFunction hashFunction;
 	
@@ -29,6 +29,8 @@ public abstract class AbstractHasher implements Hasher, Cloneable {
 	
 	/**
 	 * Creates a hasher set to the specified hash function.
+	 * @param hashFunc the hash function associated with this hasher
+	 * @throws NullPointerException if {@code hashFunc} is {@code null}
 	 */
 	protected AbstractHasher(HashFunction hashFunc) {
 		Assert.assertNotNull(hashFunc);
@@ -39,6 +41,7 @@ public abstract class AbstractHasher implements Hasher, Cloneable {
 	
 	/**
 	 * Updates the current state with the specified byte.
+	 * @param b the byte to update the state with
 	 */
 	public void update(byte b) {
 		update(new byte[]{b});
@@ -47,6 +50,8 @@ public abstract class AbstractHasher implements Hasher, Cloneable {
 	
 	/**
 	 * Updates the current state with the specified byte array.
+	 * @throws NullPointerException if {@code b} is {@code null}
+	 * @param b the byte array to update the state with
 	 */
 	public void update(byte[] b) {
 		Assert.assertNotNull(b);
@@ -56,6 +61,10 @@ public abstract class AbstractHasher implements Hasher, Cloneable {
 	
 	/**
 	 * Updates the current state with the specified byte array.
+	 * @throws NullPointerException if {@code b} is {@code null}
+	 * @param b the byte array to update the state with
+	 * @param off the offset into {@code b}
+	 * @param len the length of the subrange in {@code b}
 	 */
 	public abstract void update(byte[] b, int off, int len);
 	
@@ -68,8 +77,8 @@ public abstract class AbstractHasher implements Hasher, Cloneable {
 	
 	
 	/**
-	 * Returns the hash function associated with this instance.
-	 * @return the hash function associated with this instance
+	 * Returns the hash function associated with this hasher.
+	 * @return the hash function associated with this hasher
 	 */
 	public HashFunction getHashFunction() {
 		return hashFunction;
@@ -92,7 +101,7 @@ public abstract class AbstractHasher implements Hasher, Cloneable {
 	
 	
 	/**
-	 * Returns a string representation of this hasher. Currently, the hash function's name and the hash value is returned. This is subjected to change.
+	 * Returns a string representation of this hasher. Currently, the hash function's name and the hash value is returned. The format is subjected to change.
 	 * @return a string representation of this hasher
 	 */
 	@Override
