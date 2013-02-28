@@ -59,4 +59,10 @@ public final class IgeModeCipher extends AbstractCipher implements Zeroizable {
 		return obj instanceof IgeModeCipher && blockCipher.equals(((IgeModeCipher)obj).blockCipher);
 	}
 	
+	
+	@Override
+	public int hashCode() {
+		return blockCipher.hashCode();
+	}
+	
 }

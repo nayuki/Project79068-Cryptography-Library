@@ -59,4 +59,10 @@ public final class BcModeCipher extends AbstractCipher implements Zeroizable {
 		return obj instanceof BcModeCipher && blockCipher.equals(((BcModeCipher)obj).blockCipher);
 	}
 	
+	
+	@Override
+	public int hashCode() {
+		return blockCipher.hashCode();
+	}
+	
 }
