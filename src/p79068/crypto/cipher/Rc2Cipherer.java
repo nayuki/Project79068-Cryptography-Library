@@ -1,7 +1,7 @@
 package p79068.crypto.cipher;
 
+import p79068.Assert;
 import p79068.crypto.Zeroizer;
-import p79068.lang.BoundsChecker;
 
 
 final class Rc2Cipherer extends AbstractCipherer {
@@ -38,7 +38,7 @@ final class Rc2Cipherer extends AbstractCipherer {
 	public void encrypt(byte[] b, int off, int len) {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
-		BoundsChecker.check(b.length, off, len);
+		Assert.assertRangeInBounds(b.length, off, len);
 		if ((len & 7) != 0)
 			throw new IllegalArgumentException("Invalid block length");
 		int[] r = new int[4];
@@ -63,7 +63,7 @@ final class Rc2Cipherer extends AbstractCipherer {
 	public void decrypt(byte[] b, int off, int len) {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
-		BoundsChecker.check(b.length, off, len);
+		Assert.assertRangeInBounds(b.length, off, len);
 		if ((len & 7) != 0)
 			throw new IllegalArgumentException("Invalid block length");
 		int[] r = new int[4];

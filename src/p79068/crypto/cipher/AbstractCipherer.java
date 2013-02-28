@@ -1,7 +1,7 @@
 package p79068.crypto.cipher;
 
+import p79068.Assert;
 import p79068.crypto.Zeroizer;
-import p79068.lang.NullChecker;
 
 
 /**
@@ -16,7 +16,7 @@ public abstract class AbstractCipherer implements Cipherer {
 	
 	
 	public AbstractCipherer(Cipher cipher, byte[] key) {
-		NullChecker.check(cipher, key);
+		Assert.assertNotNull(cipher, key);
 		if (key.length != cipher.getKeyLength())
 			throw new IllegalArgumentException("Key length does not match cipher's key length");
 		
@@ -30,7 +30,7 @@ public abstract class AbstractCipherer implements Cipherer {
 	 * Encrypts the specified byte array.
 	 */
 	public void encrypt(byte[] b) {
-		NullChecker.check(b);
+		Assert.assertNotNull(b);
 		encrypt(b, 0, b.length);
 	}
 	
@@ -45,7 +45,7 @@ public abstract class AbstractCipherer implements Cipherer {
 	 * Decrypts the specified byte array.
 	 */
 	public void decrypt(byte[] b) {
-		NullChecker.check(b);
+		Assert.assertNotNull(b);
 		decrypt(b, 0, b.length);
 	}
 	

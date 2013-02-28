@@ -5,8 +5,8 @@
 
 package p79068.crypto.cipher;
 
+import p79068.Assert;
 import p79068.crypto.Zeroizer;
-import p79068.lang.BoundsChecker;
 
 
 final class IdeaCipherer extends AbstractCipherer {
@@ -34,7 +34,7 @@ final class IdeaCipherer extends AbstractCipherer {
 	public void encrypt(byte[] b, int off, int len) {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
-		BoundsChecker.check(b.length, off, len);
+		Assert.assertRangeInBounds(b.length, off, len);
 		if (len % 8 != 0)
 			throw new IllegalArgumentException("Invalid block length");
 		crypt(b, off, len, encKeySch);
@@ -45,7 +45,7 @@ final class IdeaCipherer extends AbstractCipherer {
 	public void decrypt(byte[] b, int off, int len) {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
-		BoundsChecker.check(b.length, off, len);
+		Assert.assertRangeInBounds(b.length, off, len);
 		if (len % 8 != 0)
 			throw new IllegalArgumentException("Invalid block length");
 		crypt(b, off, len, decKeySch);

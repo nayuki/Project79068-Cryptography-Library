@@ -1,7 +1,7 @@
 package p79068.crypto.cipher;
 
+import p79068.Assert;
 import p79068.crypto.Zeroizer;
-import p79068.lang.BoundsChecker;
 
 
 final class WhirlpoolCipherer extends AbstractCipherer {
@@ -50,7 +50,7 @@ final class WhirlpoolCipherer extends AbstractCipherer {
 	public void encrypt(byte[] b, int off, int len) {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
-		BoundsChecker.check(b.length, off, len);
+		Assert.assertRangeInBounds(b.length, off, len);
 		if (len % 64 != 0)
 			throw new IllegalArgumentException();
 		
@@ -68,7 +68,7 @@ final class WhirlpoolCipherer extends AbstractCipherer {
 	public void decrypt(byte[] b, int off, int len) {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
-		BoundsChecker.check(b.length, off, len);
+		Assert.assertRangeInBounds(b.length, off, len);
 		if (len % 64 != 0)
 			throw new IllegalArgumentException();
 		

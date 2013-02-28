@@ -1,13 +1,11 @@
 package p79068.crypto.hash;
 
-import static p79068.math.IntegerBitMath.rotateLeft;
-
 import java.math.BigInteger;
 import java.util.Arrays;
 
+import p79068.Assert;
 import p79068.crypto.Zeroizer;
 import p79068.hash.HashValue;
-import p79068.lang.BoundsChecker;
 import p79068.math.IntegerBitMath;
 
 
@@ -73,7 +71,7 @@ final class Md5Core extends BlockHasherCore {
 	
 	@Override
 	public void compress(byte[] message, int off, int len) {
-		BoundsChecker.check(message.length, off, len);
+		Assert.assertRangeInBounds(message.length, off, len);
 		if (len % 64 != 0)
 			throw new AssertionError();
 		
@@ -107,7 +105,7 @@ final class Md5Core extends BlockHasherCore {
 				
 				int temp = a + f + t[i] + schedule[k];
 				int rot = s[i / 16 * 4 + i % 4];
-				temp = b + rotateLeft(temp, rot);
+				temp = b + Integer.rotateLeft(temp, rot);
 				a = d;
 				d = c;
 				c = b;

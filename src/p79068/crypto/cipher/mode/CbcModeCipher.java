@@ -57,4 +57,10 @@ public final class CbcModeCipher extends AbstractCipher implements Zeroizable {
 		return obj instanceof CbcModeCipher && blockCipher.equals(((CbcModeCipher)obj).blockCipher);
 	}
 	
+	
+	@Override
+	public int hashCode() {
+		return blockCipher.hashCode();
+	}
+	
 }

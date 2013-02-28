@@ -13,7 +13,7 @@
 
 package p79068.crypto.cipher;
 
-import p79068.lang.BoundsChecker;
+import p79068.Assert;
 
 
 final class AesCipherer extends RijndaelCipherer {
@@ -30,7 +30,7 @@ final class AesCipherer extends RijndaelCipherer {
 	public void encrypt(byte[] b, int off, int len) {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
-		BoundsChecker.check(b.length, off, len);
+		Assert.assertRangeInBounds(b.length, off, len);
 		if (len % 16 != 0)
 			throw new IllegalArgumentException("Invalid block length");
 		
@@ -48,7 +48,7 @@ final class AesCipherer extends RijndaelCipherer {
 	public void decrypt(byte[] b, int off, int len) {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
-		BoundsChecker.check(b.length, off, len);
+		Assert.assertRangeInBounds(b.length, off, len);
 		if (len % 16 != 0)
 			throw new IllegalArgumentException("Invalid block length");
 		

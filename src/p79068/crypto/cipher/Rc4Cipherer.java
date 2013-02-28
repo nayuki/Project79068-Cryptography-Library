@@ -1,7 +1,7 @@
 package p79068.crypto.cipher;
 
+import p79068.Assert;
 import p79068.crypto.Zeroizer;
-import p79068.lang.BoundsChecker;
 
 
 final class Rc4Cipherer extends AbstractStreamCipherer {
@@ -49,7 +49,7 @@ final class Rc4Cipherer extends AbstractStreamCipherer {
 	public void encrypt(byte[] b, int off, int len) {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
-		BoundsChecker.check(b.length, off, len);
+		Assert.assertRangeInBounds(b.length, off, len);
 		
 		for (int end = off + len; off < end; off++) {
 			i = (i + 1) & 0xFF;

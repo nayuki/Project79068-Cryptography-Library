@@ -2,9 +2,9 @@ package p79068.crypto.hash;
 
 import java.math.BigInteger;
 
+import p79068.Assert;
 import p79068.crypto.Zeroizer;
 import p79068.hash.HashValue;
-import p79068.lang.BoundsChecker;
 
 
 final class Md2Core extends BlockHasherCore {
@@ -66,7 +66,7 @@ final class Md2Core extends BlockHasherCore {
 	
 	@Override
 	public void compress(byte[] message, int off, int len) {
-		BoundsChecker.check(message.length, off, len);
+		Assert.assertRangeInBounds(message.length, off, len);
 		if (len % 16 != 0)
 			throw new AssertionError();
 		

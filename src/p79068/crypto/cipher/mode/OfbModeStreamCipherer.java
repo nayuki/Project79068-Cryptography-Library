@@ -1,10 +1,10 @@
 package p79068.crypto.cipher.mode;
 
+import p79068.Assert;
 import p79068.crypto.Zeroizer;
 import p79068.crypto.cipher.AbstractStreamCipherer;
 import p79068.crypto.cipher.BlockCipher;
 import p79068.crypto.cipher.Cipherer;
-import p79068.lang.BoundsChecker;
 
 
 final class OfbModeStreamCipherer extends AbstractStreamCipherer {
@@ -33,7 +33,7 @@ final class OfbModeStreamCipherer extends AbstractStreamCipherer {
 	public void encrypt(byte[] b, int off, int len) {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
-		BoundsChecker.check(b.length, off, len);
+		Assert.assertRangeInBounds(b.length, off, len);
 		
 		for (int i = off, end = off + len; i < end; i++) {
 			b[i] ^= keyStream[keyStreamIndex];

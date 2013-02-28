@@ -1,10 +1,10 @@
 package p79068.crypto.cipher.mode;
 
+import p79068.Assert;
 import p79068.crypto.Zeroizer;
 import p79068.crypto.cipher.AbstractCipherer;
 import p79068.crypto.cipher.BlockCipher;
 import p79068.crypto.cipher.Cipherer;
-import p79068.lang.BoundsChecker;
 
 
 final class CbcModeCipherer extends AbstractCipherer {
@@ -31,7 +31,7 @@ final class CbcModeCipherer extends AbstractCipherer {
 	public void encrypt(byte[] b, int off, int len) {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
-		BoundsChecker.check(b.length, off, len);
+		Assert.assertRangeInBounds(b.length, off, len);
 		if (len % blockLength != 0)
 			throw new IllegalArgumentException("Invalid block length");
 		
@@ -48,7 +48,7 @@ final class CbcModeCipherer extends AbstractCipherer {
 	public void decrypt(byte[] b, int off, int len) {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
-		BoundsChecker.check(b.length, off, len);
+		Assert.assertRangeInBounds(b.length, off, len);
 		if (len % blockLength != 0)
 			throw new IllegalArgumentException("Invalid block length");
 		

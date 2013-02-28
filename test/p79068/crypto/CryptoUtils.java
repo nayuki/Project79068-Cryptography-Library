@@ -3,7 +3,7 @@ package p79068.crypto;
 import static org.junit.Assert.assertArrayEquals;
 import p79068.crypto.cipher.Cipher;
 import p79068.crypto.cipher.Cipherer;
-import p79068.random.Random;
+import p79068.util.random.Random;
 
 
 public final class CryptoUtils {

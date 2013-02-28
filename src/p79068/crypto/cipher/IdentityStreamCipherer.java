@@ -1,6 +1,6 @@
 package p79068.crypto.cipher;
 
-import p79068.lang.BoundsChecker;
+import p79068.Assert;
 
 
 final class IdentityStreamCipherer extends AbstractStreamCipherer {
@@ -15,7 +15,7 @@ final class IdentityStreamCipherer extends AbstractStreamCipherer {
 	public void encrypt(byte[] b, int off, int len) {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
-		BoundsChecker.check(b.length, off, len);
+		Assert.assertRangeInBounds(b.length, off, len);
 	}
 	
 }

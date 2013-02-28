@@ -2,10 +2,10 @@ package p79068.crypto.hash;
 
 import java.util.Arrays;
 
+import p79068.Assert;
 import p79068.crypto.Zeroizer;
 import p79068.crypto.cipher.AbstractCipherer;
 import p79068.crypto.cipher.Shacal2;
-import p79068.lang.BoundsChecker;
 import p79068.math.IntegerBitMath;
 
 
@@ -26,7 +26,7 @@ final class Shacal2Cipherer extends AbstractCipherer {
 	public void encrypt(byte[] b, int off, int len) {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
-		BoundsChecker.check(b.length, off, len);
+		Assert.assertRangeInBounds(b.length, off, len);
 		if (len % 32 != 0)
 			throw new IllegalArgumentException("Invalid block length");
 		
@@ -51,7 +51,7 @@ final class Shacal2Cipherer extends AbstractCipherer {
 	public void decrypt(byte[] b, int off, int len) {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
-		BoundsChecker.check(b.length, off, len);
+		Assert.assertRangeInBounds(b.length, off, len);
 		if (len % 32 != 0)
 			throw new IllegalArgumentException("Invalid block length");
 		

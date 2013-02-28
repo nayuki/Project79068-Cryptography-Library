@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import p79068.hash.HashValue;
 import p79068.hash.Hasher;
-import p79068.random.Random;
+import p79068.util.random.Random;
 
 
 public final class BlockHasherTest {

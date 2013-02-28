@@ -1,13 +1,11 @@
 package p79068.crypto.hash;
 
-import static p79068.math.IntegerBitMath.rotateLeft;
-
 import java.math.BigInteger;
 import java.util.Arrays;
 
+import p79068.Assert;
 import p79068.crypto.Zeroizer;
 import p79068.hash.HashValue;
-import p79068.lang.BoundsChecker;
 import p79068.math.IntegerBitMath;
 
 
@@ -46,7 +44,7 @@ class Sha1Core extends BlockHasherCore {
 	
 	@Override
 	public void compress(byte[] message, int off, int len) {
-		BoundsChecker.check(message.length, off, len);
+		Assert.assertRangeInBounds(message.length, off, len);
 		if (len % 64 != 0)
 			throw new AssertionError();
 		
@@ -68,7 +66,7 @@ class Sha1Core extends BlockHasherCore {
 			for (int i = 16; i < 80; i++) {
 				int temp = schedule[i - 3] ^ schedule[i - 8] ^ schedule[i - 14] ^ schedule[i - 16];
 				if (sha1Mode)  // This is the only difference between SHA and SHA-1
-					temp = rotateLeft(temp, 1);
+					temp = Integer.rotateLeft(temp, 1);
 				schedule[i] = temp;
 			}
 			
@@ -105,10 +103,10 @@ class Sha1Core extends BlockHasherCore {
 		
 		// The 80 rounds
 		for (int i = 0; i < 80; i++) {
-			int temp = rotateLeft(a, 5) + f(i, b, c, d) + e + k[i / 20] + keySchedule[i];
+			int temp = Integer.rotateLeft(a, 5) + f(i, b, c, d) + e + k[i / 20] + keySchedule[i];
 			e = d;
 			d = c;
-			c = rotateLeft(b, 30);
+			c = Integer.rotateLeft(b, 30);
 			b = a;
 			a = temp;
 		}
@@ -143,10 +141,10 @@ class Sha1Core extends BlockHasherCore {
 		for (int i = 79; i >= 0; i--) {
 			int temp = a;
 			a = b;
-			b = rotateLeft(c, 2);
+			b = Integer.rotateLeft(c, 2);
 			c = d;
 			d = e;
-			e = temp - (rotateLeft(a, 5) + f(i, b, c, d) + k[i / 20] + keySchedule[i]);
+			e = temp - (Integer.rotateLeft(a, 5) + f(i, b, c, d) + k[i / 20] + keySchedule[i]);
 		}
 		
 		message[0] = a;

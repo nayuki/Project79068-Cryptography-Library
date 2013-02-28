@@ -2,7 +2,7 @@ package p79068.crypto.cipher;
 
 import org.junit.Test;
 import p79068.crypto.CryptoUtils;
-import p79068.random.Random;
+import p79068.util.random.Random;
 
 
 public final class IdeaTest {
