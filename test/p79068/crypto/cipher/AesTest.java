@@ -4,7 +4,7 @@ import static org.junit.Assert.assertArrayEquals;
 import org.junit.Test;
 import p79068.crypto.CryptoUtils;
 import p79068.crypto.cipher.mode.CbcModeCipher;
-import p79068.random.Random;
+import p79068.util.random.Random;
 
 
 public final class AesTest {

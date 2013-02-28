@@ -1,10 +1,10 @@
 package p79068.crypto.hash;
 
+import p79068.Assert;
 import p79068.crypto.Zeroizable;
 import p79068.hash.AbstractHasher;
 import p79068.hash.HashValue;
 import p79068.hash.Hasher;
-import p79068.lang.BoundsChecker;
 
 
 final class NewEdonkey2000Hasher extends AbstractHasher implements Zeroizable {
@@ -55,7 +55,7 @@ final class NewEdonkey2000Hasher extends AbstractHasher implements Zeroizable {
 	public void update(byte[] b, int off, int len) {
 		if (hashFunction == null)
 			throw new IllegalStateException("Already zeroized");
-		BoundsChecker.check(b.length, off, len);
+		Assert.assertRangeInBounds(b.length, off, len);
 		
 		while (len > 0) {
 			// At this point, currentBlockLength is 0 if the total length hashed is 0; otherwise currentBlockLength is in the range (0, BLOCK_LENGTH]

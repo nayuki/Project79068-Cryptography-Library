@@ -1,12 +1,13 @@
 package p79068.crypto.hash;
 
-import static p79068.math.IntegerBitMath.rotateRight;
+import static java.lang.Integer.rotateRight;
 
 import java.math.BigInteger;
 import java.util.Arrays;
+
+import p79068.Assert;
 import p79068.crypto.Zeroizer;
 import p79068.hash.HashValue;
-import p79068.lang.BoundsChecker;
 import p79068.math.IntegerBitMath;
 
 
@@ -46,7 +47,7 @@ final class Sha256Core extends BlockHasherCore {
 	
 	@Override
 	public void compress(byte[] message, int off, int len) {
-		BoundsChecker.check(message.length, off, len);
+		Assert.assertRangeInBounds(message.length, off, len);
 		if (len % 64 != 0)
 			throw new AssertionError();
 		
@@ -169,34 +170,11 @@ final class Sha256Core extends BlockHasherCore {
 	}
 	
 	
-	
-	private static int smallSigma0(int x) {
-		return rotateRight(x, 7) ^ rotateRight(x, 18) ^ (x >>> 3);
-	}
-	
-	
-	private static int smallSigma1(int x) {
-		return rotateRight(x, 17) ^ rotateRight(x, 19) ^ (x >>> 10);
-	}
-	
-	
-	private static int bigSigma0(int x) {
-		return rotateRight(x, 2) ^ rotateRight(x, 13) ^ rotateRight(x, 22);
-	}
-	
-	
-	private static int bigSigma1(int x) {
-		return rotateRight(x, 6) ^ rotateRight(x, 11) ^ rotateRight(x, 25);
-	}
-	
-	
-	private static int choose(int x, int y, int z) {
-		return (x & y) ^ (~x & z);  // Can be optimized to z ^ (x & (y ^ z))
-	}
-	
-	
-	private static int majority(int x, int y, int z) {
-		return (x & y) ^ (x & z) ^ (y & z);  // Can be optimized to (x & (y | z)) | (y & z)
-	}
+	private static int smallSigma0(int x) { return rotateRight(x,  7) ^ rotateRight(x, 18) ^ (x >>>  3); }
+	private static int smallSigma1(int x) { return rotateRight(x, 17) ^ rotateRight(x, 19) ^ (x >>> 10); }
+	private static int bigSigma0  (int x) { return rotateRight(x,  2) ^ rotateRight(x, 13) ^ rotateRight(x, 22); }
+	private static int bigSigma1  (int x) { return rotateRight(x,  6) ^ rotateRight(x, 11) ^ rotateRight(x, 25); }
+	private static int choose  (int x, int y, int z) { return (x & y) ^ (~x & z);          }  // Can be optimized to z ^ (x & (y ^ z))
+	private static int majority(int x, int y, int z) { return (x & y) ^ (x & z) ^ (y & z); }  // Can be optimized to (x & (y | z)) | (y & z)
 	
 }

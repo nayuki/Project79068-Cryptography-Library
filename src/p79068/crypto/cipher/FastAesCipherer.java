@@ -1,8 +1,7 @@
 package p79068.crypto.cipher;
 
+import p79068.Assert;
 import p79068.crypto.Zeroizer;
-import p79068.lang.BoundsChecker;
-import p79068.math.IntegerBitMath;
 
 
 final class FastAesCipherer extends AbstractCipherer {
@@ -57,7 +56,7 @@ final class FastAesCipherer extends AbstractCipherer {
 	public void encrypt(byte[] b, int off, int len) {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
-		BoundsChecker.check(b.length, off, len);
+		Assert.assertRangeInBounds(b.length, off, len);
 		if (len % 16 != 0)
 			throw new IllegalArgumentException("Invalid block length");
 		
@@ -112,7 +111,7 @@ final class FastAesCipherer extends AbstractCipherer {
 	public void decrypt(byte[] b, int off, int len) {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
-		BoundsChecker.check(b.length, off, len);
+		Assert.assertRangeInBounds(b.length, off, len);
 		if (len % 16 != 0)
 			throw new IllegalArgumentException("Invalid block length");
 		
@@ -219,10 +218,10 @@ final class FastAesCipherer extends AbstractCipherer {
 			         | AesUtils.multiply(j, 0x01) << 16
 			         | AesUtils.multiply(j, 0x01) <<  8
 			         | AesUtils.multiply(j, 0x03) <<  0;
-			mul0[i] = IntegerBitMath.rotateRight(temp,  0);
-			mul1[i] = IntegerBitMath.rotateRight(temp,  8);
-			mul2[i] = IntegerBitMath.rotateRight(temp, 16);
-			mul3[i] = IntegerBitMath.rotateRight(temp, 24);
+			mul0[i] = Integer.rotateRight(temp,  0);
+			mul1[i] = Integer.rotateRight(temp,  8);
+			mul2[i] = Integer.rotateRight(temp, 16);
+			mul3[i] = Integer.rotateRight(temp, 24);
 		}
 		
 		mulinv0 = new int[256];
@@ -235,10 +234,10 @@ final class FastAesCipherer extends AbstractCipherer {
 			         | AesUtils.multiply(j, 0x09) << 16
 			         | AesUtils.multiply(j, 0x0D) <<  8
 			         | AesUtils.multiply(j, 0x0B) <<  0;
-			mulinv0[i] = IntegerBitMath.rotateRight(temp,  0);
-			mulinv1[i] = IntegerBitMath.rotateRight(temp,  8);
-			mulinv2[i] = IntegerBitMath.rotateRight(temp, 16);
-			mulinv3[i] = IntegerBitMath.rotateRight(temp, 24);
+			mulinv0[i] = Integer.rotateRight(temp,  0);
+			mulinv1[i] = Integer.rotateRight(temp,  8);
+			mulinv2[i] = Integer.rotateRight(temp, 16);
+			mulinv3[i] = Integer.rotateRight(temp, 24);
 		}
 	}
 	

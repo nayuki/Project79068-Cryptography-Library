@@ -59,4 +59,10 @@ public final class OfbModeStreamCipher extends AbstractStreamCipher implements Z
 		return obj instanceof OfbModeStreamCipher && blockCipher.equals(((OfbModeStreamCipher)obj).blockCipher);
 	}
 	
+	
+	@Override
+	public int hashCode() {
+		return blockCipher.hashCode();
+	}
+	
 }

@@ -4,9 +4,10 @@ import static p79068.math.LongBitMath.rotateRight;
 
 import java.math.BigInteger;
 import java.util.Arrays;
+
+import p79068.Assert;
 import p79068.crypto.Zeroizer;
 import p79068.hash.HashValue;
-import p79068.lang.BoundsChecker;
 import p79068.math.LongBitMath;
 
 
@@ -71,7 +72,7 @@ final class Sha512Core extends BlockHasherCore {
 	
 	@Override
 	public void compress(byte[] message, int off, int len) {
-		BoundsChecker.check(message.length, off, len);
+		Assert.assertRangeInBounds(message.length, off, len);
 		if (len % 128 != 0)
 			throw new AssertionError();
 		
@@ -131,6 +132,14 @@ final class Sha512Core extends BlockHasherCore {
 	}
 	
 	
+	private static long smallSigma0(long x) { return rotateRight(x,  1) ^ rotateRight(x,  8) ^ (x >>> 7); }
+	private static long smallSigma1(long x) { return rotateRight(x, 19) ^ rotateRight(x, 61) ^ (x >>> 6); }
+	private static long bigSigma0  (long x) { return rotateRight(x, 28) ^ rotateRight(x, 34) ^ rotateRight(x, 39); }
+	private static long bigSigma1  (long x) { return rotateRight(x, 14) ^ rotateRight(x, 18) ^ rotateRight(x, 41); }
+	private static long choose  (long x, long y, long z) { return (x & y) ^ (~x & z);          }  // Can be optimized to z ^ (x & (y ^ z))
+	private static long majority(long x, long y, long z) { return (x & y) ^ (x & z) ^ (y & z); }  // Can be optimized to (x & (y | z)) | (y & z)
+	
+	
 	@Override
 	public HashValue getHashDestructively(byte[] block, int blockLength, BigInteger length) {
 		block[blockLength] = (byte)0x80;
@@ -141,41 +150,10 @@ final class Sha512Core extends BlockHasherCore {
 			Arrays.fill(block, (byte)0);
 		}
 		length = length.shiftLeft(3);  // Length is now in bits
-		for (int i = 0; i < 8; i++)
+		for (int i = 0; i < 16; i++)
 			block[block.length - 1 - i] = length.shiftRight(i * 8).byteValue();
 		compress(block);
 		return new HashValue(LongBitMath.toBytesBigEndian(state));
-	}
-	
-	
-	
-	private static long smallSigma0(long x) {
-		return rotateRight(x, 1) ^ rotateRight(x, 8) ^ (x >>> 7);
-	}
-	
-	
-	private static long smallSigma1(long x) {
-		return rotateRight(x, 19) ^ rotateRight(x, 61) ^ (x >>> 6);
-	}
-	
-	
-	private static long bigSigma0(long x) {
-		return rotateRight(x, 28) ^ rotateRight(x, 34) ^ rotateRight(x, 39);
-	}
-	
-	
-	private static long bigSigma1(long x) {
-		return rotateRight(x, 14) ^ rotateRight(x, 18) ^ rotateRight(x, 41);
-	}
-	
-	
-	private static long choose(long x, long y, long z) {
-		return (x & y) ^ (~x & z);  // Can be optimized to z ^ (x & (y ^ z))
-	}
-	
-	
-	private static long majority(long x, long y, long z) {
-		return (x & y) ^ (x & z) ^ (y & z);  // Can be optimized to (x & (y | z)) | (y & z) 
 	}
 	
 }
