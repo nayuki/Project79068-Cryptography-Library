@@ -9,7 +9,7 @@ import p79068.hash.HashValue;
 
 class KeccakHasher extends AbstractHasher implements Zeroizable {
 	
-	private long[][] state;
+	private long[] state;
 	
 	private final int blockSize;
 	
@@ -19,7 +19,7 @@ class KeccakHasher extends AbstractHasher implements Zeroizable {
 	
 	public KeccakHasher(Keccak hashFunc) {
 		super(hashFunc);
-		state = new long[5][5];
+		state = new long[25];
 		int c = hashFunc.getHashLength() * 8 * 2;
 		int r = 1600 - c;
 		blockSize = r / 8;
@@ -35,7 +35,7 @@ class KeccakHasher extends AbstractHasher implements Zeroizable {
 		if (j < 0 || j >= blockSize)
 			throw new AssertionError();
 		for (int i = off, end = off + len; i < end; i++) {
-			state[j / 8 % 5][j / 8 / 5] ^= (b[i] & 0xFFL) << (j % 8 * 8);
+			state[j >>> 3] ^= (b[i] & 0xFFL) << ((j & 7) << 3);
 			j++;
 			if (j == blockSize) {
 				absorb();
@@ -56,7 +56,7 @@ class KeccakHasher extends AbstractHasher implements Zeroizable {
 		
 		byte[] result = new byte[hasher.hashFunction.getHashLength()];
 		for (int i = 0; i < result.length; i++)
-			result[i] = (byte)(hasher.state[i / 8 % 5][i / 8 / 5] >>> (i % 8 * 8));
+			result[i] = (byte)(hasher.state[i / 8] >>> (i % 8 * 8));
 		return new HashValue(result);
 	}
 	
@@ -68,8 +68,6 @@ class KeccakHasher extends AbstractHasher implements Zeroizable {
 			throw new IllegalStateException("Already zeroized");
 		KeccakHasher result = (KeccakHasher)super.clone();
 		result.state = result.state.clone();
-		for (int i = 0; i < result.state.length; i++)
-			result.state[i] = result.state[i].clone();
 		return result;
 	}
 	
@@ -101,40 +99,41 @@ class KeccakHasher extends AbstractHasher implements Zeroizable {
 	
 	
 	private void absorb() {
+		long[] a = state;
+		long[] b = new long[25];
+		long[] c = new long[5];
+		long[] d = new long[5];
 		for (long rc : RC) {
-			long[][] a = state;
-			
 			// Theta step
-			long[] c = new long[5];
 			for (int x = 0; x < 5; x++) {
+				int t = 0;
 				for (int y = 0; y < 5; y++)
-					c[x] ^= a[x][y];
+					t ^= a[y * 5 + x];
+				c[x] = t;
 			}
 			
-			long[] d = new long[5];
 			for (int x = 0; x < 5; x++)
 				d[x] = c[(x + 4) % 5] ^ Long.rotateLeft(c[(x + 1) % 5], 1);
 			
 			for (int x = 0; x < 5; x++) {
 				for (int y = 0; y < 5; y++)
-					a[x][y] ^= d[x];
+					a[y * 5 + x] ^= d[x];
 			}
 			
 			// Rho and pi steps
-			long[][] b = new long[5][5];
 			for (int x = 0; x < 5; x++) {
 				for (int y = 0; y < 5; y++)
-					b[y][(x * 2 + y * 3) % 5] = Long.rotateLeft(a[x][y], R[y][x]);
+					b[(x * 2 + y * 3) % 5 * 5 + y] = Long.rotateLeft(a[y * 5 + x], R[y][x]);
 			}
 			
 			// Chi step
 			for (int x = 0; x < 5; x++) {
 				for (int y = 0; y < 5; y++)
-					a[x][y] = b[x][y] ^ (~b[(x + 1) % 5][y] & b[(x + 2) % 5][y]);
+					a[y * 5 + x] = b[y * 5 + x] ^ (~b[y * 5 + (x + 1) % 5] & b[y * 5 + (x + 2) % 5]);
 			}
 			
 			// Iota step
-			a[0][0] ^= rc;
+			a[0] ^= rc;
 		}
 	}
 	
