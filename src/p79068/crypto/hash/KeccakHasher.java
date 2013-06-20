@@ -101,43 +101,41 @@ class KeccakHasher extends AbstractHasher implements Zeroizable {
 	
 	
 	private void absorb() {
-		for (int i = 0; i < 24; i++)
-			round(state, RC[i]);
-	}
-	
-	
-	private static void round(long[][] a, long rc) {
-		// Theta step
-		long[] c = new long[5];
-		for (int x = 0; x < 5; x++) {
-			for (int y = 0; y < 5; y++)
-				c[x] ^= a[x][y];
+		for (long rc : RC) {
+			long[][] a = state;
+			
+			// Theta step
+			long[] c = new long[5];
+			for (int x = 0; x < 5; x++) {
+				for (int y = 0; y < 5; y++)
+					c[x] ^= a[x][y];
+			}
+			
+			long[] d = new long[5];
+			for (int x = 0; x < 5; x++)
+				d[x] = c[(x + 4) % 5] ^ Long.rotateLeft(c[(x + 1) % 5], 1);
+			
+			for (int x = 0; x < 5; x++) {
+				for (int y = 0; y < 5; y++)
+					a[x][y] ^= d[x];
+			}
+			
+			// Rho and pi steps
+			long[][] b = new long[5][5];
+			for (int x = 0; x < 5; x++) {
+				for (int y = 0; y < 5; y++)
+					b[y][(x * 2 + y * 3) % 5] = Long.rotateLeft(a[x][y], R[y][x]);
+			}
+			
+			// Chi step
+			for (int x = 0; x < 5; x++) {
+				for (int y = 0; y < 5; y++)
+					a[x][y] = b[x][y] ^ (~b[(x + 1) % 5][y] & b[(x + 2) % 5][y]);
+			}
+			
+			// Iota step
+			a[0][0] ^= rc;
 		}
-		
-		long[] d = new long[5];
-		for (int x = 0; x < 5; x++)
-			d[x] = c[(x + 4) % 5] ^ Long.rotateLeft(c[(x + 1) % 5], 1);
-		
-		for (int x = 0; x < 5; x++) {
-			for (int y = 0; y < 5; y++)
-				a[x][y] ^= d[x];
-		}
-		
-		// Rho and pi steps
-		long[][] b = new long[5][5];
-		for (int x = 0; x < 5; x++) {
-			for (int y = 0; y < 5; y++)
-				b[y][(x * 2 + y * 3) % 5] = Long.rotateLeft(a[x][y], R[y][x]);
-		}
-		
-		// Chi step
-		for (int x = 0; x < 5; x++) {
-			for (int y = 0; y < 5; y++)
-				a[x][y] = b[x][y] ^ (~b[(x + 1) % 5][y] & b[(x + 2) % 5][y]);
-		}
-		
-		// Iota step
-		a[0][0] ^= rc;
 	}
 	
 }
