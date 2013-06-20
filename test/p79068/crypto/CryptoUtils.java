@@ -44,8 +44,11 @@ public final class CryptoUtils {
 		if (s.length() % 2 != 0)
 			throw new IllegalArgumentException();
 		byte[] b = new byte[s.length() / 2];
-		for (int i = 0; i < b.length; i++)
+		for (int i = 0; i < b.length; i++) {
+			if (s.charAt(i * 2) == '-')
+				throw new IllegalArgumentException();
 			b[i] = (byte)Integer.parseInt(s.substring(i * 2, (i + 1) * 2), 16);
+		}
 		return b;
 	}
 	
