@@ -33,7 +33,7 @@ final class RijndaelUtils {
 		SBOX_INVERSE = new byte[256];
 		for (int i = 0; i < 256; i++) {
 			int tp = reciprocal(i);
-			int s = ((tp ^ (tp << 4 | tp >>> 4) ^ (tp << 3 | tp >>> 5) ^ (tp << 2 | tp >>> 6) ^ (tp << 1 | tp >>> 7) ^ 0x63)) & 0xFF;
+			int s = (tp ^ (tp << 4 | tp >>> 4) ^ (tp << 3 | tp >>> 5) ^ (tp << 2 | tp >>> 6) ^ (tp << 1 | tp >>> 7) ^ 0x63) & 0xFF;
 			SBOX[i] = (byte)s;
 			SBOX_INVERSE[s] = (byte)i;
 		}
