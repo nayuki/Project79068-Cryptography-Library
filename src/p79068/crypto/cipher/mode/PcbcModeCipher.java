@@ -8,23 +8,25 @@ import p79068.crypto.cipher.Cipherer;
 
 
 /**
- * A cipher using a block cipher in CBC (cipher block chaining) mode.
+ * A cipher using a block cipher in PCBC (propagating cipher block chaining) mode.
  * <p>Encryption algorithm:</p>
- * <p><code>ciphertext[-1] = initializationVector<br>
- * ciphertext[i] = encrypt(plaintext[i] XOR ciphertext[i-1])</code></p>
+ * <p><code>plainXorCipher[-1] = initializationVector<br>
+ * plainXorCipher[i] = plaintext[i] XOR ciphertext[i]<br>
+ * ciphertext[i] = encrypt(plaintext[i] XOR plainXorCipher[i-1])</code></p>
  * <p>Decryption algorithm:</p>
- * <p><code>ciphertext[-1] = initializationVector<br>
- * plaintext[i] = decrypt(ciphertext[i]) XOR ciphertext[i-1]</code></p>
+ * <p><code>plainXorCipher[-1] = initializationVector<br>
+ * plainXorCipher[i] = plaintext[i] XOR ciphertext[i]<br>
+ * plaintext[i] = decrypt(ciphertext[i]) XOR plainXorCipher[i-1]</code></p>
  */
-public final class CbcModeCipher extends AbstractCipher implements Zeroizable {
+public final class PcbcModeCipher extends AbstractCipher implements Zeroizable {
 	
 	private BlockCipher blockCipher;
 	private byte[] key;
 	
 	
 	
-	public CbcModeCipher(BlockCipher cipher, byte[] key) {
-		super(cipher.getName() + "-CBC", cipher.getBlockLength(), cipher.getBlockLength());
+	public PcbcModeCipher(BlockCipher cipher, byte[] key) {
+		super(cipher.getName() + "-PCBC", cipher.getBlockLength(), cipher.getBlockLength());
 		if (key.length != cipher.getKeyLength())
 			throw new IllegalArgumentException();
 		blockCipher = cipher;
@@ -37,7 +39,7 @@ public final class CbcModeCipher extends AbstractCipher implements Zeroizable {
 	protected Cipherer newCiphererUnchecked(byte[] initVector) {
 		if (blockCipher == null)
 			throw new IllegalStateException("Already zeroized");
-		return new CbcModeCipherer(this, initVector, blockCipher, key);
+		return new PcbcModeCipherer(this, initVector, blockCipher, key);
 	}
 	
 	
@@ -54,7 +56,7 @@ public final class CbcModeCipher extends AbstractCipher implements Zeroizable {
 	
 	@Override
 	public boolean equals(Object obj) {
-		return obj instanceof CbcModeCipher && blockCipher.equals(((CbcModeCipher)obj).blockCipher);
+		return obj instanceof PcbcModeCipher && blockCipher.equals(((PcbcModeCipher)obj).blockCipher);
 	}
 	
 	

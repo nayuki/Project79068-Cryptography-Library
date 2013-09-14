@@ -13,15 +13,25 @@ import p79068.math.IntegerBitMath;
 
 final class Sha256Core extends BlockHasherCore {
 	
+	private final boolean sha256Mode;
+	
 	private int[] state;
 	
 	
 	
-	public Sha256Core() {
-		state = new int[] {
-			0x6A09E667, 0xBB67AE85, 0x3C6EF372, 0xA54FF53A,
-			0x510E527F, 0x9B05688C, 0x1F83D9AB, 0x5BE0CD19
-		};
+	public Sha256Core(boolean sha256Mode) {
+		this.sha256Mode = sha256Mode;
+		if (sha256Mode) {
+			state = new int[] {
+				0x6A09E667, 0xBB67AE85, 0x3C6EF372, 0xA54FF53A,
+				0x510E527F, 0x9B05688C, 0x1F83D9AB, 0x5BE0CD19
+			};
+		} else {
+			state = new int[] {
+				0xC1059ED8, 0x367CD507, 0x3070DD17, 0xF70E5939,
+				0xFFC00B31, 0x68581511, 0x64F98FA7, 0xBEFA4FA4
+			};
+		}
 	}
 	
 	
@@ -97,6 +107,8 @@ final class Sha256Core extends BlockHasherCore {
 		for (int i = 0; i < 8; i++)
 			block[block.length - 1 - i] = length.shiftRight(i * 8).byteValue();
 		compress(block);
+		if (!sha256Mode)  // If SHA-224, truncate the state
+			state = Arrays.copyOf(state, 7);
 		return new HashValue(IntegerBitMath.toBytesBigEndian(state));
 	}
 	
@@ -157,6 +169,56 @@ final class Sha256Core extends BlockHasherCore {
 			c = b;
 			b = a;
 			a = t1 + t2;
+		}
+		
+		message[0] = a;
+		message[1] = b;
+		message[2] = c;
+		message[3] = d;
+		message[4] = e;
+		message[5] = f;
+		message[6] = g;
+		message[7] = h;
+	}
+
+
+	/*
+	 * Each round performs a transform of this form:
+	 *  a = b'
+	 *  b = c'
+	 *  c = d'
+	 *  d = e' - (h + Ch(e,f,g))
+	 *  e = f'
+	 *  f = g'
+	 *  g = h'
+	 *  h = a' - (Ch(e,f,g) + Maj(a,b,c))
+	 * The primed variables represent the input.
+	 * The actual implementation is an in-place version of this description.
+	 */
+	static void decrypt(int[] keySchedule, int[] message) {
+		int a = message[0];
+		int b = message[1];
+		int c = message[2];
+		int d = message[3];
+		int e = message[4];
+		int f = message[5];
+		int g = message[6];
+		int h = message[7];
+		
+		// The 64 rounds
+		for (int i = 63; i >= 0; i--) {
+			int t0 = a;
+			int t1 = e;
+			a = b;
+			b = c;
+			c = d;
+			e = f;
+			f = g;
+			g = h;
+			int t2 = bigSigma1(e) + choose(e, f, g) + k[i] + keySchedule[i];
+			int t3 = bigSigma0(a) + majority(a, b, c);
+			h = t0 - (t2 + t3);
+			d = t1 - (h + t2);
 		}
 		
 		message[0] = a;

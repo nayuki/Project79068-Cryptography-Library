@@ -23,7 +23,7 @@ public final class Rc4 extends AbstractStreamCipher {
 	
 	
 	@Override
-	public StreamCipherer newCiphererUnchecked(byte[] key) {
+	protected StreamCipherer newCiphererUnchecked(byte[] key) {
 		return new Rc4Cipherer(this, key);
 	}
 	

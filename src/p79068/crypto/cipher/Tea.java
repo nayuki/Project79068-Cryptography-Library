@@ -29,7 +29,7 @@ public final class Tea extends AbstractCipher implements BlockCipher {
 	
 	
 	@Override
-	public Cipherer newCiphererUnchecked(byte[] key) {
+	protected Cipherer newCiphererUnchecked(byte[] key) {
 		if (this == TEA_CIPHER)
 			return new TeaCipherer(this, key);
 		else
