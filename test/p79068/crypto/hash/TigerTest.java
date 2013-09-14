@@ -15,7 +15,13 @@ public final class TigerTest {
 	private static String msg5 = "abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq";
 	private static String msg6 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 	private static String msg7 = "12345678901234567890123456789012345678901234567890123456789012345678901234567890";
-	private static String msg8 = getMillionAs();
+	private static String msg8;  // One million a's
+	
+	static {
+		char[] c = new char[1000000];
+		Arrays.fill(c, 'a');
+		msg8 = new String(c);
+	}
 	
 	
 	
@@ -59,14 +65,6 @@ public final class TigerTest {
 	public void testZeroize() {
 		HashUtils.testZeroization(Tiger.TIGER_FUNCTION);
 		HashUtils.testZeroization(Tiger.TIGER2_FUNCTION);
-	}
-	
-	
-	
-	private static String getMillionAs() {
-		char[] result = new char[1000000];
-		Arrays.fill(result, 'a');
-		return new String(result);
 	}
 	
 }

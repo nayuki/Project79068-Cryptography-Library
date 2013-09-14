@@ -14,7 +14,13 @@ public final class ShaTest {
 	private static String msg4 = "abcdefghijklmnopqrstuvwxyz";
 	private static String msg5 = "abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq";
 	private static String msg6 = "abcdefghbcdefghicdefghijdefghijkefghijklfghijklmghijklmnhijklmnoijklmnopjklmnopqklmnopqrlmnopqrsmnopqrstnopqrstu";
-	private static String msg7 = getMillionAs();
+	private static String msg7;  // One million a's
+	
+	static {
+		char[] c = new char[1000000];
+		Arrays.fill(c, 'a');
+		msg7 = new String(c);
+	}
 	
 	
 	
@@ -119,14 +125,6 @@ public final class ShaTest {
 		HashUtils.testZeroization(Sha.SHA256_FUNCTION);
 		HashUtils.testZeroization(Sha.SHA384_FUNCTION);
 		HashUtils.testZeroization(Sha.SHA512_FUNCTION);
-	}
-	
-	
-	
-	private static String getMillionAs() {
-		char[] result = new char[1000000];
-		Arrays.fill(result, 'a');
-		return new String(result);
 	}
 	
 }
