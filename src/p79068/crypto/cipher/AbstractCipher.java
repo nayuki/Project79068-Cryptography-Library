@@ -84,12 +84,12 @@ public abstract class AbstractCipher implements Cipher {
 	
 	
 	/**
-	 * Returns a string representation of this cipher. The format is: {@code "cipherName (keyLength-bit)"}. This is subject to change.
+	 * Returns a string representation of this cipher. The format is: {@code "cipherName (keyLength*8-bit)"}. This is subject to change.
 	 * @return a string representation of this cipher
 	 */
 	@Override
 	public String toString() {
-		return String.format("%s (%d-bit)", name, keyLength);
+		return String.format("%s (%d-bit)", name, keyLength * 8);
 	}
 	
 }
