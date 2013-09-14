@@ -1,12 +1,12 @@
-/*
+/* 
  * Advanced Encryption Standard
- *
+ * 
  * Key length (bits): 128, 192, 256 (AES); any positive multiple of 32 (Rijndael)
  * Data length (bits): 128
- *
+ * 
  * Reference: FIPS-197
- *
- *
+ * 
+ * 
  * Keep in mind that all values, except any values for indexing arrays, represent polynomials in a finite field modulo another polynomial.
  */
 

@@ -1,4 +1,4 @@
-/*
+/* 
  * A parameterized cyclic redundancy check (CRC) algorithm.
  * degree: The degree of the polynomial, from 1 to 64 (inclusive).
  * poly: The polynomial, whose coefficients are expressed as bits. If there is an x^64 term, it is omitted. e.g. x^16 + x^12 + x^5 + x^0 <-> 0x11021
@@ -6,14 +6,14 @@
  * revout: Take the bitwise reverse of the remainder. This is just associated with the low-level implementation of the right-shift-based algorithm.
  * xorin: The initial n bits are XORed with this constant. Only the lower n bits are allowed to be non-zero, where n is the degree.
  * xorout: The remainder is XORed with this constant. Only the lower n bits are allowed to be non-zero, where n is the degree.
- *
+ * 
  * Order of operations:
  * 0) Apply bit reversal to bytes
  * 1) XOR the initial bits with a constant
  * 2) Take remainder
  * 3) XOR remainder with a constant
  * 4) Apply bit reversal to remainder
- *
+ * 
  * This parameterized algorithm was adapted from the "Rocksoft^tm Model CRC Algorithm" to correspond more closely to pure polynomial division.
  */
 

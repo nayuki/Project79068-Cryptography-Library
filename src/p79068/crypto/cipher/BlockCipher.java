@@ -1,4 +1,4 @@
-/*
+/* 
  * Block Cipher
  * 
  * Each block must be encrypted independently of other blocks, and the internal state of the cipher must not change.

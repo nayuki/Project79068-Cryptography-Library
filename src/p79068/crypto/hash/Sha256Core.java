@@ -134,7 +134,7 @@ final class Sha256Core extends BlockHasherCore {
 	};
 	
 	
-	/*
+	/* 
 	 * Each round performs a transform of this form:
 	 *  a' = h + Ch(e,f,g) + Maj(a,b,c)
 	 *  b' = a
@@ -182,7 +182,7 @@ final class Sha256Core extends BlockHasherCore {
 	}
 
 
-	/*
+	/* 
 	 * Each round performs a transform of this form:
 	 *  a = b'
 	 *  b = c'

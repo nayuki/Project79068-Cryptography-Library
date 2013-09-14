@@ -1,4 +1,4 @@
-/*
+/* 
  * Addition takes place in the group of integers modulo 65536.
  * Multiplication takes place in the group of non-zero integers modulo 65537, with element 65536 being represented by the bit pattern 0x0000.
  */

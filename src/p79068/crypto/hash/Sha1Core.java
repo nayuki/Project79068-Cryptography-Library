@@ -84,7 +84,7 @@ class Sha1Core extends BlockHasherCore {
 	
 	private static final int[] k = {0x5A827999, 0x6ED9EBA1, 0x8F1BBCDC, 0xCA62C1D6};
 	
-	/*
+	/* 
 	 * Each round performs a transform of this form:
 	 *  a' = e + f(a,b,c,d)
 	 *  b' = a
@@ -119,7 +119,7 @@ class Sha1Core extends BlockHasherCore {
 	}
 	
 	
-	/*
+	/* 
 	 * Each round performs a transform of this form:
 	 *  a = b'
 	 *  b = c' ROTLEFT 2

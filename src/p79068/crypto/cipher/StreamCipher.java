@@ -1,4 +1,4 @@
-/*
+/* 
  * A stream cipher must be of the form "ciphertext = plaintext XOR pseudorandom" because it is supposed to encrypt each bit independently, not each byte.
  * Therefore, encryption and decryption are the same operation.
  */
