@@ -16,6 +16,8 @@ public final class CipherTest {
 		Rijndael.AES128_CIPHER,
 		Rijndael.AES192_CIPHER,
 		Rijndael.AES256_CIPHER,
+		Des.DES_56_CIPHER,
+		Des.DES_64_CIPHER,
 		Idea.CIPHER,
 		new Shacal1(16),
 		new Shacal2(16),
