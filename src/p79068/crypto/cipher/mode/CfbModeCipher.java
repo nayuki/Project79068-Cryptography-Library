@@ -34,7 +34,7 @@ public final class CfbModeCipher extends AbstractCipher implements Zeroizable {
 	
 	
 	@Override
-	public Cipherer newCiphererUnchecked(byte[] initVector) {
+	protected Cipherer newCiphererUnchecked(byte[] initVector) {
 		if (blockCipher == null)
 			throw new IllegalStateException("Already zeroized");
 		return new CfbModeCipherer(this, initVector, blockCipher, key);

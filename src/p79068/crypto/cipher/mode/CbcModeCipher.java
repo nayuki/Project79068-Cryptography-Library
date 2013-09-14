@@ -34,7 +34,7 @@ public final class CbcModeCipher extends AbstractCipher implements Zeroizable {
 	
 	
 	@Override
-	public Cipherer newCiphererUnchecked(byte[] initVector) {
+	protected Cipherer newCiphererUnchecked(byte[] initVector) {
 		if (blockCipher == null)
 			throw new IllegalStateException("Already zeroized");
 		return new CbcModeCipherer(this, initVector, blockCipher, key);

@@ -25,7 +25,7 @@ public final class WhirlpoolTCipher extends AbstractCipher implements BlockCiphe
 	
 	
 	@Override
-	public Cipherer newCiphererUnchecked(byte[] key) {
+	protected Cipherer newCiphererUnchecked(byte[] key) {
 		return Whirlpool.WHIRLPOOL_T_FUNCTION.newCipherer(this, key);
 	}
 	

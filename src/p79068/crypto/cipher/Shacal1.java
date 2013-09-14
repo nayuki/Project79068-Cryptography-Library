@@ -26,7 +26,7 @@ public final class Shacal1 extends AbstractCipher implements BlockCipher {
 	
 	
 	@Override
-	public Cipherer newCiphererUnchecked(byte[] key) {
+	protected Cipherer newCiphererUnchecked(byte[] key) {
 		return Sha1.FUNCTION.newCipherer(this, key);
 	}
 	

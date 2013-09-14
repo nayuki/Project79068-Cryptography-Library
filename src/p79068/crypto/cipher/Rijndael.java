@@ -52,7 +52,7 @@ public final class Rijndael extends AbstractCipher implements BlockCipher {
 	
 	
 	@Override
-	public Cipherer newCiphererUnchecked(byte[] key) {
+	protected Cipherer newCiphererUnchecked(byte[] key) {
 		if (blockLength == 16)
 			return new AesCipherer(this, key);
 		else

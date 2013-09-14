@@ -21,7 +21,7 @@ public final class Idea extends AbstractCipher implements BlockCipher {
 	
 	
 	@Override
-	public Cipherer newCiphererUnchecked(byte[] key) {
+	protected Cipherer newCiphererUnchecked(byte[] key) {
 		return new IdeaCipherer(this, key);
 	}
 	

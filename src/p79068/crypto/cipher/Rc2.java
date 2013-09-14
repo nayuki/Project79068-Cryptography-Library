@@ -26,7 +26,7 @@ public final class Rc2 extends AbstractCipher implements BlockCipher {
 	
 	
 	@Override
-	public Cipherer newCiphererUnchecked(byte[] key) {
+	protected Cipherer newCiphererUnchecked(byte[] key) {
 		return new Rc2Cipherer(this, key);
 	}
 	

@@ -21,7 +21,7 @@ public final class IdentityStreamCipher extends AbstractStreamCipher {
 	
 	
 	@Override
-	public StreamCipherer newCiphererUnchecked(byte[] key) {
+	protected StreamCipherer newCiphererUnchecked(byte[] key) {
 		return new IdentityStreamCipherer(this, key);
 	}
 	
