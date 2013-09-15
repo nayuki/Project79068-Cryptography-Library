@@ -44,6 +44,116 @@ final class TigerCore extends BlockHasherCore {
 	
 	
 	
+	@Override
+	public void compress(byte[] message, int off, int len) {
+		Assert.assertRangeInBounds(message.length, off, len);
+		if (len % 64 != 0)
+			throw new AssertionError();
+		
+		long[] schedule = new long[8];
+		long a = state[0];
+		long b = state[1];
+		long c = state[2];
+		
+		// For each block of 64 bytes
+		for (int end = off + len; off < end;) {
+			
+			// Pack bytes into int64s in little endian
+			for (int i = 0; i < 8; i++, off += 8) {
+				schedule[i] =   (message[off + 0] & 0xFFL) <<  0
+				              | (message[off + 1] & 0xFFL) <<  8
+				              | (message[off + 2] & 0xFFL) << 16
+				              | (message[off + 3] & 0xFFL) << 24
+				              | (message[off + 4] & 0xFFL) << 32
+				              | (message[off + 5] & 0xFFL) << 40
+				              | (message[off + 6] & 0xFFL) << 48
+				              | (message[off + 7] & 0xFFL) << 56;
+			}
+			
+			// The 24 rounds
+			for (int i = 0; i < 8; i++) {
+				c ^= schedule[i];
+				a -= t1[(int)(c >>> 0) & 0xFF] ^ t2[(int)(c >>> 16) & 0xFF] ^ t3[(int)(c >>> 32) & 0xFF] ^ t4[(int)(c >>> 48) & 0xFF];
+				b += t4[(int)(c >>> 8) & 0xFF] ^ t3[(int)(c >>> 24) & 0xFF] ^ t2[(int)(c >>> 40) & 0xFF] ^ t1[(int)(c >>> 56) & 0xFF];
+				b *= 5;
+				long temp = a;
+				a = b;
+				b = c;
+				c = temp;
+			}
+			keySchedule(schedule);
+			for (int i = 0; i < 8; i++) {
+				c ^= schedule[i];
+				a -= t1[(int)(c >>> 0) & 0xFF] ^ t2[(int)(c >>> 16) & 0xFF] ^ t3[(int)(c >>> 32) & 0xFF] ^ t4[(int)(c >>> 48) & 0xFF];
+				b += t4[(int)(c >>> 8) & 0xFF] ^ t3[(int)(c >>> 24) & 0xFF] ^ t2[(int)(c >>> 40) & 0xFF] ^ t1[(int)(c >>> 56) & 0xFF];
+				b *= 7;
+				long temp = a;
+				a = b;
+				b = c;
+				c = temp;
+			}
+			keySchedule(schedule);
+			for (int i = 0; i < 8; i++) {
+				c ^= schedule[i];
+				a -= t1[(int)(c >>> 0) & 0xFF] ^ t2[(int)(c >>> 16) & 0xFF] ^ t3[(int)(c >>> 32) & 0xFF] ^ t4[(int)(c >>> 48) & 0xFF];
+				b += t4[(int)(c >>> 8) & 0xFF] ^ t3[(int)(c >>> 24) & 0xFF] ^ t2[(int)(c >>> 40) & 0xFF] ^ t1[(int)(c >>> 56) & 0xFF];
+				b *= 9;
+				long temp = a;
+				a = b;
+				b = c;
+				c = temp;
+			}
+			
+			// Feedforward
+			a ^= state[0];
+			b -= state[1];
+			c += state[2];
+			state[0] = a;
+			state[1] = b;
+			state[2] = c;
+		}
+	}
+	
+	
+	private static void keySchedule(long[] schedule) {
+		schedule[0] -= schedule[7] ^ 0xA5A5A5A5A5A5A5A5L;
+		schedule[1] ^= schedule[0];
+		schedule[2] += schedule[1];
+		schedule[3] -= schedule[2] ^ ((~schedule[1]) << 19);
+		schedule[4] ^= schedule[3];
+		schedule[5] += schedule[4];
+		schedule[6] -= schedule[5] ^ ((~schedule[4]) >>> 23);
+		schedule[7] ^= schedule[6];
+		schedule[0] += schedule[7];
+		schedule[1] -= schedule[0] ^ ((~schedule[7]) << 19);
+		schedule[2] ^= schedule[1];
+		schedule[3] += schedule[2];
+		schedule[4] -= schedule[3] ^ ((~schedule[2]) >>> 23);
+		schedule[5] ^= schedule[4];
+		schedule[6] += schedule[5];
+		schedule[7] -= schedule[6] ^ 0x0123456789ABCDEFL;
+	}
+	
+	
+	@Override
+	public HashValue getHashDestructively(byte[] block, int blockLength, BigInteger length) {
+		block[blockLength] = (byte)(tiger2Mode ? 0x80 : 0x01);
+		blockLength++;
+		Arrays.fill(block, blockLength, block.length, (byte)0);
+		if (blockLength + 8 > block.length) {
+			compress(block);
+			Arrays.fill(block, (byte)0);
+		}
+		length = length.shiftLeft(3);  // Length is now in bits
+		for (int i = 0; i < 8; i++)
+			block[block.length - 8 + i] = length.shiftRight(i * 8).byteValue();
+		compress(block);
+		return new HashValue(LongBitMath.toBytesLittleEndian(state));
+	}
+	
+	
+	// Tables of constants
+	
 	private static long[] t1 = {
 		0x02AAB17CF7E90C5EL, 0xAC424B03E243A8ECL, 0x72CD5BE30DD5FCD3L, 0x6D019B93F6F97F3AL,
 		0xCD9978FFD21F9193L, 0x7573A1C9708029E2L, 0xB164326B922A83C3L, 0x46883EEE04915870L,
@@ -314,114 +424,5 @@ final class TigerCore extends BlockHasherCore {
 		0xBF6C70E5F776CBB1L, 0x411218F2EF552BEDL, 0xCB0C0708705A36A3L, 0xE74D14754F986044L,
 		0xCD56D9430EA8280EL, 0xC12591D7535F5065L, 0xC83223F1720AEF96L, 0xC3A0396F7363A51FL
 	};
-	
-	
-	
-	@Override
-	public void compress(byte[] message, int off, int len) {
-		Assert.assertRangeInBounds(message.length, off, len);
-		if (len % 64 != 0)
-			throw new AssertionError();
-		
-		long[] schedule = new long[8];
-		long a = state[0];
-		long b = state[1];
-		long c = state[2];
-		
-		// For each block of 64 bytes
-		for (int end = off + len; off < end;) {
-			
-			// Pack bytes into int64s in little endian
-			for (int i = 0; i < 8; i++, off += 8) {
-				schedule[i] =   (message[off + 0] & 0xFFL) <<  0
-				              | (message[off + 1] & 0xFFL) <<  8
-				              | (message[off + 2] & 0xFFL) << 16
-				              | (message[off + 3] & 0xFFL) << 24
-				              | (message[off + 4] & 0xFFL) << 32
-				              | (message[off + 5] & 0xFFL) << 40
-				              | (message[off + 6] & 0xFFL) << 48
-				              | (message[off + 7] & 0xFFL) << 56;
-			}
-			
-			// The 24 rounds
-			for (int i = 0; i < 8; i++) {
-				c ^= schedule[i];
-				a -= t1[(int)(c >>> 0) & 0xFF] ^ t2[(int)(c >>> 16) & 0xFF] ^ t3[(int)(c >>> 32) & 0xFF] ^ t4[(int)(c >>> 48) & 0xFF];
-				b += t4[(int)(c >>> 8) & 0xFF] ^ t3[(int)(c >>> 24) & 0xFF] ^ t2[(int)(c >>> 40) & 0xFF] ^ t1[(int)(c >>> 56) & 0xFF];
-				b *= 5;
-				long temp = a;
-				a = b;
-				b = c;
-				c = temp;
-			}
-			keySchedule(schedule);
-			for (int i = 0; i < 8; i++) {
-				c ^= schedule[i];
-				a -= t1[(int)(c >>> 0) & 0xFF] ^ t2[(int)(c >>> 16) & 0xFF] ^ t3[(int)(c >>> 32) & 0xFF] ^ t4[(int)(c >>> 48) & 0xFF];
-				b += t4[(int)(c >>> 8) & 0xFF] ^ t3[(int)(c >>> 24) & 0xFF] ^ t2[(int)(c >>> 40) & 0xFF] ^ t1[(int)(c >>> 56) & 0xFF];
-				b *= 7;
-				long temp = a;
-				a = b;
-				b = c;
-				c = temp;
-			}
-			keySchedule(schedule);
-			for (int i = 0; i < 8; i++) {
-				c ^= schedule[i];
-				a -= t1[(int)(c >>> 0) & 0xFF] ^ t2[(int)(c >>> 16) & 0xFF] ^ t3[(int)(c >>> 32) & 0xFF] ^ t4[(int)(c >>> 48) & 0xFF];
-				b += t4[(int)(c >>> 8) & 0xFF] ^ t3[(int)(c >>> 24) & 0xFF] ^ t2[(int)(c >>> 40) & 0xFF] ^ t1[(int)(c >>> 56) & 0xFF];
-				b *= 9;
-				long temp = a;
-				a = b;
-				b = c;
-				c = temp;
-			}
-			
-			// Feedforward
-			a ^= state[0];
-			b -= state[1];
-			c += state[2];
-			state[0] = a;
-			state[1] = b;
-			state[2] = c;
-		}
-	}
-	
-	
-	private static void keySchedule(long[] schedule) {
-		schedule[0] -= schedule[7] ^ 0xA5A5A5A5A5A5A5A5L;
-		schedule[1] ^= schedule[0];
-		schedule[2] += schedule[1];
-		schedule[3] -= schedule[2] ^ ((~schedule[1]) << 19);
-		schedule[4] ^= schedule[3];
-		schedule[5] += schedule[4];
-		schedule[6] -= schedule[5] ^ ((~schedule[4]) >>> 23);
-		schedule[7] ^= schedule[6];
-		schedule[0] += schedule[7];
-		schedule[1] -= schedule[0] ^ ((~schedule[7]) << 19);
-		schedule[2] ^= schedule[1];
-		schedule[3] += schedule[2];
-		schedule[4] -= schedule[3] ^ ((~schedule[2]) >>> 23);
-		schedule[5] ^= schedule[4];
-		schedule[6] += schedule[5];
-		schedule[7] -= schedule[6] ^ 0x0123456789ABCDEFL;
-	}
-	
-	
-	@Override
-	public HashValue getHashDestructively(byte[] block, int blockLength, BigInteger length) {
-		block[blockLength] = (byte)(tiger2Mode ? 0x80 : 0x01);
-		blockLength++;
-		Arrays.fill(block, blockLength, block.length, (byte)0);
-		if (blockLength + 8 > block.length) {
-			compress(block);
-			Arrays.fill(block, (byte)0);
-		}
-		length = length.shiftLeft(3);  // Length is now in bits
-		for (int i = 0; i < 8; i++)
-			block[block.length - 8 + i] = length.shiftRight(i * 8).byteValue();
-		compress(block);
-		return new HashValue(LongBitMath.toBytesLittleEndian(state));
-	}
 	
 }
