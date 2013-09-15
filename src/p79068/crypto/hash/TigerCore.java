@@ -13,7 +13,7 @@ final class TigerCore extends BlockHasherCore {
 	
 	private final boolean tiger2Mode;
 	
-	private long[] state;
+	private long[] state;  // 3 elements (192 bits)
 	
 	
 	
@@ -38,70 +38,57 @@ final class TigerCore extends BlockHasherCore {
 	public void zeroize() {
 		if (state == null)
 			throw new IllegalStateException("Already zeroized");
-		Zeroizer.clear(state);
-		state = null;
+		state = Zeroizer.clear(state);
 	}
 	
 	
 	
 	@Override
-	public void compress(byte[] message, int off, int len) {
-		Assert.assertRangeInBounds(message.length, off, len);
+	public void compress(byte[] msg, int off, int len) {
+		Assert.assertRangeInBounds(msg.length, off, len);
 		if (len % 64 != 0)
 			throw new AssertionError();
 		
 		long[] schedule = new long[8];
-		long a = state[0];
-		long b = state[1];
-		long c = state[2];
 		
 		// For each block of 64 bytes
 		for (int end = off + len; off < end;) {
 			
 			// Pack bytes into int64s in little endian
 			for (int i = 0; i < 8; i++, off += 8) {
-				schedule[i] =   (message[off + 0] & 0xFFL) <<  0
-				              | (message[off + 1] & 0xFFL) <<  8
-				              | (message[off + 2] & 0xFFL) << 16
-				              | (message[off + 3] & 0xFFL) << 24
-				              | (message[off + 4] & 0xFFL) << 32
-				              | (message[off + 5] & 0xFFL) << 40
-				              | (message[off + 6] & 0xFFL) << 48
-				              | (message[off + 7] & 0xFFL) << 56;
+				schedule[i] =   (msg[off + 0] & 0xFFL) <<  0
+				              | (msg[off + 1] & 0xFFL) <<  8
+				              | (msg[off + 2] & 0xFFL) << 16
+				              | (msg[off + 3] & 0xFFL) << 24
+				              | (msg[off + 4] & 0xFFL) << 32
+				              | (msg[off + 5] & 0xFFL) << 40
+				              | (msg[off + 6] & 0xFFL) << 48
+				              | (msg[off + 7] & 0xFFL) << 56;
 			}
 			
 			// The 24 rounds
-			for (int i = 0; i < 8; i++) {
-				c ^= schedule[i];
-				a -= t1[(int)(c >>> 0) & 0xFF] ^ t2[(int)(c >>> 16) & 0xFF] ^ t3[(int)(c >>> 32) & 0xFF] ^ t4[(int)(c >>> 48) & 0xFF];
-				b += t4[(int)(c >>> 8) & 0xFF] ^ t3[(int)(c >>> 24) & 0xFF] ^ t2[(int)(c >>> 40) & 0xFF] ^ t1[(int)(c >>> 56) & 0xFF];
-				b *= 5;
+			long a = state[0];
+			long b = state[1];
+			long c = state[2];
+			for (int i = 0; i < 24; i++) {
+				c ^= schedule[i % 8];
+				a -= T1[(int)(c >>>  0) & 0xFF] ^
+				     T2[(int)(c >>> 16) & 0xFF] ^
+				     T3[(int)(c >>> 32) & 0xFF] ^
+				     T4[(int)(c >>> 48) & 0xFF];
+				b += T4[(int)(c >>>  8) & 0xFF] ^
+				     T3[(int)(c >>> 24) & 0xFF] ^
+				     T2[(int)(c >>> 40) & 0xFF] ^
+				     T1[(int)(c >>> 56) & 0xFF];
+				b *= 5 + i / 8 * 2;
+				
 				long temp = a;
 				a = b;
 				b = c;
 				c = temp;
-			}
-			keySchedule(schedule);
-			for (int i = 0; i < 8; i++) {
-				c ^= schedule[i];
-				a -= t1[(int)(c >>> 0) & 0xFF] ^ t2[(int)(c >>> 16) & 0xFF] ^ t3[(int)(c >>> 32) & 0xFF] ^ t4[(int)(c >>> 48) & 0xFF];
-				b += t4[(int)(c >>> 8) & 0xFF] ^ t3[(int)(c >>> 24) & 0xFF] ^ t2[(int)(c >>> 40) & 0xFF] ^ t1[(int)(c >>> 56) & 0xFF];
-				b *= 7;
-				long temp = a;
-				a = b;
-				b = c;
-				c = temp;
-			}
-			keySchedule(schedule);
-			for (int i = 0; i < 8; i++) {
-				c ^= schedule[i];
-				a -= t1[(int)(c >>> 0) & 0xFF] ^ t2[(int)(c >>> 16) & 0xFF] ^ t3[(int)(c >>> 32) & 0xFF] ^ t4[(int)(c >>> 48) & 0xFF];
-				b += t4[(int)(c >>> 8) & 0xFF] ^ t3[(int)(c >>> 24) & 0xFF] ^ t2[(int)(c >>> 40) & 0xFF] ^ t1[(int)(c >>> 56) & 0xFF];
-				b *= 9;
-				long temp = a;
-				a = b;
-				b = c;
-				c = temp;
+				
+				if (i == 7 || i == 15)
+					keySchedule(schedule);
 			}
 			
 			// Feedforward
@@ -119,16 +106,16 @@ final class TigerCore extends BlockHasherCore {
 		schedule[0] -= schedule[7] ^ 0xA5A5A5A5A5A5A5A5L;
 		schedule[1] ^= schedule[0];
 		schedule[2] += schedule[1];
-		schedule[3] -= schedule[2] ^ ((~schedule[1]) << 19);
+		schedule[3] -= schedule[2] ^ (~schedule[1] << 19);
 		schedule[4] ^= schedule[3];
 		schedule[5] += schedule[4];
-		schedule[6] -= schedule[5] ^ ((~schedule[4]) >>> 23);
+		schedule[6] -= schedule[5] ^ (~schedule[4] >>> 23);
 		schedule[7] ^= schedule[6];
 		schedule[0] += schedule[7];
-		schedule[1] -= schedule[0] ^ ((~schedule[7]) << 19);
+		schedule[1] -= schedule[0] ^ (~schedule[7] << 19);
 		schedule[2] ^= schedule[1];
 		schedule[3] += schedule[2];
-		schedule[4] -= schedule[3] ^ ((~schedule[2]) >>> 23);
+		schedule[4] -= schedule[3] ^ (~schedule[2] >>> 23);
 		schedule[5] ^= schedule[4];
 		schedule[6] += schedule[5];
 		schedule[7] -= schedule[6] ^ 0x0123456789ABCDEFL;
@@ -154,7 +141,7 @@ final class TigerCore extends BlockHasherCore {
 	
 	// Tables of constants
 	
-	private static long[] t1 = {
+	private static long[] T1 = {
 		0x02AAB17CF7E90C5EL, 0xAC424B03E243A8ECL, 0x72CD5BE30DD5FCD3L, 0x6D019B93F6F97F3AL,
 		0xCD9978FFD21F9193L, 0x7573A1C9708029E2L, 0xB164326B922A83C3L, 0x46883EEE04915870L,
 		0xEAACE3057103ECE6L, 0xC54169B808A3535CL, 0x4CE754918DDEC47CL, 0x0AA2F4DFDC0DF40CL,
@@ -218,11 +205,11 @@ final class TigerCore extends BlockHasherCore {
 		0xBB434A2DEE7269E7L, 0x78CB67ECF931FA38L, 0xF33B0372323BBF9CL, 0x52D66336FB279C74L,
 		0x505F33AC0AFB4EAAL, 0xE8A5CD99A2CCE187L, 0x534974801E2D30BBL, 0x8D2D5711D5876D90L,
 		0x1F1A412891BC038EL, 0xD6E2E71D82E56648L, 0x74036C3A497732B7L, 0x89B67ED96361F5ABL,
-		0xFFED95D8F1EA02A2L, 0xE72B3BD61464D43DL, 0xA6300F170BDC4820L, 0xEBC18760ED78A77AL
+		0xFFED95D8F1EA02A2L, 0xE72B3BD61464D43DL, 0xA6300F170BDC4820L, 0xEBC18760ED78A77AL,
 	};
 	
 	
-	private static long[] t2 = {
+	private static long[] T2 = {
 		0xE6A6BE5A05A12138L, 0xB5A122A5B4F87C98L, 0x563C6089140B6990L, 0x4C46CB2E391F5DD5L,
 		0xD932ADDBC9B79434L, 0x08EA70E42015AFF5L, 0xD765A6673E478CF1L, 0xC4FB757EAB278D99L,
 		0xDF11C6862D6E0692L, 0xDDEB84F10D7F3B16L, 0x6F2EF604A665EA04L, 0x4A8E0F0FF0E0DFB3L,
@@ -286,11 +273,11 @@ final class TigerCore extends BlockHasherCore {
 		0x9FFCC84F3A78C748L, 0xF0CD1F72248576BBL, 0xEC6974053638CFE4L, 0x2BA7B67C0CEC4E4CL,
 		0xAC2F4DF3E5CE32EDL, 0xCB33D14326EA4C11L, 0xA4E9044CC77E58BCL, 0x5F513293D934FCEFL,
 		0x5DC9645506E55444L, 0x50DE418F317DE40AL, 0x388CB31A69DDE259L, 0x2DB4A83455820A86L,
-		0x9010A91E84711AE9L, 0x4DF7F0B7B1498371L, 0xD62A2EABC0977179L, 0x22FAC097AA8D5C0EL
+		0x9010A91E84711AE9L, 0x4DF7F0B7B1498371L, 0xD62A2EABC0977179L, 0x22FAC097AA8D5C0EL,
 	};
 	
 	
-	private static long[] t3 = {
+	private static long[] T3 = {
 		0xF49FCC2FF1DAF39BL, 0x487FD5C66FF29281L, 0xE8A30667FCDCA83FL, 0x2C9B4BE3D2FCCE63L,
 		0xDA3FF74B93FBBBC2L, 0x2FA165D2FE70BA66L, 0xA103E279970E93D4L, 0xBECDEC77B0E45E71L,
 		0xCFB41E723985E497L, 0xB70AAA025EF75017L, 0xD42309F03840B8E0L, 0x8EFC1AD035898579L,
@@ -354,11 +341,11 @@ final class TigerCore extends BlockHasherCore {
 		0x92D3FDA169812FC0L, 0xFB1A4A9A90660BB6L, 0x730C196946A4B9B2L, 0x81E289AA7F49DA68L,
 		0x64669A0F83B1A05FL, 0x27B3FF7D9644F48BL, 0xCC6B615C8DB675B3L, 0x674F20B9BCEBBE95L,
 		0x6F31238275655982L, 0x5AE488713E45CF05L, 0xBF619F9954C21157L, 0xEABAC46040A8EAE9L,
-		0x454C6FE9F2C0C1CDL, 0x419CF6496412691CL, 0xD3DC3BEF265B0F70L, 0x6D0E60F5C3578A9EL
+		0x454C6FE9F2C0C1CDL, 0x419CF6496412691CL, 0xD3DC3BEF265B0F70L, 0x6D0E60F5C3578A9EL,
 	};
 	
 	
-	private static long[] t4 = {
+	private static long[] T4 = {
 		0x5B0E608526323C55L, 0x1A46C1A9FA1B59F5L, 0xA9E245A17C4C8FFAL, 0x65CA5159DB2955D7L,
 		0x05DB0A76CE35AFC2L, 0x81EAC77EA9113D45L, 0x528EF88AB6AC0A0DL, 0xA09EA253597BE3FFL,
 		0x430DDFB3AC48CD56L, 0xC4B3A67AF45CE46FL, 0x4ECECFD8FBE2D05EL, 0x3EF56F10B39935F0L,
@@ -422,7 +409,7 @@ final class TigerCore extends BlockHasherCore {
 		0x901063AAE5E5C33CL, 0x9818B34448698D90L, 0xE36487AE3E1E8ABBL, 0xAFBDF931893BDCB4L,
 		0x6345A0DC5FBBD519L, 0x8628FE269B9465CAL, 0x1E5D01603F9C51ECL, 0x4DE44006A15049B7L,
 		0xBF6C70E5F776CBB1L, 0x411218F2EF552BEDL, 0xCB0C0708705A36A3L, 0xE74D14754F986044L,
-		0xCD56D9430EA8280EL, 0xC12591D7535F5065L, 0xC83223F1720AEF96L, 0xC3A0396F7363A51FL
+		0xCD56D9430EA8280EL, 0xC12591D7535F5065L, 0xC83223F1720AEF96L, 0xC3A0396F7363A51FL,
 	};
 	
 }
