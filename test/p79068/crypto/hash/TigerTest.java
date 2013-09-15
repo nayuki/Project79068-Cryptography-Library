@@ -37,7 +37,7 @@ public final class TigerTest extends CryptoHashFunctionTest {
 	
 	@Test
 	public void testTiger() {
-		String[][] testCases = {
+		testAscii(Tiger.TIGER_FUNCTION, new String[][] {
 			{msg0, "3293AC630C13F0245F92BBB1766E16167A4E58492DDE73F3"},
 			{msg1, "77BEFBEF2E7EF8AB2EC8F93BF587A7FC613E247F5F247809"},
 			{msg2, "2AAB1484E8C158F2BFB8C5FF41B57A525129131C957B5F93"},
@@ -47,15 +47,13 @@ public final class TigerTest extends CryptoHashFunctionTest {
 			{msg6, "8DCEA680A17583EE502BA38A3C368651890FFBCCDC49A8CC"},
 			{msg7, "1C14795529FD9F207A958F84C52F11E887FA0CABDFD91BFD"},
 			{msg8, "6DB0E2729CBEAD93D715C6A7D36302E9B3CEE0D2BC314B41"},
-		};
-		for (String[] tc : testCases)
-			testAscii(Tiger.TIGER_FUNCTION, tc[0], tc[1]);
+		});
 	}
 	
 	
 	@Test
 	public void testTiger2() {
-		String[][] testCases = {
+		testAscii(Tiger.TIGER2_FUNCTION, new String[][] {
 			{msg0, "4441BE75F6018773C206C22745374B924AA8313FEF919F41"},
 			{msg1, "67E6AE8E9E968999F70A23E72AEAA9251CBC7C78A7916636"},
 			{msg2, "F68D7BC5AF4B43A06E048D7829560D4A9415658BB0B1F3BF"},
@@ -65,9 +63,7 @@ public final class TigerTest extends CryptoHashFunctionTest {
 			{msg6, "EA9AB6228CEE7B51B77544FCA6066C8CBB5BBAE6319505CD"},
 			{msg7, "D85278115329EBAA0EEC85ECDC5396FDA8AA3A5820942FFF"},
 			{msg8, "E068281F060F551628CC5715B9D0226796914D45F7717CF4"},
-		};
-		for (String[] tc : testCases)
-			testAscii(Tiger.TIGER2_FUNCTION, tc[0], tc[1]);
+		});
 	}
 	
 }

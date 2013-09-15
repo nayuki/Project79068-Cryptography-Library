@@ -33,4 +33,10 @@ public abstract class CryptoHashFunctionTest extends HashFunctionTest {
 		}
 	}
 	
+	
+	protected static void testAscii(HashFunction hashFunc, String[][] testCases) {
+		for (String[] tc : testCases)
+			testAscii(hashFunc, tc[0], tc[1]);
+	}
+	
 }

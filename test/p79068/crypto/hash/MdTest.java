@@ -28,7 +28,7 @@ public final class MdTest extends CryptoHashFunctionTest {
 	
 	@Test
 	public void testMd2() {
-		String[][] testCases = {
+		testAscii(Md.MD2_FUNCTION, new String[][] {
 			{msg0, "8350E5A3E24C153DF2275C9F80692773"},
 			{msg1, "32EC01EC4A6DAC72C0AB96FB34C0B5D1"},
 			{msg2, "DA853B0D3F88D99B30283A69E6DED6BB"},
@@ -36,15 +36,13 @@ public final class MdTest extends CryptoHashFunctionTest {
 			{msg4, "4E8DDFF3650292AB5A4108C3AA47940B"},
 			{msg5, "DA33DEF2A42DF13975352846C30338CD"},
 			{msg6, "D5976F79D83D3A0DC9806C3C66F3EFD8"},
-		};
-		for (String[] tc : testCases)
-			testAscii(Md.MD2_FUNCTION, tc[0], tc[1]);
+		});
 	}
 	
 	
 	@Test
 	public void testMd4() {
-		String[][] testCases = {
+		testAscii(Md.MD4_FUNCTION, new String[][] {
 			{msg0, "31D6CFE0D16AE931B73C59D7E0C089C0"},
 			{msg1, "BDE52CB31DE33E46245E05FBDBD6FB24"},
 			{msg2, "A448017AAF21D8525FC10AE87AA6729D"},
@@ -52,15 +50,13 @@ public final class MdTest extends CryptoHashFunctionTest {
 			{msg4, "D79E1C308AA5BBCDEEA8ED63DF412DA9"},
 			{msg5, "043F8582F241DB351CE627E153E7F0E4"},
 			{msg6, "E33B4DDC9C38F2199C3E7B164FCC0536"},
-		};
-		for (String[] tc : testCases)
-			testAscii(Md.MD4_FUNCTION, tc[0], tc[1]);
+		});
 	}
 	
 	
 	@Test
 	public void testMd5() {
-		String[][] testCases = {
+		testAscii(Md.MD5_FUNCTION, new String[][] {
 			{msg0, "D41D8CD98F00B204E9800998ECF8427E"},
 			{msg1, "0CC175B9C0F1B6A831C399E269772661"},
 			{msg2, "900150983CD24FB0D6963F7D28E17F72"},
@@ -68,9 +64,7 @@ public final class MdTest extends CryptoHashFunctionTest {
 			{msg4, "C3FCD3D76192E4007DFB496CCA67E13B"},
 			{msg5, "D174AB98D277D9F5A5611C2C9F419D9F"},
 			{msg6, "57EDF4A22BE3C955AC49DA2E2107B67A"},
-		};
-		for (String[] tc : testCases)
-			testAscii(Md.MD5_FUNCTION, tc[0], tc[1]);
+		});
 	}
 	
 }
