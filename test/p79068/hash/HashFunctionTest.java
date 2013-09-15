@@ -1,11 +1,65 @@
 package p79068.hash;
 
 import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
+
+import p79068.util.random.Random;
 
 
 public abstract class HashFunctionTest {
 	
 	protected abstract HashFunction[] getHashFunctionsToTest();
+	
+	
+	@Test
+	public void testZeroLength() {
+		for (HashFunction hf : getHashFunctionsToTest()) {
+			// Simply ensure that no exception is thrown
+			hf.getHash(new byte[0]);
+		}
+	}
+	
+	
+	@Test
+	public void testUpdateByteVsBlockEquivalence() {
+		Random r = Random.DEFAULT;
+		for (HashFunction hf : getHashFunctionsToTest()) {
+			for (int i = 0; i < 1000; i++) {
+				byte[] b = new byte[r.uniformInt(1000) + 1];
+				r.uniformBytes(b);
+				
+				Hasher h0 = hf.newHasher();
+				Hasher h1 = hf.newHasher();
+				for (int j = 0; j < b.length; j++) {
+					h0.update(b[j]);
+					h1.update(b, j, 1);
+				}
+				assertEquals(h0.getHash(), h1.getHash());
+			}
+		}
+	}
+	
+	
+	@Test
+	public void testMessageSplittingEquivalence() {
+		Random r = Random.DEFAULT;
+		for (HashFunction hf : getHashFunctionsToTest()) {
+			for (int i = 0; i < 1000; i++) {
+				byte[] b = new byte[r.uniformInt(1000) + 1];
+				r.uniformBytes(b);
+				
+				Hasher h = hf.newHasher();
+				for (int off = 0; off < b.length; ) {
+					int n = r.uniformInt(b.length - off + 1);
+					h.update(b, off, n);
+					off += n;
+				}
+				assertEquals(hf.getHash(b), h.getHash());
+			}
+		}
+	}
 	
 	
 	/**
