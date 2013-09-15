@@ -67,10 +67,6 @@ final class Md4Core extends BlockHasherCore {
 			throw new AssertionError();
 		
 		int[] schedule = new int[16];
-		int a = state[0];
-		int b = state[1];
-		int c = state[2];
-		int d = state[3];
 		
 		// For each block of 64 bytes
 		for (int end = off + len; off < end;) {
@@ -85,6 +81,10 @@ final class Md4Core extends BlockHasherCore {
 			}
 			
 			// The 48 rounds
+			int a = state[0];
+			int b = state[1];
+			int c = state[2];
+			int d = state[3];
 			for (int i = 0; i < 48; i++) {
 				int f;
 				if      ( 0 <= i && i < 16) f = (b & c) | (~b & d);  // Can be optimized to f = d ^ (b & (c ^ d))
@@ -99,15 +99,10 @@ final class Md4Core extends BlockHasherCore {
 				c = b;
 				b = Integer.rotateLeft(temp, rot);
 			}
-			
 			state[0] += a;
 			state[1] += b;
 			state[2] += c;
 			state[3] += d;
-			a = state[0];
-			b = state[1];
-			c = state[2];
-			d = state[3];
 		}
 	}
 	

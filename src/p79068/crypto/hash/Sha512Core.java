@@ -87,14 +87,6 @@ final class Sha512Core extends BlockHasherCore {
 			throw new AssertionError();
 		
 		long[] schedule = new long[80];
-		long a = state[0];
-		long b = state[1];
-		long c = state[2];
-		long d = state[3];
-		long e = state[4];
-		long f = state[5];
-		long g = state[6];
-		long h = state[7];
 		
 		// For each block of 128 bytes
 		for (int end = off + len; off < end;) {
@@ -117,6 +109,14 @@ final class Sha512Core extends BlockHasherCore {
 				schedule[i] = schedule[i-16] + schedule[i-7] + smallSigma0(schedule[i-15]) + smallSigma1(schedule[i-2]);
 			
 			// The 80 rounds
+			long a = state[0];
+			long b = state[1];
+			long c = state[2];
+			long d = state[3];
+			long e = state[4];
+			long f = state[5];
+			long g = state[6];
+			long h = state[7];
 			for (int i = 0; i < 80; i++) {
 				long t1 = h + bigSigma1(e) + choose(e, f, g) + k[i] + schedule[i];
 				long t2 = bigSigma0(a) + majority(a, b, c);
@@ -129,15 +129,14 @@ final class Sha512Core extends BlockHasherCore {
 				b = a;
 				a = t1 + t2;
 			}
-			
-			a = state[0] += a;
-			b = state[1] += b;
-			c = state[2] += c;
-			d = state[3] += d;
-			e = state[4] += e;
-			f = state[5] += f;
-			g = state[6] += g;
-			h = state[7] += h;
+			state[0] += a;
+			state[1] += b;
+			state[2] += c;
+			state[3] += d;
+			state[4] += e;
+			state[5] += f;
+			state[6] += g;
+			state[7] += h;
 		}
 	}
 	
