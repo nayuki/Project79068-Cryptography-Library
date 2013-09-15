@@ -126,15 +126,6 @@ public final class KeccakTest extends CryptoHashFunctionTest {
 	}
 	
 	
-	@Test
-	public void testZeroize() {
-		testZeroization(Keccak.KECCAK_224_FUNCTION);
-		testZeroization(Keccak.KECCAK_256_FUNCTION);
-		testZeroization(Keccak.KECCAK_384_FUNCTION);
-		testZeroization(Keccak.KECCAK_512_FUNCTION);
-	}
-	
-	
 	
 	private static void testHashFunction(HashFunction func, String[] asciiAnswers, String[] hexAnswers) {
 		assertEquals(ASCII_MESSAGES.length, asciiAnswers.length);

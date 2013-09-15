@@ -70,11 +70,4 @@ public final class TigerTest extends CryptoHashFunctionTest {
 			testAscii(Tiger.TIGER2_FUNCTION, tc[0], tc[1]);
 	}
 	
-	
-	@Test
-	public void testZeroize() {
-		testZeroization(Tiger.TIGER_FUNCTION);
-		testZeroization(Tiger.TIGER2_FUNCTION);
-	}
-	
 }

@@ -47,13 +47,6 @@ public final class Edonkey2000Test extends CryptoHashFunctionTest {
 	}
 	
 	
-	@Test
-	public void testZeroize() {
-		testZeroization(Edonkey2000.ED2K_FUNCTION);
-		testZeroization(Edonkey2000.NEW_ED2K_FUNCTION);
-	}
-	
-	
 	
 	private static void test(HashFunction hashFunc, int length, String expectedHash) {
 		byte[] actualHash = getHashOfZeros(hashFunc, length).toBytes();

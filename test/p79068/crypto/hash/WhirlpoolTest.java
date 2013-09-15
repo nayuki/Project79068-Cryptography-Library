@@ -45,12 +45,4 @@ public final class WhirlpoolTest extends CryptoHashFunctionTest {
 		testAscii(Whirlpool.WHIRLPOOL_FUNCTION, msg2, "C27BA124205F72E6847F3E19834F925CC666D0974167AF915BB462420ED40CC50900D85A1F923219D832357750492D5C143011A76988344C2635E69D06F2D38C");
 	}
 	
-	
-	@Test
-	public void testZeroize() {
-		testZeroization(Whirlpool.WHIRLPOOL0_FUNCTION);
-		testZeroization(Whirlpool.WHIRLPOOL_T_FUNCTION);
-		testZeroization(Whirlpool.WHIRLPOOL_FUNCTION);
-	}
-	
 }

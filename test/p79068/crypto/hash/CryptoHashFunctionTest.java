@@ -1,6 +1,10 @@
 package p79068.crypto.hash;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+
+import org.junit.Test;
+
 import p79068.crypto.Zeroizable;
 import p79068.hash.HashFunction;
 import p79068.hash.HashFunctionTest;
@@ -9,19 +13,21 @@ import p79068.hash.Hasher;
 
 public abstract class CryptoHashFunctionTest extends HashFunctionTest {
 	
-	public static void testZeroization(HashFunction hashFunc) {
-		Hasher hasher = hashFunc.newHasher();
-		hasher.update(new byte[200]);
-		if (!(hasher instanceof Zeroizable))
-			fail();
-		else {
+	@Test
+	public void testZeroization() {
+		for (HashFunction hf : getHashFunctionsToTest()) {
+			Hasher hasher = hf.newHasher();
+			hasher.update(new byte[200]);
+			
+			assertTrue(hasher instanceof Zeroizable);
+			Zeroizable zh = (Zeroizable)hasher;
 			try {
-				((Zeroizable)hasher).zeroize();
+				zh.zeroize();
 			} catch (IllegalStateException e) {
 				fail();
 			}
 			try {
-				((Zeroizable)hasher).zeroize();
+				zh.zeroize();
 				fail();
 			} catch (IllegalStateException e) {}  // Pass
 		}

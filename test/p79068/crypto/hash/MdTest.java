@@ -73,12 +73,4 @@ public final class MdTest extends CryptoHashFunctionTest {
 			testAscii(Md.MD5_FUNCTION, tc[0], tc[1]);
 	}
 	
-	
-	@Test
-	public void testZeroize() {
-		testZeroization(Md.MD2_FUNCTION);
-		testZeroization(Md.MD4_FUNCTION);
-		testZeroization(Md.MD5_FUNCTION);
-	}
-	
 }

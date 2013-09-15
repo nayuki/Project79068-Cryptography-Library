@@ -130,15 +130,4 @@ public final class ShaTest extends CryptoHashFunctionTest {
 			testAscii(Sha.SHA512_FUNCTION, tc[0], tc[1]);
 	}
 	
-	
-	@Test
-	public void testZeroize() {
-		testZeroization(Sha.SHA_FUNCTION);
-		testZeroization(Sha.SHA1_FUNCTION);
-		testZeroization(Sha.SHA224_FUNCTION);
-		testZeroization(Sha.SHA256_FUNCTION);
-		testZeroization(Sha.SHA384_FUNCTION);
-		testZeroization(Sha.SHA512_FUNCTION);
-	}
-	
 }
