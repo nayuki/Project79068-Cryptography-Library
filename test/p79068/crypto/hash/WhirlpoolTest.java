@@ -2,8 +2,19 @@ package p79068.crypto.hash;
 
 import org.junit.Test;
 
+import p79068.hash.HashFunction;
+
 
 public final class WhirlpoolTest extends CryptoHashFunctionTest {
+	
+	protected HashFunction[] getHashFunctionsToTest() {
+		return new HashFunction[] {
+			Whirlpool.WHIRLPOOL0_FUNCTION,
+			Whirlpool.WHIRLPOOL_T_FUNCTION,
+			Whirlpool.WHIRLPOOL_FUNCTION,
+		};
+	}
+	
 	
 	private static final String msg0 = "";
 	private static final String msg1 = "The quick brown fox jumps over the lazy dog";

@@ -12,6 +12,11 @@ public final class CrcTest extends HashFunctionTest {
 	private static Random random = Random.DEFAULT;
 	
 	
+	protected HashFunction[] getHashFunctionsToTest() {
+		return new HashFunction[] { Crc.CRC32_FUNCTION };
+	}
+	
+	
 	@Test
 	public void testCrc32() {
 		testAscii(Crc.CRC32_FUNCTION, "", "00000000");

@@ -5,6 +5,11 @@ import org.junit.Test;
 
 public final class Adler32Test extends HashFunctionTest {
 	
+	protected HashFunction[] getHashFunctionsToTest() {
+		return new HashFunction[] { Adler32.FUNCTION };
+	}
+	
+	
 	@Test
 	public void testAdler32() {
 		testAscii(Adler32.FUNCTION, "", "00000001");

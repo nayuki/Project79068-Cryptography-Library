@@ -2,8 +2,19 @@ package p79068.crypto.hash;
 
 import org.junit.Test;
 
+import p79068.hash.HashFunction;
+
 
 public final class MdTest extends CryptoHashFunctionTest {
+	
+	protected HashFunction[] getHashFunctionsToTest() {
+		return new HashFunction[] {
+			Md.MD2_FUNCTION,
+			Md.MD4_FUNCTION,
+			Md.MD5_FUNCTION,
+		};
+	}
+	
 	
 	private static final String msg0 = "";
 	private static final String msg1 = "a";

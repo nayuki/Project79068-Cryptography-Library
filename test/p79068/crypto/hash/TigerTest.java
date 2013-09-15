@@ -4,8 +4,18 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
+import p79068.hash.HashFunction;
+
 
 public final class TigerTest extends CryptoHashFunctionTest {
+	
+	protected HashFunction[] getHashFunctionsToTest() {
+		return new HashFunction[] {
+			Tiger.TIGER_FUNCTION,
+			Tiger.TIGER2_FUNCTION,
+		};
+	}
+	
 	
 	private static String msg0 = "";
 	private static String msg1 = "a";

@@ -7,6 +7,11 @@ import org.junit.Test;
 
 public final class Sum32Test extends HashFunctionTest {
 	
+	protected HashFunction[] getHashFunctionsToTest() {
+		return new HashFunction[] { Sum32.FUNCTION };
+	}
+	
+	
 	@Test
 	public void testSum32() {
 		testAscii(Sum32.FUNCTION, "", "00000000");

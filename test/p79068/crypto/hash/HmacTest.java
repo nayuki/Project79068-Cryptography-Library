@@ -3,9 +3,18 @@ package p79068.crypto.hash;
 import static org.junit.Assert.assertArrayEquals;
 import org.junit.Test;
 import p79068.crypto.CryptoUtils;
+import p79068.hash.HashFunction;
 
 
 public final class HmacTest extends CryptoHashFunctionTest {
+	
+	protected HashFunction[] getHashFunctionsToTest() {
+		return new HashFunction[] {
+			new Hmac(Md.MD5_FUNCTION, new byte[0]),
+			new Hmac(Sha.SHA1_FUNCTION, new byte[0]),
+		};
+	}
+	
 	
 	private static final byte[] key0 = CryptoUtils.hexToBytes("0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b");
 	private static final byte[] key1 = CryptoUtils.hexToBytes("0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b");

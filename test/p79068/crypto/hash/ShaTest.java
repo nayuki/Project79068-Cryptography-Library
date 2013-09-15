@@ -4,8 +4,22 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
+import p79068.hash.HashFunction;
+
 
 public final class ShaTest extends CryptoHashFunctionTest {
+	
+	protected HashFunction[] getHashFunctionsToTest() {
+		return new HashFunction[] {
+			Sha.SHA_FUNCTION,
+			Sha.SHA1_FUNCTION,
+			Sha.SHA224_FUNCTION,
+			Sha.SHA256_FUNCTION,
+			Sha.SHA384_FUNCTION,
+			Sha.SHA512_FUNCTION,
+		};
+	}
+	
 	
 	private static String msg0 = "";
 	private static String msg1 = "a";

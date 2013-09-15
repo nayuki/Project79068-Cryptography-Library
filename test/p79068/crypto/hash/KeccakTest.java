@@ -9,6 +9,16 @@ import p79068.hash.HashFunction;
 
 public final class KeccakTest extends CryptoHashFunctionTest {
 	
+	protected HashFunction[] getHashFunctionsToTest() {
+		return new HashFunction[] {
+			Keccak.KECCAK_224_FUNCTION,
+			Keccak.KECCAK_256_FUNCTION,
+			Keccak.KECCAK_384_FUNCTION,
+			Keccak.KECCAK_512_FUNCTION,
+		};
+	}
+	
+	
 	private static String[] ASCII_MESSAGES = {
 		"",
 		"The quick brown fox jumps over the lazy dog",

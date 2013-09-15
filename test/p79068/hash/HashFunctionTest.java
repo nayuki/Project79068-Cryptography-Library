@@ -5,6 +5,9 @@ import static org.junit.Assert.assertArrayEquals;
 
 public abstract class HashFunctionTest {
 	
+	protected abstract HashFunction[] getHashFunctionsToTest();
+	
+	
 	/**
 	 * Tests the specified hash function with the specified message and expected hash. The message is a byte sequence expressed in ASCII. Non-ASCII characters are disallowed. The expected hash is a byte sequence expressed in hexadecimal.
 	 * @param hashFunc the hash function to test

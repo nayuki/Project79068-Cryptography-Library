@@ -5,6 +5,11 @@ import org.junit.Test;
 
 public final class Xor8Test extends HashFunctionTest {
 	
+	protected HashFunction[] getHashFunctionsToTest() {
+		return new HashFunction[] { Xor8.FUNCTION };
+	}
+	
+	
 	@Test
 	public void testXor8() {
 		testAscii(Xor8.FUNCTION, "", "00");

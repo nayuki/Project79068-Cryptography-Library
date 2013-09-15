@@ -10,6 +10,14 @@ import p79068.hash.Hasher;
 
 public final class Edonkey2000Test extends CryptoHashFunctionTest {
 	
+	protected HashFunction[] getHashFunctionsToTest() {
+		return new HashFunction[] {
+			Edonkey2000.FUNCTION,
+			NewEdonkey2000.FUNCTION,
+		};
+	}
+	
+	
 	private static final int BLOCK_LENGTH = 9728000;
 	
 	
