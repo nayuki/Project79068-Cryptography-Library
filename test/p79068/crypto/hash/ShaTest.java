@@ -5,7 +5,7 @@ import java.util.Arrays;
 import org.junit.Test;
 
 
-public final class ShaTest {
+public final class ShaTest extends CryptoHashFunctionTest {
 	
 	private static String msg0 = "";
 	private static String msg1 = "a";
@@ -36,7 +36,7 @@ public final class ShaTest {
 			{msg7, "3232AFFA48628A26653B5AAA44541FD90D690603"},
 		};
 		for (String[] tc : testCases)
-			HashUtils.testAscii(Sha.SHA_FUNCTION, tc[0], tc[1]);
+			testAscii(Sha.SHA_FUNCTION, tc[0], tc[1]);
 	}
 	
 	
@@ -52,7 +52,7 @@ public final class ShaTest {
 			{msg7, "34AA973CD4C4DAA4F61EEB2BDBAD27316534016F"},
 		};
 		for (String[] tc : testCases)
-			HashUtils.testAscii(Sha.SHA1_FUNCTION, tc[0], tc[1]);
+			testAscii(Sha.SHA1_FUNCTION, tc[0], tc[1]);
 	}
 	
 	
@@ -65,7 +65,7 @@ public final class ShaTest {
 			{msg7, "20794655980C91D8BBB4C1EA97618A4BF03F42581948B2EE4EE7AD67"},
 		};
 		for (String[] tc : testCases)
-			HashUtils.testAscii(Sha.SHA224_FUNCTION, tc[0], tc[1]);
+			testAscii(Sha.SHA224_FUNCTION, tc[0], tc[1]);
 	}
 	
 	
@@ -81,7 +81,7 @@ public final class ShaTest {
 			{msg7, "CDC76E5C9914FB9281A1C7E284D73E67F1809A48A497200E046D39CCC7112CD0"},
 		};
 		for (String[] tc : testCases)
-			HashUtils.testAscii(Sha.SHA256_FUNCTION, tc[0], tc[1]);
+			testAscii(Sha.SHA256_FUNCTION, tc[0], tc[1]);
 	}
 	
 	
@@ -97,7 +97,7 @@ public final class ShaTest {
 			{msg7, "9D0E1809716474CB086E834E310A4A1CED149E9C00F248527972CEC5704C2A5B07B8B3DC38ECC4EBAE97DDD87F3D8985"},
 		};
 		for (String[] tc : testCases)
-			HashUtils.testAscii(Sha.SHA384_FUNCTION, tc[0], tc[1]);
+			testAscii(Sha.SHA384_FUNCTION, tc[0], tc[1]);
 	}
 	
 	
@@ -113,18 +113,18 @@ public final class ShaTest {
 			{msg7, "E718483D0CE769644E2E42C7BC15B4638E1F98B13B2044285632A803AFA973EBDE0FF244877EA60A4CB0432CE577C31BEB009C5C2C49AA2E4EADB217AD8CC09B"},
 		};
 		for (String[] tc : testCases)
-			HashUtils.testAscii(Sha.SHA512_FUNCTION, tc[0], tc[1]);
+			testAscii(Sha.SHA512_FUNCTION, tc[0], tc[1]);
 	}
 	
 	
 	@Test
 	public void testZeroize() {
-		HashUtils.testZeroization(Sha.SHA_FUNCTION);
-		HashUtils.testZeroization(Sha.SHA1_FUNCTION);
-		HashUtils.testZeroization(Sha.SHA224_FUNCTION);
-		HashUtils.testZeroization(Sha.SHA256_FUNCTION);
-		HashUtils.testZeroization(Sha.SHA384_FUNCTION);
-		HashUtils.testZeroization(Sha.SHA512_FUNCTION);
+		testZeroization(Sha.SHA_FUNCTION);
+		testZeroization(Sha.SHA1_FUNCTION);
+		testZeroization(Sha.SHA224_FUNCTION);
+		testZeroization(Sha.SHA256_FUNCTION);
+		testZeroization(Sha.SHA384_FUNCTION);
+		testZeroization(Sha.SHA512_FUNCTION);
 	}
 	
 }

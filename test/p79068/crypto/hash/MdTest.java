@@ -3,7 +3,7 @@ package p79068.crypto.hash;
 import org.junit.Test;
 
 
-public final class MdTest {
+public final class MdTest extends CryptoHashFunctionTest {
 	
 	private static final String msg0 = "";
 	private static final String msg1 = "a";
@@ -27,7 +27,7 @@ public final class MdTest {
 			{msg6, "D5976F79D83D3A0DC9806C3C66F3EFD8"},
 		};
 		for (String[] tc : testCases)
-			HashUtils.testAscii(Md.MD2_FUNCTION, tc[0], tc[1]);
+			testAscii(Md.MD2_FUNCTION, tc[0], tc[1]);
 	}
 	
 	
@@ -43,7 +43,7 @@ public final class MdTest {
 			{msg6, "E33B4DDC9C38F2199C3E7B164FCC0536"},
 		};
 		for (String[] tc : testCases)
-			HashUtils.testAscii(Md.MD4_FUNCTION, tc[0], tc[1]);
+			testAscii(Md.MD4_FUNCTION, tc[0], tc[1]);
 	}
 	
 	
@@ -59,15 +59,15 @@ public final class MdTest {
 			{msg6, "57EDF4A22BE3C955AC49DA2E2107B67A"},
 		};
 		for (String[] tc : testCases)
-			HashUtils.testAscii(Md.MD5_FUNCTION, tc[0], tc[1]);
+			testAscii(Md.MD5_FUNCTION, tc[0], tc[1]);
 	}
 	
 	
 	@Test
 	public void testZeroize() {
-		HashUtils.testZeroization(Md.MD2_FUNCTION);
-		HashUtils.testZeroization(Md.MD4_FUNCTION);
-		HashUtils.testZeroization(Md.MD5_FUNCTION);
+		testZeroization(Md.MD2_FUNCTION);
+		testZeroization(Md.MD4_FUNCTION);
+		testZeroization(Md.MD5_FUNCTION);
 	}
 	
 }

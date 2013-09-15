@@ -8,7 +8,7 @@ import p79068.hash.HashValue;
 import p79068.hash.Hasher;
 
 
-public final class Edonkey2000Test {
+public final class Edonkey2000Test extends CryptoHashFunctionTest {
 	
 	private static final int BLOCK_LENGTH = 9728000;
 	
@@ -41,8 +41,8 @@ public final class Edonkey2000Test {
 	
 	@Test
 	public void testZeroize() {
-		HashUtils.testZeroization(Edonkey2000.FUNCTION);
-		HashUtils.testZeroization(NewEdonkey2000.FUNCTION);
+		testZeroization(Edonkey2000.FUNCTION);
+		testZeroization(NewEdonkey2000.FUNCTION);
 	}
 	
 	

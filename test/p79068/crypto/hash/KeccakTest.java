@@ -7,7 +7,7 @@ import org.junit.Test;
 import p79068.hash.HashFunction;
 
 
-public final class KeccakTest {
+public final class KeccakTest extends CryptoHashFunctionTest {
 	
 	private static String[] ASCII_MESSAGES = {
 		"",
@@ -118,10 +118,10 @@ public final class KeccakTest {
 	
 	@Test
 	public void testZeroize() {
-		HashUtils.testZeroization(Keccak.KECCAK_224_FUNCTION);
-		HashUtils.testZeroization(Keccak.KECCAK_256_FUNCTION);
-		HashUtils.testZeroization(Keccak.KECCAK_384_FUNCTION);
-		HashUtils.testZeroization(Keccak.KECCAK_512_FUNCTION);
+		testZeroization(Keccak.KECCAK_224_FUNCTION);
+		testZeroization(Keccak.KECCAK_256_FUNCTION);
+		testZeroization(Keccak.KECCAK_384_FUNCTION);
+		testZeroization(Keccak.KECCAK_512_FUNCTION);
 	}
 	
 	
@@ -130,9 +130,9 @@ public final class KeccakTest {
 		assertEquals(ASCII_MESSAGES.length, asciiAnswers.length);
 		assertEquals(HEX_MESSAGES.length, hexAnswers.length);
 		for (int i = 0; i < ASCII_MESSAGES.length; i++)
-			HashUtils.testAscii(func, ASCII_MESSAGES[i], asciiAnswers[i]);
+			testAscii(func, ASCII_MESSAGES[i], asciiAnswers[i]);
 		for (int i = 0; i < HEX_MESSAGES.length; i++)
-			HashUtils.testHex(func, HEX_MESSAGES[i], hexAnswers[i]);
+			testHex(func, HEX_MESSAGES[i], hexAnswers[i]);
 	}
 	
 }

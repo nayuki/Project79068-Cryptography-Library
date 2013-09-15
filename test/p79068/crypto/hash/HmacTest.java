@@ -5,7 +5,7 @@ import org.junit.Test;
 import p79068.crypto.CryptoUtils;
 
 
-public final class HmacTest {
+public final class HmacTest extends CryptoHashFunctionTest {
 	
 	private static final byte[] key0 = CryptoUtils.hexToBytes("0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b");
 	private static final byte[] key1 = CryptoUtils.hexToBytes("0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b");

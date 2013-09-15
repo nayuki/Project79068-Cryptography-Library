@@ -5,7 +5,7 @@ import java.util.Arrays;
 import org.junit.Test;
 
 
-public final class TigerTest {
+public final class TigerTest extends CryptoHashFunctionTest {
 	
 	private static String msg0 = "";
 	private static String msg1 = "a";
@@ -39,7 +39,7 @@ public final class TigerTest {
 			{msg8, "6DB0E2729CBEAD93D715C6A7D36302E9B3CEE0D2BC314B41"},
 		};
 		for (String[] tc : testCases)
-			HashUtils.testAscii(Tiger.TIGER_FUNCTION, tc[0], tc[1]);
+			testAscii(Tiger.TIGER_FUNCTION, tc[0], tc[1]);
 	}
 	
 	
@@ -57,14 +57,14 @@ public final class TigerTest {
 			{msg8, "E068281F060F551628CC5715B9D0226796914D45F7717CF4"},
 		};
 		for (String[] tc : testCases)
-			HashUtils.testAscii(Tiger.TIGER2_FUNCTION, tc[0], tc[1]);
+			testAscii(Tiger.TIGER2_FUNCTION, tc[0], tc[1]);
 	}
 	
 	
 	@Test
 	public void testZeroize() {
-		HashUtils.testZeroization(Tiger.TIGER_FUNCTION);
-		HashUtils.testZeroization(Tiger.TIGER2_FUNCTION);
+		testZeroization(Tiger.TIGER_FUNCTION);
+		testZeroization(Tiger.TIGER2_FUNCTION);
 	}
 	
 }
