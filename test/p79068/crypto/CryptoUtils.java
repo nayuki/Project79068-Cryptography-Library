@@ -43,11 +43,12 @@ public final class CryptoUtils {
 	public static byte[] hexToBytes(String s) {
 		if (s.length() % 2 != 0)
 			throw new IllegalArgumentException();
+		
 		byte[] b = new byte[s.length() / 2];
-		for (int i = 0; i < b.length; i++) {
-			if (s.charAt(i * 2) == '-')
+		for (int i = 0; i < s.length(); i += 2) {
+			if (s.charAt(i) == '-')
 				throw new IllegalArgumentException();
-			b[i] = (byte)Integer.parseInt(s.substring(i * 2, (i + 1) * 2), 16);
+			b[i / 2] = (byte)Integer.parseInt(s.substring(i, i + 2), 16);
 		}
 		return b;
 	}
@@ -55,10 +56,8 @@ public final class CryptoUtils {
 	
 	public static String bytesToHex(byte[] b) {
 		StringBuffer sb = new StringBuffer();
-		for (int i = 0; i < b.length; i++) {
-			sb.append(Integer.toString((b[i] >>> 4) & 0xF, 16));
-			sb.append(Integer.toString((b[i] >>> 0) & 0xF, 16));
-		}
+		for (byte x : b)
+			sb.append(String.format("%02X", x & 0xFF));
 		return sb.toString();
 	}
 	
@@ -67,9 +66,10 @@ public final class CryptoUtils {
 		byte[] b = new byte[s.length()];
 		for (int i = 0; i < b.length; i++) {
 			char c = s.charAt(i);
-			if (c >= 0x80)
-				c = '?';
-			b[i] = (byte)c;
+			if (c < 0x80)
+				b[i] = (byte)c;
+			else
+				throw new IllegalArgumentException();
 		}
 		return b;
 	}
@@ -81,7 +81,7 @@ public final class CryptoUtils {
 			if (b[i] >= 0)  // Test if b[i] is in [0, 128)
 				sb.append((char)(b[i] & 0xFF));
 			else
-				sb.append('?');
+				throw new IllegalArgumentException();
 		}
 		return sb.toString();
 	}
