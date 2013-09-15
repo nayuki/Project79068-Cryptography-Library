@@ -1,10 +1,9 @@
 package p79068.hash;
 
 import org.junit.Test;
-import static p79068.hash.HashUtils.testAscii;
 
 
-public final class Xor8Test {
+public final class Xor8Test extends HashFunctionTest {
 	
 	@Test
 	public void testXor8() {

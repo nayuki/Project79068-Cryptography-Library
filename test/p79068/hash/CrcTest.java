@@ -1,15 +1,13 @@
 package p79068.hash;
 
 import static org.junit.Assert.assertFalse;
-import static p79068.hash.HashUtils.testAscii;
-import static p79068.hash.HashUtils.testHex;
 
 import org.junit.Test;
 
 import p79068.util.random.Random;
 
 
-public final class CrcTest {
+public final class CrcTest extends HashFunctionTest {
 	
 	private static Random random = Random.DEFAULT;
 	

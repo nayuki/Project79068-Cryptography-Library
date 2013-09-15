@@ -1,11 +1,9 @@
 package p79068.hash;
 
 import org.junit.Test;
-import static p79068.hash.HashUtils.testAscii;
-import static p79068.hash.HashUtils.testHex;
 
 
-public final class Adler32Test {
+public final class Adler32Test extends HashFunctionTest {
 	
 	@Test
 	public void testAdler32() {

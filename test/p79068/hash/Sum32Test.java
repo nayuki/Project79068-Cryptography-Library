@@ -1,11 +1,11 @@
 package p79068.hash;
 
 import java.util.Arrays;
+
 import org.junit.Test;
-import static p79068.hash.HashUtils.testAscii;
 
 
-public final class Sum32Test {
+public final class Sum32Test extends HashFunctionTest {
 	
 	@Test
 	public void testSum32() {

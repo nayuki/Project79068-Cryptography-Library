@@ -3,7 +3,7 @@ package p79068.hash;
 import static org.junit.Assert.assertArrayEquals;
 
 
-public final class HashUtils {
+public abstract class HashFunctionTest {
 	
 	/**
 	 * Tests the specified hash function with the specified message and expected hash. The message is a byte sequence expressed in ASCII. Non-ASCII characters are disallowed. The expected hash is a byte sequence expressed in hexadecimal.
@@ -53,9 +53,5 @@ public final class HashUtils {
 		}
 		return b;
 	}
-	
-	
-	
-	private HashUtils() {}
 	
 }
