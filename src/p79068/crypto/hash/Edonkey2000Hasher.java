@@ -15,8 +15,10 @@ final class Edonkey2000Hasher extends AbstractHasher implements Zeroizable {
 	private static final int BLOCK_LENGTH = 9728000;
 	
 	
+	private final boolean newEd2kMode;
+	
 	/**
-	 * The outer hasher, which hashes the hash values of individual blocks. This is {@code null} if and only if the total number of bytes hashed is less than {@code BLOCK_LENGTH}.
+	 * The outer hasher, which hashes the hash values of individual blocks. For the old algorithm, this is {@code null} if and only if the total number of bytes hashed is less than {@code BLOCK_LENGTH}. For the new algorithm, this is null iff the total bytes is less than or equal to {@code BLOCK_LENGTH}.
 	 */
 	private Hasher outerHasher;
 	
@@ -26,14 +28,15 @@ final class Edonkey2000Hasher extends AbstractHasher implements Zeroizable {
 	private Hasher innerHasher;
 	
 	/**
-	 * The number of bytes hashed in the current block. This is in the range [{@code 0}, {@code BLOCK_LENGTH}) initially and after each {@code update()} operation.
+	 * The number of bytes hashed in the current block. For the old algorithm, this is in the range [{@code 0}, {@code BLOCK_LENGTH}) initially and after each {@code update()} operation. For the new algorithm, this is {@code 0} initially, but after a non-empty {@code update()} it is in the range ({@code 0}, {@code BLOCK_LENGTH}] after each {@code update()} operation.
 	 */
 	private int currentBlockLength;
 	
 	
 	
-	public Edonkey2000Hasher(Edonkey2000 hashFunc) {
+	public Edonkey2000Hasher(Edonkey2000 hashFunc, boolean newEd2kMode) {
 		super(hashFunc);
+		this.newEd2kMode = newEd2kMode;
 		outerHasher = null;
 		innerHasher = Md.MD4_FUNCTION.newHasher();
 		currentBlockLength = 0;
@@ -45,9 +48,13 @@ final class Edonkey2000Hasher extends AbstractHasher implements Zeroizable {
 	public void update(byte b) {
 		if (hashFunction == null)
 			throw new IllegalStateException("Already zeroized");
+		
+		if (newEd2kMode)
+			nextBlock();
 		innerHasher.update(b);
 		currentBlockLength++;
-		nextBlock();
+		if (!newEd2kMode)
+			nextBlock();
 	}
 	
 	
@@ -58,13 +65,17 @@ final class Edonkey2000Hasher extends AbstractHasher implements Zeroizable {
 		Assert.assertRangeInBounds(b.length, off, len);
 		
 		while (len > 0) {
-			// At this point, currentBlockLength is in the range [0, BLOCK_LENGTH)
+			// Old algorithm: At this point, currentBlockLength is in the range [0, BLOCK_LENGTH)
+			// New algorithm: At this point, currentBlockLength is 0 if the total length hashed is 0; otherwise currentBlockLength is in the range (0, BLOCK_LENGTH]
+			if (newEd2kMode)
+				nextBlock();
 			int templen = Math.min(BLOCK_LENGTH - currentBlockLength, len);
 			innerHasher.update(b, off, templen);
 			off += templen;
 			len -= templen;
 			currentBlockLength += templen;
-			nextBlock();
+			if (!newEd2kMode)
+				nextBlock();
 		}
 	}
 	
@@ -78,7 +89,10 @@ final class Edonkey2000Hasher extends AbstractHasher implements Zeroizable {
 			return innerHasher.getHash();
 		else {
 			Hasher temp = outerHasher.clone();
-			temp.update(innerHasher.getHash().toBytes());  // Add the hash of the current block, which has 0 or more bytes hashed
+			// Add the hash of the current block.
+			// Old algorithm: The block has 0 or more bytes hashed
+			// New algorithm: The block has more than 0 bytes hashed
+			temp.update(innerHasher.getHash().toBytes());
 			return temp.getHash();
 		}
 	}
