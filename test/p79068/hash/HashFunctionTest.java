@@ -63,6 +63,41 @@ public abstract class HashFunctionTest {
 	}
 	
 	
+	// Always passes. Prints result to standard output.
+	@Test
+	public void testHashSpeed() {
+		for (HashFunction hf : getHashFunctionsToTest()) {
+			// Warm up the JIT compiler, and try to target about 1 second of execution time
+			int len = 1;
+			long startTime = System.nanoTime();
+			do {
+				testHashSpeed(hf, len);
+				if (len <= Integer.MAX_VALUE / 2)
+					len *= 2;
+			} while (System.nanoTime() - startTime < 1000000000);
+			
+			startTime = System.nanoTime();
+			testHashSpeed(hf, len);
+			System.out.printf("%s: %.2f MiB/s%n", hf.getName(), len / ((System.nanoTime() - startTime) / 1.0e9) / 1048576);
+		}
+	}
+	
+	
+	private static void testHashSpeed(HashFunction hf, int len) {
+		if (len < (1 << 18))
+			hf.getHash(new byte[len]);
+		else {
+			Hasher h = hf.newHasher();
+			byte[] buf = new byte[1 << 18];
+			while (len > 0) {
+				int n = Math.min(buf.length, len);
+				h.update(buf, 0, n);
+				len -= n;
+			}
+		}
+	}
+	
+	
 	/**
 	 * Tests the specified hash function with the specified message and expected hash. The message is a byte sequence expressed in ASCII. Non-ASCII characters are disallowed. The expected hash is a byte sequence expressed in hexadecimal.
 	 * @param hashFunc the hash function to test
