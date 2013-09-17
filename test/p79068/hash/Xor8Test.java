@@ -12,16 +12,17 @@ public final class Xor8Test extends HashFunctionTest {
 	
 	@Test
 	public void testXor8() {
-		testAscii(Xor8.FUNCTION, "", "00");
-		testAscii(Xor8.FUNCTION, "A", "41");
-		testAscii(Xor8.FUNCTION, "AA", "00");
-		testAscii(Xor8.FUNCTION, "asdf", "10");
-		testAscii(Xor8.FUNCTION, "fsda", "10");
-		testAscii(Xor8.FUNCTION, "The", "59");
-		testAscii(Xor8.FUNCTION, "tEh", "59");
-		testAscii(Xor8.FUNCTION, "ac", "02");
-		testAscii(Xor8.FUNCTION, "abbc", "02");
-		testAscii(Xor8.FUNCTION, "abbbbc", "02");
+		HashFunction hf = Xor8.FUNCTION;
+		testAscii(hf, ""      , "00");
+		testAscii(hf, "A"     , "41");
+		testAscii(hf, "AA"    , "00");
+		testAscii(hf, "asdf"  , "10");
+		testAscii(hf, "fsda"  , "10");
+		testAscii(hf, "The"   , "59");
+		testAscii(hf, "tEh"   , "59");
+		testAscii(hf, "ac"    , "02");
+		testAscii(hf, "abbc"  , "02");
+		testAscii(hf, "abbbbc", "02");
 	}
 	
 }
