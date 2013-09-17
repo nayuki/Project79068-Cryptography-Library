@@ -4,19 +4,7 @@ import p79068.Assert;
 
 
 /**
- * Incrementally computes the hash value of a byte sequence.
- * <p>Mutability: <em>Mutable</em><br>
- * Thread safety: <em>Unsafe</em> unless otherwise specified<br>
- * Instantiability: Via {@link HashFunction#newHasher()}</p>
- * <p>Usage example:</p>
- * <pre>Hasher hasher = Md.MD5_FUNCTION.newHasher();
-while (<i>isDataAvailable</i>()) {
-  byte[] b = <i>readSomeMore</i>();
-  hasher.update(b);
-}
-byte[] hash = hasher.getHash().toBytes();</pre>
- * @see HashFunction
- * @see HashValue
+ * A skeletal implementation of the {@link Hasher} interface for convenience.
  */
 public abstract class AbstractHasher implements Hasher, Cloneable {
 	
@@ -29,18 +17,18 @@ public abstract class AbstractHasher implements Hasher, Cloneable {
 	
 	/**
 	 * Creates a hasher set to the specified hash function.
-	 * @param hashFunc the hash function associated with this hasher
+	 * @param hf the hash function associated with this hasher
 	 * @throws NullPointerException if {@code hashFunc} is {@code null}
 	 */
-	protected AbstractHasher(HashFunction hashFunc) {
-		Assert.assertNotNull(hashFunc);
-		hashFunction = hashFunc;
+	protected AbstractHasher(HashFunction hf) {
+		Assert.assertNotNull(hf);
+		hashFunction = hf;
 	}
 	
 	
 	
 	/**
-	 * Updates the current state with the specified byte.
+	 * Updates the current state with the specified byte. The provided implementation relies on {@link #update(byte[])}.
 	 * @param b the byte to update the state with
 	 */
 	public void update(byte b) {
@@ -49,9 +37,9 @@ public abstract class AbstractHasher implements Hasher, Cloneable {
 	
 	
 	/**
-	 * Updates the current state with the specified byte array.
-	 * @throws NullPointerException if {@code b} is {@code null}
+	 * Updates the current state with the specified byte array. The provided implementation relies on {@link #update(byte[], int, int)}.
 	 * @param b the byte array to update the state with
+	 * @throws NullPointerException if {@code b} is {@code null}
 	 */
 	public void update(byte[] b) {
 		Assert.assertNotNull(b);
@@ -61,10 +49,10 @@ public abstract class AbstractHasher implements Hasher, Cloneable {
 	
 	/**
 	 * Updates the current state with the specified byte array.
-	 * @throws NullPointerException if {@code b} is {@code null}
 	 * @param b the byte array to update the state with
 	 * @param off the offset into {@code b}
 	 * @param len the length of the subrange in {@code b}
+	 * @throws NullPointerException if {@code b} is {@code null}
 	 */
 	public abstract void update(byte[] b, int off, int len);
 	
@@ -101,7 +89,7 @@ public abstract class AbstractHasher implements Hasher, Cloneable {
 	
 	
 	/**
-	 * Returns a string representation of this hasher. Currently, the hash function's name and the hash value is returned. The format is subjected to change.
+	 * Returns a string representation of this hasher. Currently, the hash function's name and the hash value is returned. The string format is subjected to change.
 	 * @return a string representation of this hasher
 	 */
 	@Override

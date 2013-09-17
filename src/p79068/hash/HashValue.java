@@ -7,6 +7,7 @@ import p79068.Assert;
 
 /**
  * Represents a hash value produced by a hash function. Immutable.
+ * If the hash function produces a hash value whose length is not a multiple of 8 bits, then the hash function needs to specify the bit packing order.
  * @see HashFunction
  * @see Hasher
  */
@@ -32,8 +33,8 @@ public final class HashValue implements Comparable<HashValue> {
 	
 	
 	/**
-	 * Returns this hash value as an array of bytes.
-	 * @return this hash value as an array of bytes
+	 * Returns this hash value as a new array of bytes.
+	 * @return this hash value as a new array of bytes
 	 */
 	public byte[] toBytes() {
 		return hashValue.clone();
@@ -41,14 +42,14 @@ public final class HashValue implements Comparable<HashValue> {
 	
 	
 	/**
-	 * Returns this hash value as a hexadecimal string (in uppercase). For example, {@code "1337C0DE"}.
-	 * @return this hash value as a hexadecimal string
+	 * Returns this hash value as an uppercase hexadecimal string. For example, {@code "1337C0DE"}.
+	 * @return this hash value as an uppercase hexadecimal string
 	 */
 	public String toHexString() {
 		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < hashValue.length; i++) {
-			sb.append(hexDigits[(hashValue[i] >>> 4) & 0xF])
-			  .append(hexDigits[(hashValue[i] >>> 0) & 0xF]);
+		for (byte b : hashValue) {
+			sb.append(HEX_DIGITS[(b >>> 4) & 0xF]);
+			sb.append(HEX_DIGITS[(b >>> 0) & 0xF]);
 		}
 		return sb.toString();
 	}
@@ -121,6 +122,6 @@ public final class HashValue implements Comparable<HashValue> {
 	
 	
 	
-	private static final char[] hexDigits = "0123456789ABCDEF".toCharArray();
+	private static final char[] HEX_DIGITS = "0123456789ABCDEF".toCharArray();
 	
 }

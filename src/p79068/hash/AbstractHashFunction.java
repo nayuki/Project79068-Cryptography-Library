@@ -9,29 +9,16 @@ import p79068.Assert;
 
 
 /**
- * Computes the hash value of byte sequences and produces {@link Hasher Hashers}.
- * <p>Mutability: <em>Immutable</em> unless otherwise noted</p>
- * <p>Example - one-shot hashing:</p>
- * <pre>byte[] b = <i>getWholeMessage</i>();
- *byte[] hash = Sha1.FUNCTION.getHash(b).toBytes();</pre>
- * <p>Example - incremental hashing:</p>
- * <pre>Hasher hasher = Crc.CRC32_FUNCTION.newHasher();
- *while (<i>more data available</i>) {
- *  byte[] b = <i>readSomeMore</i>();
- *  hasher.update(b);
- *}
- *String hash = hasher.getHash().toHexString();</pre>
- * <p>Although some hash function can operate on messages of bits rather than bytes, this is not supported at the moment.</p>
- * @see Hasher
- * @see HashValue
+ * A skeletal implementation of the {@link HashFunction} interface for convenience.
  */
 public abstract class AbstractHashFunction implements HashFunction {
+	
+	// Fields
 	
 	/**
 	 * The name of this hash function.
 	 */
 	private final String name;
-	
 	
 	/**
 	 * The length of the hash values produced by this hash function, in bytes.
@@ -40,6 +27,13 @@ public abstract class AbstractHashFunction implements HashFunction {
 	
 	
 	
+	// Constructor
+	
+	/**
+	 * Constructs a hash function with the specified name and output hash length (in bytes).
+	 * @param name the name of this hash function
+	 * @param hashLen the output hash length of this hash function, in bytes
+	 */
 	protected AbstractHashFunction(String name, int hashLen) {
 		this.name = name;
 		hashLength = hashLen;
@@ -70,7 +64,10 @@ public abstract class AbstractHashFunction implements HashFunction {
 	// Concrete non-final methods
 	
 	/**
-	 * Computes and returns the hash value of the specified byte array.
+	 * Computes and returns the hash value of the specified byte array. The provided implementation relies on {@link #getHash(byte[], int, int)}.
+	 * @param b the byte array to hash
+	 * @return the hash value of the specified byte array
+	 * @throws NullPointerException if {@code b} is {@code null}
 	 */
 	public HashValue getHash(byte[] b) {
 		Assert.assertNotNull(b);
@@ -80,6 +77,11 @@ public abstract class AbstractHashFunction implements HashFunction {
 	
 	/**
 	 * Computes and returns the hash value of the specified byte array.
+	 * @param b the byte array to hash
+	 * @param off the offset into {@code b}
+	 * @param len the length of the subrange in {@code b}
+	 * @return the hash value of the specified byte array range
+	 * @throws NullPointerException if {@code b} is {@code null}
 	 */
 	public HashValue getHash(byte[] b, int off, int len) {
 		Assert.assertNotNull(b);
@@ -91,18 +93,22 @@ public abstract class AbstractHashFunction implements HashFunction {
 	
 	/**
 	 * Computes and returns the hash value of the specified file.
+	 * @param file the file to hash
+	 * @return the hash value of the specified file
+	 * @throws IOException if an I/O exception occurs
+	 * @throws NullPointerException if {@code file} is {@code null}
 	 */
 	public HashValue getHash(File file) throws IOException {
 		Assert.assertNotNull(file);
 		Hasher hasher = newHasher();
 		InputStream in = new FileInputStream(file);
 		try {
-			byte[] b = new byte[32 * 1024];
+			byte[] buf = new byte[32 * 1024];
 			while (true) {
-				int temp = in.read(b);
-				if (temp == -1)
+				int n = in.read(buf);
+				if (n == -1)
 					break;
-				hasher.update(b, 0, temp);
+				hasher.update(buf, 0, n);
 			}
 		} finally {
 			in.close();
@@ -112,7 +118,7 @@ public abstract class AbstractHashFunction implements HashFunction {
 	
 	
 	/**
-	 * Returns a string representation of this hash function. Currently, it returns the name of the hash function. This is subjected to change.
+	 * Returns a string representation of this hash function. Currently, it returns the name of the hash function. The string format is subjected to change.
 	 * @return a string representation of this hash function
 	 */
 	@Override
