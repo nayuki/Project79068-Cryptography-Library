@@ -5,7 +5,7 @@ import p79068.Assert;
 
 final class ZeroHasher extends AbstractHasher {
 	
-	ZeroHasher(ZeroFunction hashFunc) {
+	ZeroHasher(ZeroHash hashFunc) {
 		super(hashFunc);
 	}
 	
