@@ -14,7 +14,6 @@ public final class Tea extends AbstractCipher implements BlockCipher {
 	 */
 	public static final Tea TEA_CIPHER = new Tea("TEA");
 	
-	
 	/**
 	 * The XTEA cipher algorithm, a revision of TEA. {@code name = "XTEA", blockLength = 8, keyLength = 16}.
 	 */
@@ -32,8 +31,10 @@ public final class Tea extends AbstractCipher implements BlockCipher {
 	protected Cipherer newCiphererUnchecked(byte[] key) {
 		if (this == TEA_CIPHER)
 			return new TeaCipherer(this, key);
-		else
+		else if (this == XTEA_CIPHER)
 			return new XteaCipherer(this, key);
+		else
+			throw new AssertionError();
 	}
 	
 }

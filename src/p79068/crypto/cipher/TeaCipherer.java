@@ -1,14 +1,10 @@
-/* 
- * Operates natively on 32-bit integers. For bytes, big-endian serialization is assumed.
- */
-
-
 package p79068.crypto.cipher;
 
 import p79068.Assert;
 import p79068.crypto.Zeroizer;
 
 
+// The cipher's specification operates on 32-bit integers. For byte inputs, big-endian serialization is implemented.
 final class TeaCipherer extends AbstractCipherer {
 	
 	private int[] int32Key;
@@ -18,12 +14,8 @@ final class TeaCipherer extends AbstractCipherer {
 	TeaCipherer(Tea cipher, byte[] key) {
 		super(cipher, key);
 		int32Key = new int[4];
-		for (int i = 0; i < int32Key.length; i++) {
-			int32Key[i] = (key[i * 4 + 0] & 0xFF) << 24
-			            | (key[i * 4 + 1] & 0xFF) << 16
-			            | (key[i * 4 + 2] & 0xFF) <<  8
-			            | (key[i * 4 + 3] & 0xFF) <<  0;
-		}
+		for (int i = 0; i < key.length; i++)
+			int32Key[i / 4] |= (key[i] & 0xFF) << ((3 - i % 4) * 8);
 	}
 	
 	
@@ -45,30 +37,24 @@ final class TeaCipherer extends AbstractCipherer {
 		for (int end = off + len; off < end; off += 8) {
 			
 			// Pack bytes into int32s in big endian
-			int y = (b[off + 0] & 0xFF) << 24
-			      | (b[off + 1] & 0xFF) << 16
-			      | (b[off + 2] & 0xFF) <<  8
-			      | (b[off + 3] & 0xFF) <<  0;
-			int z = (b[off + 4] & 0xFF) << 24
-			      | (b[off + 5] & 0xFF) << 16
-			      | (b[off + 6] & 0xFF) <<  8
-			      | (b[off + 7] & 0xFF) <<  0;
+			int y = b[off    ] << 24 | (b[off + 1] & 0xFF) << 16 | (b[off + 2] & 0xFF) << 8 | (b[off + 3] & 0xFF);
+			int z = b[off + 4] << 24 | (b[off + 5] & 0xFF) << 16 | (b[off + 6] & 0xFF) << 8 | (b[off + 7] & 0xFF);
 			
 			// The 32 rounds
-			for (int i = 0, sum = 0x9E3779B9; i < 32; i++, sum += 0x9E3779B9) {
+			for (int sum = 0x9E3779B9; sum != 0x6526B0D9; sum += 0x9E3779B9) {
 				y += ((z << 4) + k0) ^ (z + sum) ^ ((z >>> 5) + k1);
 				z += ((y << 4) + k2) ^ (y + sum) ^ ((y >>> 5) + k3);
 			}
 			
 			// Unpack int32s into bytes in big endian
-			b[off + 0] = (byte)(y >>> 24);
+			b[off    ] = (byte)(y >>> 24);
 			b[off + 1] = (byte)(y >>> 16);
 			b[off + 2] = (byte)(y >>>  8);
-			b[off + 3] = (byte)(y >>>  0);
+			b[off + 3] = (byte)y;
 			b[off + 4] = (byte)(z >>> 24);
 			b[off + 5] = (byte)(z >>> 16);
 			b[off + 6] = (byte)(z >>>  8);
-			b[off + 7] = (byte)(z >>>  0);
+			b[off + 7] = (byte)z;
 		}
 	}
 	
@@ -90,30 +76,24 @@ final class TeaCipherer extends AbstractCipherer {
 		for (int end = off + len; off < end; off += 8) {
 			
 			// Pack bytes into int32s in big endian
-			int y = (b[off + 0] & 0xFF) << 24
-			      | (b[off + 1] & 0xFF) << 16
-			      | (b[off + 2] & 0xFF) <<  8
-			      | (b[off + 3] & 0xFF) <<  0;
-			int z = (b[off + 4] & 0xFF) << 24
-			      | (b[off + 5] & 0xFF) << 16
-			      | (b[off + 6] & 0xFF) <<  8
-			      | (b[off + 7] & 0xFF) <<  0;
+			int y = b[off    ] << 24 | (b[off + 1] & 0xFF) << 16 | (b[off + 2] & 0xFF) << 8 | (b[off + 3] & 0xFF);
+			int z = b[off + 4] << 24 | (b[off + 5] & 0xFF) << 16 | (b[off + 6] & 0xFF) << 8 | (b[off + 7] & 0xFF);
 			
 			// The 32 rounds
-			for (int i = 0, sum = 0xC6EF3720; i < 32; i++, sum -= 0x9E3779B9) {
+			for (int sum = 0xC6EF3720; sum != 0; sum -= 0x9E3779B9) {
 				z -= ((y << 4) + k2) ^ (y + sum) ^ ((y >>> 5) + k3);
 				y -= ((z << 4) + k0) ^ (z + sum) ^ ((z >>> 5) + k1);
 			}
 			
 			// Unpack int32s into bytes in big endian
-			b[off + 0] = (byte)(y >>> 24);
+			b[off    ] = (byte)(y >>> 24);
 			b[off + 1] = (byte)(y >>> 16);
 			b[off + 2] = (byte)(y >>>  8);
-			b[off + 3] = (byte)(y >>>  0);
+			b[off + 3] = (byte)y;
 			b[off + 4] = (byte)(z >>> 24);
 			b[off + 5] = (byte)(z >>> 16);
 			b[off + 6] = (byte)(z >>>  8);
-			b[off + 7] = (byte)(z >>>  0);
+			b[off + 7] = (byte)z;
 		}
 	}
 	
