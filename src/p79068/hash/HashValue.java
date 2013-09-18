@@ -1,7 +1,5 @@
 package p79068.hash;
 
-import java.util.Arrays;
-
 import p79068.Assert;
 
 
@@ -71,29 +69,40 @@ public final class HashValue implements Comparable<HashValue> {
 	 */
 	@Override
 	public boolean equals(Object other) {
-		if (other instanceof HashValue)
-			return Arrays.equals(hashValue, ((HashValue)other).hashValue);
-		else
+		if (!(other instanceof HashValue))
 			return false;
+		
+		byte[] ohv = ((HashValue)other).hashValue;
+		if (hashValue.length != ohv.length)
+			return false;
+		
+		// Equality comparison whose running time is independent of the data values
+		int diff = 0;
+		for (int i = 0; i < hashValue.length; i++)
+			diff |= hashValue[i] ^ ohv[i];
+		return diff == 0;
 	}
 	
 	
 	/**
-	 * Compares this hash value with the specified hash value for order. Returns a negative integer, zero, or positive integer respectively if this hash value is less than, equal to, or greater than the specified hash value. The comparison involves lexicographical ordering on unsigned byte values. Hash values of different lengths are incomparable and an exception will be thrown.
+	 * Compares this hash value with the specified hash value for order. Returns a negative integer, zero, or positive integer respectively if this hash value is less than, equal to, or greater than the specified hash value. The comparison involves lexicographical ordering on unsigned byte values.
 	 * @param other the hash value to compare to
 	 * @return a negative integer, zero, or positive integer respectively if {@code this} is less than, equal to, or greater than {@code other}
-	 * @throws IllegalArgumentException if {@code other} has a different hash length than {@code this}
 	 */
 	public int compareTo(HashValue other) {
 		Assert.assertNotNull(other);
-		if (hashValue.length != other.hashValue.length)
-			throw new IllegalArgumentException("Hash lengths are different");
+		byte[] ohv = other.hashValue;
 		
-		for (int i = 0; i < hashValue.length && i < other.hashValue.length; i++) {
-			if (hashValue[i] != other.hashValue[i])
-				return (hashValue[i] & 0xFF) - (other.hashValue[i] & 0xFF);
+		// Lexicographical comparison whose running time is independent of the data values
+		int result = 0;
+		for (int i = 0; i < hashValue.length && i < ohv.length; i++) {
+			// Equivalent to: if (result == 0) result = (hashValue[i] & 0xFF) - (ohv[i] & 0xFF);
+			int mask = (result | (-result)) >> 31;
+			result = (mask & result) | (~mask & ((hashValue[i] & 0xFF) - (ohv[i] & 0xFF)));
 		}
-		return 0;
+		// Equivalent to: return result != 0 ? result : (hashValue.length - ohv.length);
+		int mask = (result | (-result)) >> 31;
+		return (mask & result) | (~mask & (hashValue.length - ohv.length));
 	}
 	
 	
