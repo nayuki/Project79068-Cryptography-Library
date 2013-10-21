@@ -67,18 +67,18 @@ public abstract class HashFunctionTest {
 	@Test
 	public void testHashSpeed() {
 		for (HashFunction hf : getHashFunctionsToTest()) {
-			// Warm up the JIT compiler, and try to target about 1 second of execution time
+			// Warm up the JIT compiler, and try to target about 0.1 second of execution time
 			int len = 1;
 			long startTime = System.nanoTime();
 			do {
 				testHashSpeed(hf, len);
 				if (len <= Integer.MAX_VALUE / 2)
 					len *= 2;
-			} while (System.nanoTime() - startTime < 1000000000);
+			} while (System.nanoTime() - startTime < 100000000);
 			
 			startTime = System.nanoTime();
 			testHashSpeed(hf, len);
-			System.out.printf("%s: %.2f MiB/s%n", hf.getName(), len / ((System.nanoTime() - startTime) / 1.0e9) / 1048576);
+			System.out.printf("%s: %.1f MiB/s%n", hf.getName(), len / ((System.nanoTime() - startTime) / 1.0e9) / 1048576);
 		}
 	}
 	
