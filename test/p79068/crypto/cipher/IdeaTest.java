@@ -5,7 +5,12 @@ import p79068.crypto.CryptoUtils;
 import p79068.util.random.Random;
 
 
-public final class IdeaTest {
+public final class IdeaTest extends CipherTest {
+	
+	protected Cipher[] getCiphersToTest() {
+		return new Cipher[] {Idea.CIPHER};
+	}
+	
 	
 	@Test
 	public void testIdea() {

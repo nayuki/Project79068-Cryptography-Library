@@ -1,59 +1,61 @@
 package p79068.crypto.cipher;
 
 import org.junit.Test;
+
 import p79068.crypto.CryptoUtils;
-import p79068.crypto.cipher.mode.BcModeCipher;
-import p79068.crypto.cipher.mode.CbcModeCipher;
-import p79068.crypto.cipher.mode.CfbModeCipher;
-import p79068.crypto.cipher.mode.IgeModeCipher;
-import p79068.crypto.cipher.mode.OfbModeStreamCipher;
-import p79068.crypto.cipher.mode.PcbcModeCipher;
+import p79068.util.random.Random;
 
 
-public final class CipherTest {
+public abstract class CipherTest {
 	
-	private static Cipher[] blockCiphers = {
-		Rijndael.AES128_CIPHER,
-		Rijndael.AES192_CIPHER,
-		Rijndael.AES256_CIPHER,
-		Des.DES_56_CIPHER,
-		Des.DES_64_CIPHER,
-		Idea.CIPHER,
-		new Shacal1(16),
-		new Shacal2(16),
-		Tea.TEA_CIPHER,
-		Tea.XTEA_CIPHER,
-		WhirlpoolCipher.WHIRLPOOL_CIPHER,
-		WhirlpoolCipher.WHIRLPOOL_T_CIPHER,
-		WhirlpoolCipher.WHIRLPOOL0_CIPHER,
-	};
-	
-	private static Cipher[] cipherModes = {
-		new BcModeCipher(Rijndael.AES128_CIPHER, new byte[16]),
-		new CbcModeCipher(Rijndael.AES128_CIPHER, new byte[16]),
-		new CfbModeCipher(Rijndael.AES128_CIPHER, new byte[16]),
-		new IgeModeCipher(Rijndael.AES128_CIPHER, new byte[16]),
-		new OfbModeStreamCipher(Rijndael.AES128_CIPHER, new byte[16]),
-		new PcbcModeCipher(Rijndael.AES128_CIPHER, new byte[16])
-	};
-	
+	protected abstract Cipher[] getCiphersToTest();
 	
 	
 	@Test
-	public void testBlockCiphersInvertibilityRandomly() {
-		for (Cipher cipher : blockCiphers) {
+	public void testInvertibilityRandomly() {
+		for (Cipher c : getCiphersToTest()) {
 			for (int j = 0; j < 100; j++)
-				CryptoUtils.testCipherInvertibility(cipher, cipher.getBlockLength());
+				CryptoUtils.testCipherInvertibility(c, c.getBlockLength());
 		}
 	}
 	
 	
+	// Always passes. Prints result to standard output.
 	@Test
-	public void testCiphersModesInvertibilityRandomly() {
-		for (Cipher cipher : cipherModes) {
-			for (int j = 0; j < 100; j++)
-				CryptoUtils.testCipherInvertibility(cipher, cipher.getBlockLength());
+	public void testCipherSpeed() {
+		for (Cipher c : getCiphersToTest()) {
+			// Warm up the JIT compiler, and try to target about 0.1 second of execution time
+			int len = c.getBlockLength();
+			long startTime = System.nanoTime();
+			do {
+				testCipherSpeed(c, len);
+				if (len <= Integer.MAX_VALUE / 2)
+					len *= 2;
+			} while (System.nanoTime() - startTime < 100000000);
+			System.out.printf("%s: %.1f MiB/s%n", c.getName(), len / (testCipherSpeed(c, len) / 1.0e9) / 1048576);
 		}
+	}
+	
+	
+	private static long testCipherSpeed(Cipher c, int len) {
+		int blockLen = c.getBlockLength();
+		if (len % blockLen != 0)
+			throw new IllegalArgumentException();
+		
+		byte[] key = new byte[c.getKeyLength()];
+		Random.DEFAULT.uniformBytes(key);
+		Cipherer cc = c.newCipherer(key);
+		
+		long time = 0;
+		byte[] buf = new byte[Math.min(len, (1 << 18) / blockLen * blockLen)];
+		while (len > 0) {
+			int n = Math.min(len, buf.length);
+			time -= System.nanoTime();
+			cc.encrypt(buf, 0, n);
+			time += System.nanoTime();
+			len -= n;
+		}
+		return time;
 	}
 	
 }

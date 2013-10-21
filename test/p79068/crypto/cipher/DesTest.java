@@ -4,7 +4,15 @@ import org.junit.Test;
 import p79068.crypto.CryptoUtils;
 
 
-public final class DesTest {
+public final class DesTest extends CipherTest {
+	
+	protected Cipher[] getCiphersToTest() {
+		return new Cipher[] {
+			Des.DES_56_CIPHER,
+			Des.DES_64_CIPHER,
+		};
+	}
+	
 	
 	@Test
 	public void testKeyBits() {

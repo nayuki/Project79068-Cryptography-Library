@@ -7,7 +7,16 @@ import p79068.crypto.cipher.mode.CbcModeCipher;
 import p79068.util.random.Random;
 
 
-public final class AesTest {
+public final class AesTest extends CipherTest {
+	
+	protected Cipher[] getCiphersToTest() {
+		return new Cipher[] {
+			Rijndael.AES128_CIPHER,
+			Rijndael.AES192_CIPHER,
+			Rijndael.AES256_CIPHER,
+		};
+	}
+	
 	
 	@Test
 	public void testBasic() {

@@ -4,7 +4,15 @@ import org.junit.Test;
 import p79068.crypto.CryptoUtils;
 
 
-public final class TeaTest {
+public final class TeaTest extends CipherTest {
+	
+	protected Cipher[] getCiphersToTest() {
+		return new Cipher[] {
+			Tea.TEA_CIPHER,
+			Tea.XTEA_CIPHER,
+		};
+	}
+	
 	
 	@Test
 	public void testTea() {

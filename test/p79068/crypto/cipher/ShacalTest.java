@@ -4,7 +4,15 @@ import org.junit.Test;
 import p79068.crypto.CryptoUtils;
 
 
-public final class ShacalTest {
+public final class ShacalTest extends CipherTest {
+	
+	protected Cipher[] getCiphersToTest() {
+		return new Cipher[] {
+			new Shacal1(16),
+			new Shacal2(16),
+		};
+	}
+	
 	
 	@Test
 	public void testShacal1() {
