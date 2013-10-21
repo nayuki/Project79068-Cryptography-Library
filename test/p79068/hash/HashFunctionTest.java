@@ -75,26 +75,23 @@ public abstract class HashFunctionTest {
 				if (len <= Integer.MAX_VALUE / 2)
 					len *= 2;
 			} while (System.nanoTime() - startTime < 100000000);
-			
-			startTime = System.nanoTime();
-			testHashSpeed(hf, len);
-			System.out.printf("%s: %.1f MiB/s%n", hf.getName(), len / ((System.nanoTime() - startTime) / 1.0e9) / 1048576);
+			System.out.printf("%s: %.1f MiB/s%n", hf.getName(), len / (testHashSpeed(hf, len) / 1.0e9) / 1048576);
 		}
 	}
 	
 	
-	private static void testHashSpeed(HashFunction hf, int len) {
-		if (len < (1 << 18))
-			hf.getHash(new byte[len]);
-		else {
-			Hasher h = hf.newHasher();
-			byte[] buf = new byte[1 << 18];
-			while (len > 0) {
-				int n = Math.min(buf.length, len);
-				h.update(buf, 0, n);
-				len -= n;
-			}
+	private static long testHashSpeed(HashFunction hf, int len) {
+		long time = 0;
+		Hasher h = hf.newHasher();
+		byte[] buf = new byte[Math.min(len, 1 << 18)];
+		while (len > 0) {
+			int n = Math.min(len, buf.length);
+			time -= System.nanoTime();
+			h.update(buf, 0, n);
+			time += System.nanoTime();
+			len -= n;
 		}
+		return time;
 	}
 	
 	
