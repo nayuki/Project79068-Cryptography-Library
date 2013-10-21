@@ -19,22 +19,7 @@ final class WhirlpoolCipherer extends AbstractCipherer {
 	
 	
 	
-	WhirlpoolCipherer(Whirlpool0Cipher cipher, byte[] sub, byte[] subinv, byte[][] mul, byte[][] mulinv, byte[][] rcon, byte[] key) {
-		this((Cipher)cipher, sub, subinv, mul, mulinv, rcon, key);
-	}
-	
-	
-	WhirlpoolCipherer(WhirlpoolTCipher cipher, byte[] sub, byte[] subinv, byte[][] mul, byte[][] mulinv, byte[][] rcon, byte[] key) {
-		this((Cipher)cipher, sub, subinv, mul, mulinv, rcon, key);
-	}
-	
-	
 	WhirlpoolCipherer(WhirlpoolCipher cipher, byte[] sub, byte[] subinv, byte[][] mul, byte[][] mulinv, byte[][] rcon, byte[] key) {
-		this((Cipher)cipher, sub, subinv, mul, mulinv, rcon, key);
-	}
-	
-	
-	private WhirlpoolCipherer(Cipher cipher, byte[] sub, byte[] subinv, byte[][] mul, byte[][] mulinv, byte[][] rcon, byte[] key) {
 		super(cipher, key);
 		this.sub = sub;
 		this.subinv = subinv;

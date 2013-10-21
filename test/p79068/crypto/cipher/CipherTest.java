@@ -23,9 +23,9 @@ public final class CipherTest {
 		new Shacal2(16),
 		Tea.TEA_CIPHER,
 		Tea.XTEA_CIPHER,
-		Whirlpool0Cipher.CIPHER,
-		WhirlpoolTCipher.CIPHER,
-		WhirlpoolCipher.CIPHER
+		WhirlpoolCipher.WHIRLPOOL_CIPHER,
+		WhirlpoolCipher.WHIRLPOOL_T_CIPHER,
+		WhirlpoolCipher.WHIRLPOOL0_CIPHER,
 	};
 	
 	private static Cipher[] cipherModes = {
