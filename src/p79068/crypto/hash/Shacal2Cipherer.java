@@ -24,31 +24,17 @@ final class Shacal2Cipherer extends AbstractCipherer {
 	
 	@Override
 	public void encrypt(byte[] b, int off, int len) {
-		if (cipher == null)
-			throw new IllegalStateException("Already zeroized");
-		Assert.assertRangeInBounds(b.length, off, len);
-		if (len % 32 != 0)
-			throw new IllegalArgumentException("Invalid block length");
-		
-		// For each block of 32 bytes
-		for (int end = off + len; off < end; off += 32) {
-			
-			// Pack bytes into int32s in big endian
-			int[] message = new int[8];
-			for (int i = 0; i < 32; i++)
-				message[i >>> 2] |= (b[off + i] & 0xFF) << ((3 ^ i) << 3);
-			
-			Sha256Core.encrypt(keySchedule, message);
-			
-			// Unpack int32s into bytes in big endian
-			for (int i = 0; i < 32; i++)
-				b[off + i] = (byte)(message[i >>> 2] >>> ((3 ^ i) << 3));
-		}
+		crypt(b, off, len, true);
 	}
 	
 	
 	@Override
 	public void decrypt(byte[] b, int off, int len) {
+		crypt(b, off, len, false);
+	}
+	
+	
+	private void crypt(byte[] b, int off, int len, boolean encrypt) {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
 		Assert.assertRangeInBounds(b.length, off, len);
@@ -56,18 +42,21 @@ final class Shacal2Cipherer extends AbstractCipherer {
 			throw new IllegalArgumentException("Invalid block length");
 		
 		// For each block of 32 bytes
-		for (int end = off + len; off < end; off += 32) {
+		for (int i = off, end = off + len; i < end; i += 32) {
 			
 			// Pack bytes into int32s in big endian
 			int[] message = new int[8];
-			for (int i = 0; i < 32; i++)
-				message[i >>> 2] |= (b[off + i] & 0xFF) << ((3 ^ i) << 3);
+			for (int j = 0; j < 32; j++)
+				message[j >>> 2] |= (b[i + j] & 0xFF) << ((3 ^ j) << 3);
 			
-			Sha256Core.decrypt(keySchedule, message);
+			if (encrypt)
+				Sha256Core.encrypt(keySchedule, message);
+			else
+				Sha256Core.decrypt(keySchedule, message);
 			
 			// Unpack int32s into bytes in big endian
-			for (int i = 0; i < 32; i++)
-				b[off + i] = (byte)(message[i >>> 2] >>> ((3 ^ i) << 3));
+			for (int j = 0; j < 32; j++)
+				b[i + j] = (byte)(message[j >>> 2] >>> ((3 ^ j) << 3));
 		}
 	}
 	
