@@ -32,8 +32,10 @@ final class Crc32Hasher extends AbstractHasher {
 	@Override
 	public void update(byte[] b, int off, int len) {
 		Assert.assertRangeInBounds(b.length, off, len);
+		int reg = register;
 		for (int i = off, end = off + len; i < end; i++)
-			register = (register >>> 8) ^ xorTable[(register ^ b[i]) & 0xFF];
+			reg = (reg >>> 8) ^ xorTable[(reg ^ b[i]) & 0xFF];
+		register = reg;
 	}
 	
 	
