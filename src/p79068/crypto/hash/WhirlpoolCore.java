@@ -10,22 +10,37 @@ import p79068.hash.HashValue;
 
 final class WhirlpoolCore extends BlockHasherCore {
 	
-	private final byte[] sub;
-	private final byte[] subinv;
-	private final byte[][] mul;
-	private final byte[][] mulinv;
+	// Constants
+	private final byte[] sbox;
+	private final byte[] sboxInverse;
+	private final int[] c;
+	private final int[] cInverse;
 	private final byte[][] rcon;
 	
+	// Variable (reference doesn't change, but elements do)
 	private byte[] state;
 	
 	
 	
 	public WhirlpoolCore(int rounds, int[] sbox, int[] c, int[] cInv) {
-		sub = makeSbox(sbox);
-		subinv = makeSboxInverse(sbox);
-		mul = makeMultiplicationTable(c);
-		mulinv = makeMultiplicationTable(cInv);
-		rcon = makeRoundConstants(rounds, sub);
+		this.sbox = new byte[256];
+		sboxInverse = new byte[256];
+		for (int i = 0; i < sbox.length; i++) {
+			this.sbox[i] = (byte)sbox[i];
+			sboxInverse[sbox[i]] = (byte)i;
+		}
+		
+		this.c = c;
+		this.cInverse = cInv;
+		
+		rcon = new byte[rounds][64];
+		for (int i = 0; i < rcon.length; i++) {
+			for (int j = 0; j < 8; j++)  // The leading 8 bytes (top row) are taken from the S-box
+				rcon[i][j] = this.sbox[8 * i + j];
+			for (int j = 8; j < 64; j++)  // The remaining 7 rows are zero
+				rcon[i][j] = 0;
+		}
+		
 		state = new byte[64];
 	}
 	
@@ -141,7 +156,7 @@ final class WhirlpoolCore extends BlockHasherCore {
 	// The non-linear layer (gamma)
 	private void subBytes(byte[] block) {
 		for (int i = 0; i < 64; i++)
-			block[i] = sub[block[i] & 0xFF];
+			block[i] = sbox[block[i] & 0xFF];
 	}
 	
 	
@@ -160,7 +175,7 @@ final class WhirlpoolCore extends BlockHasherCore {
 			for (int j = 0; j < 8; j++) {
 				int sum = 0;
 				for (int k = 0; k < 8; k++)
-					sum ^= mul[k][blockin[i * 8 + (j + k) % 8] & 0xFF];
+					sum ^= multiply(c[k], blockin[i * 8 + (j + k) % 8] & 0xFF);
 				blockout[i * 8 + j] = (byte)sum;
 			}
 		}
@@ -177,7 +192,7 @@ final class WhirlpoolCore extends BlockHasherCore {
 	// The inverse non-linear layer (gamma inverse)
 	private void subBytesInverse(byte[] block) {
 		for (int i = 0; i < 64; i++)
-			block[i] = subinv[block[i] & 0xFF];
+			block[i] = sboxInverse[block[i] & 0xFF];
 	}
 	
 	
@@ -196,49 +211,10 @@ final class WhirlpoolCore extends BlockHasherCore {
 			for (int j = 0; j < 8; j++) {
 				int sum = 0;
 				for (int k = 0; k < 8; k++)
-					sum ^= mulinv[k][blockin[i << 3 | (j + k) & 7] & 0xFF];
+					sum ^= multiply(cInverse[k], blockin[i << 3 | (j + k) & 7] & 0xFF);
 				blockout[i * 8 + j] = (byte)sum;
 			}
 		}
-	}
-	
-	
-	
-	private static byte[] makeSbox(int[] sbox) {
-		byte[] result = new byte[256];
-		for (int i = 0; i < result.length; i++)
-			result[i] = (byte)sbox[i];
-		return result;
-	}
-	
-	
-	private static byte[] makeSboxInverse(int[] sbox) {
-		byte[] result = new byte[256];
-		for (int i = 0; i < result.length; i++)
-			result[sbox[i]] = (byte)i;
-		return result;
-	}
-	
-	
-	private static byte[][] makeRoundConstants(int rounds, byte[] sub) {
-		byte[][] rcon = new byte[rounds][64];
-		for (int i = 0; i < rcon.length; i++) {
-			for (int j = 0; j < 8; j++)  // The leading 8 bytes (top row) are taken from the S-box
-				rcon[i][j] = sub[8 * i + j];
-			for (int j = 8; j < 64; j++)  // The remaining 7 rows are zero
-				rcon[i][j] = 0;
-		}
-		return rcon;
-	}
-	
-	
-	private static byte[][] makeMultiplicationTable(int[] c) {
-		byte[][] mul = new byte[8][256];
-		for (int i = 0; i < c.length; i++) {
-			for (int j = 0; j < 256; j++)
-				mul[i][j] = multiply(j, c[i]);
-		}
-		return mul;
 	}
 	
 	
