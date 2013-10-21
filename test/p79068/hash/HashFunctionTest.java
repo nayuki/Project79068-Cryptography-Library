@@ -105,8 +105,8 @@ public abstract class HashFunctionTest {
 	 * @param expectedHash the expected hash, in hexadecimal
 	 */
 	public static void testAscii(HashFunction hashFunc, String message, String expectedHash) {
-		byte[] hash1 = hexToBytes(expectedHash);
-		byte[] msg = asciiToBytes(message);
+		byte[] hash1 = CryptoUtils.hexToBytes(expectedHash);
+		byte[] msg = CryptoUtils.asciiToBytes(message);
 		byte[] hash0 = hashFunc.getHash(msg).toBytes();
 		assertArrayEquals(hashFunc.toString(), hash1, hash0);
 	}
@@ -119,20 +119,10 @@ public abstract class HashFunctionTest {
 	 * @param expectedHash the expected hash, in hexadecimal
 	 */
 	public static void testHex(HashFunction hashFunc, String message, String expectedHash) {
-		byte[] hash1 = hexToBytes(expectedHash);
-		byte[] msg = hexToBytes(message);
+		byte[] hash1 = CryptoUtils.hexToBytes(expectedHash);
+		byte[] msg = CryptoUtils.hexToBytes(message);
 		byte[] hash0 = hashFunc.getHash(msg).toBytes();
 		assertArrayEquals(hashFunc.toString(), hash1, hash0);
-	}
-	
-	
-	public static byte[] hexToBytes(String s) {
-		return CryptoUtils.hexToBytes(s);
-	}
-	
-	
-	public static byte[] asciiToBytes(String s) {
-		return CryptoUtils.asciiToBytes(s);
 	}
 	
 }
