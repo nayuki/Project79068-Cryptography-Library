@@ -24,24 +24,17 @@ final class WhirlpoolCipherer extends AbstractCipherer {
 	
 	@Override
 	public void encrypt(byte[] b, int off, int len) {
-		if (cipher == null)
-			throw new IllegalStateException("Already zeroized");
-		Assert.assertRangeInBounds(b.length, off, len);
-		if (len % 64 != 0)
-			throw new IllegalArgumentException();
-		
-		byte[] tempmsg = new byte[64];
-		byte[] temp = new byte[64];
-		for (int i = off, end = off + len; i < end; i += 64) {
-			System.arraycopy(b, i, tempmsg, 0, 64);
-			hasher.encrypt(tempmsg, key, temp);
-			System.arraycopy(tempmsg, 0, b, i, 64);
-		}
+		crypt(b, off, len, true);
 	}
 	
 	
 	@Override
 	public void decrypt(byte[] b, int off, int len) {
+		crypt(b, off, len, false);
+	}
+	
+	
+	private void crypt(byte[] b, int off, int len, boolean encrypt) {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
 		Assert.assertRangeInBounds(b.length, off, len);
@@ -52,7 +45,10 @@ final class WhirlpoolCipherer extends AbstractCipherer {
 		byte[] temp = new byte[64];
 		for (int i = off, end = off + len; i < end; i += 64) {
 			System.arraycopy(b, i, tempmsg, 0, 64);
-			hasher.decrypt(tempmsg, key, temp);
+			if (encrypt)
+				hasher.encrypt(tempmsg, key, temp);
+			else
+				hasher.decrypt(tempmsg, key, temp);
 			System.arraycopy(tempmsg, 0, b, i, 64);
 		}
 	}

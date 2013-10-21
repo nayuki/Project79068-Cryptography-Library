@@ -30,24 +30,17 @@ final class FastWhirlpoolCipherer extends AbstractCipherer {
 	
 	@Override
 	public void encrypt(byte[] b, int off, int len) {
-		if (cipher == null)
-			throw new IllegalStateException("Already zeroized");
-		Assert.assertRangeInBounds(b.length, off, len);
-		if (len % 64 != 0)
-			throw new IllegalArgumentException("Invalid block length");
-		
-		long[] tempmsg = new long[8];
-		long[] temp = new long[8];
-		for (int i = off, end = off + len; i < end; i += 64) {
-			toInt64sBigEndian(b, i, tempmsg);
-			hasher.encrypt(tempmsg, key, temp);
-			toBytesBigEndian(tempmsg, b, i);
-		}
+		crypt(b, off, len, true);
 	}
 	
 	
 	@Override
 	public void decrypt(byte[] b, int off, int len) {
+		crypt(b, off, len, false);
+	}
+	
+	
+	private void crypt(byte[] b, int off, int len, boolean encrypt) {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
 		Assert.assertRangeInBounds(b.length, off, len);
@@ -58,7 +51,10 @@ final class FastWhirlpoolCipherer extends AbstractCipherer {
 		long[] temp = new long[8];
 		for (int i = off, end = off + len; i < end; i += 64) {
 			toInt64sBigEndian(b, i, tempmsg);
-			hasher.decrypt(tempmsg, key, temp);
+			if (encrypt)
+				hasher.encrypt(tempmsg, key, temp);
+			else
+				hasher.decrypt(tempmsg, key, temp);
 			toBytesBigEndian(tempmsg, b, i);
 		}
 	}
