@@ -17,7 +17,7 @@ import java.io.IOException;
  *}
  *String hash = hasher.getHash().toHexString();</pre>
  * @see Hasher
- * @See HashValue
+ * @see HashValue
  */
 public interface HashFunction {
 	

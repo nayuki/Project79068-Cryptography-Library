@@ -8,7 +8,7 @@ import p79068.hash.HashValue;
 
 
 /**
- * This abstract superclass is stateless. Subclasses will have state.
+ * Provides a compression function and holds the hash state for {@link BlockHasher}. This abstract superclass is stateless, but subclasses will have state.
  */
 public abstract class BlockHasherCore implements Cloneable, Zeroizable {
 	
@@ -37,7 +37,10 @@ public abstract class BlockHasherCore implements Cloneable, Zeroizable {
 	public abstract HashValue getHashDestructively(byte[] block, int blockLength, BigInteger length);
 	
 	
-	
+	/**
+	 * Returns a clone of this object.
+	 * @return a clone of this object
+	 */
 	@Override
 	public BlockHasherCore clone() {
 		try {

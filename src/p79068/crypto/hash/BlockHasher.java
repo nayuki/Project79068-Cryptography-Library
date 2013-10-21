@@ -12,6 +12,7 @@ import p79068.hash.HashValue;
 /**
  * A hasher that only applies the compression function after each block.
  * <p>The instance returned by a BlockHashFunction is not necessarily a BlockHasher.</p>
+ * @see BlockHasherCore
  */
 public final class BlockHasher extends AbstractHasher implements Zeroizable {
 	
