@@ -236,9 +236,21 @@ final class WhirlpoolCore extends BlockHasherCore {
 		byte[][] mul = new byte[8][256];
 		for (int i = 0; i < c.length; i++) {
 			for (int j = 0; j < 256; j++)
-				mul[i][j] = (byte)WhirlpoolUtils.multiply(j, c[i]);
+				mul[i][j] = multiply(j, c[i]);
 		}
 		return mul;
+	}
+	
+	
+	private static byte multiply(int x, int y) {
+		if ((x & 0xFF) != x || (y & 0xFF) != y)
+			throw new IllegalArgumentException();
+		byte z = 0;
+		for (; y != 0; y >>>= 1) {
+			z ^= (y & 1) * x;
+			x = (x << 1) ^ ((x >>> 7) * 0x11D);
+		}
+		return z;
 	}
 	
 }

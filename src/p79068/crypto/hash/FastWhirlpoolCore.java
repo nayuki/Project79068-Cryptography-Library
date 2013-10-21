@@ -191,7 +191,7 @@ final class FastWhirlpoolCore extends BlockHasherCore {
 		for (int i = 0; i < 256; i++) {
 			long vector = 0;
 			for (int j = 0; j < 8; j++)
-				vector |= (long)WhirlpoolUtils.multiply(sub[i], c[j]) << ((7 - j) * 8);
+				vector |= multiply(sub[i], c[j]) << ((7 - j) * 8);
 			for (int j = 0; j < 8; j++)
 				result[j][i] = LongBitMath.rotateRight(vector, j * 8);
 		}
@@ -205,7 +205,7 @@ final class FastWhirlpoolCore extends BlockHasherCore {
 		for (int i = 0; i < 256; i++) {
 			long vector = 0;
 			for (int j = 0; j < 8; j++)
-				vector |= (long)WhirlpoolUtils.multiply(i, cInv[j]) << ((7 - j) * 8);
+				vector |= multiply(i, cInv[j]) << ((7 - j) * 8);
 			for (int j = 0; j < 8; j++)
 				result[j][i] = LongBitMath.rotateRight(vector, j * 8);
 		}
@@ -239,6 +239,18 @@ final class FastWhirlpoolCore extends BlockHasherCore {
 		for (int i = 1; i < array.length; i++)
 			result[result.length - i] = array[i];
 		return result;
+	}
+	
+	
+	private static long multiply(int x, int y) {
+		if ((x & 0xFF) != x || (y & 0xFF) != y)
+			throw new IllegalArgumentException();
+		int z = 0;
+		for (; y != 0; y >>>= 1) {
+			z ^= (y & 1) * x;
+			x = (x << 1) ^ ((x >>> 7) * 0x11D);
+		}
+		return z;
 	}
 	
 }
