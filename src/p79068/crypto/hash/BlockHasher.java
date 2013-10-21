@@ -24,7 +24,7 @@ public final class BlockHasher extends AbstractHasher implements Zeroizable {
 	/**
 	 * The number of bytes filled in the current block. It is in the range [{@code 0}, {@code block.length}) initially and after each {@code update()} operation.
 	 */
-	private int blockLength;
+	private int blockFilled;
 	
 	/**
 	 * The total length of the message, in bytes.
@@ -43,7 +43,7 @@ public final class BlockHasher extends AbstractHasher implements Zeroizable {
 		super(func);
 		Assert.assertNotNull(core);
 		block = new byte[func.getBlockLength()];
-		blockLength = 0;
+		blockFilled = 0;
 		length = BigInteger.ZERO;
 		this.core = core;
 	}
@@ -58,11 +58,11 @@ public final class BlockHasher extends AbstractHasher implements Zeroizable {
 	public void update(byte b) {
 		if (hashFunction == null)
 			throw new IllegalStateException("Already zeroized");
-		block[blockLength] = b;
-		blockLength++;
-		if (blockLength == block.length) {
+		block[blockFilled] = b;
+		blockFilled++;
+		if (blockFilled == block.length) {
 			core.compress(block);
-			blockLength = 0;
+			blockFilled = 0;
 		}
 		length = length.add(BigInteger.ONE);
 	}
@@ -81,15 +81,15 @@ public final class BlockHasher extends AbstractHasher implements Zeroizable {
 		Assert.assertRangeInBounds(b.length, off, len);
 		
 		length = length.add(BigInteger.valueOf(len));  // Update length now, before len changes
-		if (blockLength > 0) {  // Try to fill up the current block
-			int temp = Math.min(block.length - blockLength, len);
-			System.arraycopy(b, off, block, blockLength, temp);
+		if (blockFilled > 0) {  // Try to fill up the current block
+			int temp = Math.min(block.length - blockFilled, len);
+			System.arraycopy(b, off, block, blockFilled, temp);
 			off += temp;
 			len -= temp;
-			blockLength += temp;
-			if (blockLength == block.length) {
+			blockFilled += temp;
+			if (blockFilled == block.length) {
 				core.compress(block);
-				blockLength = 0;
+				blockFilled = 0;
 			}
 		}
 		
@@ -100,7 +100,7 @@ public final class BlockHasher extends AbstractHasher implements Zeroizable {
 		len -= temp;
 		
 		System.arraycopy(b, off, block, 0, len);  // 0 <= len < block.length
-		blockLength += len;
+		blockFilled += len;
 	}
 	
 	
@@ -112,7 +112,7 @@ public final class BlockHasher extends AbstractHasher implements Zeroizable {
 	public HashValue getHash() {
 		if (hashFunction == null)
 			throw new IllegalStateException("Already zeroized");
-		return core.clone().getHashDestructively(block.clone(), blockLength, length);
+		return core.clone().getHashDestructively(block.clone(), blockFilled, length);
 	}
 	
 	
@@ -136,7 +136,7 @@ public final class BlockHasher extends AbstractHasher implements Zeroizable {
 		if (hashFunction == null)
 			throw new IllegalStateException("Already zeroized");
 		length = null;
-		blockLength = 0;
+		blockFilled = 0;
 		block = Zeroizer.clear(block);
 		hashFunction = null;
 		core.zeroize();
