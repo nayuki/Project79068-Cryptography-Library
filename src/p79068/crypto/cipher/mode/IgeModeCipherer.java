@@ -86,10 +86,8 @@ final class IgeModeCipherer extends AbstractCipherer {
 	public void zeroize() {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
-		Zeroizer.clear(prevCiphertext);
-		Zeroizer.clear(prevPlaintext);
-		prevCiphertext = null;
-		prevPlaintext = null;
+		prevCiphertext = Zeroizer.clear(prevCiphertext);
+		prevPlaintext = Zeroizer.clear(prevPlaintext);
 		cipherer.zeroize();
 		cipherer = null;
 		super.zeroize();

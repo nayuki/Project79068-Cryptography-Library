@@ -94,8 +94,7 @@ class RijndaelCipherer extends AbstractCipherer {
 	public void zeroize() {
 		if (cipher == null)
 			return;
-		Zeroizer.clear(keySchedule);
-		keySchedule = null;
+		keySchedule = Zeroizer.clear(keySchedule);
 		super.zeroize();
 	}
 	

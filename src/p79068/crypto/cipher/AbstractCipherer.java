@@ -80,8 +80,7 @@ public abstract class AbstractCipherer implements Cipherer {
 	public void zeroize() {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
-		Zeroizer.clear(key);
-		key = null;
+		key = Zeroizer.clear(key);
 		cipher = null;
 	}
 	

@@ -80,8 +80,7 @@ final class PcbcModeCipherer extends AbstractCipherer {
 	public void zeroize() {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
-		Zeroizer.clear(prevPlainXorCipher);
-		prevPlainXorCipher = null;
+		prevPlainXorCipher = Zeroizer.clear(prevPlainXorCipher);
 		cipherer.zeroize();
 		cipherer = null;
 		super.zeroize();

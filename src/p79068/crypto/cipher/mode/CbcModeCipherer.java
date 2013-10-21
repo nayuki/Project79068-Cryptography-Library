@@ -75,8 +75,7 @@ final class CbcModeCipherer extends AbstractCipherer {
 	public void zeroize() {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
-		Zeroizer.clear(prevCiphertext);
-		prevCiphertext = null;
+		prevCiphertext = Zeroizer.clear(prevCiphertext);
 		cipherer.zeroize();
 		cipherer = null;
 		super.zeroize();

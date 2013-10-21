@@ -77,8 +77,7 @@ final class BcModeCipherer extends AbstractCipherer {
 	public void zeroize() {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
-		Zeroizer.clear(prevCiphertextsXored);
-		prevCiphertextsXored = null;
+		prevCiphertextsXored = Zeroizer.clear(prevCiphertextsXored);
 		cipherer.zeroize();
 		cipherer = null;
 		super.zeroize();

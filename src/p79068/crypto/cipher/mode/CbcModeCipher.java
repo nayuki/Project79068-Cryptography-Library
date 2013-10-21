@@ -44,8 +44,7 @@ public final class CbcModeCipher extends AbstractCipher implements Zeroizable {
 	public void zeroize() {
 		if (blockCipher == null)
 			throw new IllegalStateException("Already zeroized");
-		Zeroizer.clear(key);
-		key = null;
+		key = Zeroizer.clear(key);
 		if (blockCipher instanceof Zeroizable)
 			((Zeroizable)blockCipher).zeroize();
 		blockCipher = null;

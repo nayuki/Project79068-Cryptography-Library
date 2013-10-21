@@ -86,8 +86,7 @@ final class OfbModeStreamCipherer extends AbstractStreamCipherer {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
 		keyStreamIndex = 0;
-		Zeroizer.clear(keyStream);
-		keyStream = null;
+		keyStream = Zeroizer.clear(keyStream);
 		cipherer.zeroize();
 		cipherer = null;
 		super.zeroize();
