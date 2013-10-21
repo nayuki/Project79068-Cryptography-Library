@@ -80,27 +80,34 @@ public final class BlockHasher extends AbstractHasher implements Zeroizable {
 			throw new IllegalStateException("Already zeroized");
 		Assert.assertRangeInBounds(b.length, off, len);
 		
+		int blockLen = block.length;
 		length = length.add(BigInteger.valueOf(len));  // Update length now, before len changes
-		if (blockFilled > 0) {  // Try to fill up the current block
-			int temp = Math.min(block.length - blockFilled, len);
-			System.arraycopy(b, off, block, blockFilled, temp);
-			off += temp;
-			len -= temp;
-			blockFilled += temp;
-			if (blockFilled == block.length) {
+		
+		// Try to fill up current block
+		if (blockFilled > 0) {
+			int n = Math.min(blockLen - blockFilled, len);
+			System.arraycopy(b, off, block, blockFilled, n);
+			blockFilled += n;
+			if (blockFilled == blockLen) {
 				core.compress(block);
 				blockFilled = 0;
-			}
+				off += n;
+				len -= n;
+			} else
+				return;
 		}
 		
-		// If the current block was not completely filled and cleared, then len is now 0; there are no more remaining bytes to process.
-		int temp = len / block.length * block.length;  // 0 <= temp <= len, and temp is a multiple of block.length
-		core.compress(b, off, temp);
-		off += temp;
-		len -= temp;
+		// Process whole blocks
+		if (len >= blockLen) {
+			int n = len / blockLen * blockLen;
+			core.compress(b, off, n);
+			off += n;
+			len -= n;
+		}
 		
-		System.arraycopy(b, off, block, 0, len);  // 0 <= len < block.length
-		blockFilled += len;
+		// Process remaining bytes (0 <= len < block.length)
+		System.arraycopy(b, off, block, 0, len);
+		blockFilled = len;
 	}
 	
 	
