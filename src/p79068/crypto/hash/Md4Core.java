@@ -69,15 +69,15 @@ final class Md4Core extends BlockHasherCore {
 		int[] schedule = new int[16];
 		
 		// For each block of 64 bytes
-		for (int end = off + len; off < end;) {
+		for (int i = off, end = off + len; i < end; ) {
 			
 			// Pack bytes into int32s in little endian
-			for (int i = 0; i < 16; i++, off += 4) {
-				schedule[i] =
-					  (message[off + 0] & 0xFF) <<  0
-					| (message[off + 1] & 0xFF) <<  8
-					| (message[off + 2] & 0xFF) << 16
-					| (message[off + 3] & 0xFF) << 24;
+			for (int j = 0; j < 16; j++, i += 4) {
+				schedule[j] =
+					  (message[i + 0] & 0xFF) <<  0
+					| (message[i + 1] & 0xFF) <<  8
+					| (message[i + 2] & 0xFF) << 16
+					| (message[i + 3] & 0xFF) << 24;
 			}
 			
 			// The 48 rounds
@@ -85,15 +85,15 @@ final class Md4Core extends BlockHasherCore {
 			int b = state[1];
 			int c = state[2];
 			int d = state[3];
-			for (int i = 0; i < 48; i++) {
+			for (int j = 0; j < 48; j++) {
 				int f;
-				if      ( 0 <= i && i < 16) f = (b & c) | (~b & d);  // Can be optimized to f = d ^ (b & (c ^ d))
-				else if (16 <= i && i < 32) f = (b & c) | (d & (b | c));
-				else if (32 <= i && i < 48) f = b ^ c ^ d;
+				if      ( 0 <= j && j < 16) f = (b & c) | (~b & d);  // Can be optimized to f = d ^ (b & (c ^ d))
+				else if (16 <= j && j < 32) f = (b & c) | (d & (b | c));
+				else if (32 <= j && j < 48) f = b ^ c ^ d;
 				else throw new AssertionError();
 				
-				int temp = a + f + schedule[k[i / 16 * 16 + i % 16]] + addCon[i / 16];
-				int rot = s[i / 16 * 4 + i % 4];
+				int temp = a + f + schedule[k[j / 16 * 16 + j % 16]] + addCon[j / 16];
+				int rot = s[j / 16 * 4 + j % 4];
 				a = d;
 				d = c;
 				c = b;

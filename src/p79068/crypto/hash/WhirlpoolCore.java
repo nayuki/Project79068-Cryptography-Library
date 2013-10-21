@@ -64,12 +64,12 @@ final class WhirlpoolCore extends BlockHasherCore {
 		byte[] temp = new byte[64];
 		
 		// For each block of 64 bytes
-		for (int end = off + len; off < end; off += 64) {
-			System.arraycopy(message, off, tempmsg, 0, 64);
+		for (int i = off, end = off + len; i < end; i += 64) {
+			System.arraycopy(message, i, tempmsg, 0, 64);
 			System.arraycopy(state, 0, tempstate, 0, 64);
 			encrypt(tempmsg, tempstate, temp);
-			for (int i = 0; i < 64; i++)
-				state[i] ^= tempmsg[i] ^ message[off + i];
+			for (int j = 0; j < 64; j++)
+				state[j] ^= tempmsg[j] ^ message[i + j];
 		}
 	}
 	

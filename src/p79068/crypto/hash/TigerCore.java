@@ -52,26 +52,26 @@ final class TigerCore extends BlockHasherCore {
 		long[] schedule = new long[8];
 		
 		// For each block of 64 bytes
-		for (int end = off + len; off < end;) {
+		for (int i = off, end = off + len; i < end;) {
 			
 			// Pack bytes into int64s in little endian
-			for (int i = 0; i < 8; i++, off += 8) {
-				schedule[i] =   (msg[off + 0] & 0xFFL) <<  0
-				              | (msg[off + 1] & 0xFFL) <<  8
-				              | (msg[off + 2] & 0xFFL) << 16
-				              | (msg[off + 3] & 0xFFL) << 24
-				              | (msg[off + 4] & 0xFFL) << 32
-				              | (msg[off + 5] & 0xFFL) << 40
-				              | (msg[off + 6] & 0xFFL) << 48
-				              | (msg[off + 7] & 0xFFL) << 56;
+			for (int j = 0; j < 8; j++, i += 8) {
+				schedule[j] =   (msg[i + 0] & 0xFFL) <<  0
+				              | (msg[i + 1] & 0xFFL) <<  8
+				              | (msg[i + 2] & 0xFFL) << 16
+				              | (msg[i + 3] & 0xFFL) << 24
+				              | (msg[i + 4] & 0xFFL) << 32
+				              | (msg[i + 5] & 0xFFL) << 40
+				              | (msg[i + 6] & 0xFFL) << 48
+				              | (msg[i + 7] & 0xFFL) << 56;
 			}
 			
 			// The 24 rounds
 			long a = state[0];
 			long b = state[1];
 			long c = state[2];
-			for (int i = 0; i < 24; i++) {
-				c ^= schedule[i % 8];
+			for (int j = 0; j < 24; j++) {
+				c ^= schedule[j % 8];
 				a -= T1[(int)(c >>>  0) & 0xFF] ^
 				     T2[(int)(c >>> 16) & 0xFF] ^
 				     T3[(int)(c >>> 32) & 0xFF] ^
@@ -80,14 +80,14 @@ final class TigerCore extends BlockHasherCore {
 				     T3[(int)(c >>> 24) & 0xFF] ^
 				     T2[(int)(c >>> 40) & 0xFF] ^
 				     T1[(int)(c >>> 56) & 0xFF];
-				b *= 5 + i / 8 * 2;
+				b *= 5 + j / 8 * 2;
 				
 				long temp = a;
 				a = b;
 				b = c;
 				c = temp;
 				
-				if (i == 7 || i == 15)
+				if (j == 7 || j == 15)
 					keySchedule(schedule);
 			}
 			

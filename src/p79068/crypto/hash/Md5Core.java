@@ -78,15 +78,15 @@ final class Md5Core extends BlockHasherCore {
 		int[] schedule = new int[16];
 		
 		// For each block of 64 bytes
-		for (int end = off + len; off < end;) {
+		for (int i = off, end = off + len; i < end; ) {
 			
 			// Pack bytes into int32s in little endian
-			for (int i = 0; i < 16; i++, off += 4) {
-				schedule[i] =
-					  (message[off + 0] & 0xFF) <<  0
-					| (message[off + 1] & 0xFF) <<  8
-					| (message[off + 2] & 0xFF) << 16
-					| (message[off + 3] & 0xFF) << 24;
+			for (int j = 0; j < 16; j++, i += 4) {
+				schedule[j] =
+					  (message[j + 0] & 0xFF) <<  0
+					| (message[j + 1] & 0xFF) <<  8
+					| (message[j + 2] & 0xFF) << 16
+					| (message[j + 3] & 0xFF) << 24;
 			}
 
 			// The 64 rounds
@@ -94,17 +94,17 @@ final class Md5Core extends BlockHasherCore {
 			int b = state[1];
 			int c = state[2];
 			int d = state[3];
-			for (int i = 0; i < 64; i++) {
+			for (int j = 0; j < 64; j++) {
 				int f;
 				int k;
-				if      ( 0 <= i && i < 16) { f = (b & c) | (~b & d);  k = i;                }  // Can be optimized to f = d ^ (b & (c ^ d))
-				else if (16 <= i && i < 32) { f = (d & b) | (~d & c);  k = (5 * i + 1) % 16; }  // Can be optimized to f = c ^ (d & (b ^ c))
-				else if (32 <= i && i < 48) { f = b ^ c ^ d;           k = (3 * i + 5) % 16; }
-				else if (48 <= i && i < 64) { f = c ^ (b | (~d));      k = 7 * i % 16;       }
+				if      ( 0 <= j && j < 16) { f = (b & c) | (~b & d);  k = j;                }  // Can be optimized to f = d ^ (b & (c ^ d))
+				else if (16 <= j && j < 32) { f = (d & b) | (~d & c);  k = (5 * j + 1) % 16; }  // Can be optimized to f = c ^ (d & (b ^ c))
+				else if (32 <= j && j < 48) { f = b ^ c ^ d;           k = (3 * j + 5) % 16; }
+				else if (48 <= j && j < 64) { f = c ^ (b | (~d));      k = 7 * j % 16;       }
 				else throw new AssertionError();
 				
-				int temp = a + f + t[i] + schedule[k];
-				int rot = s[i / 16 * 4 + i % 4];
+				int temp = a + f + t[j] + schedule[k];
+				int rot = s[j / 16 * 4 + j % 4];
 				temp = b + Integer.rotateLeft(temp, rot);
 				a = d;
 				d = c;

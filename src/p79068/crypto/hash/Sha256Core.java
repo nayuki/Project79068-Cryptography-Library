@@ -64,20 +64,20 @@ final class Sha256Core extends BlockHasherCore {
 		int[] schedule = new int[64];
 		
 		// For each block of 64 bytes
-		for (int end = off + len; off < end;) {
+		for (int i = off, end = off + len; i < end; ) {
 			
 			// Pack bytes into int32s in big endian
-			for (int i = 0; i < 16; i++, off += 4) {
-				schedule[i] =
-					  (message[off + 0] & 0xFF) << 24
-					| (message[off + 1] & 0xFF) << 16
-					| (message[off + 2] & 0xFF) <<  8
-					| (message[off + 3] & 0xFF) <<  0;
+			for (int j = 0; j < 16; j++, i += 4) {
+				schedule[j] =
+					  (message[i + 0] & 0xFF) << 24
+					| (message[i + 1] & 0xFF) << 16
+					| (message[i + 2] & 0xFF) <<  8
+					| (message[i + 3] & 0xFF) <<  0;
 			}
 			
 			// Expand the schedule
-			for (int i = 16; i < 64; i++)
-				schedule[i] = schedule[i-16] + schedule[i-7] + smallSigma0(schedule[i-15]) + smallSigma1(schedule[i-2]);
+			for (int j = 16; j < 64; j++)
+				schedule[j] = schedule[j-16] + schedule[j-7] + smallSigma0(schedule[j-15]) + smallSigma1(schedule[j-2]);
 			
 			int[] tempState = state.clone();
 			encrypt(schedule, tempState);

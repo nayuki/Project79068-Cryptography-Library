@@ -64,7 +64,7 @@ final class FastWhirlpoolCore extends BlockHasherCore {
 		long[] temp = new long[8];  // Overwritten at each iteration
 		
 		// For each block of 64 bytes
-		for (int i = off, end = off + len; i < end;) {
+		for (int i = off, end = off + len; i < end; ) {
 			
 			// Pack bytes into int64s in big endian
 			for (int j = 0; j < 8; j++, i += 8) {

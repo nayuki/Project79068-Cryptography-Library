@@ -52,25 +52,25 @@ final class FastSha1Core extends BlockHasherCore {
 		int e = state[4];
 		
 		// For each block of 64 bytes
-		for (int end = off + len; off < end; off += 64) {
+		for (int i = off, end = off + len; i < end; i += 64) {
 			
 			// Pack bytes into int32s in big endian
-			int schedule00 = message[off +  0] << 24 | (message[off +  1] & 0xFF) << 16 | (message[off +  2] & 0xFF) << 8 | (message[off +  3] & 0xFF);
-			int schedule01 = message[off +  4] << 24 | (message[off +  5] & 0xFF) << 16 | (message[off +  6] & 0xFF) << 8 | (message[off +  7] & 0xFF);
-			int schedule02 = message[off +  8] << 24 | (message[off +  9] & 0xFF) << 16 | (message[off + 10] & 0xFF) << 8 | (message[off + 11] & 0xFF);
-			int schedule03 = message[off + 12] << 24 | (message[off + 13] & 0xFF) << 16 | (message[off + 14] & 0xFF) << 8 | (message[off + 15] & 0xFF);
-			int schedule04 = message[off + 16] << 24 | (message[off + 17] & 0xFF) << 16 | (message[off + 18] & 0xFF) << 8 | (message[off + 19] & 0xFF);
-			int schedule05 = message[off + 20] << 24 | (message[off + 21] & 0xFF) << 16 | (message[off + 22] & 0xFF) << 8 | (message[off + 23] & 0xFF);
-			int schedule06 = message[off + 24] << 24 | (message[off + 25] & 0xFF) << 16 | (message[off + 26] & 0xFF) << 8 | (message[off + 27] & 0xFF);
-			int schedule07 = message[off + 28] << 24 | (message[off + 29] & 0xFF) << 16 | (message[off + 30] & 0xFF) << 8 | (message[off + 31] & 0xFF);
-			int schedule08 = message[off + 32] << 24 | (message[off + 33] & 0xFF) << 16 | (message[off + 34] & 0xFF) << 8 | (message[off + 35] & 0xFF);
-			int schedule09 = message[off + 36] << 24 | (message[off + 37] & 0xFF) << 16 | (message[off + 38] & 0xFF) << 8 | (message[off + 39] & 0xFF);
-			int schedule10 = message[off + 40] << 24 | (message[off + 41] & 0xFF) << 16 | (message[off + 42] & 0xFF) << 8 | (message[off + 43] & 0xFF);
-			int schedule11 = message[off + 44] << 24 | (message[off + 45] & 0xFF) << 16 | (message[off + 46] & 0xFF) << 8 | (message[off + 47] & 0xFF);
-			int schedule12 = message[off + 48] << 24 | (message[off + 49] & 0xFF) << 16 | (message[off + 50] & 0xFF) << 8 | (message[off + 51] & 0xFF);
-			int schedule13 = message[off + 52] << 24 | (message[off + 53] & 0xFF) << 16 | (message[off + 54] & 0xFF) << 8 | (message[off + 55] & 0xFF);
-			int schedule14 = message[off + 56] << 24 | (message[off + 57] & 0xFF) << 16 | (message[off + 58] & 0xFF) << 8 | (message[off + 59] & 0xFF);
-			int schedule15 = message[off + 60] << 24 | (message[off + 61] & 0xFF) << 16 | (message[off + 62] & 0xFF) << 8 | (message[off + 63] & 0xFF);
+			int schedule00 = message[i +  0] << 24 | (message[i +  1] & 0xFF) << 16 | (message[i +  2] & 0xFF) << 8 | (message[i +  3] & 0xFF);
+			int schedule01 = message[i +  4] << 24 | (message[i +  5] & 0xFF) << 16 | (message[i +  6] & 0xFF) << 8 | (message[i +  7] & 0xFF);
+			int schedule02 = message[i +  8] << 24 | (message[i +  9] & 0xFF) << 16 | (message[i + 10] & 0xFF) << 8 | (message[i + 11] & 0xFF);
+			int schedule03 = message[i + 12] << 24 | (message[i + 13] & 0xFF) << 16 | (message[i + 14] & 0xFF) << 8 | (message[i + 15] & 0xFF);
+			int schedule04 = message[i + 16] << 24 | (message[i + 17] & 0xFF) << 16 | (message[i + 18] & 0xFF) << 8 | (message[i + 19] & 0xFF);
+			int schedule05 = message[i + 20] << 24 | (message[i + 21] & 0xFF) << 16 | (message[i + 22] & 0xFF) << 8 | (message[i + 23] & 0xFF);
+			int schedule06 = message[i + 24] << 24 | (message[i + 25] & 0xFF) << 16 | (message[i + 26] & 0xFF) << 8 | (message[i + 27] & 0xFF);
+			int schedule07 = message[i + 28] << 24 | (message[i + 29] & 0xFF) << 16 | (message[i + 30] & 0xFF) << 8 | (message[i + 31] & 0xFF);
+			int schedule08 = message[i + 32] << 24 | (message[i + 33] & 0xFF) << 16 | (message[i + 34] & 0xFF) << 8 | (message[i + 35] & 0xFF);
+			int schedule09 = message[i + 36] << 24 | (message[i + 37] & 0xFF) << 16 | (message[i + 38] & 0xFF) << 8 | (message[i + 39] & 0xFF);
+			int schedule10 = message[i + 40] << 24 | (message[i + 41] & 0xFF) << 16 | (message[i + 42] & 0xFF) << 8 | (message[i + 43] & 0xFF);
+			int schedule11 = message[i + 44] << 24 | (message[i + 45] & 0xFF) << 16 | (message[i + 46] & 0xFF) << 8 | (message[i + 47] & 0xFF);
+			int schedule12 = message[i + 48] << 24 | (message[i + 49] & 0xFF) << 16 | (message[i + 50] & 0xFF) << 8 | (message[i + 51] & 0xFF);
+			int schedule13 = message[i + 52] << 24 | (message[i + 53] & 0xFF) << 16 | (message[i + 54] & 0xFF) << 8 | (message[i + 55] & 0xFF);
+			int schedule14 = message[i + 56] << 24 | (message[i + 57] & 0xFF) << 16 | (message[i + 58] & 0xFF) << 8 | (message[i + 59] & 0xFF);
+			int schedule15 = message[i + 60] << 24 | (message[i + 61] & 0xFF) << 16 | (message[i + 62] & 0xFF) << 8 | (message[i + 63] & 0xFF);
 			
 			// The 80 rounds (the schedule is expanded on the fly)
 			int tp;

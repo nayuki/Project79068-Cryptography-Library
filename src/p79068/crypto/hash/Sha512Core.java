@@ -89,24 +89,24 @@ final class Sha512Core extends BlockHasherCore {
 		long[] schedule = new long[80];
 		
 		// For each block of 128 bytes
-		for (int end = off + len; off < end;) {
+		for (int i = off, end = off + len; i < end; ) {
 			
 			// Pack bytes into int64s in big endian
-			for (int i = 0; i < 16; i++, off += 8) {
-				schedule[i] =
-					  (message[off + 0] & 0xFFL) << 56
-					| (message[off + 1] & 0xFFL) << 48
-					| (message[off + 2] & 0xFFL) << 40
-					| (message[off + 3] & 0xFFL) << 32
-					| (message[off + 4] & 0xFFL) << 24
-					| (message[off + 5] & 0xFFL) << 16
-					| (message[off + 6] & 0xFFL) <<  8
-					| (message[off + 7] & 0xFFL) <<  0;
+			for (int j = 0; j < 16; j++, i += 8) {
+				schedule[j] =
+					  (message[i + 0] & 0xFFL) << 56
+					| (message[i + 1] & 0xFFL) << 48
+					| (message[i + 2] & 0xFFL) << 40
+					| (message[i + 3] & 0xFFL) << 32
+					| (message[i + 4] & 0xFFL) << 24
+					| (message[i + 5] & 0xFFL) << 16
+					| (message[i + 6] & 0xFFL) <<  8
+					| (message[i + 7] & 0xFFL) <<  0;
 			}
 			
 			// Expand the schedule
-			for (int i = 16; i < 80; i++)
-				schedule[i] = schedule[i-16] + schedule[i-7] + smallSigma0(schedule[i-15]) + smallSigma1(schedule[i-2]);
+			for (int j = 16; j < 80; j++)
+				schedule[j] = schedule[j-16] + schedule[j-7] + smallSigma0(schedule[j-15]) + smallSigma1(schedule[j-2]);
 			
 			// The 80 rounds
 			long a = state[0];
@@ -117,8 +117,8 @@ final class Sha512Core extends BlockHasherCore {
 			long f = state[5];
 			long g = state[6];
 			long h = state[7];
-			for (int i = 0; i < 80; i++) {
-				long t1 = h + bigSigma1(e) + choose(e, f, g) + k[i] + schedule[i];
+			for (int j = 0; j < 80; j++) {
+				long t1 = h + bigSigma1(e) + choose(e, f, g) + k[j] + schedule[j];
 				long t2 = bigSigma0(a) + majority(a, b, c);
 				h = g;
 				g = f;
