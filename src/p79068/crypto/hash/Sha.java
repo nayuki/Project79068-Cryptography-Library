@@ -1,5 +1,8 @@
 package p79068.crypto.hash;
 
+import p79068.crypto.cipher.Cipherer;
+import p79068.crypto.cipher.Shacal1;
+import p79068.crypto.cipher.Shacal2;
 import p79068.hash.Hasher;
 
 
@@ -64,6 +67,16 @@ public final class Sha extends AbstractBlockHashFunction {
 		else if (this == SHA384_FUNCTION) return new BlockHasher(this, new Sha512Core(false));
 		else if (this == SHA512_FUNCTION) return new BlockHasher(this, new Sha512Core(true));
 		else throw new AssertionError();
+	}
+	
+	
+	public static Cipherer newShacal1Cipherer(Shacal1 cipher, byte[] key) {
+		return new Shacal1Cipherer(cipher, key);
+	}
+	
+	
+	public static Cipherer newShacal2Cipherer(Shacal2 cipher, byte[] key) {
+		return new Shacal2Cipherer(cipher, key);
 	}
 	
 }

@@ -1,6 +1,6 @@
 package p79068.crypto.cipher;
 
-import p79068.crypto.hash.Sha1;
+import p79068.crypto.hash.Sha;
 import p79068.util.HashCoder;
 
 
@@ -27,7 +27,7 @@ public final class Shacal1 extends AbstractCipher implements BlockCipher {
 	
 	@Override
 	protected Cipherer newCiphererUnchecked(byte[] key) {
-		return Sha1.FUNCTION.newCipherer(this, key);
+		return Sha.newShacal1Cipherer(this, key);
 	}
 	
 	
