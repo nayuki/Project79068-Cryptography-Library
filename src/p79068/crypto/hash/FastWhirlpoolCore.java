@@ -14,7 +14,7 @@ final class FastWhirlpoolCore extends BlockHasherCore {
 	private final long[][] rcon;
 	
 	private final int[] subInv;
-	private final long[][] mul;
+	private final long[] mul;
 	private final long[][] mulInv;
 	
 	
@@ -113,27 +113,24 @@ final class FastWhirlpoolCore extends BlockHasherCore {
 		
 		// Do the rounds
 		for (int i = 0; i < rcon.length; i++) {
-			round(key, rcon[i], temp);
-			round(message, key, temp);
+			round(key, rcon[i]);
+			round(message, key);
 		}
 	}
 	
 	
-	// The round function (rho). Encrypts the message in place. Also overwrites temp. Preserves key.
-	private void round(long[] message, long[] key, long[] temp) {
-		// Clear temp
-		for (int i = 0; i < 8; i++)
-			temp[i] = 0;
-		
-		// Do the combined gamma, pi, and theta
-		for (int i = 0; i < 8; i++) {
-			for (int j = 0; j < 8; j++)
-				temp[(i + j) & 7] ^= mul[j][(int)(message[i] >>> ((j ^ 7) << 3)) & 0xFF];
-		}
-		
-		// Sigma
-		for (int i = 0; i < 8; i++)
-			message[i] = temp[i] ^ key[i];
+	// The round function (rho). Encrypts the message in place.
+	private void round(long[] msg, long[] key) {
+		final int M = 0xFF;  // Byte mask
+		long m0 = msg[0], m1 = msg[1], m2 = msg[2], m3 = msg[3], m4 = msg[4], m5 = msg[5], m6 = msg[6], m7 = msg[7];
+		msg[0] = mul[(int)(m0 >>> 56)] ^ mul[0x100 | (int)(m7 >>> 48) & M] ^ mul[0x200 | (int)(m6 >>> 40) & M] ^ mul[0x300 | (int)(m5 >>> 32) & M] ^ mul[0x400 | (int)m4 >>> 24] ^ mul[0x500 | (int)m3 >>> 16 & M] ^ mul[0x600 | (int)m2 >>> 8 & M] ^ mul[0x700 | (int)m1 & M] ^ key[0];
+		msg[1] = mul[(int)(m1 >>> 56)] ^ mul[0x100 | (int)(m0 >>> 48) & M] ^ mul[0x200 | (int)(m7 >>> 40) & M] ^ mul[0x300 | (int)(m6 >>> 32) & M] ^ mul[0x400 | (int)m5 >>> 24] ^ mul[0x500 | (int)m4 >>> 16 & M] ^ mul[0x600 | (int)m3 >>> 8 & M] ^ mul[0x700 | (int)m2 & M] ^ key[1];
+		msg[2] = mul[(int)(m2 >>> 56)] ^ mul[0x100 | (int)(m1 >>> 48) & M] ^ mul[0x200 | (int)(m0 >>> 40) & M] ^ mul[0x300 | (int)(m7 >>> 32) & M] ^ mul[0x400 | (int)m6 >>> 24] ^ mul[0x500 | (int)m5 >>> 16 & M] ^ mul[0x600 | (int)m4 >>> 8 & M] ^ mul[0x700 | (int)m3 & M] ^ key[2];
+		msg[3] = mul[(int)(m3 >>> 56)] ^ mul[0x100 | (int)(m2 >>> 48) & M] ^ mul[0x200 | (int)(m1 >>> 40) & M] ^ mul[0x300 | (int)(m0 >>> 32) & M] ^ mul[0x400 | (int)m7 >>> 24] ^ mul[0x500 | (int)m6 >>> 16 & M] ^ mul[0x600 | (int)m5 >>> 8 & M] ^ mul[0x700 | (int)m4 & M] ^ key[3];
+		msg[4] = mul[(int)(m4 >>> 56)] ^ mul[0x100 | (int)(m3 >>> 48) & M] ^ mul[0x200 | (int)(m2 >>> 40) & M] ^ mul[0x300 | (int)(m1 >>> 32) & M] ^ mul[0x400 | (int)m0 >>> 24] ^ mul[0x500 | (int)m7 >>> 16 & M] ^ mul[0x600 | (int)m6 >>> 8 & M] ^ mul[0x700 | (int)m5 & M] ^ key[4];
+		msg[5] = mul[(int)(m5 >>> 56)] ^ mul[0x100 | (int)(m4 >>> 48) & M] ^ mul[0x200 | (int)(m3 >>> 40) & M] ^ mul[0x300 | (int)(m2 >>> 32) & M] ^ mul[0x400 | (int)m1 >>> 24] ^ mul[0x500 | (int)m0 >>> 16 & M] ^ mul[0x600 | (int)m7 >>> 8 & M] ^ mul[0x700 | (int)m6 & M] ^ key[5];
+		msg[6] = mul[(int)(m6 >>> 56)] ^ mul[0x100 | (int)(m5 >>> 48) & M] ^ mul[0x200 | (int)(m4 >>> 40) & M] ^ mul[0x300 | (int)(m3 >>> 32) & M] ^ mul[0x400 | (int)m2 >>> 24] ^ mul[0x500 | (int)m1 >>> 16 & M] ^ mul[0x600 | (int)m0 >>> 8 & M] ^ mul[0x700 | (int)m7 & M] ^ key[6];
+		msg[7] = mul[(int)(m7 >>> 56)] ^ mul[0x100 | (int)(m6 >>> 48) & M] ^ mul[0x200 | (int)(m5 >>> 40) & M] ^ mul[0x300 | (int)(m4 >>> 32) & M] ^ mul[0x400 | (int)m3 >>> 24] ^ mul[0x500 | (int)m2 >>> 16 & M] ^ mul[0x600 | (int)m1 >>> 8 & M] ^ mul[0x700 | (int)m0 & M] ^ key[7];
 	}
 	
 	
@@ -143,7 +140,7 @@ final class FastWhirlpoolCore extends BlockHasherCore {
 		long[][] keySch = new long[rcon.length + 1][8];
 		System.arraycopy(key, 0, keySch[0], 0, 8);
 		for (int i = 0; i < rcon.length; i++) {
-			round(key, rcon[i], temp);
+			round(key, rcon[i]);
 			System.arraycopy(key, 0, keySch[i + 1], 0, 8);
 		}
 		
@@ -185,15 +182,15 @@ final class FastWhirlpoolCore extends BlockHasherCore {
 	
 	
 	
-	private static long[][] makeMultiplicationTable(int[] sub, int[] c) {
+	private static long[] makeMultiplicationTable(int[] sub, int[] c) {
 		c = pseudoReverse(c);
-		long[][] result = new long[8][256];
+		long[] result = new long[256 * 8];
 		for (int i = 0; i < 256; i++) {
 			long vector = 0;
 			for (int j = 0; j < 8; j++)
 				vector |= multiply(sub[i], c[j]) << ((7 - j) * 8);
 			for (int j = 0; j < 8; j++)
-				result[j][i] = LongBitMath.rotateRight(vector, j * 8);
+				result[j * 256 + i] = LongBitMath.rotateRight(vector, j * 8);
 		}
 		return result;
 	}
