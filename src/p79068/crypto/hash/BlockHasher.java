@@ -90,7 +90,6 @@ public final class BlockHasher extends AbstractHasher implements Zeroizable {
 			blockFilled += n;
 			if (blockFilled == blockLen) {
 				core.compress(block);
-				blockFilled = 0;
 				off += n;
 				len -= n;
 			} else
