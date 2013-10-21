@@ -106,7 +106,7 @@ final class WhirlpoolCore extends BlockHasherCore {
 	}
 	
 	
-	// High level cipher functions
+	/* High-level functions of the Whirlpool internal cipher */
 	
 	// The internal block cipher (W). Encrypts the message in place. Overwrites key and temp.
 	void encrypt(byte[] message, byte[] key, byte[] temp) {
@@ -131,7 +131,7 @@ final class WhirlpoolCore extends BlockHasherCore {
 	}
 	
 	
-	// Middle level cipher functions
+	/* Mid-level cipher functions */
 	
 	// The round function (rho). Encrypts block in place. Also overwrites temp. Preserves key.
 	private void round(byte[] block, byte[] key, byte[] temp) {
@@ -151,7 +151,7 @@ final class WhirlpoolCore extends BlockHasherCore {
 	}
 	
 	
-	// Low level cipher functions
+	/* Low-level cipher functions */
 	
 	// The non-linear layer (gamma)
 	private void subBytes(byte[] block) {
