@@ -14,7 +14,7 @@ class KeccakHasher extends AbstractHasher implements Zeroizable {
 	
 	private final int blockSize;
 	
-	private int blockByteIndex;
+	private int blockFilled;
 	
 	
 	
@@ -22,7 +22,9 @@ class KeccakHasher extends AbstractHasher implements Zeroizable {
 		super(hashFunc);
 		state = new long[25];
 		blockSize = 200 - hashFunc.getHashLength() * 2;
-		blockByteIndex = 0;
+		if (blockSize <= 0)
+			throw new IllegalArgumentException();
+		blockFilled = 0;
 	}
 	
 	
@@ -30,7 +32,7 @@ class KeccakHasher extends AbstractHasher implements Zeroizable {
 	@Override
 	public void update(byte[] b, int off, int len) {
 		Assert.assertRangeInBounds(b.length, off, len);
-		int j = blockByteIndex;
+		int j = blockFilled;
 		if (j < 0 || j >= blockSize)
 			throw new AssertionError();
 		
@@ -49,21 +51,19 @@ class KeccakHasher extends AbstractHasher implements Zeroizable {
 			int i = off;
 			int end = off + len;
 			
-			// Absorb up to 7 input bytes until we hit the next int64 element of 'state'
-			for (; i < end && (j & 7) != 0; i++) {
+			// Absorb up to 7 input bytes until we align to the next int64 element of state
+			for (; (j & 7) != 0 && i < end; i++, j++)
 				state[j >>> 3] ^= (b[i] & 0xFFL) << ((j & 7) << 3);
-				j++;
-			}
 			if (j == blockSize) {
 				absorb();
 				j = 0;
 			}
 			
-			// Absorb blocks of 8 bytes at a time
+			// Absorb 8 bytes at a time
 			for (; i + 8 <= end; i += 8) {
 				state[j >>> 3] ^=
-					       (((b[i + 0] & 0xFF) | (b[i + 1] & 0xFF) << 8 | (b[i + 2] & 0xFF) << 16 | b[i + 3] << 24) & 0xFFFFFFFFL)
-					| (long)((b[i + 4] & 0xFF) | (b[i + 5] & 0xFF) << 8 | (b[i + 6] & 0xFF) << 16 | b[i + 7] << 24) << 32;
+					     (((b[i    ] & 0xFF) | (b[i + 1] & 0xFF) << 8 | (b[i + 2] & 0xFF) << 16 | b[i + 3] << 24) & 0xFFFFFFFFL) |
+					(long)((b[i + 4] & 0xFF) | (b[i + 5] & 0xFF) << 8 | (b[i + 6] & 0xFF) << 16 | b[i + 7] << 24) << 32;
 				j += 8;
 				if (j == blockSize) {
 					absorb();
@@ -71,21 +71,19 @@ class KeccakHasher extends AbstractHasher implements Zeroizable {
 				}
 			}
 			
-			// Absorb the remaining bytes, up to 7
-			for (; i < end; i++) {
+			// Absorb the remaining bytes, at most 7
+			for (; i < end; i++, j++)
 				state[j >>> 3] ^= (b[i] & 0xFFL) << ((j & 7) << 3);
-				j++;
-			}
 		}
 		
-		blockByteIndex = j;
+		blockFilled = j;
 	}
 	
 	
 	@Override
 	public HashValue getHash() {
 		KeccakHasher hasher = clone();
-		byte[] temp = new byte[hasher.blockSize - hasher.blockByteIndex];
+		byte[] temp = new byte[hasher.blockSize - hasher.blockFilled];
 		temp[0] = 0x01;
 		temp[temp.length - 1] ^= 0x80;
 		hasher.update(temp);
