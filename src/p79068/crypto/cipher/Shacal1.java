@@ -17,7 +17,7 @@ public final class Shacal1 extends AbstractCipher implements BlockCipher {
 	
 	
 	public Shacal1(int keyLength) {
-		super(String.format("SHACAL-1 (%d-bit)", keyLength), 20, keyLength);
+		super(String.format("SHACAL-1 (%d-bit)", keyLength * 8), 20, keyLength);
 		if (keyLength < 0 || keyLength > 64)
 			throw new IllegalArgumentException();
 		this.keyLength = keyLength;
