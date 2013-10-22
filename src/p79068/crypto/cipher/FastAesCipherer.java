@@ -42,10 +42,10 @@ final class FastAesCipherer extends AbstractCipherer {
 			else {
 				for (int j = 0; j < 4; j++) {
 					decKeySch[i * 4 + j] =
-						  mulinv0[SBOX[encKeySch[(roundCount - i) * 4 + j] >>> 24 & 0xFF] & 0xFF]
-						^ mulinv1[SBOX[encKeySch[(roundCount - i) * 4 + j] >>> 16 & 0xFF] & 0xFF]
-						^ mulinv2[SBOX[encKeySch[(roundCount - i) * 4 + j] >>>  8 & 0xFF] & 0xFF]
-						^ mulinv3[SBOX[encKeySch[(roundCount - i) * 4 + j] >>>  0 & 0xFF] & 0xFF];
+						  mulInv[0x000 | SBOX[encKeySch[(roundCount - i) * 4 + j] >>> 24 & 0xFF] & 0xFF]
+						^ mulInv[0x100 | SBOX[encKeySch[(roundCount - i) * 4 + j] >>> 16 & 0xFF] & 0xFF]
+						^ mulInv[0x200 | SBOX[encKeySch[(roundCount - i) * 4 + j] >>>  8 & 0xFF] & 0xFF]
+						^ mulInv[0x300 | SBOX[encKeySch[(roundCount - i) * 4 + j] >>>  0 & 0xFF] & 0xFF];
 				}
 			}
 		}
@@ -71,10 +71,10 @@ final class FastAesCipherer extends AbstractCipherer {
 			int x3 = (b[off + 12] << 24 | (b[off + 13] & 0xFF) << 16 | (b[off + 14] & 0xFF) << 8 | (b[off + 15] & 0xFF)) ^ encKeySch[3];
 			
 			for (int i = 1; i < roundCount; i++) {
-				int y0 = mul0[x0 >>> 24] ^ mul1[x1 >>> 16 & 0xFF] ^ mul2[x2 >>> 8 & 0xFF] ^ mul3[x3 & 0xFF];
-				int y1 = mul0[x1 >>> 24] ^ mul1[x2 >>> 16 & 0xFF] ^ mul2[x3 >>> 8 & 0xFF] ^ mul3[x0 & 0xFF];
-				int y2 = mul0[x2 >>> 24] ^ mul1[x3 >>> 16 & 0xFF] ^ mul2[x0 >>> 8 & 0xFF] ^ mul3[x1 & 0xFF];
-				int y3 = mul0[x3 >>> 24] ^ mul1[x0 >>> 16 & 0xFF] ^ mul2[x1 >>> 8 & 0xFF] ^ mul3[x2 & 0xFF];
+				int y0 = mul[x0 >>> 24] ^ mul[0x100 | (x1 >>> 16 & 0xFF)] ^ mul[0x200 | (x2 >>> 8 & 0xFF)] ^ mul[0x300 | (x3 & 0xFF)];
+				int y1 = mul[x1 >>> 24] ^ mul[0x100 | (x2 >>> 16 & 0xFF)] ^ mul[0x200 | (x3 >>> 8 & 0xFF)] ^ mul[0x300 | (x0 & 0xFF)];
+				int y2 = mul[x2 >>> 24] ^ mul[0x100 | (x3 >>> 16 & 0xFF)] ^ mul[0x200 | (x0 >>> 8 & 0xFF)] ^ mul[0x300 | (x1 & 0xFF)];
+				int y3 = mul[x3 >>> 24] ^ mul[0x100 | (x0 >>> 16 & 0xFF)] ^ mul[0x200 | (x1 >>> 8 & 0xFF)] ^ mul[0x300 | (x2 & 0xFF)];
 				x0 = y0 ^ encKeySch[i << 2 | 0];
 				x1 = y1 ^ encKeySch[i << 2 | 1];
 				x2 = y2 ^ encKeySch[i << 2 | 2];
@@ -126,10 +126,10 @@ final class FastAesCipherer extends AbstractCipherer {
 			int x3 = (b[off + 12] << 24 | (b[off + 13] & 0xFF) << 16 | (b[off + 14] & 0xFF) << 8 | (b[off + 15] & 0xFF)) ^ decKeySch[3];
 			
 			for (int i = 1; i < roundCount; i++) {
-				int y0 = mulinv0[x0 >>> 24] ^ mulinv1[x3 >>> 16 & 0xFF] ^ mulinv2[x2 >>> 8 & 0xFF] ^ mulinv3[x1 & 0xFF];
-				int y1 = mulinv0[x1 >>> 24] ^ mulinv1[x0 >>> 16 & 0xFF] ^ mulinv2[x3 >>> 8 & 0xFF] ^ mulinv3[x2 & 0xFF];
-				int y2 = mulinv0[x2 >>> 24] ^ mulinv1[x1 >>> 16 & 0xFF] ^ mulinv2[x0 >>> 8 & 0xFF] ^ mulinv3[x3 & 0xFF];
-				int y3 = mulinv0[x3 >>> 24] ^ mulinv1[x2 >>> 16 & 0xFF] ^ mulinv2[x1 >>> 8 & 0xFF] ^ mulinv3[x0 & 0xFF];
+				int y0 = mulInv[x0 >>> 24] ^ mulInv[0x100 | (x3 >>> 16 & 0xFF)] ^ mulInv[0x200 | (x2 >>> 8 & 0xFF)] ^ mulInv[0x300 | (x1 & 0xFF)];
+				int y1 = mulInv[x1 >>> 24] ^ mulInv[0x100 | (x0 >>> 16 & 0xFF)] ^ mulInv[0x200 | (x3 >>> 8 & 0xFF)] ^ mulInv[0x300 | (x2 & 0xFF)];
+				int y2 = mulInv[x2 >>> 24] ^ mulInv[0x100 | (x1 >>> 16 & 0xFF)] ^ mulInv[0x200 | (x0 >>> 8 & 0xFF)] ^ mulInv[0x300 | (x3 & 0xFF)];
+				int y3 = mulInv[x3 >>> 24] ^ mulInv[0x100 | (x2 >>> 16 & 0xFF)] ^ mulInv[0x200 | (x1 >>> 8 & 0xFF)] ^ mulInv[0x300 | (x0 & 0xFF)];
 				x0 = y0 ^ decKeySch[i << 2 | 0];
 				x1 = y1 ^ decKeySch[i << 2 | 1];
 				x2 = y2 ^ decKeySch[i << 2 | 2];
@@ -186,8 +186,7 @@ final class FastAesCipherer extends AbstractCipherer {
 	private static byte[] SBOX = RijndaelUtils.getSbox();
 	
 	private static int[] bigsub, bigsubinv;  // Substitutes 2 bytes in parallel.
-	private static int[] mul0, mul1, mul2, mul3;
-	private static int[] mulinv0, mulinv1, mulinv2, mulinv3;
+	private static int[] mul, mulInv;
 	
 	
 	static {
@@ -209,36 +208,26 @@ final class FastAesCipherer extends AbstractCipherer {
 	
 	
 	private static void initMultiplyTable(byte[] sbox, byte[] sboxinv) {
-		mul0 = new int[256];
-		mul1 = new int[256];
-		mul2 = new int[256];
-		mul3 = new int[256];
+		mul = new int[256 * 4];
 		for (int i = 0; i < 256; i++) {
 			int j = sbox[i] & 0xFF;
 			int temp = RijndaelUtils.multiply(j, 0x02) << 24
 			         | RijndaelUtils.multiply(j, 0x01) << 16
 			         | RijndaelUtils.multiply(j, 0x01) <<  8
 			         | RijndaelUtils.multiply(j, 0x03) <<  0;
-			mul0[i] = rotateRight(temp,  0);
-			mul1[i] = rotateRight(temp,  8);
-			mul2[i] = rotateRight(temp, 16);
-			mul3[i] = rotateRight(temp, 24);
+			for (j = 0; j < 4; j++)
+				mul[j * 256 + i] = rotateRight(temp, j * 8);
 		}
 		
-		mulinv0 = new int[256];
-		mulinv1 = new int[256];
-		mulinv2 = new int[256];
-		mulinv3 = new int[256];
+		mulInv = new int[256 * 4];
 		for (int i = 0; i < 256; i++) {
 			int j = sboxinv[i] & 0xFF;
 			int temp = RijndaelUtils.multiply(j, 0x0E) << 24
 			         | RijndaelUtils.multiply(j, 0x09) << 16
 			         | RijndaelUtils.multiply(j, 0x0D) <<  8
 			         | RijndaelUtils.multiply(j, 0x0B) <<  0;
-			mulinv0[i] = rotateRight(temp,  0);
-			mulinv1[i] = rotateRight(temp,  8);
-			mulinv2[i] = rotateRight(temp, 16);
-			mulinv3[i] = rotateRight(temp, 24);
+			for (j = 0; j < 4; j++)
+				mulInv[j * 256 + i] = rotateRight(temp, j * 8);
 		}
 	}
 	
