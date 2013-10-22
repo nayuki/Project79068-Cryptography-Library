@@ -6,12 +6,14 @@ import p79068.crypto.Zeroizer;
 
 final class Rc2Cipherer extends AbstractCipherer {
 	
-	private int[] keySchedule;  // 16-bit integers
+	private int[] keySchedule;  // Unsigned 16-bit integers
 	
 	
 	
 	Rc2Cipherer(Rc2 cipher, byte[] key) {
 		super(cipher, key);
+		
+		// Set up numbers
 		int t1 = cipher.getEffectiveKeyLength();
 		int t8 = (t1 + 7) / 8;  // Effective key length, in bytes (rounded up)
 		int tm;
@@ -19,17 +21,21 @@ final class Rc2Cipherer extends AbstractCipherer {
 			tm = 0xFF;
 		else
 			tm = (1 << (t1 % 8)) - 1;
-		int[] l = new int[128];  // Each element is an 8-bit integer
+		
+		// Expand key
+		int[] l = new int[128];  // Each element is unsigned 8-bit
 		for (int i = 0; i < key.length; i++)
 			l[i] = key[i] & 0xFF;
 		for (int i = key.length; i < 128; i++)
-			l[i] = piTable[(l[i - 1] + l[i - key.length]) & 0xFF];
-		l[128 - t8] = piTable[l[128 - t8] & tm];
+			l[i] = PI_TABLE[(l[i - 1] + l[i - key.length]) & 0xFF];
+		l[128 - t8] = PI_TABLE[l[128 - t8] & tm];
 		for (int i = 128 - 1 - t8; i >= 0; i--)
-			l[i] = piTable[l[i + 1] ^ l[i + t8]];
+			l[i] = PI_TABLE[l[i + 1] ^ l[i + t8]];
+		
+		// Pack uint16 key schedule
 		keySchedule = new int[64];
 		for (int i = 0; i < 64; i++)
-			keySchedule[i] = (l[i * 2] & 0xFF) | (l[i * 2 + 1] & 0xFF) << 8;
+			keySchedule[i] = l[i * 2] | l[i * 2 + 1] << 8;
 	}
 	
 	
@@ -39,21 +45,24 @@ final class Rc2Cipherer extends AbstractCipherer {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
 		Assert.assertRangeInBounds(b.length, off, len);
-		if ((len & 7) != 0)
+		if (len % 8 != 0)
 			throw new IllegalArgumentException("Invalid block length");
+		
 		int[] r = new int[4];
-		for (int end = off + len; off < end; off += 8) {
-			for (int i = 0; i < 4; i++)
-				r[i] = (b[off + i*2] & 0xFF) | (b[off + i*2 + 1] & 0xFF) << 8;
+		for (int i = off, end = off + len; i < end; i += 8) {
+			for (int j = 0; j < 4; j++)
+				r[j] = (b[i + j*2] & 0xFF) | (b[i + j*2 + 1] & 0xFF) << 8;
+			
 			int j = 0;
 			for (; j <  5; j++) mix(r, j * 4);
 			mash(r);
 			for (; j < 11; j++) mix(r, j * 4);
 			mash(r);
 			for (; j < 16; j++) mix(r, j * 4);
-			for (int i = 0; i < 4; i++) {
-				b[off + i*2 + 0] = (byte)(r[i] >>> 0);
-				b[off + i*2 + 1] = (byte)(r[i] >>> 8);
+			
+			for (j = 0; j < 4; j++) {
+				b[i + j*2 + 0] = (byte)(r[j] >>> 0);
+				b[i + j*2 + 1] = (byte)(r[j] >>> 8);
 			}
 		}
 	}
@@ -64,21 +73,24 @@ final class Rc2Cipherer extends AbstractCipherer {
 		if (cipher == null)
 			throw new IllegalStateException("Already zeroized");
 		Assert.assertRangeInBounds(b.length, off, len);
-		if ((len & 7) != 0)
+		if (len % 8 != 0)
 			throw new IllegalArgumentException("Invalid block length");
+		
 		int[] r = new int[4];
-		for (int end = off + len; off < end; off += 8) {
-			for (int i = 0; i < 4; i++)
-				r[i] = (b[off + i*2] & 0xFF) | (b[off + i*2 + 1] & 0xFF) << 8;
+		for (int i = off, end = off + len; i < end; i += 8) {
+			for (int j = 0; j < 4; j++)
+				r[j] = (b[i + j*2] & 0xFF) | (b[i + j*2 + 1] & 0xFF) << 8;
+			
 			int j = 15;
 			for (; j >= 11; j--) mixInverse(r, j * 4);
 			mashInverse(r);
 			for (; j >=  5; j--) mixInverse(r, j * 4);
 			mashInverse(r);
 			for (; j >=  0; j--) mixInverse(r, j * 4);
-			for (int i = 0; i < 4; i++) {
-				b[off + i*2 + 0] = (byte)(r[i] >>> 0);
-				b[off + i*2 + 1] = (byte)(r[i] >>> 8);
+			
+			for (j = 0; j < 4; j++) {
+				b[i + j*2 + 0] = (byte)(r[j] >>> 0);
+				b[i + j*2 + 1] = (byte)(r[j] >>> 8);
 			}
 		}
 	}
@@ -101,7 +113,35 @@ final class Rc2Cipherer extends AbstractCipherer {
 	}
 	
 	
-	private static final int[] piTable = {
+	private void mix(int[] r, int j) {
+		for (int i = 0; i < 4; i++) {
+			r[i] = (r[i] + keySchedule[j + i] + (r[(i + 3) & 3] & r[(i + 2) & 3]) + (~r[(i + 3) & 3] & r[(i + 1) & 3])) & 0xFFFF;
+			r[i] = (r[i] << S[i] | r[i] >>> (16 - S[i])) & 0xFFFF;  // Left rotation by s[i]
+		}
+	}
+	
+	
+	private void mash(int[] r) {
+		for (int i = 0; i < 4; i++)
+			r[i] = (r[i] + keySchedule[r[(i + 3) & 3] & 0x3F]) & 0xFFFF;
+	}
+	
+	
+	private void mixInverse(int[] r, int j) {
+		for (int i = 3; i >= 0; i--) {
+			r[i] = (r[i] << (16 - S[i]) | r[i] >>> S[i]) & 0xFFFF;  // Right rotation by s[i]
+			r[i] = (r[i] - keySchedule[j + i] - (r[(i + 3) & 3] & r[(i + 2) & 3]) - (~r[(i + 3) & 3] & r[(i + 1) & 3])) & 0xFFFF;
+		}
+	}
+	
+	
+	private void mashInverse(int[] r) {
+		for (int i = 3; i >= 0; i--)
+			r[i] = (r[i] - keySchedule[r[(i + 3) & 3] & 0x3F]) & 0xFFFF;
+	}
+	
+	
+	private static final int[] PI_TABLE = {
 		0xD9, 0x78, 0xF9, 0xC4, 0x19, 0xDD, 0xB5, 0xED, 0x28, 0xE9, 0xFD, 0x79, 0x4A, 0xA0, 0xD8, 0x9D,
 		0xC6, 0x7E, 0x37, 0x83, 0x2B, 0x76, 0x53, 0x8E, 0x62, 0x4C, 0x64, 0x88, 0x44, 0x8B, 0xFB, 0xA2,
 		0x17, 0x9A, 0x59, 0xF5, 0x87, 0xB3, 0x4F, 0x13, 0x61, 0x45, 0x6D, 0x8D, 0x09, 0x81, 0x7D, 0x32,
@@ -117,46 +157,10 @@ final class Rc2Cipherer extends AbstractCipherer {
 		0x2D, 0x5D, 0xFA, 0x98, 0xE3, 0x8A, 0x92, 0xAE, 0x05, 0xDF, 0x29, 0x10, 0x67, 0x6C, 0xBA, 0xC9,
 		0xD3, 0x00, 0xE6, 0xCF, 0xE1, 0x9E, 0xA8, 0x2C, 0x63, 0x16, 0x01, 0x3F, 0x58, 0xE2, 0x89, 0xA9,
 		0x0D, 0x38, 0x34, 0x1B, 0xAB, 0x33, 0xFF, 0xB0, 0xBB, 0x48, 0x0C, 0x5F, 0xB9, 0xB1, 0xCD, 0x2E,
-		0xC5, 0xF3, 0xDB, 0x47, 0xE5, 0xA5, 0x9C, 0x77, 0x0A, 0xA6, 0x20, 0x68, 0xFE, 0x7F, 0xC1, 0xAD
+		0xC5, 0xF3, 0xDB, 0x47, 0xE5, 0xA5, 0x9C, 0x77, 0x0A, 0xA6, 0x20, 0x68, 0xFE, 0x7F, 0xC1, 0xAD,
 	};
 	
 	
-	private static final int[] s = {1, 2, 3, 5};
-	
-	
-	private void mix(int[] r, int j) {
-		for (int i = 0; i < 4; i++)
-			mix(r, i, j + i);
-	}
-	
-	
-	private void mix(int[] r, int i, int j) {
-		r[i] = (r[i] + keySchedule[j] + (r[(i + 3) & 3] & r[(i + 2) & 3]) + (~r[(i + 3) & 3] & r[(i + 1) & 3])) & 0xFFFF;
-		r[i] = (r[i] << s[i] | r[i] >>> (16 - s[i])) & 0xFFFF;  // Left rotation by s[i]
-	}
-	
-	
-	private void mash(int[] r) {
-		for (int i = 0; i < 4; i++)
-			r[i] = (r[i] + keySchedule[r[(i + 3) & 3] & 0x3F]) & 0xFFFF;
-	}
-	
-	
-	private void mixInverse(int[] r, int j) {
-		for (int i = 3; i >= 0; i--)
-			mixInverse(r, i, j + i);
-	}
-	
-	
-	private void mixInverse(int[] r, int i, int j) {
-		r[i] = (r[i] << (16 - s[i]) | r[i] >>> s[i]) & 0xFFFF;  // Right rotation by s[i]
-		r[i] = (r[i] - keySchedule[j] - (r[(i + 3) & 3] & r[(i + 2) & 3]) - (~r[(i + 3) & 3] & r[(i + 1) & 3])) & 0xFFFF;
-	}
-	
-	
-	private void mashInverse(int[] r) {
-		for (int i = 3; i >= 0; i--)
-			r[i] = (r[i] - keySchedule[r[(i + 3) & 3] & 0x3F]) & 0xFFFF;
-	}
+	private static final int[] S = {1, 2, 3, 5};
 	
 }
