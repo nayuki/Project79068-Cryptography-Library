@@ -1,5 +1,6 @@
 package p79068.crypto.cipher;
 
+import static java.lang.Integer.rotateRight;
 import p79068.Assert;
 import p79068.crypto.Zeroizer;
 
@@ -218,10 +219,10 @@ final class FastAesCipherer extends AbstractCipherer {
 			         | RijndaelUtils.multiply(j, 0x01) << 16
 			         | RijndaelUtils.multiply(j, 0x01) <<  8
 			         | RijndaelUtils.multiply(j, 0x03) <<  0;
-			mul0[i] = Integer.rotateRight(temp,  0);
-			mul1[i] = Integer.rotateRight(temp,  8);
-			mul2[i] = Integer.rotateRight(temp, 16);
-			mul3[i] = Integer.rotateRight(temp, 24);
+			mul0[i] = rotateRight(temp,  0);
+			mul1[i] = rotateRight(temp,  8);
+			mul2[i] = rotateRight(temp, 16);
+			mul3[i] = rotateRight(temp, 24);
 		}
 		
 		mulinv0 = new int[256];
@@ -234,10 +235,10 @@ final class FastAesCipherer extends AbstractCipherer {
 			         | RijndaelUtils.multiply(j, 0x09) << 16
 			         | RijndaelUtils.multiply(j, 0x0D) <<  8
 			         | RijndaelUtils.multiply(j, 0x0B) <<  0;
-			mulinv0[i] = Integer.rotateRight(temp,  0);
-			mulinv1[i] = Integer.rotateRight(temp,  8);
-			mulinv2[i] = Integer.rotateRight(temp, 16);
-			mulinv3[i] = Integer.rotateRight(temp, 24);
+			mulinv0[i] = rotateRight(temp,  0);
+			mulinv1[i] = rotateRight(temp,  8);
+			mulinv2[i] = rotateRight(temp, 16);
+			mulinv3[i] = rotateRight(temp, 24);
 		}
 	}
 	
