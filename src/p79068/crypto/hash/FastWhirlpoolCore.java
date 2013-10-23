@@ -13,13 +13,13 @@ import p79068.math.LongBitMath;
 
 final class FastWhirlpoolCore extends BlockHasherCore {
 	
+	// Constants
 	private final long[][] rcon;
-	
 	private final int[] subInv;
 	private final long[] mul;
 	private final long[][] mulInv;
 	
-	
+	// Variable (reference doesn't change, but elements do)
 	private long[] state;
 	
 	
@@ -59,15 +59,15 @@ final class FastWhirlpoolCore extends BlockHasherCore {
 		if (len % 64 != 0)
 			throw new AssertionError();
 		
+		// For the following arrays, each element is overwritten in each outer loop iteration
 		long[] block = new long[8];
-		long[] tempblock = new long[8];  // Overwritten at each iteration
-		long[] tempstate = new long[8];  // Overwritten at each iteration
-		long[] temp = new long[8];  // Overwritten at each iteration
+		long[] tempblock = new long[8];
+		long[] tempstate = new long[8];
 		
 		// For each block of 64 bytes
 		for (int i = off, end = off + len; i < end; ) {
 			
-			// Pack bytes into int64s in big endian
+			// Pack bytes into int64 in big endian
 			for (int j = 0; j < 8; j++, i += 8) {
 				block[j] = (message[i + 0] & 0xFFL) << 56
 				         | (message[i + 1] & 0xFFL) << 48
@@ -81,7 +81,7 @@ final class FastWhirlpoolCore extends BlockHasherCore {
 			}
 			
 			System.arraycopy(state, 0, tempstate, 0, 8);
-			encrypt(tempblock, tempstate, temp);
+			encrypt(tempblock, tempstate);
 			for (int j = 0; j < 8; j++)
 				state[j] ^= tempblock[j] ^ block[j];
 		}
@@ -99,7 +99,7 @@ final class FastWhirlpoolCore extends BlockHasherCore {
 		}
 		length = length.shiftLeft(3);  // Length is now in bits
 		for (int i = 0; i < 8; i++)
-			block[block.length - 1 - i] = length.shiftRight(i * 8).byteValue();  // Whirlpool supports lengths just less than 2^256 bits (2^253 bytes), but this implementation only counts to just less than 2^64 bytes.
+			block[block.length - 1 - i] = length.shiftRight(i * 8).byteValue();
 		compress(block);
 		return new HashValue(LongBitMath.toBytesBigEndian(state));
 	}
@@ -107,7 +107,7 @@ final class FastWhirlpoolCore extends BlockHasherCore {
 	
 	
 	// The internal block cipher (W). Encrypts the message in place. Overwrites key and temp.
-	void encrypt(long[] message, long[] key, long[] temp) {
+	void encrypt(long[] message, long[] key) {
 		// Sigma
 		for (int i = 0; i < 8; i++)
 			message[i] ^= key[i];

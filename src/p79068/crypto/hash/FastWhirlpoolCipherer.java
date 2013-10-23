@@ -52,7 +52,7 @@ final class FastWhirlpoolCipherer extends AbstractCipherer {
 		for (int i = off, end = off + len; i < end; i += 64) {
 			toInt64sBigEndian(b, i, tempmsg);
 			if (encrypt)
-				hasher.encrypt(tempmsg, key, temp);
+				hasher.encrypt(tempmsg, key);
 			else
 				hasher.decrypt(tempmsg, key, temp);
 			toBytesBigEndian(tempmsg, b, i);
