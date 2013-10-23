@@ -1,48 +1,21 @@
 package p79068.crypto.hash;
 
-import java.math.BigInteger;
-import java.util.Arrays;
-
 import p79068.Assert;
-import p79068.crypto.Zeroizer;
-import p79068.hash.HashValue;
-import p79068.math.IntegerBitMath;
 
 
-final class FastSha1Core extends BlockHasherCore {
-	
-	private int[] state;
-	
-	
+final class FastSha1Core extends Sha1Core {
 	
 	public FastSha1Core() {
-		state = new int[]{0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476, 0xC3D2E1F0};
+		super(true);
 	}
 	
-	
-	
-	@Override
-	public FastSha1Core clone() {
-		if (state == null)
-			throw new IllegalStateException("Already zeroized");
-		FastSha1Core result = (FastSha1Core)super.clone();
-		result.state = result.state.clone();
-		return result;
-	}
-	
-	
-	@Override
-	public void zeroize() {
-		if (state == null)
-			throw new IllegalStateException("Already zeroized");
-		state = Zeroizer.clear(state);
-	}
 	
 	
 	private static final int K0 = 0x5A827999;
 	private static final int K1 = 0x6ED9EBA1;
 	private static final int K2 = 0x8F1BBCDC;
 	private static final int K3 = 0xCA62C1D6;
+	
 	
 	@Override
 	public void compress(byte[] msg, int off, int len) {
@@ -166,23 +139,6 @@ final class FastSha1Core extends BlockHasherCore {
 			d = state[3] += d;
 			e = state[4] += e;
 		}
-	}
-	
-	
-	@Override
-	public HashValue getHashDestructively(byte[] block, int blockFilled, BigInteger length) {
-		block[blockFilled] = (byte)0x80;
-		blockFilled++;
-		Arrays.fill(block, blockFilled, block.length, (byte)0);
-		if (blockFilled + 8 > block.length) {
-			compress(block);
-			Arrays.fill(block, (byte)0);
-		}
-		length = length.shiftLeft(3);  // Length is now in bits
-		for (int i = 0; i < 8; i++)
-			block[block.length - 1 - i] = length.shiftRight(i * 8).byteValue();
-		compress(block);
-		return new HashValue(IntegerBitMath.toBytesBigEndian(state));
 	}
 	
 }

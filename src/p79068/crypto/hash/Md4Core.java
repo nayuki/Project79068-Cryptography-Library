@@ -9,9 +9,9 @@ import p79068.hash.HashValue;
 import p79068.math.IntegerBitMath;
 
 
-final class Md4Core extends BlockHasherCore {
+class Md4Core extends BlockHasherCore {
 	
-	private int[] state;
+	protected int[] state;
 	
 	
 	

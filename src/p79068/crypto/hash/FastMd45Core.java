@@ -1,24 +1,16 @@
 package p79068.crypto.hash;
 
-import java.math.BigInteger;
-
 import p79068.Assert;
-import p79068.crypto.Zeroizer;
-import p79068.hash.HashValue;
-import p79068.math.IntegerBitMath;
 
 
-final class FastMd45Core extends BlockHasherCore {
+final class FastMd45Core extends Md4Core {
 	
 	private final boolean md5Mode;
-	
-	private int[] state;
 	
 	
 	
 	public FastMd45Core(boolean md5Mode) {
 		this.md5Mode = md5Mode;
-		state = new int[]{0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476};
 	}
 	
 	
@@ -179,43 +171,6 @@ final class FastMd45Core extends BlockHasherCore {
 			c = state[2] += c;
 			d = state[3] += d;
 		}
-	}
-	
-	
-	@Override
-	public HashValue getHashDestructively(byte[] block, int blockFilled, BigInteger length) {
-		block[blockFilled] = (byte)0x80;
-		blockFilled++;
-		for (int i = blockFilled; i < block.length; i++)
-			block[i] = 0x00;
-		if (blockFilled + 8 > block.length) {
-			compress(block);
-			for (int i = 0; i < block.length; i++)
-				block[i] = 0x00;
-		}
-		length = length.shiftLeft(3);  // Length is now in bits
-		for (int i = 0; i < 8; i++)
-			block[block.length - 8 + i] = length.shiftRight(i * 8).byteValue();
-		compress(block);
-		return new HashValue(IntegerBitMath.toBytesLittleEndian(state));
-	}
-	
-	
-	@Override
-	public FastMd45Core clone() {
-		if (state == null)
-			throw new IllegalStateException("Already zeroized");
-		FastMd45Core result = (FastMd45Core)super.clone();
-		result.state = result.state.clone();
-		return result;
-	}
-	
-	
-	@Override
-	public void zeroize() {
-		if (state == null)
-			throw new IllegalStateException("Already zeroized");
-		state = Zeroizer.clear(state);
 	}
 	
 }

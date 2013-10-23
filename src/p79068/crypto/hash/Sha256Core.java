@@ -11,11 +11,11 @@ import p79068.hash.HashValue;
 import p79068.math.IntegerBitMath;
 
 
-final class Sha256Core extends BlockHasherCore {
+class Sha256Core extends BlockHasherCore {
 	
 	private final boolean sha256Mode;
 	
-	private int[] state;
+	protected int[] state;
 	
 	
 	

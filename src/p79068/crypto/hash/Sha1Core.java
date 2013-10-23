@@ -11,7 +11,7 @@ import p79068.math.IntegerBitMath;
 
 class Sha1Core extends BlockHasherCore {
 	
-	private int[] state;
+	protected int[] state;
 	
 	private final boolean sha1Mode;
 	
