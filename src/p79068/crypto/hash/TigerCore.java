@@ -123,11 +123,11 @@ final class TigerCore extends BlockHasherCore {
 	
 	
 	@Override
-	public HashValue getHashDestructively(byte[] block, int blockLength, BigInteger length) {
-		block[blockLength] = (byte)(tiger2Mode ? 0x80 : 0x01);
-		blockLength++;
-		Arrays.fill(block, blockLength, block.length, (byte)0);
-		if (blockLength + 8 > block.length) {
+	public HashValue getHashDestructively(byte[] block, int blockFilled, BigInteger length) {
+		block[blockFilled] = (byte)(tiger2Mode ? 0x80 : 0x01);
+		blockFilled++;
+		Arrays.fill(block, blockFilled, block.length, (byte)0);
+		if (blockFilled + 8 > block.length) {
 			compress(block);
 			Arrays.fill(block, (byte)0);
 		}

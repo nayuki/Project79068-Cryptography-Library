@@ -183,12 +183,12 @@ final class FastMd45Core extends BlockHasherCore {
 	
 	
 	@Override
-	public HashValue getHashDestructively(byte[] block, int blockLength, BigInteger length) {
-		block[blockLength] = (byte)0x80;
-		blockLength++;
-		for (int i = blockLength; i < block.length; i++)
+	public HashValue getHashDestructively(byte[] block, int blockFilled, BigInteger length) {
+		block[blockFilled] = (byte)0x80;
+		blockFilled++;
+		for (int i = blockFilled; i < block.length; i++)
 			block[i] = 0x00;
-		if (blockLength + 8 > block.length) {
+		if (blockFilled + 8 > block.length) {
 			compress(block);
 			for (int i = 0; i < block.length; i++)
 				block[i] = 0x00;

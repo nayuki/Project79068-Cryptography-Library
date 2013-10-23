@@ -82,9 +82,9 @@ final class Md2Core extends BlockHasherCore {
 	
 	
 	@Override
-	public HashValue getHashDestructively(byte[] block, int blockLength, BigInteger length) {
-		for (int i = blockLength; i < block.length; i++)
-			block[i] = (byte)(16 - blockLength);
+	public HashValue getHashDestructively(byte[] block, int blockFilled, BigInteger length) {
+		for (int i = blockFilled; i < block.length; i++)
+			block[i] = (byte)(16 - blockFilled);
 		compress(block);
 		
 		for (int i = 0; i < 16; i++)
