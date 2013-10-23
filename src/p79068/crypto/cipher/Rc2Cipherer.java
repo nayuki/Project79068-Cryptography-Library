@@ -23,19 +23,19 @@ final class Rc2Cipherer extends AbstractCipherer {
 			tm = (1 << (t1 % 8)) - 1;
 		
 		// Expand key
-		int[] l = new int[128];  // Each element is unsigned 8-bit
+		int[] temp = new int[128];  // Each element is unsigned 8-bit
 		for (int i = 0; i < key.length; i++)
-			l[i] = key[i] & 0xFF;
+			temp[i] = key[i] & 0xFF;
 		for (int i = key.length; i < 128; i++)
-			l[i] = PI_TABLE[(l[i - 1] + l[i - key.length]) & 0xFF];
-		l[128 - t8] = PI_TABLE[l[128 - t8] & tm];
+			temp[i] = PI_TABLE[(temp[i - 1] + temp[i - key.length]) & 0xFF];
+		temp[128 - t8] = PI_TABLE[temp[128 - t8] & tm];
 		for (int i = 128 - 1 - t8; i >= 0; i--)
-			l[i] = PI_TABLE[l[i + 1] ^ l[i + t8]];
+			temp[i] = PI_TABLE[temp[i + 1] ^ temp[i + t8]];
 		
 		// Pack uint16 key schedule
 		keySchedule = new int[64];
 		for (int i = 0; i < 64; i++)
-			keySchedule[i] = l[i * 2] | l[i * 2 + 1] << 8;
+			keySchedule[i] = temp[i * 2] | temp[i * 2 + 1] << 8;
 	}
 	
 	
@@ -116,7 +116,7 @@ final class Rc2Cipherer extends AbstractCipherer {
 	private void mix(int[] r, int j) {
 		for (int i = 0; i < 4; i++) {
 			r[i] = (r[i] + keySchedule[j + i] + (r[(i + 3) & 3] & r[(i + 2) & 3]) + (~r[(i + 3) & 3] & r[(i + 1) & 3])) & 0xFFFF;
-			r[i] = (r[i] << S[i] | r[i] >>> (16 - S[i])) & 0xFFFF;  // Left rotation by s[i]
+			r[i] = (r[i] << SHIFT[i] | r[i] >>> (16 - SHIFT[i])) & 0xFFFF;  // Left rotation
 		}
 	}
 	
@@ -129,7 +129,7 @@ final class Rc2Cipherer extends AbstractCipherer {
 	
 	private void mixInverse(int[] r, int j) {
 		for (int i = 3; i >= 0; i--) {
-			r[i] = (r[i] << (16 - S[i]) | r[i] >>> S[i]) & 0xFFFF;  // Right rotation by s[i]
+			r[i] = (r[i] << (16 - SHIFT[i]) | r[i] >>> SHIFT[i]) & 0xFFFF;  // Right rotation
 			r[i] = (r[i] - keySchedule[j + i] - (r[(i + 3) & 3] & r[(i + 2) & 3]) - (~r[(i + 3) & 3] & r[(i + 1) & 3])) & 0xFFFF;
 		}
 	}
@@ -161,6 +161,6 @@ final class Rc2Cipherer extends AbstractCipherer {
 	};
 	
 	
-	private static final int[] S = {1, 2, 3, 5};
+	private static final int[] SHIFT = {1, 2, 3, 5};
 	
 }
