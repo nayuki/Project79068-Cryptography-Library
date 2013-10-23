@@ -82,15 +82,15 @@ class Sha1Core extends BlockHasherCore {
 	}
 	
 	
-	private static final int[] k = {0x5A827999, 0x6ED9EBA1, 0x8F1BBCDC, 0xCA62C1D6};
+	private static final int[] K = {0x5A827999, 0x6ED9EBA1, 0x8F1BBCDC, 0xCA62C1D6};
 	
 	/* 
 	 * Each round performs a transform of this form:
-	 *  a' = e + f(a,b,c,d)
-	 *  b' = a
-	 *  c' = b ROTLEFT 30
-	 *  d' = c
-	 *  e' = d
+	 *   a' = e + f(a,b,c,d)
+	 *   b' = a
+	 *   c' = b ROTLEFT 30
+	 *   d' = c
+	 *   e' = d
 	 * The primed variables represent the output.
 	 * The actual implementation is an in-place version of this description.
 	 */
@@ -103,7 +103,7 @@ class Sha1Core extends BlockHasherCore {
 		
 		// The 80 rounds
 		for (int i = 0; i < 80; i++) {
-			int temp = Integer.rotateLeft(a, 5) + f(i, b, c, d) + e + k[i / 20] + keySchedule[i];
+			int temp = Integer.rotateLeft(a, 5) + f(i, b, c, d) + e + K[i / 20] + keySchedule[i];
 			e = d;
 			d = c;
 			c = Integer.rotateLeft(b, 30);
@@ -121,11 +121,11 @@ class Sha1Core extends BlockHasherCore {
 	
 	/* 
 	 * Each round performs a transform of this form:
-	 *  a = b'
-	 *  b = c' ROTLEFT 2
-	 *  c = d'
-	 *  d = e'
-	 *  e = a' - f(a,b,c,d)
+	 *   a = b'
+	 *   b = c' ROTLEFT 2
+	 *   c = d'
+	 *   d = e'
+	 *   e = a' - f(a,b,c,d)
 	 * The primed variables represent the input.
 	 * Therefore, equivalently: e = a' - f(b', c' ROTLEFT 2, d', e')
 	 * The actual implementation is an in-place version of this description.
@@ -144,7 +144,7 @@ class Sha1Core extends BlockHasherCore {
 			b = Integer.rotateLeft(c, 2);
 			c = d;
 			d = e;
-			e = temp - (Integer.rotateLeft(a, 5) + f(i, b, c, d) + k[i / 20] + keySchedule[i]);
+			e = temp - (Integer.rotateLeft(a, 5) + f(i, b, c, d) + K[i / 20] + keySchedule[i]);
 		}
 		
 		message[0] = a;
