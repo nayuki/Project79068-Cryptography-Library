@@ -1,7 +1,5 @@
 package p79068.crypto.hash;
 
-import static java.lang.Long.rotateRight;
-
 import java.math.BigInteger;
 import java.util.Arrays;
 
@@ -191,7 +189,7 @@ final class FastWhirlpoolCore extends BlockHasherCore {
 			for (int j = 0; j < 8; j++)
 				vector |= multiply(sub[i], c[j]) << ((7 - j) * 8);
 			for (int j = 0; j < 8; j++)
-				result[j * 256 + i] = rotateRight(vector, j * 8);
+				result[j * 256 + i] = Long.rotateRight(vector, j * 8);
 		}
 		return result;
 	}
@@ -205,7 +203,7 @@ final class FastWhirlpoolCore extends BlockHasherCore {
 			for (int j = 0; j < 8; j++)
 				vector |= multiply(i, cInv[j]) << ((7 - j) * 8);
 			for (int j = 0; j < 8; j++)
-				result[j][i] = rotateRight(vector, j * 8);
+				result[j][i] = Long.rotateRight(vector, j * 8);
 		}
 		return result;
 	}

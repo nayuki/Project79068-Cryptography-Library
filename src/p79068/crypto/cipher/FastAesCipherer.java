@@ -1,6 +1,5 @@
 package p79068.crypto.cipher;
 
-import static java.lang.Integer.rotateRight;
 import p79068.Assert;
 import p79068.crypto.Zeroizer;
 
@@ -216,7 +215,7 @@ final class FastAesCipherer extends AbstractCipherer {
 			         | RijndaelUtils.multiply(j, 0x01) <<  8
 			         | RijndaelUtils.multiply(j, 0x03) <<  0;
 			for (j = 0; j < 4; j++)
-				mul[j * 256 + i] = rotateRight(temp, j * 8);
+				mul[j * 256 + i] = Integer.rotateRight(temp, j * 8);
 		}
 		
 		mulInv = new int[256 * 4];
@@ -227,7 +226,7 @@ final class FastAesCipherer extends AbstractCipherer {
 			         | RijndaelUtils.multiply(j, 0x0D) <<  8
 			         | RijndaelUtils.multiply(j, 0x0B) <<  0;
 			for (j = 0; j < 4; j++)
-				mulInv[j * 256 + i] = rotateRight(temp, j * 8);
+				mulInv[j * 256 + i] = Integer.rotateRight(temp, j * 8);
 		}
 	}
 	
