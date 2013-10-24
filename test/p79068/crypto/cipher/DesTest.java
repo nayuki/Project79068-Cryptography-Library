@@ -76,7 +76,6 @@ public final class DesTest extends CipherTest {
 		};
 		for (String[] tc : testCases)
 			testCipher(Des.DES_64_CIPHER, tc[0], tc[1], tc[2]);
-		
 	}
 	
 	
@@ -227,7 +226,6 @@ public final class DesTest extends CipherTest {
 			{"018310DC409B26D6", "1D9D5C5018F728C2", "5F4C038ED12B2E41"},
 			{"1C587F1C13924FEF", "305532286D6F295A", "63FAC0D034D9F793"},
 		};
-		
 		for (String[] tc : testCases)
 			testCipher(Des.DES_64_CIPHER, tc[0], tc[1], tc[2]);
 	}
