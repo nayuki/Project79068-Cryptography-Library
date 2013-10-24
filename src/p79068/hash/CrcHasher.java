@@ -21,7 +21,6 @@
 package p79068.hash;
 
 import p79068.Assert;
-import p79068.math.LongBitMath;
 
 
 final class CrcHasher extends AbstractHasher {
@@ -67,7 +66,7 @@ final class CrcHasher extends AbstractHasher {
 			state = xorIn << (64 - degree);
 			
 		} else {  // Use the right-shift algorithm
-			poly = LongBitMath.reverse(poly);
+			poly = Long.reverse(poly);
 			for (int i = 0; i < 256; i++) {
 				long reg = i;
 				for (int j = 0; j < 8; j++)
@@ -106,10 +105,10 @@ final class CrcHasher extends AbstractHasher {
 	public HashValue getHash() {
 		long temp;
 		if (!reverseInputBits) temp = state >>> (64 - degree);
-		else temp = LongBitMath.reverse(state) >>> (64 - degree);
+		else temp = Long.reverse(state) >>> (64 - degree);
 		temp ^= xorOutput;
 		if (reverseOutputBits)
-			temp = LongBitMath.reverse(temp) >>> (64 - degree);
+			temp = Long.reverse(temp) >>> (64 - degree);
 		byte[] b = new byte[getHashFunction().getHashLength()];
 		for (int i = 0; i < b.length; i++)
 			b[b.length - 1 - i] = (byte)(temp >>> (i * 8));

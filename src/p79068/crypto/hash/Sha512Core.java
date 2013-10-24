@@ -1,6 +1,6 @@
 package p79068.crypto.hash;
 
-import static p79068.math.LongBitMath.rotateRight;
+import static java.lang.Long.rotateRight;
 
 import java.math.BigInteger;
 import java.util.Arrays;
