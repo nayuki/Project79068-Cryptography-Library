@@ -1,7 +1,6 @@
 package p79068.crypto.cipher;
 
 import org.junit.Test;
-import p79068.crypto.CryptoUtils;
 
 
 public final class DesTest extends CipherTest {
@@ -76,7 +75,7 @@ public final class DesTest extends CipherTest {
 			{"0101010101010102", "0000000000000000", "869EFD7F9F265A09"},
 		};
 		for (String[] tc : testCases)
-			CryptoUtils.testCipher(Des.DES_64_CIPHER, tc[0], tc[1], tc[2]);
+			testCipher(Des.DES_64_CIPHER, tc[0], tc[1], tc[2]);
 		
 	}
 	
@@ -119,7 +118,7 @@ public final class DesTest extends CipherTest {
 			{"1002911698100101", "0000000000000000", "1AEAC39A61F0A464"},
 		};
 		for (String[] tc : testCases)
-			CryptoUtils.testCipher(Des.DES_64_CIPHER, tc[0], tc[1], tc[2]);
+			testCipher(Des.DES_64_CIPHER, tc[0], tc[1], tc[2]);
 	}
 	
 	
@@ -193,7 +192,7 @@ public final class DesTest extends CipherTest {
 			{"0101010101010101", "0000000000000001", "166B40B44ABA4BD6"},
 		};
 		for (String[] tc : testCases)
-			CryptoUtils.testCipher(Des.DES_64_CIPHER, tc[0], tc[1], tc[2]);
+			testCipher(Des.DES_64_CIPHER, tc[0], tc[1], tc[2]);
 	}
 	
 	
@@ -230,7 +229,7 @@ public final class DesTest extends CipherTest {
 		};
 		
 		for (String[] tc : testCases)
-			CryptoUtils.testCipher(Des.DES_64_CIPHER, tc[0], tc[1], tc[2]);
+			testCipher(Des.DES_64_CIPHER, tc[0], tc[1], tc[2]);
 	}
 	
 }

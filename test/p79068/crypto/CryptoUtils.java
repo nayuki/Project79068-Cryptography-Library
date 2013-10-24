@@ -8,25 +8,6 @@ import p79068.util.random.Random;
 
 public final class CryptoUtils {
 	
-	public static void testCipher(Cipher cipher, String key, String plaintext, String expectedCiphertext) {
-		testCipher(cipher, hexToBytes(key), hexToBytes(plaintext), hexToBytes(expectedCiphertext));
-	}
-	
-	
-	public static void testCipher(Cipher cipher, byte[] key, byte[] plaintext, byte[] expectedCiphertext) {
-		Cipherer cipherer;
-		byte[] temp = plaintext.clone();
-		
-		cipherer = cipher.newCipherer(key);
-		cipherer.encrypt(temp);
-		assertArrayEquals(cipher.toString(), expectedCiphertext, temp);
-		
-		cipherer = cipher.newCipherer(key);
-		cipherer.decrypt(temp);
-		assertArrayEquals(cipher.toString(), plaintext, temp);
-	}
-	
-	
 	public static void testCipherInvertibility(Cipher cipher, int messageLength) {
 		byte[] key = getRandomBytes(cipher.getKeyLength());
 		byte[] message0 = getRandomBytes(messageLength);

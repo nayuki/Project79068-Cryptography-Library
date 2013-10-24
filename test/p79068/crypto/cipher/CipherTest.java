@@ -1,5 +1,7 @@
 package p79068.crypto.cipher;
 
+import static org.junit.Assert.assertArrayEquals;
+
 import org.junit.Test;
 
 import p79068.crypto.CryptoUtils;
@@ -56,6 +58,25 @@ public abstract class CipherTest {
 			len -= n;
 		}
 		return time;
+	}
+	
+	
+	public static void testCipher(Cipher cipher, String key, String plaintext, String expectedCiphertext) {
+		testCipher(cipher, CryptoUtils.hexToBytes(key), CryptoUtils.hexToBytes(plaintext), CryptoUtils.hexToBytes(expectedCiphertext));
+	}
+	
+	
+	public static void testCipher(Cipher cipher, byte[] key, byte[] plaintext, byte[] expectedCiphertext) {
+		Cipherer cipherer;
+		byte[] temp = plaintext.clone();
+		
+		cipherer = cipher.newCipherer(key);
+		cipherer.encrypt(temp);
+		assertArrayEquals(cipher.toString(), expectedCiphertext, temp);
+		
+		cipherer = cipher.newCipherer(key);
+		cipherer.decrypt(temp);
+		assertArrayEquals(cipher.toString(), plaintext, temp);
 	}
 	
 }
