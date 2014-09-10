@@ -11,11 +11,11 @@ import p79068.hash.HashValue;
 import p79068.math.LongBitMath;
 
 
-final class Sha512Core extends BlockHasherCore {
+class Sha512Core extends BlockHasherCore {
 	
 	private final boolean sha512Mode;
 	
-	private long[] state;
+	protected long[] state;
 	
 	
 	
@@ -143,7 +143,7 @@ final class Sha512Core extends BlockHasherCore {
 	}
 	
 	
-	private static final long[] K = {
+	protected static final long[] K = {
 		0x428A2F98D728AE22L, 0x7137449123EF65CDL, 0xB5C0FBCFEC4D3B2FL, 0xE9B5DBA58189DBBCL,
 		0x3956C25BF348B538L, 0x59F111F1B605D019L, 0x923F82A4AF194F9BL, 0xAB1C5ED5DA6D8118L,
 		0xD807AA98A3030242L, 0x12835B0145706FBEL, 0x243185BE4EE4B28CL, 0x550C7DC3D5FFB4E2L,

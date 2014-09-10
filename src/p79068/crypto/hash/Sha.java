@@ -64,8 +64,8 @@ public final class Sha extends AbstractBlockHashFunction {
 		else if (this == SHA1_FUNCTION  ) return new BlockHasher(this, new FastSha1Core());
 		else if (this == SHA224_FUNCTION) return new BlockHasher(this, new FastSha256Core(false));
 		else if (this == SHA256_FUNCTION) return new BlockHasher(this, new FastSha256Core(true));
-		else if (this == SHA384_FUNCTION) return new BlockHasher(this, new Sha512Core(false));
-		else if (this == SHA512_FUNCTION) return new BlockHasher(this, new Sha512Core(true));
+		else if (this == SHA384_FUNCTION) return new BlockHasher(this, new FastSha512Core(false));
+		else if (this == SHA512_FUNCTION) return new BlockHasher(this, new FastSha512Core(true));
 		else throw new AssertionError();
 	}
 	
