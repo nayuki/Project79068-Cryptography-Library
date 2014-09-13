@@ -52,18 +52,19 @@ final class TigerCore extends BlockHasherCore {
 		long[] schedule = new long[8];
 		
 		// For each block of 64 bytes
-		for (int i = off, end = off + len; i < end;) {
+		for (int i = off, end = off + len; i < end; ) {
 			
 			// Pack bytes into int64s in little endian
 			for (int j = 0; j < 8; j++, i += 8) {
-				schedule[j] =   (msg[i + 0] & 0xFFL) <<  0
-				              | (msg[i + 1] & 0xFFL) <<  8
-				              | (msg[i + 2] & 0xFFL) << 16
-				              | (msg[i + 3] & 0xFFL) << 24
-				              | (msg[i + 4] & 0xFFL) << 32
-				              | (msg[i + 5] & 0xFFL) << 40
-				              | (msg[i + 6] & 0xFFL) << 48
-				              | (msg[i + 7] & 0xFFL) << 56;
+				schedule[j] =
+					  (msg[i + 0] & 0xFFL) <<  0
+					| (msg[i + 1] & 0xFFL) <<  8
+					| (msg[i + 2] & 0xFFL) << 16
+					| (msg[i + 3] & 0xFFL) << 24
+					| (msg[i + 4] & 0xFFL) << 32
+					| (msg[i + 5] & 0xFFL) << 40
+					| (msg[i + 6] & 0xFFL) << 48
+					| (msg[i + 7] & 0xFFL) << 56;
 			}
 			
 			// The 24 rounds
