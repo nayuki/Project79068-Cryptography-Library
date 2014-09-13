@@ -9,23 +9,26 @@ import p79068.hash.HashValue;
 import p79068.math.IntegerBitMath;
 
 
-final class Md5Core extends BlockHasherCore {
+class Md45Core extends BlockHasherCore {
 	
-	private int[] state;
+	protected final boolean md5Mode;
+	
+	protected int[] state;
 	
 	
 	
-	public Md5Core() {
+	public Md45Core(boolean md5Mode) {
+		this.md5Mode = md5Mode;
 		state = new int[]{0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476};
 	}
 	
 	
 	
 	@Override
-	public Md5Core clone() {
+	public Md45Core clone() {
 		if (state == null)
 			throw new IllegalStateException("Already zeroized");
-		Md5Core result = (Md5Core)super.clone();
+		Md45Core result = (Md45Core)super.clone();
 		result.state = result.state.clone();
 		return result;
 	}
@@ -59,28 +62,45 @@ final class Md5Core extends BlockHasherCore {
 					| (message[i + 2] & 0xFF) << 16
 					| (message[i + 3] & 0xFF) << 24;
 			}
-
-			// The 64 rounds
+			
 			int a = state[0];
 			int b = state[1];
 			int c = state[2];
 			int d = state[3];
-			for (int j = 0; j < 64; j++) {
-				int f;
-				int k;
-				if      ( 0 <= j && j < 16) { f = (b & c) | (~b & d);  k = j;                }  // Can be optimized to f = d ^ (b & (c ^ d))
-				else if (16 <= j && j < 32) { f = (d & b) | (~d & c);  k = (5 * j + 1) % 16; }  // Can be optimized to f = c ^ (d & (b ^ c))
-				else if (32 <= j && j < 48) { f = b ^ c ^ d;           k = (3 * j + 5) % 16; }
-				else if (48 <= j && j < 64) { f = c ^ (b | (~d));      k = 7 * j % 16;       }
-				else throw new AssertionError();
+			if (!md5Mode) {  // The 48 rounds of MD4
+				for (int j = 0; j < 48; j++) {
+					int f;
+					if      ( 0 <= j && j < 16) f = (b & c) | (~b & d);  // Can be optimized to f = d ^ (b & (c ^ d))
+					else if (16 <= j && j < 32) f = (b & c) | (d & (b | c));
+					else if (32 <= j && j < 48) f = b ^ c ^ d;
+					else throw new AssertionError();
+					
+					int temp = a + f + schedule[MD4_K[j / 16 * 16 + j % 16]] + MD4_ADD_CON[j / 16];
+					int rot = MD4_S[j / 16 * 4 + j % 4];
+					a = d;
+					d = c;
+					c = b;
+					b = Integer.rotateLeft(temp, rot);
+				}
 				
-				int temp = a + f + T[j] + schedule[k];
-				int rot = S[j / 16 * 4 + j % 4];
-				temp = b + Integer.rotateLeft(temp, rot);
-				a = d;
-				d = c;
-				c = b;
-				b = temp;
+			} else {  // The 64 rounds of MD5
+				for (int j = 0; j < 64; j++) {
+					int f;
+					int k;
+					if      ( 0 <= j && j < 16) { f = (b & c) | (~b & d);  k = j;                }  // Can be optimized to f = d ^ (b & (c ^ d))
+					else if (16 <= j && j < 32) { f = (d & b) | (~d & c);  k = (5 * j + 1) % 16; }  // Can be optimized to f = c ^ (d & (b ^ c))
+					else if (32 <= j && j < 48) { f = b ^ c ^ d;           k = (3 * j + 5) % 16; }
+					else if (48 <= j && j < 64) { f = c ^ (b | (~d));      k = 7 * j % 16;       }
+					else throw new AssertionError();
+					
+					int temp = a + f + MD5_T[j] + schedule[k];
+					int rot = MD5_S[j / 16 * 4 + j % 4];
+					temp = b + Integer.rotateLeft(temp, rot);
+					a = d;
+					d = c;
+					c = b;
+					b = temp;
+				}
 			}
 			state[0] += a;
 			state[1] += b;
@@ -107,7 +127,27 @@ final class Md5Core extends BlockHasherCore {
 	}
 	
 	
-	private static final int[] T = {  // Round constants
+	
+	private static final int[] MD4_S = {  // Rotation amounts
+		 3,  7, 11, 19,
+		 3,  5,  9, 13,
+		 3,  9, 11, 15,
+	};
+	
+	
+	private static final int[] MD4_K = {  // Schedule reading permutation
+		 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15,
+		 0,  4,  8, 12,  1,  5,  9, 13,  2,  6, 10, 14,  3,  7, 11, 15,
+		 0,  8,  4, 12,  2, 10,  6, 14,  1,  9,  5, 13,  3, 11,  7, 15,
+	};
+	
+	
+	private static final int[] MD4_ADD_CON = {  // Additive constants
+		0x00000000, 0x5A827999, 0x6ED9EBA1
+	};
+	
+	
+	private static final int[] MD5_T = {  // Round constants
 		0xD76AA478, 0xE8C7B756, 0x242070DB, 0xC1BDCEEE,
 		0xF57C0FAF, 0x4787C62A, 0xA8304613, 0xFD469501,
 		0x698098D8, 0x8B44F7AF, 0xFFFF5BB1, 0x895CD7BE,
@@ -127,7 +167,7 @@ final class Md5Core extends BlockHasherCore {
 	};
 	
 	
-	private static final int[] S = {  // Rotation amounts
+	private static final int[] MD5_S = {  // Rotation amounts
 		 7, 12, 17, 22,
 		 5,  9, 14, 20,
 		 4, 11, 16, 23,

@@ -3,14 +3,10 @@ package p79068.crypto.hash;
 import p79068.Assert;
 
 
-final class FastMd45Core extends Md4Core {
-	
-	private final boolean md5Mode;
-	
-	
+final class FastMd45Core extends Md45Core {
 	
 	public FastMd45Core(boolean md5Mode) {
-		this.md5Mode = md5Mode;
+		super(md5Mode);
 	}
 	
 	
