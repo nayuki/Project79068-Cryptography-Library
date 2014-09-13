@@ -11,12 +11,6 @@ final class FastSha1Core extends Sha1Core {
 	
 	
 	
-	private static final int K0 = 0x5A827999;
-	private static final int K1 = 0x6ED9EBA1;
-	private static final int K2 = 0x8F1BBCDC;
-	private static final int K3 = 0xCA62C1D6;
-	
-	
 	@Override
 	public void compress(byte[] msg, int off, int len) {
 		Assert.assertRangeInBounds(msg.length, off, len);
@@ -140,5 +134,11 @@ final class FastSha1Core extends Sha1Core {
 			e = state[4] += e;
 		}
 	}
+	
+	
+	private static final int K0 = 0x5A827999;
+	private static final int K1 = 0x6ED9EBA1;
+	private static final int K2 = 0x8F1BBCDC;
+	private static final int K3 = 0xCA62C1D6;
 	
 }
