@@ -40,26 +40,6 @@ class Md4Core extends BlockHasherCore {
 	
 	
 	
-	private static final int[] s = {
-		 3,  7, 11, 19,
-		 3,  5,  9, 13,
-		 3,  9, 11, 15
-	};
-	
-	
-	private static final int[] k = {
-		 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15,
-		 0,  4,  8, 12,  1,  5,  9, 13,  2,  6, 10, 14,  3,  7, 11, 15,
-		 0,  8,  4, 12,  2, 10,  6, 14,  1,  9,  5, 13,  3, 11,  7, 15
-	};
-	
-	
-	private static final int[] addCon = {  // Additive constant
-		0x00000000, 0x5A827999, 0x6ED9EBA1
-	};
-	
-	
-	
 	@Override
 	public void compress(byte[] message, int off, int len) {
 		Assert.assertRangeInBounds(message.length, off, len);
@@ -92,8 +72,8 @@ class Md4Core extends BlockHasherCore {
 				else if (32 <= j && j < 48) f = b ^ c ^ d;
 				else throw new AssertionError();
 				
-				int temp = a + f + schedule[k[j / 16 * 16 + j % 16]] + addCon[j / 16];
-				int rot = s[j / 16 * 4 + j % 4];
+				int temp = a + f + schedule[K[j / 16 * 16 + j % 16]] + ADD_CON[j / 16];
+				int rot = S[j / 16 * 4 + j % 4];
 				a = d;
 				d = c;
 				c = b;
@@ -122,5 +102,25 @@ class Md4Core extends BlockHasherCore {
 		compress(block);
 		return new HashValue(IntegerBitMath.toBytesLittleEndian(state));
 	}
+	
+	
+	
+	private static final int[] S = {  // Rotation amounts
+		 3,  7, 11, 19,
+		 3,  5,  9, 13,
+		 3,  9, 11, 15,
+	};
+	
+	
+	private static final int[] K = {  // Schedule reading permutation
+		 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15,
+		 0,  4,  8, 12,  1,  5,  9, 13,  2,  6, 10, 14,  3,  7, 11, 15,
+		 0,  8,  4, 12,  2, 10,  6, 14,  1,  9,  5, 13,  3, 11,  7, 15,
+	};
+	
+	
+	private static final int[] ADD_CON = {  // Additive constants
+		0x00000000, 0x5A827999, 0x6ED9EBA1
+	};
 	
 }
