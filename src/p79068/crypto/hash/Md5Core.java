@@ -54,10 +54,10 @@ final class Md5Core extends BlockHasherCore {
 			// Pack bytes into int32s in little endian
 			for (int j = 0; j < 16; j++, i += 4) {
 				schedule[j] =
-					  (message[j + 0] & 0xFF) <<  0
-					| (message[j + 1] & 0xFF) <<  8
-					| (message[j + 2] & 0xFF) << 16
-					| (message[j + 3] & 0xFF) << 24;
+					  (message[i + 0] & 0xFF) <<  0
+					| (message[i + 1] & 0xFF) <<  8
+					| (message[i + 2] & 0xFF) << 16
+					| (message[i + 3] & 0xFF) << 24;
 			}
 
 			// The 64 rounds
