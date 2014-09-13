@@ -47,6 +47,18 @@ public final class Sha extends AbstractBlockHashFunction {
 	public final static Sha SHA512_FUNCTION = new Sha("SHA-512", 64, 128);
 	
 	
+	/**
+	 * The SHA-512/224 hash function. {@code name = "SHA-512/224"}, {@code hashLength = 28}, {@code blockLength = 128}.
+	 */
+	public final static Sha SHA512_224_FUNCTION = new Sha("SHA-512/224", 28, 128);
+	
+	
+	/**
+	 * The SHA-512/256 hash function. {@code name = "SHA-512/256"}, {@code hashLength = 32}, {@code blockLength = 128}.
+	 */
+	public final static Sha SHA512_256_FUNCTION = new Sha("SHA-512/256", 32, 128);
+	
+	
 	
 	private Sha(String name, int hashLen, int blockLen) {
 		super(name, hashLen, blockLen);
@@ -64,8 +76,8 @@ public final class Sha extends AbstractBlockHashFunction {
 		else if (this == SHA1_FUNCTION  ) return new BlockHasher(this, new FastSha1Core());
 		else if (this == SHA224_FUNCTION) return new BlockHasher(this, new FastSha256Core(false));
 		else if (this == SHA256_FUNCTION) return new BlockHasher(this, new FastSha256Core(true));
-		else if (this == SHA384_FUNCTION) return new BlockHasher(this, new FastSha512Core(false));
-		else if (this == SHA512_FUNCTION) return new BlockHasher(this, new FastSha512Core(true));
+		else if (this == SHA384_FUNCTION || this == SHA512_FUNCTION || this == SHA512_224_FUNCTION || this == SHA512_256_FUNCTION)
+			return new BlockHasher(this, new FastSha512Core(getHashLength()));
 		else throw new AssertionError();
 	}
 	

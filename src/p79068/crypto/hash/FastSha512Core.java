@@ -6,8 +6,8 @@ import p79068.Assert;
 
 final class FastSha512Core extends Sha512Core {
 	
-	public FastSha512Core(boolean sha512Mode) {
-		super(sha512Mode);
+	public FastSha512Core(int hashLen) {
+		super(hashLen);
 	}
 	
 	
