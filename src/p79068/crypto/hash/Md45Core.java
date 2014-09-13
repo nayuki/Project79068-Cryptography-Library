@@ -69,13 +69,13 @@ class Md45Core extends BlockHasherCore {
 			int d = state[3];
 			if (!md5Mode) {  // The 48 rounds of MD4
 				for (int j = 0; j < 48; j++) {
-					int f;
-					if      ( 0 <= j && j < 16) f = (b & c) | (~b & d);  // Can be optimized to f = d ^ (b & (c ^ d))
-					else if (16 <= j && j < 32) f = (b & c) | (d & (b | c));
-					else if (32 <= j && j < 48) f = b ^ c ^ d;
+					int f, k, add;
+					if      ( 0 <= j && j < 16) { f = (b & c) | (~b & d);           k = j;                                 add = 0x00000000; }  // Can be optimized to f = d ^ (b & (c ^ d))
+					else if (16 <= j && j < 32) { f = (b & c) | (b & d) | (c & d);  k = (j & 0x3) << 2 | (j & 0xC) >>> 2;  add = 0x5A827999; }  // Can be optimized to f = (b & (c | d)) | (c & d)
+					else if (32 <= j && j < 48) { f = b ^ c ^ d;                    k = Integer.reverse(j) >>> 28;         add = 0x6ED9EBA1; }
 					else throw new AssertionError();
 					
-					int temp = a + f + schedule[MD4_K[j / 16 * 16 + j % 16]] + MD4_ADD_CON[j / 16];
+					int temp = a + f + schedule[k] + add;
 					int rot = MD4_S[j / 16 * 4 + j % 4];
 					a = d;
 					d = c;
@@ -85,21 +85,19 @@ class Md45Core extends BlockHasherCore {
 				
 			} else {  // The 64 rounds of MD5
 				for (int j = 0; j < 64; j++) {
-					int f;
-					int k;
+					int f, k;
 					if      ( 0 <= j && j < 16) { f = (b & c) | (~b & d);  k = j;                }  // Can be optimized to f = d ^ (b & (c ^ d))
 					else if (16 <= j && j < 32) { f = (d & b) | (~d & c);  k = (5 * j + 1) % 16; }  // Can be optimized to f = c ^ (d & (b ^ c))
 					else if (32 <= j && j < 48) { f = b ^ c ^ d;           k = (3 * j + 5) % 16; }
 					else if (48 <= j && j < 64) { f = c ^ (b | (~d));      k = 7 * j % 16;       }
 					else throw new AssertionError();
 					
-					int temp = a + f + MD5_T[j] + schedule[k];
+					int temp = a + f + schedule[k] + MD5_T[j];
 					int rot = MD5_S[j / 16 * 4 + j % 4];
-					temp = b + Integer.rotateLeft(temp, rot);
 					a = d;
 					d = c;
 					c = b;
-					b = temp;
+					b += Integer.rotateLeft(temp, rot);
 				}
 			}
 			state[0] += a;
@@ -132,18 +130,6 @@ class Md45Core extends BlockHasherCore {
 		 3,  7, 11, 19,
 		 3,  5,  9, 13,
 		 3,  9, 11, 15,
-	};
-	
-	
-	private static final int[] MD4_K = {  // Schedule reading permutation
-		 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15,
-		 0,  4,  8, 12,  1,  5,  9, 13,  2,  6, 10, 14,  3,  7, 11, 15,
-		 0,  8,  4, 12,  2, 10,  6, 14,  1,  9,  5, 13,  3, 11,  7, 15,
-	};
-	
-	
-	private static final int[] MD4_ADD_CON = {  // Additive constants
-		0x00000000, 0x5A827999, 0x6ED9EBA1
 	};
 	
 	
