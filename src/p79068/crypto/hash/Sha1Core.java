@@ -167,6 +167,9 @@ class Sha1Core extends BlockHasherCore {
 	
 	@Override
 	public HashValue getHashDestructively(byte[] block, int blockFilled, BigInteger length) {
+		if (length.bitLength() > 61)  // SHA-1 only supports messages less than 2^64 bits long
+			throw new IllegalStateException("Message too long");
+		
 		block[blockFilled] = (byte)0x80;
 		blockFilled++;
 		Arrays.fill(block, blockFilled, block.length, (byte)0);
