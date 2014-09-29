@@ -23,6 +23,7 @@ final class RipemdCore extends BlockHasherCore {
 			case 16 /* RIPEMD-128 */:  state = new int[]{0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476};  break;
 			case 20 /* RIPEMD-160 */:  state = new int[]{0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476, 0xC3D2E1F0};  break;
 			case 32 /* RIPEMD-256 */:  state = new int[]{0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476, 0x76543210, 0xFEDCBA98, 0x89ABCDEF, 0x01234567};  break;
+			case 40 /* RIPEMD-320 */:  state = new int[]{0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476, 0xC3D2E1F0, 0x76543210, 0xFEDCBA98, 0x89ABCDEF, 0x01234567, 0x3C2D1E0F};  break;
 			default:  throw new AssertionError();
 		}
 	}
@@ -154,6 +155,47 @@ final class RipemdCore extends BlockHasherCore {
 				state[5] += br;
 				state[6] += cr;
 				state[7] += dr;
+				
+			} else if (hashLength == 40) {  // RIPEMD-320
+				int al = state[0], ar = state[5];
+				int bl = state[1], br = state[6];
+				int cl = state[2], cr = state[7];
+				int dl = state[3], dr = state[8];
+				int el = state[4], er = state[9];
+				for (int j = 0; j < 80; j++) {  // The 80 rounds
+					int temp;
+					temp = Integer.rotateLeft(al + f(j, bl, cl, dl) + schedule[RL[j]] + KL[j / 16], SL[j]) + el;
+					al = el;
+					el = dl;
+					dl = Integer.rotateLeft(cl, 10);
+					cl = bl;
+					bl = temp;
+					temp = Integer.rotateLeft(ar + f(79 - j, br, cr, dr) + schedule[RR[j]] + KR[j / 16], SR[j]) + er;
+					ar = er;
+					er = dr;
+					dr = Integer.rotateLeft(cr, 10);
+					cr = br;
+					br = temp;
+					if (j % 16 == 15) {
+						switch (j / 16) {
+							case 0:  temp = bl;  bl = br;  br = temp;  break;
+							case 1:  temp = dl;  dl = dr;  dr = temp;  break;
+							case 2:  temp = al;  al = ar;  ar = temp;  break;
+							case 3:  temp = cl;  cl = cr;  cr = temp;  break;
+							case 4:  temp = el;  el = er;  er = temp;  break;
+						}
+					}
+				}
+				state[0] += al;
+				state[1] += bl;
+				state[2] += cl;
+				state[3] += dl;
+				state[4] += el;
+				state[5] += ar;
+				state[6] += br;
+				state[7] += cr;
+				state[8] += dr;
+				state[9] += er;
 				
 			} else
 				throw new AssertionError();

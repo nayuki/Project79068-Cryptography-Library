@@ -23,6 +23,11 @@ public final class Ripemd extends AbstractBlockHashFunction {
 	 */
 	public final static Ripemd RIPEMD256_FUNCTION = new Ripemd("RIPEMD-256", 32);
 	
+	/**
+	 * The RIPEMD-320 hash function. {@code name = "RIPEMD-320"}, {@code hashLength = 40}, {@code blockLength = 64}.
+	 */
+	public final static Ripemd RIPEMD320_FUNCTION = new Ripemd("RIPEMD-320", 40);
+	
 	
 	
 	private Ripemd(String name, int hashLen) {
