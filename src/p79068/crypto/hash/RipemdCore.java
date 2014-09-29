@@ -22,6 +22,7 @@ final class RipemdCore extends BlockHasherCore {
 		switch (hashLen) {
 			case 16 /* RIPEMD-128 */:  state = new int[]{0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476};  break;
 			case 20 /* RIPEMD-160 */:  state = new int[]{0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476, 0xC3D2E1F0};  break;
+			case 32 /* RIPEMD-256 */:  state = new int[]{0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476, 0x76543210, 0xFEDCBA98, 0x89ABCDEF, 0x01234567};  break;
 			default:  throw new AssertionError();
 		}
 	}
@@ -118,6 +119,41 @@ final class RipemdCore extends BlockHasherCore {
 				state[3] = state[4] + al + br;
 				state[4] = state[0] + bl + cr;
 				state[0] = temp;
+				
+			} else if (hashLength == 32) {  // RIPEMD-256
+				int al = state[0], ar = state[4];
+				int bl = state[1], br = state[5];
+				int cl = state[2], cr = state[6];
+				int dl = state[3], dr = state[7];
+				for (int j = 0; j < 64; j++) {  // The 64 rounds
+					int temp;
+					temp = Integer.rotateLeft(al + f(j, bl, cl, dl) + schedule[RL[j]] + KL[j / 16], SL[j]);
+					al = dl;
+					dl = cl;
+					cl = bl;
+					bl = temp;
+					temp = Integer.rotateLeft(ar + f(63 - j, br, cr, dr) + schedule[RR[j]] + (j < 48 ? KR[j / 16] : 0), SR[j]);
+					ar = dr;
+					dr = cr;
+					cr = br;
+					br = temp;
+					if (j % 16 == 15) {
+						switch (j / 16) {
+							case 0:  temp = al;  al = ar;  ar = temp;  break;
+							case 1:  temp = bl;  bl = br;  br = temp;  break;
+							case 2:  temp = cl;  cl = cr;  cr = temp;  break;
+							case 3:  temp = dl;  dl = dr;  dr = temp;  break;
+						}
+					}
+				}
+				state[0] += al;
+				state[1] += bl;
+				state[2] += cl;
+				state[3] += dl;
+				state[4] += ar;
+				state[5] += br;
+				state[6] += cr;
+				state[7] += dr;
 				
 			} else
 				throw new AssertionError();
