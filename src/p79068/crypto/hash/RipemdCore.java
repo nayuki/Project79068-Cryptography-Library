@@ -81,7 +81,7 @@ final class RipemdCore extends BlockHasherCore {
 					dl = cl;
 					cl = bl;
 					bl = temp;
-					temp = Integer.rotateLeft(ar + f(63 - j, br, cr, dr) + schedule[RR[j]] + (j < 48 ? KR[j / 16] : 0), SR[j]);
+					temp = Integer.rotateLeft(ar + f(63 - j, br, cr, dr) + schedule[RR[j]] + KR4[j / 16], SR[j]);
 					ar = dr;
 					dr = cr;
 					cr = br;
@@ -107,7 +107,7 @@ final class RipemdCore extends BlockHasherCore {
 					dl = Integer.rotateLeft(cl, 10);
 					cl = bl;
 					bl = temp;
-					temp = Integer.rotateLeft(ar + f(79 - j, br, cr, dr) + schedule[RR[j]] + KR[j / 16], SR[j]) + er;
+					temp = Integer.rotateLeft(ar + f(79 - j, br, cr, dr) + schedule[RR[j]] + KR5[j / 16], SR[j]) + er;
 					ar = er;
 					er = dr;
 					dr = Integer.rotateLeft(cr, 10);
@@ -133,7 +133,7 @@ final class RipemdCore extends BlockHasherCore {
 					dl = cl;
 					cl = bl;
 					bl = temp;
-					temp = Integer.rotateLeft(ar + f(63 - j, br, cr, dr) + schedule[RR[j]] + (j < 48 ? KR[j / 16] : 0), SR[j]);
+					temp = Integer.rotateLeft(ar + f(63 - j, br, cr, dr) + schedule[RR[j]] + KR4[j / 16], SR[j]);
 					ar = dr;
 					dr = cr;
 					cr = br;
@@ -170,7 +170,7 @@ final class RipemdCore extends BlockHasherCore {
 					dl = Integer.rotateLeft(cl, 10);
 					cl = bl;
 					bl = temp;
-					temp = Integer.rotateLeft(ar + f(79 - j, br, cr, dr) + schedule[RR[j]] + KR[j / 16], SR[j]) + er;
+					temp = Integer.rotateLeft(ar + f(79 - j, br, cr, dr) + schedule[RR[j]] + KR5[j / 16], SR[j]) + er;
 					ar = er;
 					er = dr;
 					dr = Integer.rotateLeft(cr, 10);
@@ -231,8 +231,12 @@ final class RipemdCore extends BlockHasherCore {
 	
 	
 	
+	// RIPEMD-160 and RIPEMD-320 use all of the numerical constants below.
+	// RIPEMD-128 and RIPEMD-256 generally skip the final fifth, except for the handling of KR.
+	
 	private static final int[] KL = {0x00000000, 0x5A827999, 0x6ED9EBA1, 0x8F1BBCDC, 0xA953FD4E};  // Round constants for left line
-	private static final int[] KR = {0x50A28BE6, 0x5C4DD124, 0x6D703EF3, 0x7A6D76E9, 0x00000000};  // Round constants for right line
+	private static final int[] KR5 = {0x50A28BE6, 0x5C4DD124, 0x6D703EF3, 0x7A6D76E9, 0x00000000};  // Round constants for right line (RIPEMD-160, RIPEMD-320)
+	private static final int[] KR4 = {0x50A28BE6, 0x5C4DD124, 0x6D703EF3, 0x00000000};  // Round constants for right line (RIPEMD-128, RIPEMD-256)
 	
 	private static final int[] RL = {  // Message schedule for left line
 		 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15,
