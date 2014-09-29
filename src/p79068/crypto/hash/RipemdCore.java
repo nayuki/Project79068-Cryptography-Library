@@ -208,7 +208,7 @@ final class RipemdCore extends BlockHasherCore {
 		else if (16 <= i && i < 32) return (x & y) | (~x & z);
 		else if (32 <= i && i < 48) return (x | ~y) ^ z;
 		else if (48 <= i && i < 64) return (x & z) | (y & ~z);
-		else if (64 <= i && i < 80) return x ^ (y | ~z);
+		else if (64 <= i && i < 80) return x ^ (y | ~z);  // RIPEMD-128 and RIPEMD-256 skip this case
 		else throw new AssertionError();
 	}
 	
@@ -234,7 +234,7 @@ final class RipemdCore extends BlockHasherCore {
 	// RIPEMD-160 and RIPEMD-320 use all of the numerical constants below.
 	// RIPEMD-128 and RIPEMD-256 generally skip the final fifth, except for the handling of KR.
 	
-	private static final int[] KL = {0x00000000, 0x5A827999, 0x6ED9EBA1, 0x8F1BBCDC, 0xA953FD4E};  // Round constants for left line
+	private static final int[] KL  = {0x00000000, 0x5A827999, 0x6ED9EBA1, 0x8F1BBCDC, 0xA953FD4E};  // Round constants for left line
 	private static final int[] KR5 = {0x50A28BE6, 0x5C4DD124, 0x6D703EF3, 0x7A6D76E9, 0x00000000};  // Round constants for right line (RIPEMD-160, RIPEMD-320)
 	private static final int[] KR4 = {0x50A28BE6, 0x5C4DD124, 0x6D703EF3, 0x00000000};  // Round constants for right line (RIPEMD-128, RIPEMD-256)
 	
