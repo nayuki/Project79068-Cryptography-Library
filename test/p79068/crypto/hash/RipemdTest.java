@@ -9,6 +9,7 @@ public final class RipemdTest extends CryptoHashFunctionTest {
 	
 	protected HashFunction[] getHashFunctionsToTest() {
 		return new HashFunction[] {
+			Ripemd.RIPEMD128_FUNCTION,
 			Ripemd.RIPEMD160_FUNCTION,
 		};
 	}
@@ -23,6 +24,21 @@ public final class RipemdTest extends CryptoHashFunctionTest {
 	private static final String msg6 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 	private static final String msg7 = "12345678901234567890123456789012345678901234567890123456789012345678901234567890";
 	
+	
+	
+	@Test
+	public void testRipemd128() {
+		testAscii(Ripemd.RIPEMD128_FUNCTION, new String[][] {
+			{msg0, "CDF26213A150DC3ECB610F18F6B38B46"},
+			{msg1, "86BE7AFA339D0FC7CFC785E72F578D33"},
+			{msg2, "C14A12199C66E4BA84636B0F69144C77"},
+			{msg3, "9E327B3D6E523062AFC1132D7DF9D1B8"},
+			{msg4, "FD2AA607F71DC8F510714922B371834E"},
+			{msg5, "A1AA0689D0FAFA2DDC22E88B49133A06"},
+			{msg6, "D1E959EB179C911FAEA4624C60C5C702"},
+			{msg7, "3F45EF194732C2DBB2C4A2C769795FA3"},
+		});
+	}
 	
 	
 	@Test

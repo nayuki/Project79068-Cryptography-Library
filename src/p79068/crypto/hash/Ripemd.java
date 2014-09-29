@@ -9,6 +9,11 @@ import p79068.hash.Hasher;
 public final class Ripemd extends AbstractBlockHashFunction {
 	
 	/**
+	 * The RIPEMD-128 hash function. {@code name = "RIPEMD-128"}, {@code hashLength = 16}, {@code blockLength = 64}.
+	 */
+	public final static Ripemd RIPEMD128_FUNCTION = new Ripemd("RIPEMD-128", 16);
+	
+	/**
 	 * The RIPEMD-160 hash function. {@code name = "RIPEMD-160"}, {@code hashLength = 20}, {@code blockLength = 64}.
 	 */
 	public final static Ripemd RIPEMD160_FUNCTION = new Ripemd("RIPEMD-160", 20);
@@ -27,7 +32,7 @@ public final class Ripemd extends AbstractBlockHashFunction {
 	 */
 	@Override
 	public Hasher newHasher() {
-		return new BlockHasher(this, new RipemdCore());
+		return new BlockHasher(this, new RipemdCore(getHashLength()));
 	}
 	
 }

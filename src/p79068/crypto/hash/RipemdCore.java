@@ -11,12 +11,19 @@ import p79068.math.IntegerBitMath;
 
 final class RipemdCore extends BlockHasherCore {
 	
+	private final int hashLength;  // In bytes
+	
 	private int[] state;
 	
 	
 	
-	public RipemdCore() {
-		state = new int[]{0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476, 0xC3D2E1F0};
+	public RipemdCore(int hashLen) {
+		hashLength = hashLen;
+		switch (hashLen) {
+			case 16 /* RIPEMD-128 */:  state = new int[]{0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476};  break;
+			case 20 /* RIPEMD-160 */:  state = new int[]{0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476, 0xC3D2E1F0};  break;
+			default:  throw new AssertionError();
+		}
 	}
 	
 	
@@ -60,35 +67,60 @@ final class RipemdCore extends BlockHasherCore {
 					| (message[i + 3] & 0xFF) << 24;
 			}
 			
-			int al = state[0], ar = state[0];
-			int bl = state[1], br = state[1];
-			int cl = state[2], cr = state[2];
-			int dl = state[3], dr = state[3];
-			int el = state[4], er = state[4];
-			
-			// The 80 rounds
-			for (int j = 0; j < 80; j++) {
-				int temp;
-				temp = Integer.rotateLeft(al + f(j, bl, cl, dl) + schedule[RL[j]] + KL[j / 16], SL[j]) + el;
-				al = el;
-				el = dl;
-				dl = Integer.rotateLeft(cl, 10);
-				cl = bl;
-				bl = temp;
-				temp = Integer.rotateLeft(ar + f(79 - j, br, cr, dr) + schedule[RR[j]] + KR[j / 16], SR[j]) + er;
-				ar = er;
-				er = dr;
-				dr = Integer.rotateLeft(cr, 10);
-				cr = br;
-				br = temp;
-			}
-			
-			int temp = state[1] + cl + dr;
-			state[1] = state[2] + dl + er;
-			state[2] = state[3] + el + ar;
-			state[3] = state[4] + al + br;
-			state[4] = state[0] + bl + cr;
-			state[0] = temp;
+			if (hashLength == 16) {  // RIPEMD-128
+				int al = state[0], ar = state[0];
+				int bl = state[1], br = state[1];
+				int cl = state[2], cr = state[2];
+				int dl = state[3], dr = state[3];
+				for (int j = 0; j < 64; j++) {  // The 64 rounds
+					int temp;
+					temp = Integer.rotateLeft(al + f(j, bl, cl, dl) + schedule[RL[j]] + KL[j / 16], SL[j]);
+					al = dl;
+					dl = cl;
+					cl = bl;
+					bl = temp;
+					temp = Integer.rotateLeft(ar + f(63 - j, br, cr, dr) + schedule[RR[j]] + (j < 48 ? KR[j / 16] : 0), SR[j]);
+					ar = dr;
+					dr = cr;
+					cr = br;
+					br = temp;
+				}
+				int temp = state[1] + cl + dr;
+				state[1] = state[2] + dl + ar;
+				state[2] = state[3] + al + br;
+				state[3] = state[0] + bl + cr;
+				state[0] = temp;
+				
+			} else if (hashLength == 20) {  // RIPEMD-160
+				int al = state[0], ar = state[0];
+				int bl = state[1], br = state[1];
+				int cl = state[2], cr = state[2];
+				int dl = state[3], dr = state[3];
+				int el = state[4], er = state[4];
+				for (int j = 0; j < 80; j++) {  // The 80 rounds
+					int temp;
+					temp = Integer.rotateLeft(al + f(j, bl, cl, dl) + schedule[RL[j]] + KL[j / 16], SL[j]) + el;
+					al = el;
+					el = dl;
+					dl = Integer.rotateLeft(cl, 10);
+					cl = bl;
+					bl = temp;
+					temp = Integer.rotateLeft(ar + f(79 - j, br, cr, dr) + schedule[RR[j]] + KR[j / 16], SR[j]) + er;
+					ar = er;
+					er = dr;
+					dr = Integer.rotateLeft(cr, 10);
+					cr = br;
+					br = temp;
+				}
+				int temp = state[1] + cl + dr;
+				state[1] = state[2] + dl + er;
+				state[2] = state[3] + el + ar;
+				state[3] = state[4] + al + br;
+				state[4] = state[0] + bl + cr;
+				state[0] = temp;
+				
+			} else
+				throw new AssertionError();
 		}
 	}
 	
