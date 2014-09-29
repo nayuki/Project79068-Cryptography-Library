@@ -203,6 +203,16 @@ final class RipemdCore extends BlockHasherCore {
 	}
 	
 	
+	private static int f(int i, int x, int y, int z) {
+		if      ( 0 <= i && i < 16) return x ^ y ^ z;
+		else if (16 <= i && i < 32) return (x & y) | (~x & z);
+		else if (32 <= i && i < 48) return (x | ~y) ^ z;
+		else if (48 <= i && i < 64) return (x & z) | (y & ~z);
+		else if (64 <= i && i < 80) return x ^ (y | ~z);
+		else throw new AssertionError();
+	}
+	
+	
 	@Override
 	public HashValue getHashDestructively(byte[] block, int blockFilled, BigInteger length) {
 		block[blockFilled] = (byte)0x80;
@@ -219,16 +229,6 @@ final class RipemdCore extends BlockHasherCore {
 		return new HashValue(IntegerBitMath.toBytesLittleEndian(state));
 	}
 	
-	
-	
-	private static int f(int i, int x, int y, int z) {
-		if      ( 0 <= i && i < 16) return x ^ y ^ z;
-		else if (16 <= i && i < 32) return (x & y) | (~x & z);
-		else if (32 <= i && i < 48) return (x | ~y) ^ z;
-		else if (48 <= i && i < 64) return (x & z) | (y & ~z);
-		else if (64 <= i && i < 80) return x ^ (y | ~z);
-		else throw new AssertionError();
-	}
 	
 	
 	private static final int[] KL = {0x00000000, 0x5A827999, 0x6ED9EBA1, 0x8F1BBCDC, 0xA953FD4E};  // Round constants for left line
