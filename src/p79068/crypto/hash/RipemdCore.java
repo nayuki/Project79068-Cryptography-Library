@@ -11,7 +11,7 @@ import p79068.math.IntegerBitMath;
 
 final class RipemdCore extends BlockHasherCore {
 	
-	private final int hashLength;  // In bytes
+	private final int hashLength;  // In bytes. Note that -16 indicates RIPEMD (original)
 	
 	private int[] state;
 	
@@ -19,6 +19,9 @@ final class RipemdCore extends BlockHasherCore {
 	
 	public RipemdCore(int hashLen) {
 		hashLength = hashLen;
+		
+		if (hashLen == -16)  // RIPEMD (original) has same initial state as RIPEMD-128
+			hashLen = 16;
 		switch (hashLen) {
 			case 16 /* RIPEMD-128 */:  state = new int[]{0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476};  break;
 			case 20 /* RIPEMD-160 */:  state = new int[]{0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476, 0xC3D2E1F0};  break;
@@ -69,7 +72,31 @@ final class RipemdCore extends BlockHasherCore {
 					| (message[i + 3] & 0xFF) << 24;
 			}
 			
-			if (hashLength == 16) {  // RIPEMD-128
+			if (hashLength == -16) {  // RIPEMD (original)
+				int al = state[0], ar = state[0];
+				int bl = state[1], br = state[1];
+				int cl = state[2], cr = state[2];
+				int dl = state[3], dr = state[3];
+				for (int j = 0; j < 48; j++) {  // The 48 rounds
+					int temp;
+					temp = Integer.rotateLeft(al + f0(j, bl, cl, dl) + schedule[R0[j]] + KL[j / 16], S0[j]);
+					al = dl;
+					dl = cl;
+					cl = bl;
+					bl = temp;
+					temp = Integer.rotateLeft(ar + f0(j, br, cr, dr) + schedule[R0[j]] + KR3[j / 16], S0[j]);
+					ar = dr;
+					dr = cr;
+					cr = br;
+					br = temp;
+				}
+				int temp = state[1] + cl + dr;
+				state[1] = state[2] + dl + ar;
+				state[2] = state[3] + al + br;
+				state[3] = state[0] + bl + cr;
+				state[0] = temp;
+				
+			} else if (hashLength == 16) {  // RIPEMD-128
 				int al = state[0], ar = state[0];
 				int bl = state[1], br = state[1];
 				int cl = state[2], cr = state[2];
@@ -203,6 +230,16 @@ final class RipemdCore extends BlockHasherCore {
 	}
 	
 	
+	// For RIPEMD (original) only
+	private static int f0(int i, int x, int y, int z) {
+		if      ( 0 <= i && i < 16) return (x & y) | (~x & z);
+		else if (16 <= i && i < 32) return (x & y) | (x & z) | (y & z);
+		else if (32 <= i && i < 48) return x ^ y ^ z;
+		else throw new AssertionError();
+	}
+	
+	
+	// For RIPEMD-{128,160,256,320}
 	private static int f(int i, int x, int y, int z) {
 		if      ( 0 <= i && i < 16) return x ^ y ^ z;
 		else if (16 <= i && i < 32) return (x & y) | (~x & z);
@@ -237,6 +274,13 @@ final class RipemdCore extends BlockHasherCore {
 	private static final int[] KL  = {0x00000000, 0x5A827999, 0x6ED9EBA1, 0x8F1BBCDC, 0xA953FD4E};  // Round constants for left line
 	private static final int[] KR5 = {0x50A28BE6, 0x5C4DD124, 0x6D703EF3, 0x7A6D76E9, 0x00000000};  // Round constants for right line (RIPEMD-160, RIPEMD-320)
 	private static final int[] KR4 = {0x50A28BE6, 0x5C4DD124, 0x6D703EF3, 0x00000000};  // Round constants for right line (RIPEMD-128, RIPEMD-256)
+	private static final int[] KR3 = {0x50A28BE6, 0x00000000, 0x5C4DD124};  // Round constants for right line (RIPEMD (original))
+	
+	private static final int[] R0 = {  // Message schedule for RIPEMD (original)
+		 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15,
+		 7,  4, 13,  1, 10,  6, 15,  3, 12,  0,  9,  5, 14,  2, 11,  8,
+		 3, 10,  2,  4,  9, 15,  8,  1, 14,  7,  0,  6, 11, 13,  5, 12,
+	};
 	
 	private static final int[] RL = {  // Message schedule for left line
 		 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15,
@@ -252,6 +296,12 @@ final class RipemdCore extends BlockHasherCore {
 		15,  5,  1,  3,  7, 14,  6,  9, 11,  8, 12,  2, 10,  0,  4, 13,
 		 8,  6,  4,  1,  3, 11, 15,  0,  5, 12,  2, 13,  9,  7, 10, 14,
 		12, 15, 10,  4,  1,  5,  8,  7,  6,  2, 13, 14,  0,  3,  9, 11,
+	};
+	
+	private static final int[] S0 = {  // Left-rotation for RIPEMD (original)
+		11, 14, 15, 12,  5,  8,  7,  9, 11, 13, 14, 15,  6,  7,  9,  8,
+		 7,  6,  8, 13, 11,  9,  7, 15,  7, 12, 15,  9,  7, 11, 13, 12,
+		11, 13, 14,  7, 14,  9, 13, 15,  6,  8, 13,  6, 12,  5,  7,  5,
 	};
 	
 	private static final int[] SL = {  // Left-rotation for left line
