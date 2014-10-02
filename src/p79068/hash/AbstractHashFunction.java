@@ -33,8 +33,13 @@ public abstract class AbstractHashFunction implements HashFunction {
 	 * Constructs a hash function with the specified name and output hash length (in bytes).
 	 * @param name the name of this hash function
 	 * @param hashLen the output hash length of this hash function, in bytes
+	 * @throws NullPointerException if the name is {@code null}
+	 * @throws IllegalArgumentException if the hash length is negative
 	 */
 	protected AbstractHashFunction(String name, int hashLen) {
+		Assert.assertNotNull(name);
+		if (hashLen < 0)
+			throw new IllegalArgumentException("Hash length must be non-negative");
 		this.name = name;
 		hashLength = hashLen;
 	}
