@@ -1,5 +1,6 @@
 package p79068.hash;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 import org.junit.Test;
@@ -94,6 +95,43 @@ public final class CrcTest extends HashFunctionTest {
 			}
 			assertFalse(hasher0.getHash().equals(hasher1.getHash()));
 		}
+	}
+	
+	
+	/* 
+	 * crc32(x) ^ crc32(y)
+	 * = (rawcrc32(x ^ 0xFFFFFFFF0...0) ^ 0xFFFFFFF) ^ (rawcrc32(y ^ 0xFFFFFFFF0...0) ^ 0xFFFFFFFF)
+	 * = rawcrc32(x ^ 0xFFFFFFFF0...0) ^ rawcrc32(y ^ 0xFFFFFFFF0...0)
+	 * = rawcrc32(x) ^ rawcrc32(y) ^ rawcrc32(0xFFFFFFFF0...0) ^ rawcrc32(0xFFFFFFFF0...0)
+	 * = rawcrc32(x) ^ rawcrc32(y)
+	 * = rawcrc32(x ^ y).
+	 * 
+	 * crc32(x ^ y)
+	 * = rawcrc32(x ^ y ^ 0xFFFFFFFF0...0) ^ 0xFFFFFFFF
+	 * = rawcrc32(x ^ y) ^ rawcrc32(0xFFFFFFFF0...0) ^ 0xFFFFFFFF
+	 * = crc32(x) ^ crc32(y) ^ crc32(0...0).
+	 */
+	@Test
+	public void testCrc32PseudolinearityRandomly() {
+		Random r = Random.DEFAULT;
+		for (int i = 0; i < 1000; i++) {
+			int n = r.uniformInt(1000) + 4;
+			byte[] x = new byte[n];
+			byte[] y = new byte[n];
+			byte[] xor = new byte[n];
+			byte[] zeros = new byte[n];
+			r.uniformBytes(x);
+			r.uniformBytes(y);
+			for (int j = 0; j < xor.length; j++)
+				xor[j] = (byte)(x[j] ^ y[j]);
+			assertEquals(getCrc32HashInt(xor), getCrc32HashInt(x) ^ getCrc32HashInt(y) ^ getCrc32HashInt(zeros));
+		}
+	}
+	
+	
+	private static int getCrc32HashInt(byte[] b) {
+		byte[] h = Crc.CRC32_FUNCTION.getHash(b).toBytes();
+		return h[0] << 24 | (h[1] & 0xFF) << 16 | (h[2] & 0xFF) << 8 | (h[3] & 0xFF);
 	}
 	
 }
