@@ -12,7 +12,8 @@ public final class SimpleHashTest extends HashFunctionTest {
 			Adler32.FUNCTION,
 			Sum32.FUNCTION,
 			Xor8.FUNCTION,
-			ZeroHash.FUNCTION,
+			new ZeroHash(1),
+			new ZeroHash(16),
 		};
 	}
 	
@@ -64,7 +65,7 @@ public final class SimpleHashTest extends HashFunctionTest {
 	
 	@Test
 	public void testZeroHash() {
-		HashFunction hf = ZeroHash.FUNCTION;
+		HashFunction hf = new ZeroHash(1);
 		testHex(hf, ""          , "00");
 		testHex(hf, "00"        , "00");
 		testHex(hf, "01"        , "00");
@@ -74,6 +75,8 @@ public final class SimpleHashTest extends HashFunctionTest {
 		testHex(hf, "0123"      , "00");
 		testHex(hf, "0000000000", "00");
 		testHex(hf, "010003C000", "00");
+		testHex(new ZeroHash(2), "", "0000");
+		testHex(new ZeroHash(3), "", "000000");
 	}
 	
 	

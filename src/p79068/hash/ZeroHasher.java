@@ -23,7 +23,7 @@ final class ZeroHasher extends AbstractHasher {
 	
 	@Override
 	public HashValue getHash() {
-		return new HashValue(new byte[1]);
+		return new HashValue(new byte[hashFunction.getHashLength()]);
 	}
 	
 }

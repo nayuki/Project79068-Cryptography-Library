@@ -2,21 +2,16 @@ package p79068.hash;
 
 
 /**
- * The zero hash function, always returning 8 bits of zeros.
- * <p>Mutability: <em>Immutable</em><br>
- *  Instantiability: <em>Singleton</em></p>
+ * The family of all-zero hash functions, always returning an array of all-zero bytes for any input.
  */
 public final class ZeroHash extends AbstractHashFunction {
 	
 	/**
-	 * The singleton instance of the zero hash function. {@code name = "Zero Hash"}, {@code hashLength = 1}.
+	 * Constructs a zero hash function with the specified hash length in bytes.
+	 * @param hashLen the output hash length, in bytes
 	 */
-	public final static ZeroHash FUNCTION = new ZeroHash();
-	
-	
-	
-	private ZeroHash() {
-		super("Zero Hash", 1);
+	public ZeroHash(int hashLen) {
+		super("Zero Hash", hashLen);
 	}
 	
 	
