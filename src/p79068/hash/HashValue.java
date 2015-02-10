@@ -29,6 +29,35 @@ public final class HashValue implements Comparable<HashValue> {
 	}
 	
 	
+	/**
+	 * Constructs a hash value from the specified hexadecimal string.
+	 * The string must consist of only the characters 0-9, a-f, A-F and have an even length.
+	 * @param hex the hexadecimal string representing the hash
+	 * @throws NullPointerException if the string is {@code null}
+	 * @throws NumberFormatException if the string is not an even-length hexadecimal string
+	 */
+	public HashValue(String hex) {
+		Assert.assertNotNull(hex);
+		if (hex.length() % 2 != 0)
+			throw new NumberFormatException("String is not even length");
+		
+		hashValue = new byte[hex.length() / 2];
+		for (int i = 0; i < hex.length(); i++) {
+			char c = hex.charAt(i);
+			int val;
+			if (c >= '0' && c <= '9')
+				val = c - '0';
+			else if (c >= 'a' && c <= 'f')
+				val = c - 'a' + 10;
+			else if (c >= 'A' && c <= 'F')
+				val = c - 'A' + 10;
+			else
+				throw new NumberFormatException("Invalid digit: " + c);
+			hashValue[i >>> 1] |= val << ((1 - (i & 1)) << 2);
+		}
+	}
+	
+	
 	
 	/**
 	 * Returns this hash value as a new array of bytes.

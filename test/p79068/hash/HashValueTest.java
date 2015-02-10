@@ -3,6 +3,7 @@ package p79068.hash;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.Arrays;
 
@@ -13,6 +14,48 @@ import p79068.util.random.Random;
 
 
 public final class HashValueTest {
+	
+	@Test
+	public void testNewHex() {
+		assertEquals(hv(), new HashValue(""));
+		assertEquals(hv(0), new HashValue("00"));
+		assertEquals(hv(-1), new HashValue("ff"));
+		assertEquals(hv(-6, -50), new HashValue("FacE"));
+		assertEquals(hv(49, 65, 89, 38), new HashValue("31415926"));
+	}
+	
+	
+	@Test
+	public void testNewHexInvalid() {
+		String[] cases = {
+			"0",
+			"ag",
+			"-0",
+			"+1",
+			"abc",
+			"[]",
+			"@`",
+			"12345&78",
+		};
+		for (String s : cases) {
+			try {
+				new HashValue(s);
+				fail();
+			} catch (NumberFormatException e) {}  // Pass
+		}
+	}
+	
+	
+	@Test
+	public void testHexStringRoundTrip() {
+		for (int i = 0; i < 1000; i++) {
+			byte[] b = new byte[rand.uniformInt(100)];
+			rand.uniformBytes(b);
+			HashValue h = new HashValue(b);
+			assertEquals(h, new HashValue(h.toHexString()));
+		}
+	}
+	
 	
 	@Test
 	public void testEquals() {
