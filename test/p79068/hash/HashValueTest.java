@@ -12,8 +12,7 @@ import p79068.util.random.Random;
 
 public final class HashValueTest {
 	
-	@Test
-	public void testNewHex() {
+	@Test public void testNewHex() {
 		assertEquals(hv(), new HashValue(""));
 		assertEquals(hv(0), new HashValue("00"));
 		assertEquals(hv(-1), new HashValue("ff"));
@@ -22,8 +21,7 @@ public final class HashValueTest {
 	}
 	
 	
-	@Test
-	public void testNewHexInvalid() {
+	@Test public void testNewHexInvalid() {
 		String[] cases = {
 			"0",
 			"ag",
@@ -43,8 +41,7 @@ public final class HashValueTest {
 	}
 	
 	
-	@Test
-	public void testHexStringRoundTrip() {
+	@Test public void testHexStringRoundTrip() {
 		for (int i = 0; i < 1000; i++) {
 			byte[] b = new byte[rand.uniformInt(100)];
 			rand.uniformBytes(b);
@@ -54,8 +51,7 @@ public final class HashValueTest {
 	}
 	
 	
-	@Test
-	public void testEquals() {
+	@Test public void testEquals() {
 		assertEquals(hv(), hv());
 		assertEquals(hv(0), hv(0));
 		assertEquals(hv(-1), hv(-1));
@@ -68,8 +64,7 @@ public final class HashValueTest {
 	}
 	
 	
-	@Test
-	public void testEqualsRandomly() {
+	@Test public void testEqualsRandomly() {
 		for (int i = 0; i < 10000; i++) {
 			byte[][] pair = randomByteArrayPair();
 			assertTrue(new HashValue(pair[0]).equals(new HashValue(pair[1])) == Arrays.equals(pair[0], pair[1]));
@@ -77,8 +72,7 @@ public final class HashValueTest {
 	}
 	
 	
-	@Test
-	public void testCompareTo() {
+	@Test public void testCompareTo() {
 		assertTrue(hv().compareTo(hv()) == 0);
 		assertTrue(hv(0).compareTo(hv(0)) == 0);
 		assertTrue(hv(-1).compareTo(hv(-1)) == 0);
@@ -95,8 +89,7 @@ public final class HashValueTest {
 	}
 	
 	
-	@Test
-	public void testCompareToRandomly() {
+	@Test public void testCompareToRandomly() {
 		for (int i = 0; i < 100000; i++) {
 			byte[][] pair = randomByteArrayPair();
 			byte[] first = pair[0];

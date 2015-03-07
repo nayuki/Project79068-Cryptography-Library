@@ -25,8 +25,7 @@ public final class MdTest extends CryptoHashFunctionTest {
 	
 	
 	
-	@Test
-	public void testMd2() {
+	@Test public void testMd2() {
 		testAscii(Md.MD2_FUNCTION, new String[][] {
 			{msg0, "8350E5A3E24C153DF2275C9F80692773"},
 			{msg1, "32EC01EC4A6DAC72C0AB96FB34C0B5D1"},
@@ -39,8 +38,7 @@ public final class MdTest extends CryptoHashFunctionTest {
 	}
 	
 	
-	@Test
-	public void testMd4() {
+	@Test public void testMd4() {
 		testAscii(Md.MD4_FUNCTION, new String[][] {
 			{msg0, "31D6CFE0D16AE931B73C59D7E0C089C0"},
 			{msg1, "BDE52CB31DE33E46245E05FBDBD6FB24"},
@@ -53,8 +51,7 @@ public final class MdTest extends CryptoHashFunctionTest {
 	}
 	
 	
-	@Test
-	public void testMd5() {
+	@Test public void testMd5() {
 		testAscii(Md.MD5_FUNCTION, new String[][] {
 			{msg0, "D41D8CD98F00B204E9800998ECF8427E"},
 			{msg1, "0CC175B9C0F1B6A831C399E269772661"},

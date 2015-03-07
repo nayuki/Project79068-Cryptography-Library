@@ -11,8 +11,7 @@ import p79068.hash.Hasher;
 
 public abstract class CryptoHashFunctionTest extends HashFunctionTest {
 	
-	@Test
-	public void testZeroization() {
+	@Test public void testZeroization() {
 		for (HashFunction hf : getHashFunctionsToTest()) {
 			Hasher hasher = hf.newHasher();
 			hasher.update(new byte[200]);

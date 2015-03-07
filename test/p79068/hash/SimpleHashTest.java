@@ -17,8 +17,7 @@ public final class SimpleHashTest extends HashFunctionTest {
 	}
 	
 	
-	@Test
-	public void testAdler32() {
+	@Test public void testAdler32() {
 		HashFunction hf = Adler32.FUNCTION;
 		testAscii(hf, ""                , "00000001");
 		testAscii(hf, "Mark Adler"      , "13070394");
@@ -32,8 +31,7 @@ public final class SimpleHashTest extends HashFunctionTest {
 	}
 	
 	
-	@Test
-	public void testSum32() {
+	@Test public void testSum32() {
 		HashFunction hf = Sum32.FUNCTION;
 		testAscii(hf, ""            , "00000000");
 		testAscii(hf, "1"           , "00000031");
@@ -46,8 +44,7 @@ public final class SimpleHashTest extends HashFunctionTest {
 	}
 	
 	
-	@Test
-	public void testXor8() {
+	@Test public void testXor8() {
 		HashFunction hf = Xor8.FUNCTION;
 		testAscii(hf, ""      , "00");
 		testAscii(hf, "A"     , "41");
@@ -62,8 +59,7 @@ public final class SimpleHashTest extends HashFunctionTest {
 	}
 	
 	
-	@Test
-	public void testZeroHash() {
+	@Test public void testZeroHash() {
 		HashFunction hf = new ZeroHash(1);
 		testHex(hf, ""          , "00");
 		testHex(hf, "00"        , "00");

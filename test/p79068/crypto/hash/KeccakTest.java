@@ -36,8 +36,7 @@ public final class KeccakTest extends CryptoHashFunctionTest {
 	
 	
 	
-	@Test
-	public void testKeccak224() {
+	@Test public void testKeccak224() {
 		testHashFunction(
 			Keccak.KECCAK_224_FUNCTION,
 			new String[] {
@@ -58,8 +57,7 @@ public final class KeccakTest extends CryptoHashFunctionTest {
 	}
 	
 	
-	@Test
-	public void testKeccak256() {
+	@Test public void testKeccak256() {
 		testHashFunction(
 			Keccak.KECCAK_256_FUNCTION,
 			new String[] {
@@ -80,8 +78,7 @@ public final class KeccakTest extends CryptoHashFunctionTest {
 	}
 	
 	
-	@Test
-	public void testKeccak384() {
+	@Test public void testKeccak384() {
 		testHashFunction(
 			Keccak.KECCAK_384_FUNCTION,
 			new String[] {
@@ -102,8 +99,7 @@ public final class KeccakTest extends CryptoHashFunctionTest {
 	}
 	
 	
-	@Test
-	public void testKeccak512() {
+	@Test public void testKeccak512() {
 		testHashFunction(
 			Keccak.KECCAK_512_FUNCTION,
 			new String[] {

@@ -21,8 +21,7 @@ public final class Edonkey2000Test extends CryptoHashFunctionTest {
 	private static final int BLOCK_LENGTH = 9728000;
 	
 	
-	@Test
-	public void testOldEdonkey2000() {
+	@Test public void testOldEdonkey2000() {
 		HashFunction hf = Edonkey2000.ED2K_FUNCTION;
 		test(hf, 0 * BLOCK_LENGTH +  0, "31D6CFE0D16AE931B73C59D7E0C089C0");
 		test(hf, 0 * BLOCK_LENGTH + 89, "C48B812748FD84C7B4AE116C5CD24CE0");
@@ -35,8 +34,7 @@ public final class Edonkey2000Test extends CryptoHashFunctionTest {
 	}
 	
 	
-	@Test
-	public void testNewEdonkey2000() {
+	@Test public void testNewEdonkey2000() {
 		HashFunction hf = Edonkey2000.NEW_ED2K_FUNCTION;
 		test(hf, 0 * BLOCK_LENGTH +  0, "31D6CFE0D16AE931B73C59D7E0C089C0");  // Same
 		test(hf, 0 * BLOCK_LENGTH + 89, "C48B812748FD84C7B4AE116C5CD24CE0");  // Same

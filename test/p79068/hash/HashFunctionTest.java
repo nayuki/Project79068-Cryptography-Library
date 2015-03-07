@@ -12,8 +12,7 @@ public abstract class HashFunctionTest {
 	protected abstract HashFunction[] getHashFunctionsToTest();
 	
 	
-	@Test
-	public void testZeroLength() {
+	@Test public void testZeroLength() {
 		for (HashFunction hf : getHashFunctionsToTest()) {
 			// Simply ensure that no exception is thrown
 			hf.getHash(new byte[0]);
@@ -21,8 +20,7 @@ public abstract class HashFunctionTest {
 	}
 	
 	
-	@Test
-	public void testUpdateByteVsBlockEquivalence() {
+	@Test public void testUpdateByteVsBlockEquivalence() {
 		Random r = Random.DEFAULT;
 		for (HashFunction hf : getHashFunctionsToTest()) {
 			for (int i = 0; i < 1000; i++) {
@@ -41,8 +39,7 @@ public abstract class HashFunctionTest {
 	}
 	
 	
-	@Test
-	public void testMessageSplittingEquivalence() {
+	@Test public void testMessageSplittingEquivalence() {
 		Random r = Random.DEFAULT;
 		for (HashFunction hf : getHashFunctionsToTest()) {
 			for (int i = 0; i < 1000; i++) {
@@ -62,8 +59,7 @@ public abstract class HashFunctionTest {
 	
 	
 	// Always passes. Prints result to standard output.
-	@Test
-	public void testHashSpeed() {
+	@Test public void testHashSpeed() {
 		for (HashFunction hf : getHashFunctionsToTest()) {
 			// Warm up the JIT compiler, and try to target about 0.1 second of execution time
 			int len = 1;

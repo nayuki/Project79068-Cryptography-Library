@@ -36,8 +36,7 @@ public final class ShaTest extends CryptoHashFunctionTest {
 	
 	
 	
-	@Test
-	public void testSha() {
+	@Test public void testSha() {
 		testAscii(Sha.SHA_FUNCTION, new String[][] {
 			{msg0, "F96CEA198AD1DD5617AC084A3D92C6107708C0EF"},
 			{msg1, "37F297772FAE4CB1BA39B6CF9CF0381180BD62F2"},
@@ -51,8 +50,7 @@ public final class ShaTest extends CryptoHashFunctionTest {
 	}
 	
 	
-	@Test
-	public void testSha1() {
+	@Test public void testSha1() {
 		testAscii(Sha.SHA1_FUNCTION, new String[][] {
 			{msg0, "DA39A3EE5E6B4B0D3255BFEF95601890AFD80709"},
 			{msg1, "86F7E437FAA5A7FCE15D1DDCB9EAEAEA377667B8"},
@@ -66,8 +64,7 @@ public final class ShaTest extends CryptoHashFunctionTest {
 	}
 	
 	
-	@Test
-	public void testSha224() {
+	@Test public void testSha224() {
 		testAscii(Sha.SHA224_FUNCTION, new String[][] {
 			{msg0, "D14A028C2A3A2BC9476102BB288234C415A2B01F828EA62AC5B3E42F"},
 			{msg1, "ABD37534C7D9A2EFB9465DE931CD7055FFDB8879563AE98078D6D6D5"},
@@ -81,8 +78,7 @@ public final class ShaTest extends CryptoHashFunctionTest {
 	}
 	
 	
-	@Test
-	public void testSha256() {
+	@Test public void testSha256() {
 		testAscii(Sha.SHA256_FUNCTION, new String[][] {
 			{msg0, "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855"},
 			{msg1, "CA978112CA1BBDCAFAC231B39A23DC4DA786EFF8147C4E72B9807785AFEE48BB"},
@@ -96,8 +92,7 @@ public final class ShaTest extends CryptoHashFunctionTest {
 	}
 	
 	
-	@Test
-	public void testSha384() {
+	@Test public void testSha384() {
 		testAscii(Sha.SHA384_FUNCTION, new String[][] {
 			{msg0, "38B060A751AC96384CD9327EB1B1E36A21FDB71114BE07434C0CC7BF63F6E1DA274EDEBFE76F65FBD51AD2F14898B95B"},
 			{msg1, "54A59B9F22B0B80880D8427E548B7C23ABD873486E1F035DCE9CD697E85175033CAA88E6D57BC35EFAE0B5AFD3145F31"},
@@ -111,8 +106,7 @@ public final class ShaTest extends CryptoHashFunctionTest {
 	}
 	
 	
-	@Test
-	public void testSha512() {
+	@Test public void testSha512() {
 		testAscii(Sha.SHA512_FUNCTION, new String[][] {
 			{msg0, "CF83E1357EEFB8BDF1542850D66D8007D620E4050B5715DC83F4A921D36CE9CE47D0D13C5D85F2B0FF8318D2877EEC2F63B931BD47417A81A538327AF927DA3E"},
 			{msg1, "1F40FC92DA241694750979EE6CF582F2D5D7D28E18335DE05ABC54D0560E0F5302860C652BF08D560252AA5E74210546F369FBBBCE8C12CFC7957B2652FE9A75"},
@@ -126,8 +120,7 @@ public final class ShaTest extends CryptoHashFunctionTest {
 	}
 	
 	
-	@Test
-	public void testSha512_224() {
+	@Test public void testSha512_224() {
 		testAscii(Sha.SHA512_224_FUNCTION, new String[][] {
 			{msg0, "6ED0DD02806FA89E25DE060C19D3AC86CABB87D6A0DDD05C333B84F4"},
 			{msg2, "4634270F707B6A54DAAE7530460842E20E37ED265CEEE9A43E8924AA"},
@@ -136,8 +129,7 @@ public final class ShaTest extends CryptoHashFunctionTest {
 	}
 	
 	
-	@Test
-	public void testSha512_256() {
+	@Test public void testSha512_256() {
 		testAscii(Sha.SHA512_256_FUNCTION, new String[][] {
 			{msg0, "C672B8D1EF56ED28AB87C3622C5114069BDD3AD7B8F9737498D0C01ECEF0967A"},
 			{msg2, "53048E2681941EF99B2E29B76B4C7DABE4C2D0C634FC6D46E0E2F13107E7AF23"},

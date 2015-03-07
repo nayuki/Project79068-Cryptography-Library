@@ -15,8 +15,7 @@ public abstract class CipherTest {
 	
 	/* Inherited methods (tests common to all ciphers) */
 	
-	@Test
-	public void testInvertibilityRandomly() {
+	@Test public void testInvertibilityRandomly() {
 		for (Cipher c : getCiphersToTest()) {
 			for (int j = 0; j < 100; j++)
 				CryptoUtils.testCipherInvertibility(c, c.getBlockLength());
@@ -24,8 +23,7 @@ public abstract class CipherTest {
 	}
 	
 	
-	@Test
-	public void testBlockOffset() {
+	@Test public void testBlockOffset() {
 		for (Cipher c : getCiphersToTest()) {
 			int blockLen = c.getBlockLength();
 			byte[] key = CryptoUtils.getRandomBytes(c.getKeyLength());
@@ -45,8 +43,7 @@ public abstract class CipherTest {
 	}
 	
 	
-	@Test
-	public void testMultiBlock() {
+	@Test public void testMultiBlock() {
 		for (Cipher c : getCiphersToTest()) {
 			for (int blocks = 2; blocks <= 10; blocks++) {
 				int blockLen = c.getBlockLength();
@@ -73,8 +70,7 @@ public abstract class CipherTest {
 	}
 	
 	
-	@Test
-	public void testInvalidOffset() {
+	@Test public void testInvalidOffset() {
 		for (Cipher c : getCiphersToTest()) {
 			for (int i = 0; i < 100; i++) {
 				byte[] msg = new byte[(Random.DEFAULT.uniformInt(4) + 1) * c.getBlockLength()];
@@ -92,8 +88,7 @@ public abstract class CipherTest {
 	}
 	
 	
-	@Test
-	public void testNotMultipleOfBlockLength() {
+	@Test public void testNotMultipleOfBlockLength() {
 		for (Cipher c : getCiphersToTest()) {
 			for (int i = 0; i < 100; i++) {
 				int blockLen = c.getBlockLength();
@@ -117,8 +112,7 @@ public abstract class CipherTest {
 	
 	
 	// Always passes. Prints result to standard output.
-	@Test
-	public void testCipherSpeed() {
+	@Test public void testCipherSpeed() {
 		for (Cipher c : getCiphersToTest()) {
 			// Warm up the JIT compiler, and try to target about 0.1 second of execution time
 			int len = c.getBlockLength();

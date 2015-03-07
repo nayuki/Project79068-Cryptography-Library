@@ -13,8 +13,7 @@ public final class CrcTest extends HashFunctionTest {
 	}
 	
 	
-	@Test
-	public void testCrc32Basic() {
+	@Test public void testCrc32Basic() {
 		HashFunction hf = Crc.CRC32_FUNCTION;
 		testAscii(hf, "", "00000000");
 		testAscii(hf, "a", "E8B7BE43");
@@ -27,8 +26,7 @@ public final class CrcTest extends HashFunctionTest {
 	
 	
 	// Using the prefix 0xFFFFFFFF creates a zero register. Any number of zeros appended directly after this has no effect on the CRC.
-	@Test
-	public void testCrc32ZeroPadding() {
+	@Test public void testCrc32ZeroPadding() {
 		HashFunction hf = Crc.CRC32_FUNCTION;
 		testHex(hf, "FFFFFFFF"    , "FFFFFFFF");
 		testHex(hf, "FFFFFFFF00"  , "FFFFFFFF");
@@ -42,8 +40,7 @@ public final class CrcTest extends HashFunctionTest {
 	
 	
 	// For any message m, crc32(m ++ littleEndian(crc32(m))) == 0x2144DF1C
-	@Test
-	public void testCrc32AppendRemainder() {
+	@Test public void testCrc32AppendRemainder() {
 		HashFunction hf = Crc.CRC32_FUNCTION;
 		testHex(hf, "61"                        , "E8B7BE43");
 		testHex(hf, "6143BEB7E8"                , "2144DF1C");
@@ -55,8 +52,7 @@ public final class CrcTest extends HashFunctionTest {
 	
 	
 	// CRC-32 always detects a 1-bit error, guaranteed
-	@Test
-	public void testOneBitErrorSmallRandomly() {
+	@Test public void testOneBitErrorSmallRandomly() {
 		Random r = Random.DEFAULT;
 		for (int i = 0; i < 100; i++) {
 			byte[] msg = new byte[r.uniformInt(1000) + 1];
@@ -72,8 +68,7 @@ public final class CrcTest extends HashFunctionTest {
 	
 	
 	// CRC-32 always detects a 1-bit error, guaranteed
-	@Test
-	public void testOneBitErrorLargeRandomly() {
+	@Test public void testOneBitErrorLargeRandomly() {
 		Random r = Random.DEFAULT;
 		for (int i = 0; i < 10; i++) {
 			int len = r.uniformInt(10000000);
@@ -109,8 +104,7 @@ public final class CrcTest extends HashFunctionTest {
 	 * = rawcrc32(x ^ y) ^ rawcrc32(0xFFFFFFFF0...0) ^ 0xFFFFFFFF
 	 * = crc32(x) ^ crc32(y) ^ crc32(0...0).
 	 */
-	@Test
-	public void testCrc32PseudolinearityRandomly() {
+	@Test public void testCrc32PseudolinearityRandomly() {
 		Random r = Random.DEFAULT;
 		for (int i = 0; i < 1000; i++) {
 			int n = r.uniformInt(1000) + 4;

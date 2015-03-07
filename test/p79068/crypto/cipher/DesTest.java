@@ -13,8 +13,7 @@ public final class DesTest extends CipherTest {
 	}
 	
 	
-	@Test
-	public void testKeyBits() {
+	@Test public void testKeyBits() {
 		// NIST SP 800-17: Appendix B - Table 2
 		String[][] testCases = {
 			{"8001010101010101", "0000000000000000", "95A8D72813DAA94D"},
@@ -79,8 +78,7 @@ public final class DesTest extends CipherTest {
 	}
 	
 	
-	@Test
-	public void testVaryingKey() {
+	@Test public void testVaryingKey() {
 		// NIST SP 800-17: Appendix B - Table 3
 		String[][] testCases = {
 			{"1046913489980131", "0000000000000000", "88D55E54F54C97B4"},
@@ -121,8 +119,7 @@ public final class DesTest extends CipherTest {
 	}
 	
 	
-	@Test
-	public void testPlaintextBits() {
+	@Test public void testPlaintextBits() {
 		// NIST SP 800-17: Appendix B - Table 1
 		String[][] testCases = {
 			{"0101010101010101", "8000000000000000", "95F8A5E5DD31D900"},
@@ -195,8 +192,7 @@ public final class DesTest extends CipherTest {
 	}
 	
 	
-	@Test
-	public void testComprehensive() {
+	@Test public void testComprehensive() {
 		String[][] testCases = {
 			// From http://cryptomanager.com/tv.html
 			{"752878397493CB70", "1122334455667788", "B5219EE81AA7499D"},

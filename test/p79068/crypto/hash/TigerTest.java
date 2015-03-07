@@ -33,8 +33,7 @@ public final class TigerTest extends CryptoHashFunctionTest {
 	
 	
 	
-	@Test
-	public void testTiger() {
+	@Test public void testTiger() {
 		testAscii(Tiger.TIGER_FUNCTION, new String[][] {
 			{msg0, "3293AC630C13F0245F92BBB1766E16167A4E58492DDE73F3"},
 			{msg1, "77BEFBEF2E7EF8AB2EC8F93BF587A7FC613E247F5F247809"},
@@ -49,8 +48,7 @@ public final class TigerTest extends CryptoHashFunctionTest {
 	}
 	
 	
-	@Test
-	public void testTiger2() {
+	@Test public void testTiger2() {
 		testAscii(Tiger.TIGER2_FUNCTION, new String[][] {
 			{msg0, "4441BE75F6018773C206C22745374B924AA8313FEF919F41"},
 			{msg1, "67E6AE8E9E968999F70A23E72AEAA9251CBC7C78A7916636"},

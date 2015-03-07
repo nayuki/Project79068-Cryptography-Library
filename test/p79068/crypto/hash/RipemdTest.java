@@ -28,8 +28,7 @@ public final class RipemdTest extends CryptoHashFunctionTest {
 	
 	
 	
-	@Test
-	public void testRipemd() {
+	@Test public void testRipemd() {
 		testAscii(Ripemd.RIPEMD_FUNCTION, new String[][] {
 			{msg0, "9F73AA9B372A9DACFB86A6108852E2D9"},
 			{msg1, "486F74F790BC95EF7963CD2382B4BBC9"},
@@ -42,8 +41,7 @@ public final class RipemdTest extends CryptoHashFunctionTest {
 	}
 	
 	
-	@Test
-	public void testRipemd128() {
+	@Test public void testRipemd128() {
 		testAscii(Ripemd.RIPEMD128_FUNCTION, new String[][] {
 			{msg0, "CDF26213A150DC3ECB610F18F6B38B46"},
 			{msg1, "86BE7AFA339D0FC7CFC785E72F578D33"},
@@ -57,8 +55,7 @@ public final class RipemdTest extends CryptoHashFunctionTest {
 	}
 	
 	
-	@Test
-	public void testRipemd160() {
+	@Test public void testRipemd160() {
 		testAscii(Ripemd.RIPEMD160_FUNCTION, new String[][] {
 			{msg0, "9C1185A5C5E9FC54612808977EE8F548B2258D31"},
 			{msg1, "0BDC9D2D256B3EE9DAAE347BE6F4DC835A467FFE"},
@@ -72,8 +69,7 @@ public final class RipemdTest extends CryptoHashFunctionTest {
 	}
 	
 	
-	@Test
-	public void testRipemd256() {
+	@Test public void testRipemd256() {
 		testAscii(Ripemd.RIPEMD256_FUNCTION, new String[][] {
 			{msg0, "02BA4C4E5F8ECD1877FC52D64D30E37A2D9774FB1E5D026380AE0168E3C5522D"},
 			{msg1, "F9333E45D857F5D90A91BAB70A1EBA0CFB1BE4B0783C9ACFCD883A9134692925"},
@@ -87,8 +83,7 @@ public final class RipemdTest extends CryptoHashFunctionTest {
 	}
 	
 	
-	@Test
-	public void testRipemd320() {
+	@Test public void testRipemd320() {
 		testAscii(Ripemd.RIPEMD320_FUNCTION, new String[][] {
 			{msg0, "22D65D5661536CDC75C1FDF5C6DE7B41B9F27325EBC61E8557177D705A0EC880151C3A32A00899B8"},
 			{msg1, "CE78850638F92658A5A585097579926DDA667A5716562CFCF6FBE77F63542F99B04705D6970DFF5D"},

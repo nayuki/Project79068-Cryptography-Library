@@ -36,8 +36,7 @@ public final class HmacTest extends CryptoHashFunctionTest {
 	
 	
 	
-	@Test
-	public void testHmacMd5() {
+	@Test public void testHmacMd5() {
 		Object[][] testCases = {
 			{key0, msg0, "9294727a3638bb1c13f48ef8158bfc9d"},
 			{key2, msg1, "750c783e6ab0b503eaa86e310a5db738"},
@@ -52,8 +51,7 @@ public final class HmacTest extends CryptoHashFunctionTest {
 	}
 	
 	
-	@Test
-	public void testHmacSha1() {
+	@Test public void testHmacSha1() {
 		Object[][] testCases = {
 			{key1, msg0, "b617318655057264e28bc0b6fb378c8ef146be00"},
 			{key2, msg1, "effcdf6ae5eb2fa2d27416d5f184df9c259a7c79"},

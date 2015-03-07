@@ -12,8 +12,7 @@ public abstract class StreamCipherTest {
 	
 	
 	
-	@Test
-	public void testSkip() {
+	@Test public void testSkip() {
 		int[] skips = {0, 1, 2, 3, 6, 7, 24, 51, 139};
 		StreamCipher cipher = getCipher();
 		byte[] key = CryptoUtils.getRandomBytes(cipher.getKeyLength());
@@ -31,8 +30,7 @@ public abstract class StreamCipherTest {
 	}
 	
 	
-	@Test
-	public void testInvalidSkip() {
+	@Test public void testInvalidSkip() {
 		StreamCipherer cipherer = newCipherer();
 		int[] skips = {-1, -2, -5, -36, Integer.MIN_VALUE / 2, Integer.MIN_VALUE};
 		for (int skip : skips) {
