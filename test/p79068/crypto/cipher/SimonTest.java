@@ -3,7 +3,7 @@ package p79068.crypto.cipher;
 import org.junit.Test;
 
 
-public class SimonTest extends CipherTest {
+public final class SimonTest extends CipherTest {
 	
 	protected Cipher[] getCiphersToTest() {
 		return new Cipher[] {

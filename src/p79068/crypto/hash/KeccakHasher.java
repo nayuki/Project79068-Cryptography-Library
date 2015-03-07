@@ -8,7 +8,7 @@ import p79068.hash.AbstractHasher;
 import p79068.hash.HashValue;
 
 
-class KeccakHasher extends AbstractHasher implements Zeroizable {
+final class KeccakHasher extends AbstractHasher implements Zeroizable {
 	
 	private long[] state;
 	
