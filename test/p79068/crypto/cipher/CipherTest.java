@@ -1,6 +1,7 @@
 package p79068.crypto.cipher;
 
 import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
@@ -20,6 +21,55 @@ public abstract class CipherTest {
 		for (Cipher c : getCiphersToTest()) {
 			for (int j = 0; j < 100; j++)
 				CryptoUtils.testCipherInvertibility(c, c.getBlockLength());
+		}
+	}
+	
+	
+	@Test
+	public void testBlockOffset() {
+		for (Cipher c : getCiphersToTest()) {
+			int blockLen = c.getBlockLength();
+			byte[] key = CryptoUtils.getRandomBytes(c.getKeyLength());
+			byte[] plaintext = CryptoUtils.getRandomBytes(blockLen);
+			
+			byte[] ciphertext = plaintext.clone();
+			c.newCipherer(key).encrypt(ciphertext);
+			
+			for (int i = 1; i < 300; i++) {
+				byte[] msg = new byte[i + blockLen + 100];
+				System.arraycopy(plaintext, 0, msg, i, blockLen);
+				c.newCipherer(key).encrypt(msg, i, blockLen);
+				for (int j = 0; j < msg.length; j++)
+					assertEquals(j < i || j >= i + blockLen ? 0 : ciphertext[j - i], msg[j]);
+			}
+		}
+	}
+	
+	
+	@Test
+	public void testMultiBlock() {
+		for (Cipher c : getCiphersToTest()) {
+			for (int blocks = 2; blocks <= 10; blocks++) {
+				int blockLen = c.getBlockLength();
+				int off = Random.DEFAULT.uniformInt(blockLen * 4);
+				
+				byte[] msg = new byte[off + blocks * blockLen];
+				Random.DEFAULT.uniformBytes(msg, off, blockLen);
+				for (int i = 1; i < blocks; i++) {
+					for (int j = 0; j < blockLen; j++)
+						msg[off + i * blockLen + j] = msg[off + j];
+				}
+				
+				byte[] key = CryptoUtils.getRandomBytes(c.getKeyLength());
+				c.newCipherer(key).encrypt(msg, off, blocks * blockLen);
+				
+				for (int i = 0; i < msg.length; i++) {
+					if (i < off)
+						assertEquals(0, msg[i]);
+					else if (i >= off + blockLen)
+						assertEquals(msg[off + (i - off) % blockLen], msg[i]);
+				}
+			}
 		}
 	}
 	
