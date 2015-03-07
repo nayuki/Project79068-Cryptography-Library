@@ -2,7 +2,6 @@ package p79068.crypto.hash;
 
 import java.math.BigInteger;
 import java.util.Arrays;
-
 import p79068.Assert;
 import p79068.crypto.Zeroizer;
 import p79068.hash.HashValue;

@@ -1,10 +1,8 @@
 package p79068.crypto.hash;
 
 import static java.lang.Long.rotateRight;
-
 import java.math.BigInteger;
 import java.util.Arrays;
-
 import p79068.Assert;
 import p79068.crypto.Zeroizer;
 import p79068.hash.HashValue;

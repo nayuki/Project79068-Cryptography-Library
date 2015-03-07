@@ -1,7 +1,6 @@
 package p79068.crypto.cipher;
 
 import java.util.Arrays;
-
 import p79068.util.random.AbstractRandom;
 
 

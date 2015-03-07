@@ -1,7 +1,6 @@
 package p79068.crypto.hash;
 
 import java.util.Arrays;
-
 import p79068.Assert;
 import p79068.crypto.Zeroizer;
 import p79068.crypto.cipher.AbstractCipherer;

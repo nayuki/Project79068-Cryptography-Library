@@ -1,9 +1,7 @@
 package p79068.crypto.hash;
 
 import java.util.Arrays;
-
 import org.junit.Test;
-
 import p79068.hash.HashFunction;
 
 

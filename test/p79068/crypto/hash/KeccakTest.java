@@ -1,9 +1,7 @@
 package p79068.crypto.hash;
 
 import static org.junit.Assert.assertEquals;
-
 import org.junit.Test;
-
 import p79068.hash.HashFunction;
 
 

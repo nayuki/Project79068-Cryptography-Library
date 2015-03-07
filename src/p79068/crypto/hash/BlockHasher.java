@@ -1,7 +1,6 @@
 package p79068.crypto.hash;
 
 import java.math.BigInteger;
-
 import p79068.Assert;
 import p79068.crypto.Zeroizable;
 import p79068.crypto.Zeroizer;

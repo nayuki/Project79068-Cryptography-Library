@@ -1,7 +1,6 @@
 package p79068.hash;
 
 import java.util.Arrays;
-
 import org.junit.Test;
 
 

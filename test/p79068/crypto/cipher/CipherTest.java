@@ -2,9 +2,7 @@ package p79068.crypto.cipher;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
-
 import org.junit.Test;
-
 import p79068.crypto.CryptoUtils;
 import p79068.util.random.Random;
 
