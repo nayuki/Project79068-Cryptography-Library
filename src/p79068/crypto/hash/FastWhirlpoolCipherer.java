@@ -48,13 +48,15 @@ final class FastWhirlpoolCipherer extends AbstractCipherer {
 			throw new IllegalArgumentException("Invalid block length");
 		
 		long[] tempmsg = new long[8];
+		long[] tempkey = new long[8];
 		long[] temp = new long[8];
 		for (int i = off, end = off + len; i < end; i += 64) {
+			System.arraycopy(key, 0, tempkey, 0, 8);
 			toInt64sBigEndian(b, i, tempmsg);
 			if (encrypt)
-				hasher.encrypt(tempmsg, key);
+				hasher.encrypt(tempmsg, tempkey);
 			else
-				hasher.decrypt(tempmsg, key, temp);
+				hasher.decrypt(tempmsg, tempkey, temp);
 			toBytesBigEndian(tempmsg, b, i);
 		}
 	}
