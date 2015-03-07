@@ -4,7 +4,7 @@ import java.util.Arrays;
 import p79068.Assert;
 import p79068.crypto.Zeroizer;
 import p79068.crypto.cipher.AbstractCipherer;
-import p79068.crypto.cipher.Shacal2;
+import p79068.crypto.cipher.Shacal;
 import p79068.math.IntegerBitMath;
 
 
@@ -14,7 +14,7 @@ final class Shacal2Cipherer extends AbstractCipherer {
 	
 	
 	
-	public Shacal2Cipherer(Shacal2 cipher, byte[] key) {
+	public Shacal2Cipherer(Shacal cipher, byte[] key) {
 		super(cipher, key);
 		setKey(key);
 	}
