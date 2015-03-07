@@ -2,6 +2,7 @@ package p79068.crypto.cipher;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 import org.junit.Test;
 import p79068.crypto.CryptoUtils;
 import p79068.util.random.Random;
@@ -67,6 +68,49 @@ public abstract class CipherTest {
 					else if (i >= off + blockLen)
 						assertEquals(msg[off + (i - off) % blockLen], msg[i]);
 				}
+			}
+		}
+	}
+	
+	
+	@Test
+	public void testInvalidOffset() {
+		for (Cipher c : getCiphersToTest()) {
+			for (int i = 0; i < 100; i++) {
+				byte[] msg = new byte[(Random.DEFAULT.uniformInt(4) + 1) * c.getBlockLength()];
+				int off;
+				do off = Random.DEFAULT.uniformInt(msg.length * 3) - msg.length;
+				while (off == 0);
+				
+				Cipherer cp = c.newCipherer(new byte[c.getKeyLength()]);
+				try {
+					cp.encrypt(msg, off, msg.length);
+					fail();
+				} catch (IndexOutOfBoundsException e) {}  // Pass
+			}
+		}
+	}
+	
+	
+	@Test
+	public void testNotMultipleOfBlockLength() {
+		for (Cipher c : getCiphersToTest()) {
+			for (int i = 0; i < 100; i++) {
+				int blockLen = c.getBlockLength();
+				if (blockLen == 1)
+					break;  // Stream ciphers always pass
+				
+				byte[] msg = new byte[blockLen * 5];
+				int off = Random.DEFAULT.uniformInt(blockLen);
+				int len;
+				do len = Random.DEFAULT.uniformInt(blockLen * 4);
+				while (len % blockLen == 0);
+				
+				Cipherer cp = c.newCipherer(new byte[c.getKeyLength()]);
+				try {
+					cp.encrypt(msg, off, len);
+					fail();
+				} catch (IllegalArgumentException e) {}  // Pass
 			}
 		}
 	}
