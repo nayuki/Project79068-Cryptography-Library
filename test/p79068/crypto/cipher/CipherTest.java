@@ -13,6 +13,8 @@ public abstract class CipherTest {
 	protected abstract Cipher[] getCiphersToTest();
 	
 	
+	/* Inherited methods (tests common to all ciphers) */
+	
 	@Test
 	public void testInvertibilityRandomly() {
 		for (Cipher c : getCiphersToTest()) {
@@ -60,6 +62,8 @@ public abstract class CipherTest {
 		return time;
 	}
 	
+	
+	/* Static methods (helpers for subclasses) */
 	
 	public static void testCipher(Cipher cipher, String key, String plaintext, String expectedCiphertext) {
 		testCipher(cipher, CryptoUtils.hexToBytes(key), CryptoUtils.hexToBytes(plaintext), CryptoUtils.hexToBytes(expectedCiphertext));
