@@ -1,6 +1,7 @@
 package p79068.crypto.cipher;
 
 import p79068.Assert;
+import p79068.crypto.Zeroizer;
 
 
 final class SimonCipherer extends AbstractCipherer {
@@ -129,6 +130,14 @@ final class SimonCipherer extends AbstractCipherer {
 				b[i + j + bpw] = (byte)(y >>> shift);
 			}
 		}
+	}
+	
+	
+	public void zeroize() {
+		if (cipher == null)
+			return;
+		keySch = Zeroizer.clear(keySch);
+		super.zeroize();
 	}
 	
 	
