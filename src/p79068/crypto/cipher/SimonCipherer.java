@@ -7,6 +7,7 @@ import p79068.crypto.Zeroizer;
 final class SimonCipherer extends AbstractCipherer {
 	
 	private long[] keySch;
+	private long mask;
 	
 	
 	
@@ -17,13 +18,13 @@ final class SimonCipherer extends AbstractCipherer {
 		long z = Z[cipher.zIndex];
 		int n = cipher.getBlockLength() * 4;  // Word width in bits
 		int m = cipher.getKeyLength() * 8 / n;  // Number of key words
+		mask = n == 64 ? ~0L : (1L << n) - 1;
 		
 		// Key schedule expansion
 		keySch = new long[cipher.numRounds];
 		int bpw = n / 8;  // Bytes per word
 		for (int i = 0; i < cipher.getKeyLength(); i++)
 			keySch[m - 1 - i / bpw] |= (key[i] & 0xFFL) << ((bpw - 1 - i % bpw) * 8);
-		long mask = getMask(n);
 		for (int i = m; i < keySch.length; i++) {
 			long temp = shiftRight(keySch[i - 1], n, 3);
 			if (m == 4)
@@ -54,7 +55,6 @@ final class SimonCipherer extends AbstractCipherer {
 		
 		int width = cipher.getBlockLength() * 4;  // Word width
 		int bpw = width / 8;  // Bytes per word
-		long mask = getMask(width); 
 		for (int i = off, end = off + len; i < end; i += bpw * 2) {
 			// Pack bytes into two words each representing half a block
 			long x = 0;
@@ -103,19 +103,8 @@ final class SimonCipherer extends AbstractCipherer {
 	}
 	
 	
-	private static long shiftRight(long x, int width, int shift) {
-		long mask = getMask(width);
+	private long shiftRight(long x, int width, int shift) {
 		return ((x << (width - shift)) | (x >>> shift)) & mask;
-	}
-	
-	
-	private static long getMask(int width) {
-		if (width == 64)
-			return ~0L;
-		else if (width >= 1 && width < 64)
-			return (1L << width) - 1;
-		else
-			throw new IllegalArgumentException();
 	}
 	
 	
