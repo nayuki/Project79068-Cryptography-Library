@@ -3,20 +3,16 @@ package p79068.crypto.cipher;
 
 public final class Simon extends AbstractCipher implements BlockCipher {
 	
-	public static final Simon SIMON32_64_CIPHER   = new Simon( 32,  64);
-	
-	public static final Simon SIMON48_72_CIPHER   = new Simon( 48,  72);
-	public static final Simon SIMON48_96_CIPHER   = new Simon( 48,  96);
-	
-	public static final Simon SIMON64_96_CIPHER   = new Simon( 64,  96);
-	public static final Simon SIMON64_128_CIPHER  = new Simon( 64, 128);
-	
-	public static final Simon SIMON96_96_CIPHER   = new Simon( 96,  96);
-	public static final Simon SIMON96_144_CIPHER  = new Simon( 96, 144);
-	
-	public static final Simon SIMON128_128_CIPHER = new Simon(128, 128);
-	public static final Simon SIMON128_192_CIPHER = new Simon(128, 192);
-	public static final Simon SIMON128_256_CIPHER = new Simon(128, 256);
+	public static final Simon SIMON32_64_CIPHER   = new Simon( 32,  64, 32, 0);
+	public static final Simon SIMON48_72_CIPHER   = new Simon( 48,  72, 36, 0);
+	public static final Simon SIMON48_96_CIPHER   = new Simon( 48,  96, 36, 1);
+	public static final Simon SIMON64_96_CIPHER   = new Simon( 64,  96, 42, 2);
+	public static final Simon SIMON64_128_CIPHER  = new Simon( 64, 128, 44, 3);
+	public static final Simon SIMON96_96_CIPHER   = new Simon( 96,  96, 52, 2);
+	public static final Simon SIMON96_144_CIPHER  = new Simon( 96, 144, 54, 3);
+	public static final Simon SIMON128_128_CIPHER = new Simon(128, 128, 68, 2);
+	public static final Simon SIMON128_192_CIPHER = new Simon(128, 192, 69, 3);
+	public static final Simon SIMON128_256_CIPHER = new Simon(128, 256, 72, 4);
 	
 	
 	public static Simon getInstance(int blockBits, int keyBits) {
@@ -35,8 +31,16 @@ public final class Simon extends AbstractCipher implements BlockCipher {
 	
 	
 	
-	private Simon(int blockBits, int keyBits) {
+	// For SimonCipherer
+	final int numRounds;
+	final int zIndex;
+	
+	
+	
+	private Simon(int blockBits, int keyBits, int numRounds, int zIndex) {
 		super("Simon" + blockBits + "/" + keyBits, blockBits / 8, keyBits / 8);
+		this.numRounds = numRounds;
+		this.zIndex = zIndex;
 	}
 	
 	

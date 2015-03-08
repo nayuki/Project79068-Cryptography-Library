@@ -14,50 +14,12 @@ final class SimonCipherer extends AbstractCipherer {
 		super(cipher, key);
 		
 		// Get parameters
-		int r = -1;  // Number of rounds
-		long z = -1;
+		long z = Z[cipher.zIndex];
 		int n = cipher.getBlockLength() * 4;  // Word width in bits
-		int m = cipher.getKeyLength() * 8 / n;    // Number of key words
-		if (n == 16) {
-			r = 32;
-			z = 0;
-		} else if (n == 24) {
-			r = 36;
-			if (m == 3)
-				z = 0;
-			else if (m == 4)
-				z = 1;
-		} else if (n == 32) {
-			if (m == 3) {
-				r = 42;
-				z = 2;
-			} else if (m == 4) {
-				r = 44;
-				z = 3;
-			}
-		} else if (n == 48) {
-			if (m == 2) {
-				r = 52;
-				z = 2;
-			} else if (m == 3) {
-				r = 54;
-				z = 3;
-			}
-		} else if (n == 64) {
-			if (m == 2)
-				r = 68;
-			else if (m == 3)
-				r = 69;
-			else if (m == 4)
-				r = 72;
-			z = m;
-		}
-		if (r == -1 || z == -1)
-			throw new AssertionError();
-		z = Z[(int)z];
+		int m = cipher.getKeyLength() * 8 / n;  // Number of key words
 		
 		// Key schedule expansion
-		keySch = new long[r];
+		keySch = new long[cipher.numRounds];
 		int bpw = n / 8;  // Bytes per word
 		for (int i = 0; i < cipher.getKeyLength(); i++)
 			keySch[m - 1 - i / bpw] |= (key[i] & 0xFFL) << ((bpw - 1 - i % bpw) * 8);
