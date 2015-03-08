@@ -1,8 +1,3 @@
-/* 
- * Addition takes place in the group of integers modulo 65536.
- * Multiplication takes place in the group of non-zero integers modulo 65537, with element 65536 being represented by the bit pattern 0x0000.
- */
-
 package p79068.crypto.cipher;
 
 import p79068.Assert;
@@ -11,14 +6,8 @@ import p79068.crypto.Zeroizer;
 
 final class IdeaCipherer extends AbstractCipherer {
 	
-	/**
-	 * The encryption key schedule.
-	 */
+	// Encryption/decryption key schedules
 	private int[] encKeySch;
-	
-	/**
-	 * The decryption key schedule.
-	 */
 	private int[] decKeySch;
 	
 	
@@ -32,22 +21,12 @@ final class IdeaCipherer extends AbstractCipherer {
 	
 	@Override
 	public void encrypt(byte[] b, int off, int len) {
-		if (cipher == null)
-			throw new IllegalStateException("Already zeroized");
-		Assert.assertRangeInBounds(b.length, off, len);
-		if (len % 8 != 0)
-			throw new IllegalArgumentException("Invalid block length");
 		crypt(b, off, len, encKeySch);
 	}
 	
 	
 	@Override
 	public void decrypt(byte[] b, int off, int len) {
-		if (cipher == null)
-			throw new IllegalStateException("Already zeroized");
-		Assert.assertRangeInBounds(b.length, off, len);
-		if (len % 8 != 0)
-			throw new IllegalArgumentException("Invalid block length");
 		crypt(b, off, len, decKeySch);
 	}
 	
@@ -71,6 +50,8 @@ final class IdeaCipherer extends AbstractCipherer {
 	}
 	
 	
+	// Note: Addition takes place in the group of integers modulo 65536.
+	// Multiplication takes place in the group of non-zero integers modulo the prime 65537, with element 65536 being represented by the bit pattern 0x0000.
 	
 	private void setKey(byte[] key) {
 		encKeySch = new int[52];
@@ -99,7 +80,13 @@ final class IdeaCipherer extends AbstractCipherer {
 	}
 	
 	
-	private static void crypt(byte[] b, int off, int len, int[] keySch) {
+	private void crypt(byte[] b, int off, int len, int[] keySch) {
+		if (cipher == null)
+			throw new IllegalStateException("Already zeroized");
+		Assert.assertRangeInBounds(b.length, off, len);
+		if (len % 8 != 0)
+			throw new IllegalArgumentException("Invalid block length");
+		
 		// For each block of 8 bytes
 		for (int end = off + len; off < end; off += 8) {
 			
@@ -146,11 +133,11 @@ final class IdeaCipherer extends AbstractCipherer {
 	
 	
 	
-	// This has been verified by brute force. But it can be proven mathematically too.
 	private static int multiply(int x, int y) {
 		if ((x & 0xFFFF) != x || (y & 0xFFFF) != y)
 			throw new IllegalArgumentException();
 		
+		// Correctness can be proven mathematically or verified by brute force
 		if (x == 0)
 			return (0x10001 - y) & 0xFFFF;
 		else if (y == 0)
@@ -172,16 +159,14 @@ final class IdeaCipherer extends AbstractCipherer {
 	}
 	
 	
-	/**
-	 * Returns the reciprocal (multiplicative inverse) of the specified element modulo 65537.
-	 * @return the reciprocal of the specified element
-	 */
+	// Returns the reciprocal (multiplicative inverse) of the specified element modulo 65537. Remember that 0x0000 represents 65536.
 	private static int reciprocal(int y) {
 		if ((y & 0xFFFF) != y)
 			throw new IllegalArgumentException();
-		
 		if (y == 0)
 			return 0;
+		
+		// Extended Euclidean algorithm
 		int x = 0x10001;
 		int a = 0;
 		int b = 1;

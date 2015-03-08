@@ -2,8 +2,7 @@ package p79068.crypto.cipher;
 
 
 /**
- * The IDEA (International Data Encryption Algorithm) block cipher. This cipher is patented.
- * <p>Instantiability: <em>Singleton</em></p>
+ * The IDEA (International Data Encryption Algorithm) block cipher.
  */
 public final class Idea extends AbstractCipher implements BlockCipher {
 	
