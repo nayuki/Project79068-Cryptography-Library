@@ -14,6 +14,7 @@ final class DesCipherer extends AbstractCipherer {
 	DesCipherer(Des cipher, byte[] key) {
 		super(cipher, key);
 		
+		// Pack key bytes in big endian
 		long tempKey = 0;
 		for (byte b : key)
 			tempKey = (tempKey << 8) | (b & 0xFF);
@@ -26,6 +27,7 @@ final class DesCipherer extends AbstractCipherer {
 			}
 		}
 		
+		// Expand key schedule
 		keySchedule = new long[KEY_SCHEDULE_SHIFTS.length];
 		keyScheduleReverse = new long[KEY_SCHEDULE_SHIFTS.length];
 		long left  = permuteBits(tempKey, PERMUTED_CHOICE_1_LEFT );
@@ -115,8 +117,9 @@ final class DesCipherer extends AbstractCipherer {
 	}
 	
 	
-	// Utility functions
+	/* Utility functions */
 	
+	// 64 bits -> 64 bits
 	private static long initialPermutation(long data) {
 		return (((((data >>> 6) & INITIAL_PERMUTATION_MASK) * INIT_FINAL_PERMUTATION_MULTIPLIER) >>> 56) & 0xFF) << 56
 		     | (((((data >>> 4) & INITIAL_PERMUTATION_MASK) * INIT_FINAL_PERMUTATION_MULTIPLIER) >>> 56) & 0xFF) << 48
@@ -129,6 +132,7 @@ final class DesCipherer extends AbstractCipherer {
 	}
 	
 	
+	// 64 bits -> 64 bits
 	private static long finalPermutation(long data) {
 		return ((((data >>> 24) & 0xFF) * INIT_FINAL_PERMUTATION_MULTIPLIER) & FINAL_PERMUTATION_MASK) >>> 0
 		     | ((((data >>> 56) & 0xFF) * INIT_FINAL_PERMUTATION_MULTIPLIER) & FINAL_PERMUTATION_MASK) >>> 1
@@ -141,8 +145,9 @@ final class DesCipherer extends AbstractCipherer {
 	}
 	
 	
+	// 32 bits -> 48 bits
 	private static long feistelExpansion(int data) {
-		long temp = data;
+		long temp = data;  // Masking unnecessary
 		return (((long)Integer.rotateRight(data, 1) << 16) & 0xFC0000000000L)
 		     | ((temp << 13) & 0x03F000000000L)
 		     | ((temp << 11) & 0x000FC0000000L)
@@ -154,6 +159,7 @@ final class DesCipherer extends AbstractCipherer {
 	}
 	
 	
+	// 32 bits -> 32 bits
 	private static int feistelPermutation(int data) {
 		return Integer.rotateLeft(data,  3) & (1 <<  5)
 		     | Integer.rotateLeft(data,  4) & (1 << 18)
@@ -177,6 +183,7 @@ final class DesCipherer extends AbstractCipherer {
 	}
 	
 	
+	// 48 bits -> 32 bits
 	private static int feistelSbox(long data) {
 		return SBOXES[0x000 | ((int)(data >>>  0) & 0x3F)] <<  0
 		     | SBOXES[0x040 | ((int)(data >>>  6) & 0x3F)] <<  4
@@ -189,6 +196,7 @@ final class DesCipherer extends AbstractCipherer {
 	}
 	
 	
+	// Slow but general bit-permutation/expansion function
 	private static long permuteBits(long data, int[] perm) {
 		long result = 0;
 		for (int i : perm)
@@ -197,7 +205,7 @@ final class DesCipherer extends AbstractCipherer {
 	}
 	
 	
-	// Tables of constants
+	/* Tables of constants */
 	
 	private static int[] SBOXES = {
 		0xD, 0x1, 0x2, 0xF, 0x8, 0xD, 0x4, 0x8, 0x6, 0xA, 0xF, 0x3, 0xB, 0x7, 0x1, 0x4, 0xA, 0xC, 0x9, 0x5, 0x3, 0x6, 0xE, 0xB, 0x5, 0x0, 0x0, 0xE, 0xC, 0x9, 0x7, 0x2, 0x7, 0x2, 0xB, 0x1, 0x4, 0xE, 0x1, 0x7, 0x9, 0x4, 0xC, 0xA, 0xE, 0x8, 0x2, 0xD, 0x0, 0xF, 0x6, 0xC, 0xA, 0x9, 0xD, 0x0, 0xF, 0x3, 0x3, 0x5, 0x5, 0x6, 0x8, 0xB,
