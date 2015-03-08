@@ -4,6 +4,11 @@ import java.util.Arrays;
 import p79068.util.random.AbstractRandom;
 
 
+/**
+ * A random number generator (RNG) adapted from a stream cipherer object.
+ * @see StreamCipherer
+ * @see p79068.util.random.Random
+ */
 public final class StreamCiphererRandom extends AbstractRandom {
 	
 	private StreamCipherer cipherer;
