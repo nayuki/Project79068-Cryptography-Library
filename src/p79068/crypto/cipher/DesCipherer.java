@@ -43,27 +43,23 @@ final class DesCipherer extends AbstractCipherer {
 	
 	@Override
 	public void encrypt(byte[] b, int off, int len) {
-		if (cipher == null)
-			throw new IllegalStateException("Already zeroized");
-		Assert.assertRangeInBounds(b.length, off, len);
-		if (len % 8 != 0)
-			throw new IllegalArgumentException("Invalid block length");
 		crypt(b, off, len, keySchedule);
 	}
 	
 	
 	@Override
 	public void decrypt(byte[] b, int off, int len) {
-		if (cipher == null)
-			throw new IllegalStateException("Already zeroized");
-		Assert.assertRangeInBounds(b.length, off, len);
-		if (len % 8 != 0)
-			throw new IllegalArgumentException("Invalid block length");
 		crypt(b, off, len, keyScheduleReverse);
 	}
 	
 	
 	private void crypt(byte[] b, int off, int len, long[] keySch) {
+		if (cipher == null)
+			throw new IllegalStateException("Already zeroized");
+		Assert.assertRangeInBounds(b.length, off, len);
+		if (len % 8 != 0)
+			throw new IllegalArgumentException("Invalid block length");
+		
 		for (int i = off, end = off + len; i < end; i += 8) {
 			// Pack and initial permutation
 			long longBlock = ((b[i + 0] & 0xFFL) << 56)
