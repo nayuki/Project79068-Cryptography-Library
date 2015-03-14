@@ -151,11 +151,12 @@ public final class HashValue implements Comparable<HashValue> {
 	
 	/**
 	 * Returns a string representation of this hash value. The string's format is subjected to change.
+	 * Use {@link HashValue#toHexString()} to get a stable string representation.
 	 * @return a string representation of this hash value
 	 */
 	@Override
 	public String toString() {
-		return String.format("%s (%d)", toHexString(), getLength());
+		return String.format("%s (%d bits)", toHexString(), getLength() * 8);
 	}
 	
 	
