@@ -10,57 +10,57 @@ public final class CryptoUtils {
 	
 	public static void testCipherInvertibility(Cipher cipher, int messageLength) {
 		byte[] key = getRandomBytes(cipher.getKeyLength());
-		byte[] message0 = getRandomBytes(messageLength);
-		byte[] message1 = message0.clone();
+		byte[] reference = getRandomBytes(messageLength);
+		byte[] message = reference.clone();
 		Cipherer cipherer = cipher.newCipherer(key);
-		cipherer.encrypt(message1);
+		cipherer.encrypt(message);
 		cipherer = cipher.newCipherer(key);  // Reinitialize the cipher
-		cipherer.decrypt(message1);
-		assertArrayEquals(cipher.toString(), message0, message1);
+		cipherer.decrypt(message);
+		assertArrayEquals(cipher.toString(), reference, message);
 	}
 	
 	
 	
-	public static byte[] hexToBytes(String s) {
-		if (s.length() % 2 != 0)
+	public static byte[] hexToBytes(String str) {
+		if (str.length() % 2 != 0)
 			throw new IllegalArgumentException();
 		
-		byte[] b = new byte[s.length() / 2];
-		for (int i = 0; i < s.length(); i += 2) {
-			if (s.charAt(i) == '-')
+		byte[] result = new byte[str.length() / 2];
+		for (int i = 0; i < str.length(); i += 2) {
+			if (str.charAt(i) == '-')
 				throw new IllegalArgumentException();
-			b[i / 2] = (byte)Integer.parseInt(s.substring(i, i + 2), 16);
+			result[i / 2] = (byte)Integer.parseInt(str.substring(i, i + 2), 16);
 		}
-		return b;
+		return result;
 	}
 	
 	
-	public static String bytesToHex(byte[] b) {
+	public static String bytesToHex(byte[] bytes) {
 		StringBuffer sb = new StringBuffer();
-		for (byte x : b)
+		for (byte x : bytes)
 			sb.append(String.format("%02X", x & 0xFF));
 		return sb.toString();
 	}
 	
 	
-	public static byte[] asciiToBytes(String s) {
-		byte[] b = new byte[s.length()];
-		for (int i = 0; i < b.length; i++) {
-			char c = s.charAt(i);
+	public static byte[] asciiToBytes(String str) {
+		byte[] result = new byte[str.length()];
+		for (int i = 0; i < result.length; i++) {
+			char c = str.charAt(i);
 			if (c < 0x80)
-				b[i] = (byte)c;
+				result[i] = (byte)c;
 			else
 				throw new IllegalArgumentException();
 		}
-		return b;
+		return result;
 	}
 	
 	
-	public static String bytesToAscii(byte[] b) {
+	public static String bytesToAscii(byte[] bytes) {
 		StringBuffer sb = new StringBuffer();
-		for (int i = 0; i < b.length; i++) {
-			if (b[i] >= 0)  // Test if b[i] is in [0, 128)
-				sb.append((char)(b[i] & 0xFF));
+		for (int i = 0; i < bytes.length; i++) {
+			if (bytes[i] >= 0)  // Test if b[i] is in [0, 128)
+				sb.append((char)(bytes[i] & 0xFF));
 			else
 				throw new IllegalArgumentException();
 		}
