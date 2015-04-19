@@ -12,7 +12,7 @@ public final class Rc4Test extends StreamCipherTest {
 	
 	
 	
-	@Test public void testRc4() {
+	@Test public void testBasic() {
 		CipherTest.testCipher(new Rc4(3), "4B6579", "506C61696E74657874", "BBF316E8D940AF0AD3");
 		CipherTest.testCipher(new Rc4(4), "57696B69", "7065646961", "1021BF0420");
 		CipherTest.testCipher(new Rc4(6), "536563726574", "41747461636B206174206461776E", "45A01F645FC35B383552544B9BF5");

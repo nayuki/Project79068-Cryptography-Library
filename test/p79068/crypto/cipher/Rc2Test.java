@@ -16,7 +16,7 @@ public final class Rc2Test extends CipherTest {
 	}
 	
 	
-	@Test public void testRc2() {
+	@Test public void testBasic() {
 		testCipher(new Rc2( 63,  8), "0000000000000000"                                                  , "0000000000000000", "EBB773F993278EFF");
 		testCipher(new Rc2( 64,  8), "FFFFFFFFFFFFFFFF"                                                  , "FFFFFFFFFFFFFFFF", "278B27E42E2F0D49");
 		testCipher(new Rc2( 64,  8), "3000000000000000"                                                  , "1000000000000001", "30649EDF9BE7D2C2");
