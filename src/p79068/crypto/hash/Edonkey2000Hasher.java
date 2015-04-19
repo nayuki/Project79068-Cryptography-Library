@@ -65,8 +65,8 @@ final class Edonkey2000Hasher extends AbstractHasher implements Zeroizable {
 		Assert.assertRangeInBounds(b.length, off, len);
 		
 		while (len > 0) {
-			// Old algorithm: At this point, currentBlockLength is in the range [0, BLOCK_LENGTH)
-			// New algorithm: At this point, currentBlockLength is 0 if the total length hashed is 0; otherwise currentBlockLength is in the range (0, BLOCK_LENGTH]
+			// Old ed2k: At this point, currentBlockLength is in the range [0, BLOCK_LENGTH)
+			// New ed2k: At this point, currentBlockLength is 0 if the total length hashed is 0; otherwise currentBlockLength is in the range (0, BLOCK_LENGTH]
 			if (newEd2kMode)
 				nextBlock();
 			int templen = Math.min(BLOCK_LENGTH - currentBlockLength, len);
@@ -90,8 +90,8 @@ final class Edonkey2000Hasher extends AbstractHasher implements Zeroizable {
 		else {
 			Hasher temp = outerHasher.clone();
 			// Add the hash of the current block.
-			// Old algorithm: The block has 0 or more bytes hashed
-			// New algorithm: The block has more than 0 bytes hashed
+			// Old ed2k: The block has 0 or more bytes hashed
+			// New ed2k: The block has more than 0 bytes hashed
 			temp.update(innerHasher.getHash().toBytes());
 			return temp.getHash();
 		}

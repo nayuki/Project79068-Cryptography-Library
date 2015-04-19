@@ -5,11 +5,10 @@ import p79068.hash.Hasher;
 
 
 /**
- * The eDonkey2000 hash functions.
- * <p>Specifically, it uses the MD4 function to hash blocks of (exactly) 9 728 000 bytes starting from the beginning.</p>
+ * The eDonkey2000 hash functions. Specifically, it uses the MD4 function to hash blocks of (exactly) 9 728 000 bytes starting from the beginning.
  * <ul>
- *   <li>Old ed2k: If the message is less than one block long, the hash of the first block is returned. Otherwise: <em>If the message length is a positive multiple of the block length, one extra empty block at the end is hashed and included.</em> The hashes of these blocks are concatenated together are hashed again with MD4 to yield the final hash value.</li>
- *   <li>New ed2k: If the message is less than <em>or equal</em> one block long, the hash of the first block is returned. Otherwise, the hashes of these blocks are concatenated together are hashed again with MD4 to yield the final hash value.</li>
+ *   <li>Old ed2k: If the message is less than one block long, the hash of the first block is returned. Otherwise: <em>If the message length is a positive multiple of the block length, one extra empty block at the end is hashed and included.</em> The hashes of these blocks are concatenated together and hashed again with MD4 to yield the final hash value.</li>
+ *   <li>New ed2k: If the message is less than <em>or equal</em> one block long, the hash of the first block is returned. Otherwise, the hashes of these blocks are concatenated together and hashed again with MD4 to yield the final hash value.</li>
  * </ul>
  * <p>Mutability: <em>Immutable</em><br>
  *  Instantiability: <em>Singleton</em></p>
@@ -17,12 +16,12 @@ import p79068.hash.Hasher;
 public final class Edonkey2000 extends AbstractHashFunction {
 	
 	/**
-	 * The singleton instance of the eDonkey2000 hash function. {@code name = "eDonkey2000"}, {@code hashLength = 16}.
+	 * The original eDonkey2000 hash function. {@code name = "eDonkey2000"}, {@code hashLength = 16}.
 	 */
 	public final static Edonkey2000 ED2K_FUNCTION = new Edonkey2000("eDonkey 2000");
 	
 	/**
-	 * The singleton instance of the new eDonkey2000 hash function. {@code name = "New eDonkey2000"}, {@code hashLength = 16}.
+	 * The new eDonkey2000 hash function. {@code name = "New eDonkey2000"}, {@code hashLength = 16}.
 	 */
 	public final static Edonkey2000 NEW_ED2K_FUNCTION = new Edonkey2000("New eDonkey 2000");
 	
