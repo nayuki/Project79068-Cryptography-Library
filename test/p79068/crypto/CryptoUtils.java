@@ -2,7 +2,6 @@ package p79068.crypto;
 
 import static org.junit.Assert.assertArrayEquals;
 import p79068.crypto.cipher.Cipher;
-import p79068.crypto.cipher.Cipherer;
 import p79068.util.random.Random;
 
 
@@ -10,12 +9,10 @@ public final class CryptoUtils {
 	
 	public static void testCipherInvertibility(Cipher cipher, int messageLength) {
 		byte[] key = getRandomBytes(cipher.getKeyLength());
-		byte[] reference = getRandomBytes(messageLength);
-		byte[] message = reference.clone();
-		Cipherer cipherer = cipher.newCipherer(key);
-		cipherer.encrypt(message);
-		cipherer = cipher.newCipherer(key);  // Reinitialize the cipher
-		cipherer.decrypt(message);
+		byte[] message = getRandomBytes(messageLength);
+		byte[] reference = message.clone();
+		cipher.newCipherer(key).encrypt(message);
+		cipher.newCipherer(key).decrypt(message);  // Reinitialize the cipher (necessary for stateful ones like stream ciphers)
 		assertArrayEquals(cipher.toString(), reference, message);
 	}
 	
@@ -24,10 +21,9 @@ public final class CryptoUtils {
 	public static byte[] hexToBytes(String str) {
 		if (str.length() % 2 != 0)
 			throw new IllegalArgumentException();
-		
 		byte[] result = new byte[str.length() / 2];
 		for (int i = 0; i < str.length(); i += 2) {
-			if (str.charAt(i) == '-')
+			if (str.charAt(i) == '+' || str.charAt(i) == '-')
 				throw new IllegalArgumentException();
 			result[i / 2] = (byte)Integer.parseInt(str.substring(i, i + 2), 16);
 		}
@@ -38,7 +34,7 @@ public final class CryptoUtils {
 	public static String bytesToHex(byte[] bytes) {
 		StringBuffer sb = new StringBuffer();
 		for (byte x : bytes)
-			sb.append(String.format("%02X", x & 0xFF));
+			sb.append(String.format("%02X", x));
 		return sb.toString();
 	}
 	
