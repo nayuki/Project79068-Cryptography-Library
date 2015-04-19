@@ -7,6 +7,7 @@ import p79068.util.random.Random;
 
 public final class CryptoUtils {
 	
+	// Tests that the given cipher algorithm, when encrypting and decrypting a random message of the given length, produces the original message.
 	public static void testCipherInvertibility(Cipher cipher, int messageLength) {
 		byte[] key = getRandomBytes(cipher.getKeyLength());
 		byte[] message = getRandomBytes(messageLength);
@@ -17,7 +18,7 @@ public final class CryptoUtils {
 	}
 	
 	
-	
+	// Converts the given hexadecimal string to an array of bytes.
 	public static byte[] hexToBytes(String str) {
 		if (str.length() % 2 != 0)
 			throw new IllegalArgumentException();
@@ -31,6 +32,7 @@ public final class CryptoUtils {
 	}
 	
 	
+	// Converts the given array of bytes to an uppercase hexadecimal string.
 	public static String bytesToHex(byte[] bytes) {
 		StringBuffer sb = new StringBuffer();
 		for (byte x : bytes)
@@ -39,6 +41,7 @@ public final class CryptoUtils {
 	}
 	
 	
+	// Converts the given ASCII string to an array of bytes. Throws an exception if there are non-ASCII characters.
 	public static byte[] asciiToBytes(String str) {
 		byte[] result = new byte[str.length()];
 		for (int i = 0; i < result.length; i++) {
@@ -52,6 +55,7 @@ public final class CryptoUtils {
 	}
 	
 	
+	// Converts the given array of bytes to an ASCII string. Throws an exception if there are non-ASCII bytes.
 	public static String bytesToAscii(byte[] bytes) {
 		StringBuffer sb = new StringBuffer();
 		for (int i = 0; i < bytes.length; i++) {
@@ -64,6 +68,7 @@ public final class CryptoUtils {
 	}
 	
 	
+	// Returns an array of random bytes of the given length.
 	public static byte[] getRandomBytes(int length) {
 		byte[] b = new byte[length];
 		Random.DEFAULT.uniformBytes(b);
