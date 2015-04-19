@@ -18,7 +18,9 @@ final class Edonkey2000Hasher extends AbstractHasher implements Zeroizable {
 	private final boolean newEd2kMode;
 	
 	/**
-	 * The outer hasher, which hashes the hash values of individual blocks. For the old algorithm, this is {@code null} if and only if the total number of bytes hashed is less than {@code BLOCK_LENGTH}. For the new algorithm, this is null iff the total bytes is less than or equal to {@code BLOCK_LENGTH}.
+	 * The outer hasher, which hashes the hash values of individual blocks. For the old algorithm,
+	 * this is {@code null} if and only if the total number of bytes hashed is less than {@code BLOCK_LENGTH}.
+	 * For the new algorithm, this is null iff the total bytes is less than or equal to {@code BLOCK_LENGTH}.
 	 */
 	private Hasher outerHasher;
 	
@@ -28,7 +30,10 @@ final class Edonkey2000Hasher extends AbstractHasher implements Zeroizable {
 	private Hasher innerHasher;
 	
 	/**
-	 * The number of bytes hashed in the current block. For the old algorithm, this is in the range [{@code 0}, {@code BLOCK_LENGTH}) initially and after each {@code update()} operation. For the new algorithm, this is {@code 0} initially, but after a non-empty {@code update()} it is in the range ({@code 0}, {@code BLOCK_LENGTH}] after each {@code update()} operation.
+	 * The number of bytes hashed in the current block. For the old algorithm, this is in the range
+	 * [{@code 0}, {@code BLOCK_LENGTH}) initially and after each {@code update()} operation.
+	 * For the new algorithm, this is {@code 0} initially, but after a non-empty {@code update()}
+	 * it is in the range ({@code 0}, {@code BLOCK_LENGTH}] after each {@code update()} operation.
 	 */
 	private int currentBlockLength;
 	
@@ -66,7 +71,8 @@ final class Edonkey2000Hasher extends AbstractHasher implements Zeroizable {
 		
 		while (len > 0) {
 			// Old ed2k: At this point, currentBlockLength is in the range [0, BLOCK_LENGTH)
-			// New ed2k: At this point, currentBlockLength is 0 if the total length hashed is 0; otherwise currentBlockLength is in the range (0, BLOCK_LENGTH]
+			// New ed2k: At this point, currentBlockLength is 0 if the total length hashed is 0;
+			//           otherwise currentBlockLength is in the range (0, BLOCK_LENGTH]
 			if (newEd2kMode)
 				nextBlock();
 			int templen = Math.min(BLOCK_LENGTH - currentBlockLength, len);
