@@ -32,7 +32,7 @@ public abstract class BlockHasherCore implements Cloneable, Zeroizable {
 	
 	/**
 	 * Given the contents of the final message block, this computes and returns the hash value. This hasher's internal state can change as a result of calling this method.
-	 * <p>The suffix bytes in {@code block} starting at index {@code blockFilled} are garbage and the computation must not depend on them.</p> 
+	 * <p>The suffix bytes in {@code block} starting at index {@code blockFilled} are garbage and the computation must not depend on them.</p>
 	 * @param block the final message block (which is not completely filled)
 	 * @param blockFilled the number of bytes in the block, in the range [0, block.length)
 	 * @param length the length of the entire message, in bytes
