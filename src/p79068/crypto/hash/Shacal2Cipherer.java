@@ -85,9 +85,10 @@ final class Shacal2Cipherer extends AbstractCipherer {
 		
 		// Expand the key schedule
 		for (int i = 16; i < 64; i++) {
-			int s0 = (keySchedule[i-15] << 25 | keySchedule[i-15] >>> 7) ^ (keySchedule[i-15] << 14 | keySchedule[i-15] >>> 18) ^ (keySchedule[i-15] >>> 3);
-			int s1 = (keySchedule[i-2] << 15 | keySchedule[i-2] >>> 17) ^ (keySchedule[i-2] << 13 | keySchedule[i-2] >>> 19) ^ (keySchedule[i-2] >>> 10);
-			keySchedule[i] = keySchedule[i - 16] + keySchedule[i - 7] + s0 + s1;
+			keySchedule[i] =
+				  keySchedule[i - 16] + keySchedule[i - 7]
+				+ Sha256Core.smallSigma0(keySchedule[i - 15])
+				+ Sha256Core.smallSigma1(keySchedule[i - 2]);
 		}
 	}
 	
