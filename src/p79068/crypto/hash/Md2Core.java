@@ -14,7 +14,7 @@ final class Md2Core extends BlockHasherCore {
 	
 	
 	public Md2Core() {
-		state = new int[48];
+		state    = new int[48];
 		checksum = new int[16];
 	}
 	
@@ -25,7 +25,7 @@ final class Md2Core extends BlockHasherCore {
 		if (state == null)
 			throw new IllegalStateException("Already zeroized");
 		Md2Core result = (Md2Core)super.clone();
-		result.state = result.state.clone();
+		result.state    = result.state.clone();
 		result.checksum = result.checksum.clone();
 		return result;
 	}
