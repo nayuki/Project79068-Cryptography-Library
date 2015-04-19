@@ -43,8 +43,8 @@ final class TigerCore extends BlockHasherCore {
 	
 	
 	@Override
-	public void compress(byte[] msg, int off, int len) {
-		Assert.assertRangeInBounds(msg.length, off, len);
+	public void compress(byte[] message, int off, int len) {
+		Assert.assertRangeInBounds(message.length, off, len);
 		if (len % 64 != 0)
 			throw new AssertionError();
 		
@@ -56,14 +56,14 @@ final class TigerCore extends BlockHasherCore {
 			// Pack bytes into int64s in little endian
 			for (int j = 0; j < 8; j++, i += 8) {
 				schedule[j] =
-					  (msg[i + 0] & 0xFFL) <<  0
-					| (msg[i + 1] & 0xFFL) <<  8
-					| (msg[i + 2] & 0xFFL) << 16
-					| (msg[i + 3] & 0xFFL) << 24
-					| (msg[i + 4] & 0xFFL) << 32
-					| (msg[i + 5] & 0xFFL) << 40
-					| (msg[i + 6] & 0xFFL) << 48
-					| (msg[i + 7] & 0xFFL) << 56;
+					  (message[i + 0] & 0xFFL) <<  0
+					| (message[i + 1] & 0xFFL) <<  8
+					| (message[i + 2] & 0xFFL) << 16
+					| (message[i + 3] & 0xFFL) << 24
+					| (message[i + 4] & 0xFFL) << 32
+					| (message[i + 5] & 0xFFL) << 40
+					| (message[i + 6] & 0xFFL) << 48
+					| (message[i + 7] & 0xFFL) << 56;
 			}
 			
 			// The 24 rounds
