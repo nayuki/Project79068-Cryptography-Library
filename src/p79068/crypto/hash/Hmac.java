@@ -25,9 +25,10 @@ public final class Hmac extends AbstractHashFunction implements Zeroizable {
 	 * @param hashFunc the underlying block hash function
 	 * @param key the secret key
 	 * @throws IllegalArgumentException if the hash function's block length is smaller than its hash value length
+	 * @throws NullPointerException if the hash function or secret key is {@code null}
 	 */
 	public Hmac(BlockHashFunction hashFunc, byte[] key) {
-		super(String.format("HMAC-%s", hashFunc.getName()), hashFunc.getHashLength());
+		super("HMAC-" + hashFunc.getName(), hashFunc.getHashLength());
 		int blockLen = hashFunc.getBlockLength();
 		if (blockLen < hashFunc.getHashLength())
 			throw new IllegalArgumentException("Block length smaller than hash value length");
