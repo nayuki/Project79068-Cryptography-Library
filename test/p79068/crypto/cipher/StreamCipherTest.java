@@ -42,6 +42,21 @@ public abstract class StreamCipherTest {
 	}
 	
 	
+	// Always passes. Prints result to standard output.
+	@Test public void testCipherSpeed() {
+		Cipher c = getCipher();
+		// Warm up the JIT compiler, and try to target about 0.1 second of execution time
+		int len = c.getBlockLength();
+		long startTime = System.nanoTime();
+		do {
+			CipherTest.testCipherSpeed(c, len);
+			if (len <= Integer.MAX_VALUE / 2)
+				len *= 2;
+		} while (System.nanoTime() - startTime < 100000000);
+		System.out.printf("%s: %.1f MiB/s%n", c.getName(), len / (CipherTest.testCipherSpeed(c, len) / 1.0e9) / 1048576);
+	}
+	
+	
 	
 	private StreamCipherer newCipherer() {
 		StreamCipher cipher = getCipher();

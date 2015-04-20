@@ -127,7 +127,7 @@ public abstract class CipherTest {
 	}
 	
 	
-	private static long testCipherSpeed(Cipher c, int len) {
+	static long testCipherSpeed(Cipher c, int len) {
 		int blockLen = c.getBlockLength();
 		if (len % blockLen != 0)
 			throw new IllegalArgumentException();
