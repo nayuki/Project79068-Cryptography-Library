@@ -170,6 +170,7 @@ final class RipemdCore extends BlockHasherCore {
 							case 1:  temp = bl;  bl = br;  br = temp;  break;
 							case 2:  temp = cl;  cl = cr;  cr = temp;  break;
 							case 3:  temp = dl;  dl = dr;  dr = temp;  break;
+							default:  throw new AssertionError();
 						}
 					}
 				}
@@ -209,6 +210,7 @@ final class RipemdCore extends BlockHasherCore {
 							case 2:  temp = al;  al = ar;  ar = temp;  break;
 							case 3:  temp = cl;  cl = cr;  cr = temp;  break;
 							case 4:  temp = el;  el = er;  er = temp;  break;
+							default:  throw new AssertionError();
 						}
 					}
 				}
