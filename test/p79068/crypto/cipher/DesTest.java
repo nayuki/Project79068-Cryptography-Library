@@ -7,8 +7,8 @@ public final class DesTest extends CipherTest {
 	
 	protected Cipher[] getCiphersToTest() {
 		return new Cipher[] {
-			Des.DES_56_CIPHER,
-			Des.DES_64_CIPHER,
+			Des.DES56_CIPHER,
+			Des.DES64_CIPHER,
 		};
 	}
 	
@@ -74,7 +74,7 @@ public final class DesTest extends CipherTest {
 			{"0101010101010102", "0000000000000000", "869EFD7F9F265A09"},
 		};
 		for (String[] tc : testCases)
-			testCipher(Des.DES_64_CIPHER, tc[0], tc[1], tc[2]);
+			testCipher(Des.DES64_CIPHER, tc[0], tc[1], tc[2]);
 	}
 	
 	
@@ -115,7 +115,7 @@ public final class DesTest extends CipherTest {
 			{"1002911698100101", "0000000000000000", "1AEAC39A61F0A464"},
 		};
 		for (String[] tc : testCases)
-			testCipher(Des.DES_64_CIPHER, tc[0], tc[1], tc[2]);
+			testCipher(Des.DES64_CIPHER, tc[0], tc[1], tc[2]);
 	}
 	
 	
@@ -188,7 +188,7 @@ public final class DesTest extends CipherTest {
 			{"0101010101010101", "0000000000000001", "166B40B44ABA4BD6"},
 		};
 		for (String[] tc : testCases)
-			testCipher(Des.DES_64_CIPHER, tc[0], tc[1], tc[2]);
+			testCipher(Des.DES64_CIPHER, tc[0], tc[1], tc[2]);
 	}
 	
 	
@@ -223,7 +223,7 @@ public final class DesTest extends CipherTest {
 			{"1C587F1C13924FEF", "305532286D6F295A", "63FAC0D034D9F793"},
 		};
 		for (String[] tc : testCases)
-			testCipher(Des.DES_64_CIPHER, tc[0], tc[1], tc[2]);
+			testCipher(Des.DES64_CIPHER, tc[0], tc[1], tc[2]);
 	}
 	
 }
