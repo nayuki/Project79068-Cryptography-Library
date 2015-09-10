@@ -55,26 +55,27 @@ final class Md2Core extends BlockHasherCore {
 			for (int j = 0; j < 16; j++)
 				msg[j] = message[i + j] & 0xFF;
 			
-			// Copy the block into state
+			// Copy the block into the state
 			for (int j = 0; j < 16; j++) {
 				state[j + 16] = msg[j];
 				state[j + 32] = msg[j] ^ state[j];
 			}
 			
-			// Do 18 rounds
+			// The 18 rounds
 			int t = 0;
 			for (int j = 0; j < 18; j++) {
-				for (int k = 0; k < 48; k++)
-					t = state[k] ^= SBOX[t];
+				for (int k = 0; k < 48; k++) {
+					state[k] ^= SBOX[t];
+					t = state[k];
+				}
 				t = (t + j) & 0xFF;
 			}
 			
 			// Checksum the block
 			int l = checksum[15];
 			for (int j = 0; j < 16; j++) {
-				int temp = checksum[j] ^ SBOX[msg[j] ^ l];
-				checksum[j] = temp;
-				l = temp;
+				checksum[j] ^= SBOX[msg[j] ^ l];
+				l = checksum[j];
 			}
 		}
 	}
@@ -82,14 +83,17 @@ final class Md2Core extends BlockHasherCore {
 	
 	@Override
 	public HashValue getHashDestructively(byte[] block, int blockFilled, BigInteger length) {
+		// Pad and compress last partial block (possibly empty)
 		for (int i = blockFilled; i < block.length; i++)
 			block[i] = (byte)(16 - blockFilled);
 		compress(block);
 		
+		// Compress the checksum as the final block
 		for (int i = 0; i < 16; i++)
 			block[i] = (byte)checksum[i];
 		compress(block);
 		
+		// Resulting hash is a prefix of the state
 		byte[] hash = new byte[16];
 		for (int i = 0; i < 16; i++)
 			hash[i] = (byte)state[i];
