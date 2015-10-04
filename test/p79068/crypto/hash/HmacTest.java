@@ -12,6 +12,10 @@ public final class HmacTest extends CryptoHashFunctionTest {
 		return new HashFunction[] {
 			new Hmac(Md.MD5_FUNCTION, new byte[0]),
 			new Hmac(Sha.SHA1_FUNCTION, new byte[0]),
+			new Hmac(Sha.SHA224_FUNCTION, new byte[0]),
+			new Hmac(Sha.SHA256_FUNCTION, new byte[0]),
+			new Hmac(Sha.SHA384_FUNCTION, new byte[0]),
+			new Hmac(Sha.SHA512_FUNCTION, new byte[0]),
 		};
 	}
 	
