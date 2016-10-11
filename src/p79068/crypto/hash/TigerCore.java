@@ -92,12 +92,9 @@ final class TigerCore extends BlockHasherCore {
 			}
 			
 			// Feedforward
-			a ^= state[0];
-			b -= state[1];
-			c += state[2];
-			state[0] = a;
-			state[1] = b;
-			state[2] = c;
+			state[0] = a ^ state[0];
+			state[1] = b - state[1];
+			state[2] = c + state[2];
 		}
 	}
 	
