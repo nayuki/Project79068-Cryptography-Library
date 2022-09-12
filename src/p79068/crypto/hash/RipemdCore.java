@@ -21,13 +21,13 @@ final class RipemdCore extends BlockHasherCore {
 		
 		if (hashLen == -16)  // RIPEMD (original) has same initial state as RIPEMD-128
 			hashLen = 16;
-		switch (hashLen) {
-			case 16 /* RIPEMD-128 */:  state = new int[]{0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476};  break;
-			case 20 /* RIPEMD-160 */:  state = new int[]{0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476, 0xC3D2E1F0};  break;
-			case 32 /* RIPEMD-256 */:  state = new int[]{0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476, 0x76543210, 0xFEDCBA98, 0x89ABCDEF, 0x01234567};  break;
-			case 40 /* RIPEMD-320 */:  state = new int[]{0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476, 0xC3D2E1F0, 0x76543210, 0xFEDCBA98, 0x89ABCDEF, 0x01234567, 0x3C2D1E0F};  break;
-			default:  throw new AssertionError();
-		}
+		state = switch (hashLen) {
+			case 16 /* RIPEMD-128 */ -> new int[]{0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476};
+			case 20 /* RIPEMD-160 */ -> new int[]{0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476, 0xC3D2E1F0};
+			case 32 /* RIPEMD-256 */ -> new int[]{0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476, 0x76543210, 0xFEDCBA98, 0x89ABCDEF, 0x01234567};
+			case 40 /* RIPEMD-320 */ -> new int[]{0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476, 0xC3D2E1F0, 0x76543210, 0xFEDCBA98, 0x89ABCDEF, 0x01234567, 0x3C2D1E0F};
+			default -> throw new AssertionError();
+		};
 	}
 	
 	
